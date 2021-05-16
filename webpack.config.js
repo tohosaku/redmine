@@ -2,8 +2,11 @@ const path = require("path");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const { NODE_ENV } = process.env;
+const { NODE_ENV, WEBPACK_HOST, WEBPACK_PORT } = process.env;
 const isProd = NODE_ENV === "production";
+
+const host = WEBPACK_HOST || 'localhost';
+const port = WEBPACK_PORT || '3035'
 
 module.exports = {
   mode: isProd ? "production" : "development",
@@ -13,7 +16,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "public/packs"),
-    publicPath: isProd ? "/packs/" : "//localhost:3035/packs/",
+    publicPath: isProd ? "/packs/" : `//${host}:${port}/packs/`,
     filename: isProd ? "[name]-[hash].js" : "[name].js",
   },
   resolve: {
@@ -42,8 +45,8 @@ module.exports = {
     })
   ],
   devServer: {
-    host: "0.0.0.0",
-    port: 3035,
+    host: WEBPACK_HOST || "0.0.0.0",
+    port,
     hot: true,
     headers: {
       "Access-Control-Allow-Origin": "*"
