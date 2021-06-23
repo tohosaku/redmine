@@ -8,6 +8,20 @@ const isProd = NODE_ENV === "production";
 const host = WEBPACK_HOST || 'localhost';
 const port = WEBPACK_PORT || '3035'
 
+const postCssLoader = {
+  loader: "postcss-loader",
+  options: {
+    sourceMap: !isProd,
+    postcssOptions: {
+      plugins: [
+        require('cssnano')({
+          preset: ['default', {minifyFontValues: {removeQuotes: false}}]
+        })
+      ]
+    },
+  },
+};
+
 module.exports = {
   mode: isProd ? "production" : "development",
   devtool: "source-map",
@@ -26,12 +40,33 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", postCssLoader],
       },
       {
         test: /\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
         type: "asset/inline",
-      }  
+      },
+      {
+        test: require.resolve("jquery"),
+        loader: "expose-loader",
+        options: {
+          exposes: ["$","jQuery"],
+        }
+      },
+      {
+        test: require.resolve("tributejs"),
+        loader: "expose-loader",
+        options: {
+          exposes: "Trubute",
+        }
+      },
+      {
+        test: require.resolve("tablesort"),
+        loader: "expose-loader",
+        options: {
+          exposes: "Tablesort",
+        }
+      }
     ],
   },
   plugins: [
