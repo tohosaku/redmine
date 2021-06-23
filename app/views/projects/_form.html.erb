@@ -46,7 +46,7 @@
 
 <% unless @project.identifier_frozen? %>
   <% content_for :header_tags do %>
-    <%= javascript_include_tag 'project_identifier' %>
+    <%= javascript_pack_tag 'project_identifier' %>
   <% end %>
 <% end %>
 

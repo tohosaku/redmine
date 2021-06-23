@@ -1,7 +1,7 @@
 /* Redmine - project management software
    Copyright (C) 2006-2021  Jean-Philippe Lang */
 
-function addFile(inputEl, file, eagerUpload) {
+export function addFile(inputEl, file, eagerUpload) {
   var attachmentsFields = $(inputEl).closest('.attachments_form').find('.attachments_fields');
   var addAttachment = $(inputEl).closest('.attachments_form').find('.add_attachment');
   var maxFiles = ($(inputEl).attr('multiple') == 'multiple' ? 10 : 1);
@@ -35,7 +35,7 @@ function addFile(inputEl, file, eagerUpload) {
 
 addFile.nextAttachmentId = 1;
 
-function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
+export function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
 
   function onLoadstart(e) {
     fileSpan.removeClass('ajax-waiting');
@@ -89,13 +89,13 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
 
 ajaxUpload.uploading = 0;
 
-function removeFile() {
+export function removeFile() {
   $(this).closest('.attachments_form').find('.add_attachment').show();
   $(this).parent('span').remove();
   return false;
 }
 
-function uploadBlob(blob, uploadUrl, attachmentId, options) {
+export function uploadBlob(blob, uploadUrl, attachmentId, options) {
 
   var actualOptions = $.extend({
     loadstartEventHandler: $.noop,
@@ -128,7 +128,7 @@ function uploadBlob(blob, uploadUrl, attachmentId, options) {
   });
 }
 
-function addInputFiles(inputEl) {
+export function addInputFiles(inputEl) {
   var attachmentsFields = $(inputEl).closest('.attachments_form').find('.attachments_fields');
   var addAttachment = $(inputEl).closest('.attachments_form').find('.add_attachment');
   var clearedFileInput = $(inputEl).clone().val('');
@@ -153,7 +153,7 @@ function addInputFiles(inputEl) {
   clearedFileInput.prependTo(addAttachment);
 }
 
-function uploadAndAttachFiles(files, inputEl) {
+export function uploadAndAttachFiles(files, inputEl) {
 
   var maxFileSize = $(inputEl).data('max-file-size');
   var maxFileSizeExceeded = $(inputEl).data('max-file-size-message');
@@ -175,7 +175,7 @@ function uploadAndAttachFiles(files, inputEl) {
   return sizeExceeded;
 }
 
-function handleFileDropEvent(e) {
+export function handleFileDropEvent(e) {
 
   $(this).removeClass('fileover');
   blockEventPropagation(e);
@@ -191,18 +191,18 @@ function handleFileDropEvent(e) {
 }
 handleFileDropEvent.target = '';
 
-function dragOverHandler(e) {
+export function dragOverHandler(e) {
   $(this).addClass('fileover');
   blockEventPropagation(e);
   e.dataTransfer.dropEffect = 'copy';
 }
 
-function dragOutHandler(e) {
+export function dragOutHandler(e) {
   $(this).removeClass('fileover');
   blockEventPropagation(e);
 }
 
-function setupFileDrop() {
+export function setupFileDrop() {
   if (window.File && window.FileList && window.ProgressEvent && window.FormData) {
 
     $.event.addProp('dataTransfer');
@@ -226,7 +226,7 @@ function setupFileDrop() {
   }
 }
 
-function addInlineAttachmentMarkup(file) {
+export function addInlineAttachmentMarkup(file) {
   // insert uploaded image inline if dropped area is currently focused textarea
   if($(handleFileDropEvent.target).hasClass('wiki-edit') && $.inArray(file.type, window.wikiImageMimeTypes) > -1) {
     var $textarea = $(handleFileDropEvent.target);
@@ -269,7 +269,7 @@ function addInlineAttachmentMarkup(file) {
   }
 }
 
-function copyImageFromClipboard(e) {
+export function copyImageFromClipboard(e) {
   if (!$(e.target).hasClass('wiki-edit')) { return; }
   var clipboardData = e.clipboardData || e.originalEvent.clipboardData
   if (!clipboardData) { return; }

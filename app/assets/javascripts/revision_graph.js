@@ -1,9 +1,11 @@
 /* Redmine - project management software
    Copyright (C) 2006-2021  Jean-Philippe Lang */
 
-var revisionGraph = null;
+import Raphael from 'raphael';
 
-function drawRevisionGraph(holder, commits_hash, graph_space) {
+export var revisionGraph = null;
+
+export function drawRevisionGraph(holder, commits_hash, graph_space) {
     var XSTEP = 20,
         CIRCLE_INROW_OFFSET = 10;
     var commits_by_scmid = commits_hash,

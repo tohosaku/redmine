@@ -1,20 +1,22 @@
 /* Redmine - project management software
    Copyright (C) 2006-2021  Jean-Philippe Lang */
 
-var draw_gantt = null;
-var draw_top;
-var draw_right;
-var draw_left;
+import Raphael from 'raphael';
 
-var rels_stroke_width = 2;
+export var draw_gantt = null;
+export var draw_top;
+export var draw_right;
+export var draw_left;
 
-function setDrawArea() {
+export var rels_stroke_width = 2;
+
+export function setDrawArea() {
   draw_top   = $("#gantt_draw_area").position().top;
   draw_right = $("#gantt_draw_area").width();
   draw_left  = $("#gantt_area").scrollLeft();
 }
 
-function getRelationsArray() {
+export function getRelationsArray() {
   var arr = new Array();
   $.each($('div.task_todo[data-rels]'), function(index_div, element) {
     if(!$(element).is(':visible')) return true;
@@ -33,7 +35,7 @@ function getRelationsArray() {
   return arr;
 }
 
-function drawRelations() {
+export function drawRelations() {
   var arr = getRelationsArray();
   $.each(arr, function(index_issue, element_issue) {
     var issue_from = $("#task-todo-issue-" + element_issue["issue_from"]);
@@ -102,7 +104,7 @@ function drawRelations() {
   });
 }
 
-function getProgressLinesArray() {
+export function getProgressLinesArray() {
   var arr = new Array();
   var today_left = $('#today_line').position().left;
   arr.push({left: today_left, top: 0});
@@ -144,7 +146,7 @@ function getProgressLinesArray() {
   return arr;
 }
 
-function drawGanttProgressLines() {
+export function drawGanttProgressLines() {
   var arr = getProgressLinesArray();
   var color = $("#today_line")
                     .css("border-left-color");
@@ -163,7 +165,7 @@ function drawGanttProgressLines() {
   }
 }
 
-function drawSelectedColumns(){
+export function drawSelectedColumns(){
   if ($("#draw_selected_columns").prop('checked')) {
     if(isMobile()) {
       $('td.gantt_selected_column').each(function(i) {
@@ -194,7 +196,7 @@ function drawSelectedColumns(){
   }
 }
 
-function drawGanttHandler() {
+export function drawGanttHandler() {
   var folder = document.getElementById('gantt_draw_area');
   if(draw_gantt != null)
     draw_gantt.clear();
@@ -209,7 +211,7 @@ function drawGanttHandler() {
   $('#content').addClass('gantt_content');
 }
 
-function resizableSubjectColumn(){
+export function resizableSubjectColumn(){
   $('.issue-subject, .project-name, .version-name').each(function(){
     $(this).width($(".gantt_subjects_column").width()-$(this).position().left);
   });
@@ -230,7 +232,7 @@ function resizableSubjectColumn(){
   };
 }
 
-ganttEntryClick = function(e){
+export function ganttEntryClick(e) {
   var icon_expander = e.target;
   var subject = $(icon_expander.parentElement);
   var subject_left = parseInt(subject.css('left')) + parseInt(icon_expander.offsetWidth);
@@ -296,7 +298,7 @@ ganttEntryClick = function(e){
   drawGanttHandler();
 };
 
-function disable_unavailable_columns(unavailable_columns) {
+export function disable_unavailable_columns(unavailable_columns) {
   $.each(unavailable_columns, function (index, value) {
     $('#available_c, #selected_c').children("[value='" + value + "']").prop('disabled', true);
   });

@@ -1,6 +1,7 @@
+import $ from "jquery";
 // generic layout specific responsive stuff goes here
 
-function openFlyout() {
+export function openFlyout() {
   $('html').addClass('flyout-is-active');
   $('#wrapper2').on('click', function(e){
     e.preventDefault();
@@ -9,17 +10,17 @@ function openFlyout() {
   });
 }
 
-function closeFlyout() {
+export function closeFlyout() {
   $('html').removeClass('flyout-is-active');
   $('#wrapper2').off('click');
 }
 
 
-function isMobile() {
+export function isMobile() {
   return $('.js-flyout-menu-toggle-button').is(":visible");
 }
 
-function setupFlyout() {
+export function setupFlyout() {
   var mobileInit = false,
     desktopInit = false;
 

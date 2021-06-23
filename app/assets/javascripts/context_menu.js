@@ -1,9 +1,9 @@
 /* Redmine - project management software
    Copyright (C) 2006-2021  Jean-Philippe Lang */
 
-var contextMenuObserving;
+export var contextMenuObserving;
 
-function contextMenuRightClick(event) {
+export function contextMenuRightClick(event) {
   var target = $(event.target);
   if (target.is('a:not(.js-contextmenu)')) {return;}
   var tr = target.closest('.hascontextmenu').first();
@@ -17,7 +17,7 @@ function contextMenuRightClick(event) {
   contextMenuShow(event);
 }
 
-function contextMenuClick(event) {
+export function contextMenuClick(event) {
   var target = $(event.target);
   var lastSelected;
 

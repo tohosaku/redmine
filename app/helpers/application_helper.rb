@@ -1582,7 +1582,7 @@ module ApplicationHelper
   def context_menu
     unless @context_menu_included
       content_for :header_tags do
-        javascript_include_tag('context_menu') +
+        javascript_pack_tag('context_menu') +
           stylesheet_link_tag('context_menu')
       end
       if l(:direction) == 'rtl'
@@ -1701,18 +1701,13 @@ module ApplicationHelper
 
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
-    tags = javascript_include_tag(
-      'application',
-      'responsive')
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       warn_text = escape_javascript(l(:text_warn_on_leaving_unsaved))
-      tags <<
-        "\n".html_safe +
-          javascript_tag(
-            "$(window).on('load', function(){ warnLeavingUnsaved('#{warn_text}'); });"
-          )
+      "\n".html_safe +
+        javascript_tag(
+          "$(window).on('load', function(){ warnLeavingUnsaved('#{warn_text}'); });"
+        )
     end
-    tags
   end
 
   def favicon

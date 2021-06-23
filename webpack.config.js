@@ -27,11 +27,20 @@ module.exports = {
   devtool: "source-map",
   entry: {
     application: path.resolve(__dirname, "app/assets/javascripts/application.js"),
+    attachments: path.resolve(__dirname, "app/assets/javascripts/attachments.js"),
+    context_menu: path.resolve(__dirname, "app/assets/javascripts/context_menu.js"),
+    gantt: path.resolve(__dirname, "app/assets/javascripts/gantt.js"),
+    revision_graph: path.resolve(__dirname, "app/assets/javascripts/revision_graph.js"),
+    project_identifier: path.resolve(__dirname, "app/assets/javascripts/project_identifier.js"),
+    repository_navigation: path.resolve(__dirname, "app/assets/javascripts/repository_navigation.js")
   },
   output: {
     path: path.resolve(__dirname, "public/packs"),
     publicPath: isProd ? "/packs/" : `//${host}:${port}/packs/`,
     filename: isProd ? "[name]-[hash].js" : "[name].js",
+    library: {
+      type: 'window'
+    },
   },
   resolve: {
     extensions: [".js"],
@@ -79,6 +88,17 @@ module.exports = {
       filename: isProd ? "[name]-[hash].css" : "[name].css",
     })
   ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        raphael: {
+          test: /[\\/]node_modules[\\/](raphael)[\\/]/,
+          name: 'raphael',
+          chunks: 'all',
+        }
+      },
+    },
+  },
   devServer: {
     host: WEBPACK_HOST || "0.0.0.0",
     port,

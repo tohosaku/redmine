@@ -1,17 +1,24 @@
 /* Redmine - project management software
    Copyright (C) 2006-2021  Jean-Philippe Lang */
 
-function sanitizeHTML(string) {
+import $ from "jquery";
+import jQuery from "jquery";
+import Tribute from "tributejs";
+import Tablesort from "tablesort";
+
+import 'tributejs/dist/tribute.css';
+
+export function sanitizeHTML(string) {
   var temp = document.createElement('span');
   temp.textContent = string;
   return temp.innerHTML;
 }
 
-function checkAll(id, checked) {
+export function checkAll(id, checked) {
   $('#'+id).find('input[type=checkbox]:enabled').prop('checked', checked);
 }
 
-function toggleCheckboxesBySelector(selector) {
+export function toggleCheckboxesBySelector(selector) {
   var all_checked = true;
   $(selector).each(function(index) {
     if (!$(this).is(':checked')) { all_checked = false; }
@@ -19,7 +26,7 @@ function toggleCheckboxesBySelector(selector) {
   $(selector).prop('checked', !all_checked).trigger('change');
 }
 
-function showAndScrollTo(id, focus) {
+export function showAndScrollTo(id, focus) {
   $('#'+id).show();
   if (focus !== null) {
     $('#'+focus).focus();
@@ -27,7 +34,7 @@ function showAndScrollTo(id, focus) {
   $('html, body').animate({scrollTop: $('#'+id).offset().top}, 100);
 }
 
-function toggleRowGroup(el) {
+export function toggleRowGroup(el) {
   var tr = $(el).parents('tr').first();
   var n = tr.next();
   tr.toggleClass('open');
@@ -38,7 +45,7 @@ function toggleRowGroup(el) {
   }
 }
 
-function collapseAllRowGroups(el) {
+export function collapseAllRowGroups(el) {
   var tbody = $(el).parents('tbody').first();
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
@@ -50,7 +57,7 @@ function collapseAllRowGroups(el) {
   });
 }
 
-function expandAllRowGroups(el) {
+export function expandAllRowGroups(el) {
   var tbody = $(el).parents('tbody').first();
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
@@ -62,7 +69,7 @@ function expandAllRowGroups(el) {
   });
 }
 
-function toggleAllRowGroups(el) {
+export function toggleAllRowGroups(el) {
   var tr = $(el).parents('tr').first();
   if (tr.hasClass('open')) {
     collapseAllRowGroups(el);
@@ -71,45 +78,45 @@ function toggleAllRowGroups(el) {
   }
 }
 
-function toggleFieldset(el) {
+export function toggleFieldset(el) {
   var fieldset = $(el).parents('fieldset').first();
   fieldset.toggleClass('collapsed');
   fieldset.children('legend').toggleClass('icon-expended icon-collapsed');
   fieldset.children('div').toggle();
 }
 
-function hideFieldset(el) {
+export function hideFieldset(el) {
   var fieldset = $(el).parents('fieldset').first();
   fieldset.toggleClass('collapsed');
   fieldset.children('div').hide();
 }
 
 // columns selection
-function moveOptions(theSelFrom, theSelTo) {
+export function moveOptions(theSelFrom, theSelTo) {
   $(theSelFrom).find('option:selected').detach().prop("selected", false).appendTo($(theSelTo));
 }
 
-function moveOptionUp(theSel) {
+export function moveOptionUp(theSel) {
   $(theSel).find('option:selected').each(function(){
     $(this).prev(':not(:selected)').detach().insertAfter($(this));
   });
 }
 
-function moveOptionTop(theSel) {
+export function moveOptionTop(theSel) {
   $(theSel).find('option:selected').detach().prependTo($(theSel));
 }
 
-function moveOptionDown(theSel) {
+export function moveOptionDown(theSel) {
   $($(theSel).find('option:selected').get().reverse()).each(function(){
     $(this).next(':not(:selected)').detach().insertBefore($(this));
   });
 }
 
-function moveOptionBottom(theSel) {
+export function moveOptionBottom(theSel) {
   $(theSel).find('option:selected').detach().appendTo($(theSel));
 }
 
-function initFilters() {
+export function initFilters() {
   $('#add_filter_select').change(function() {
     addFilter($(this).val(), '', []);
   });
@@ -124,7 +131,7 @@ function initFilters() {
   });
 }
 
-function addFilter(field, operator, values) {
+export function addFilter(field, operator, values) {
   var fieldId = field.replace('.', '_');
   var tr = $('#tr_'+fieldId);
 
@@ -154,7 +161,7 @@ function addFilter(field, operator, values) {
   });
 }
 
-function buildFilterRow(field, operator, values) {
+export function buildFilterRow(field, operator, values) {
   var fieldId = field.replace('.', '_');
   var filterTable = $("#filters-table");
   var filterOptions = availableFilters[field];
@@ -253,7 +260,7 @@ function buildFilterRow(field, operator, values) {
   }
 }
 
-function toggleFilter(field) {
+export function toggleFilter(field) {
   var fieldId = field.replace('.', '_');
   if ($('#cb_' + fieldId).is(':checked')) {
     $("#operators_" + fieldId).show().removeAttr('disabled');
@@ -264,7 +271,7 @@ function toggleFilter(field) {
   }
 }
 
-function enableValues(field, indexes) {
+export function enableValues(field, indexes) {
   var fieldId = field.replace('.', '_');
   $('#tr_'+fieldId+' td.values .value').each(function(index) {
     if ($.inArray(index, indexes) >= 0) {
@@ -284,7 +291,7 @@ function enableValues(field, indexes) {
   });
 }
 
-function toggleOperator(field) {
+export function toggleOperator(field) {
   var fieldId = field.replace('.', '_');
   var operator = $("#operators_" + fieldId);
   switch (operator.val()) {
@@ -331,7 +338,7 @@ function toggleOperator(field) {
   }
 }
 
-function toggleMultiSelect(el) {
+export function toggleMultiSelect(el) {
   var isWorkflow = el.closest('.controller-workflows');
   if (el.attr('multiple')) {
     el.removeAttr('multiple');
@@ -347,7 +354,7 @@ function toggleMultiSelect(el) {
   }
 }
 
-function showTab(name, url) {
+export function showTab(name, url) {
   $('#tab-content-' + name).parent().find('.tab-content').hide();
   $('#tab-content-' + name).show();
   $('#tab-' + name).closest('.tabs').find('a').removeClass('selected');
@@ -358,7 +365,7 @@ function showTab(name, url) {
   return false;
 }
 
-function showIssueHistory(journal, url) {
+export function showIssueHistory(journal, url) {
   tab_content = $('#tab-content-history');
   tab_content.parent().find('.tab-content').hide();
   tab_content.show();
@@ -398,7 +405,7 @@ function showIssueHistory(journal, url) {
   return false;
 }
 
-function getRemoteTab(name, remote_url, url, load_always) {
+export function getRemoteTab(name, remote_url, url, load_always) {
   load_always = load_always || false;
   var tab_content = $('#tab-content-' + name);
 
@@ -424,13 +431,13 @@ function getRemoteTab(name, remote_url, url, load_always) {
 
 //replaces current URL with the "href" attribute of the current link
 //(only triggered if supported by browser)
-function replaceInHistory(url) {
+export function replaceInHistory(url) {
   if ("replaceState" in window.history && url !== undefined) {
     window.history.replaceState(null, document.title, url);
   }
 }
 
-function moveTabRight(el) {
+export function moveTabRight(el) {
   var lis = $(el).parents('div.tabs').first().find('ul').children();
   var bw = $(el).parents('div.tabs-buttons').outerWidth(true);
   var tabsWidth = 0;
@@ -450,7 +457,7 @@ function moveTabRight(el) {
   }
 }
 
-function moveTabLeft(el) {
+export function moveTabLeft(el) {
   var lis = $(el).parents('div.tabs').first().find('ul').children();
   var i = 0;
   while (i < lis.length && !lis.eq(i).is(':visible')) { i++; }
@@ -463,7 +470,7 @@ function moveTabLeft(el) {
   }
 }
 
-function displayTabsButtons() {
+export function displayTabsButtons() {
   var lis;
   var tabsWidth;
   var el;
@@ -489,7 +496,7 @@ function displayTabsButtons() {
   });
 }
 
-function setPredecessorFieldsVisibility() {
+export function setPredecessorFieldsVisibility() {
   var relationType = $('#relation_relation_type');
   if (relationType.val() == "precedes" || relationType.val() == "follows") {
     $('#predecessor_fields').show();
@@ -498,7 +505,7 @@ function setPredecessorFieldsVisibility() {
   }
 }
 
-function showModal(id, width, title) {
+export function showModal(id, width, title) {
   var el = $('#'+id).first();
   if (el.length === 0 || el.is(':visible')) {return;}
   if (!title) title = el.find('h3.title').text();
@@ -516,7 +523,7 @@ function showModal(id, width, title) {
   el.find("input[type=text], input[type=submit]").first().focus();
 }
 
-function hideModal(el) {
+export function hideModal(el) {
   var modal;
   if (el) {
     modal = $(el).parents('.ui-dialog-content');
@@ -526,7 +533,7 @@ function hideModal(el) {
   modal.dialog("close");
 }
 
-function collapseScmEntry(id) {
+export function collapseScmEntry(id) {
   $('.'+id).each(function() {
     if ($(this).hasClass('open')) {
       collapseScmEntry($(this).attr('id'));
@@ -536,7 +543,7 @@ function collapseScmEntry(id) {
   $('#'+id).removeClass('open');
 }
 
-function expandScmEntry(id) {
+export function expandScmEntry(id) {
   $('.'+id).each(function() {
     $(this).show();
     if ($(this).hasClass('loaded') && !$(this).hasClass('collapsed')) {
@@ -546,7 +553,7 @@ function expandScmEntry(id) {
   $('#'+id).addClass('open');
 }
 
-function scmEntryClick(id, url) {
+export function scmEntryClick(id, url) {
     var el = $('#'+id);
     if (el.hasClass('open')) {
         collapseScmEntry(id);
@@ -574,7 +581,7 @@ function scmEntryClick(id, url) {
     return true;
 }
 
-function randomKey(size) {
+export function randomKey(size) {
   var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   var key = '';
   for (var i = 0; i < size; i++) {
@@ -583,7 +590,7 @@ function randomKey(size) {
   return key;
 }
 
-function copyTextToClipboard(target) {
+export function copyTextToClipboard(target) {
   if (target) {
     var temp = document.createElement('textarea');
     temp.value = target.getAttribute('data-clipboard-text');
@@ -600,7 +607,7 @@ function copyTextToClipboard(target) {
   return false;
 }
 
-function updateIssueFrom(url, el) {
+export function updateIssueFrom(url, el) {
   $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
     $(this).data('valuebeforeupdate', $(this).val());
   });
@@ -614,7 +621,7 @@ function updateIssueFrom(url, el) {
   });
 }
 
-function replaceIssueFormWith(html){
+export function replaceIssueFormWith(html){
   var replacement = $(html);
   $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
     var object_id = $(this).attr('id');
@@ -626,7 +633,7 @@ function replaceIssueFormWith(html){
   $('#all_attributes').prepend(replacement);
 }
 
-function updateBulkEditFrom(url) {
+export function updateBulkEditFrom(url) {
   $.ajax({
     url: url,
     type: 'post',
@@ -634,7 +641,7 @@ function updateBulkEditFrom(url) {
   });
 }
 
-function observeAutocompleteField(fieldId, url, options) {
+export function observeAutocompleteField(fieldId, url, options) {
   $(document).ready(function() {
     $('#'+fieldId).autocomplete($.extend({
       source: url,
@@ -647,7 +654,7 @@ function observeAutocompleteField(fieldId, url, options) {
   });
 }
 
-function multipleAutocompleteField(fieldId, url, options) {
+export function multipleAutocompleteField(fieldId, url, options) {
   function split(val) {
     return val.split(/,\s*/);
   }
@@ -687,7 +694,7 @@ function multipleAutocompleteField(fieldId, url, options) {
   });
 }
 
-function observeSearchfield(fieldId, targetId, url) {
+export function observeSearchfield(fieldId, targetId, url) {
   $('#'+fieldId).each(function() {
     var $this = $(this);
     $this.addClass('autocomplete');
@@ -792,7 +799,7 @@ $(document).ready(function(){
   });
 });
 
-function beforeShowDatePicker(input, inst) {
+export function beforeShowDatePicker(input, inst) {
   var default_date = null;
   switch ($(input).attr("id")) {
     case "issue_start_date" :
@@ -855,8 +862,8 @@ function beforeShowDatePicker(input, inst) {
   }
 }( jQuery ));
 
-var warnLeavingUnsavedMessage;
-function warnLeavingUnsaved(message) {
+export let warnLeavingUnsavedMessage;
+export function warnLeavingUnsaved(message) {
   warnLeavingUnsavedMessage = message;
   $(document).on('submit', 'form', function(){
     $('textarea').removeData('changed');
@@ -875,7 +882,7 @@ function warnLeavingUnsaved(message) {
   };
 }
 
-function setupAjaxIndicator() {
+export function setupAjaxIndicator() {
   $(document).bind('ajaxSend', function(event, xhr, settings) {
     if ($('.ajax-loading').length === 0 && settings.contentType != 'application/octet-stream') {
       $('#ajax-indicator').show();
@@ -886,14 +893,14 @@ function setupAjaxIndicator() {
   });
 }
 
-function setupTabs() {
+export function setupTabs() {
   if($('.tabs').length > 0) {
     displayTabsButtons();
     $(window).resize(displayTabsButtons);
   }
 }
 
-function setupFilePreviewNavigation() {
+export function setupFilePreviewNavigation() {
   // only bind arrow keys when preview navigation is present
   const element = $('.pagination.filepreview').first();
   if (element) {
@@ -938,11 +945,11 @@ $(document).on('keydown', 'form textarea', function(e) {
 });
 
 
-function hideOnLoad() {
+export function hideOnLoad() {
   $('.hol').hide();
 }
 
-function addFormObserversForDoubleSubmit() {
+export function addFormObserversForDoubleSubmit() {
   $('form[method=post]').each(function() {
     if (!$(this).hasClass('multiple-submit')) {
       $(this).submit(function(form_submission) {
@@ -956,27 +963,27 @@ function addFormObserversForDoubleSubmit() {
   });
 }
 
-function defaultFocus(){
+export function defaultFocus(){
   if (($('#content :focus').length == 0) && (window.location.hash == '')) {
     $('#content input[type=text], #content textarea').first().focus();
   }
 }
 
-function blockEventPropagation(event) {
+export function blockEventPropagation(event) {
   event.stopPropagation();
   event.preventDefault();
 }
 
-function toggleDisabledOnChange() {
+export function toggleDisabledOnChange() {
   var checked = $(this).is(':checked');
   $($(this).data('disables')).attr('disabled', checked);
   $($(this).data('enables')).attr('disabled', !checked);
   $($(this).data('shows')).toggle(checked);
 }
-function toggleDisabledInit() {
+export function toggleDisabledInit() {
   $('input[data-disables], input[data-enables], input[data-shows]').each(toggleDisabledOnChange);
 }
-function toggleMultiSelectIconInit() {
+export function toggleMultiSelectIconInit() {
   $('.toggle-multiselect:not(.icon-toggle-minus), .toggle-multiselect:not(.icon-toggle-plus)').each(function(){
     if ($(this).siblings('select').find('option:selected').length > 1){
       $(this).addClass('icon-toggle-minus');
@@ -986,7 +993,7 @@ function toggleMultiSelectIconInit() {
   });
 }
 
-function toggleNewObjectDropdown() {
+export function toggleNewObjectDropdown() {
   var dropdown = $('#new-object + ul.menu-children');
   if(dropdown.hasClass('visible')){
     dropdown.removeClass('visible');
@@ -1060,7 +1067,7 @@ $(document).ready(function(){
   });
 });
 
-function keepAnchorOnSignIn(form){
+export function keepAnchorOnSignIn(form){
   var hash = decodeURIComponent(self.document.location.hash);
   if (hash) {
     if (hash.indexOf("#") === -1) {
@@ -1077,7 +1084,7 @@ $(function ($) {
   }).change();
 });
 
-function setFilecontentContainerHeight() {
+export function setFilecontentContainerHeight() {
   var $filecontainer = $('.filecontent-container');
   var fileTypeSelectors = ['.image', 'video'];
 
@@ -1091,12 +1098,12 @@ function setFilecontentContainerHeight() {
   }
 }
 
-function setupAttachmentDetail() {
+export function setupAttachmentDetail() {
   setFilecontentContainerHeight();
   $(window).resize(setFilecontentContainerHeight);
 }
 
-function setupWikiTableSortableHeader() {
+export function setupWikiTableSortableHeader() {
   $('div.wiki table').each(function(i, table){
     if (table.rows.length < 3) return true;
     var tr = $(table.rows).first();
@@ -1120,7 +1127,7 @@ $(function () {
   });
 });
 
-function inlineAutoComplete(element) {
+export function inlineAutoComplete(element) {
     'use strict';
 
     // do not attach if Tribute is already initialized
