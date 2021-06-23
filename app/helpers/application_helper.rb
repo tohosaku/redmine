@@ -1583,11 +1583,11 @@ module ApplicationHelper
     unless @context_menu_included
       content_for :header_tags do
         javascript_pack_tag('context_menu') +
-          stylesheet_link_tag('context_menu')
+          stylesheet_pack_tag('context_menu')
       end
       if l(:direction) == 'rtl'
         content_for :header_tags do
-          stylesheet_link_tag('context_menu_rtl')
+          stylesheet_pack_tag('context_menu_rtl')
         end
       end
       @context_menu_included = true

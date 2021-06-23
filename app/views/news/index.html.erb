@@ -43,7 +43,7 @@
 
 <% content_for :header_tags do %>
   <%= auto_discovery_link_tag(:atom, _project_news_path(@project, :key => User.current.rss_key, :format => 'atom')) %>
-  <%= stylesheet_link_tag 'scm' %>
+  <%= stylesheet_pack_tag 'scm' %>
 <% end %>
 
 <% html_title(l(:label_news_plural)) -%>

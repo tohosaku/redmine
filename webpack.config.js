@@ -14,7 +14,10 @@ const entry = {
   gantt: path.resolve(__dirname, "app/assets/javascripts/gantt.js"),
   revision_graph: path.resolve(__dirname, "app/assets/javascripts/revision_graph.js"),
   project_identifier: path.resolve(__dirname, "app/assets/javascripts/project_identifier.js"),
-  repository_navigation: path.resolve(__dirname, "app/assets/javascripts/repository_navigation.js")
+  repository_navigation: path.resolve(__dirname, "app/assets/javascripts/repository_navigation.js"),
+  context_menu_rtl: path.resolve(__dirname, "app/assets/stylesheets/context_menu_rtl.css"),
+  rtl: path.resolve(__dirname, "app/assets/stylesheets/rtl.css"),
+  scm: path.resolve(__dirname, "app/assets/stylesheets/scm.css"),
 }
 
 const cssRule = (isProd) => ({
@@ -67,7 +70,7 @@ const exposeRules = [
   }
 ]
 
-const plugins = [
+const getPlugins = isProd => [
   new WebpackAssetsManifest({
     publicPath: true,
     output: "packs/manifest.json",
@@ -121,7 +124,7 @@ const getConfig = (isProd) => ({
       ...exposeRules
     ],
   },
-  plugins,
+  plugins: getPlugins(isProd),
   optimization
 });
 
