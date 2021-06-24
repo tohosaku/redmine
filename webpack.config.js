@@ -14,12 +14,13 @@ const entry = {
   attachments: path.resolve(__dirname, "app/assets/javascripts/attachments.js"),
   context_menu: path.resolve(__dirname, "app/assets/javascripts/context_menu.js"),
   gantt: path.resolve(__dirname, "app/assets/javascripts/gantt.js"),
+  chart: path.resolve(__dirname, "app/assets/javascripts/chart.js"),
   revision_graph: path.resolve(__dirname, "app/assets/javascripts/revision_graph.js"),
   project_identifier: path.resolve(__dirname, "app/assets/javascripts/project_identifier.js"),
   repository_navigation: path.resolve(__dirname, "app/assets/javascripts/repository_navigation.js"),
   "jstoolbar/jstoolbar": path.resolve(__dirname, "app/assets/javascripts/jstoolbar/jstoolbar.js"),
   "jstoolbar/markdown": path.resolve(__dirname, "app/assets/javascripts/jstoolbar/markdown.js"),
-  "jstoolbar/texttile": path.resolve(__dirname, "app/assets/javascripts/jstoolbar/textile.js"),
+  "jstoolbar/textile": path.resolve(__dirname, "app/assets/javascripts/jstoolbar/textile.js"),
   context_menu_rtl: path.resolve(__dirname, "app/assets/stylesheets/context_menu_rtl.css"),
   rtl: path.resolve(__dirname, "app/assets/stylesheets/rtl.css"),
   scm: path.resolve(__dirname, "app/assets/stylesheets/scm.css"),
@@ -64,7 +65,7 @@ const exposeRules = [
     test: require.resolve("tributejs"),
     loader: "expose-loader",
     options: {
-      exposes: "Trubute",
+      exposes: "Tribute",
     }
   },
   {
