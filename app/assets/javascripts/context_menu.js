@@ -82,7 +82,7 @@ export function contextMenuClick(event) {
   }
 }
 
-function contextMenuCreate() {
+export function contextMenuCreate() {
   if ($('#context-menu').length < 1) {
     var menu = document.createElement("div");
     menu.setAttribute("id", "context-menu");
@@ -91,7 +91,7 @@ function contextMenuCreate() {
   }
 }
 
-function contextMenuShow(event) {
+export function contextMenuShow(event) {
   var mouse_x = event.pageX;
   var mouse_y = event.pageY;  
   var mouse_y_c = event.clientY;  
@@ -161,16 +161,16 @@ function contextMenuShow(event) {
   });
 }
 
-function contextMenuSetLastSelected(tr) {
+export function contextMenuSetLastSelected(tr) {
   $('.cm-last').removeClass('cm-last');
   tr.addClass('cm-last');
 }
 
-function contextMenuLastSelected() {
+export function contextMenuLastSelected() {
   return $('.cm-last').first();
 }
 
-function contextMenuUnselectAll() {
+export function contextMenuUnselectAll() {
   $('input[type=checkbox].toggle-selection').prop('checked', false);
   $('.hascontextmenu').each(function(){
     contextMenuRemoveSelection($(this));
@@ -178,11 +178,11 @@ function contextMenuUnselectAll() {
   $('.cm-last').removeClass('cm-last');
 }
 
-function contextMenuHide() {
+export function contextMenuHide() {
   $('#context-menu').hide();
 }
 
-function contextMenuToggleSelection(tr) {
+export function contextMenuToggleSelection(tr) {
   if (contextMenuIsSelected(tr)) {
     contextMenuRemoveSelection(tr);
   } else {
@@ -190,26 +190,26 @@ function contextMenuToggleSelection(tr) {
   }
 }
 
-function contextMenuAddSelection(tr) {
+export function contextMenuAddSelection(tr) {
   tr.addClass('context-menu-selection');
   contextMenuCheckSelectionBox(tr, true);
   contextMenuClearDocumentSelection();
 }
 
-function contextMenuRemoveSelection(tr) {
+export function contextMenuRemoveSelection(tr) {
   tr.removeClass('context-menu-selection');
   contextMenuCheckSelectionBox(tr, false);
 }
 
-function contextMenuIsSelected(tr) {
+export function contextMenuIsSelected(tr) {
   return tr.hasClass('context-menu-selection');
 }
 
-function contextMenuCheckSelectionBox(tr, checked) {
+export function contextMenuCheckSelectionBox(tr, checked) {
   tr.find('input[type=checkbox]').prop('checked', checked);
 }
 
-function contextMenuClearDocumentSelection() {
+export function contextMenuClearDocumentSelection() {
   // TODO
   if (document.selection) {
     document.selection.empty(); // IE
@@ -218,7 +218,7 @@ function contextMenuClearDocumentSelection() {
   }
 }
 
-function contextMenuInit() {
+export function contextMenuInit() {
   contextMenuCreate();
   contextMenuUnselectAll();
   
@@ -230,13 +230,13 @@ function contextMenuInit() {
   }
 }
 
-function toggleIssuesSelection(el) {
+export function toggleIssuesSelection(el) {
   var checked = $(this).prop('checked');
   var boxes = $(this).parents('table').find('input[name=ids\\[\\]]');
   boxes.prop('checked', checked).parents('.hascontextmenu').toggleClass('context-menu-selection', checked);
 }
 
-function window_size() {
+export function window_size() {
   var w;
   var h;
   if (window.innerWidth) {
