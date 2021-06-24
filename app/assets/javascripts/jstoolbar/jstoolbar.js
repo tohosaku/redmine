@@ -21,10 +21,10 @@
 */
 
 /* Modified by JP LANG for textile formatting */
-let lastJstPreviewed = null;
-const isMac = Boolean(navigator.platform.toLowerCase().match(/mac/));
+export let lastJstPreviewed = null;
+export const isMac = Boolean(navigator.platform.toLowerCase().match(/mac/));
 
-function jsToolBar(textarea) {
+export function jsToolBar(textarea) {
   if (!document.createElement) { return; }
 
   if (!textarea) { return; }
@@ -101,7 +101,7 @@ function jsToolBar(textarea) {
                        // de raccourcis vers les éléments DOM correspondants aux outils.
 }
 
-function jsTab(name, selected) {
+export function jsTab(name, selected) {
   selected = selected || false;
   if(typeof jsToolBar.strings == 'undefined') {
     var tabName = name || null;
@@ -122,7 +122,7 @@ function jsTab(name, selected) {
 
   return tab;
 }
-function jsButton(title, fn, scope, className) {
+export function jsButton(title, fn, scope, className) {
   if(typeof jsToolBar.strings == 'undefined') {
     this.title = title || null;
   } else {
@@ -155,7 +155,7 @@ jsButton.prototype.draw = function() {
   return button;
 }
 
-function jsSpace(id) {
+export function jsSpace(id) {
   this.id = id || null;
   this.width = null;
 }
@@ -169,7 +169,7 @@ jsSpace.prototype.draw = function() {
   return span;
 }
 
-function jsCombo(title, options, scope, fn, className) {
+export function jsCombo(title, options, scope, fn, className) {
   this.title = title || null;
   this.options = options || null;
   this.scope = scope || null;
@@ -566,14 +566,14 @@ $(document).keydown(function(e) {
   }
 });
 
-function isToogleEditPreviewShortcut(e) {
+export function isToogleEditPreviewShortcut(e) {
   if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === 'p') {
     return true;
   } else {
     return false;
   }
 }
-function isModifierKey(e) {
+export function isModifierKey(e) {
   if (isMac && e.metaKey) {
     return true;
   } else if (!isMac && e.ctrlKey) {

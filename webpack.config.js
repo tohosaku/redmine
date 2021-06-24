@@ -7,6 +7,8 @@ const { NODE_ENV, WEBPACK_HOST, WEBPACK_PORT } = process.env;
 const host = WEBPACK_HOST || 'localhost';
 const port = WEBPACK_PORT || '3035'
 
+const getFilename = (isProd, dirName, ext) => isProd ? `${dirName}/[name]-[contenthash].${ext}` : `${dirName}/[name].${ext}`;
+
 const entry = {
   application: path.resolve(__dirname, "app/assets/javascripts/application.js"),
   attachments: path.resolve(__dirname, "app/assets/javascripts/attachments.js"),
@@ -15,12 +17,16 @@ const entry = {
   revision_graph: path.resolve(__dirname, "app/assets/javascripts/revision_graph.js"),
   project_identifier: path.resolve(__dirname, "app/assets/javascripts/project_identifier.js"),
   repository_navigation: path.resolve(__dirname, "app/assets/javascripts/repository_navigation.js"),
+  "jstoolbar/jstoolbar": path.resolve(__dirname, "app/assets/javascripts/jstoolbar/jstoolbar.js"),
+  "jstoolbar/markdown": path.resolve(__dirname, "app/assets/javascripts/jstoolbar/markdown.js"),
+  "jstoolbar/texttile": path.resolve(__dirname, "app/assets/javascripts/jstoolbar/textile.js"),
   context_menu_rtl: path.resolve(__dirname, "app/assets/stylesheets/context_menu_rtl.css"),
   rtl: path.resolve(__dirname, "app/assets/stylesheets/rtl.css"),
   scm: path.resolve(__dirname, "app/assets/stylesheets/scm.css"),
-}
+  jstoolbar: path.resolve(__dirname, "app/assets/stylesheets/jstoolbar.css"),
+};
 
-const cssRule = (isProd) => ({
+const getCssRule = (isProd) => ({
   test: /\.css$/,
   use: [
     MiniCssExtractPlugin.loader,
@@ -77,18 +83,9 @@ const getPlugins = isProd => [
     writeToDisk: true
   }),
   new MiniCssExtractPlugin({
-    filename: isProd ? "stylesheets/[name]-[contenthash].css" : "stylesheets/[name].css",
+    filename: getFilename(isProd, 'stylesheets', 'css'),
   })
 ]
-
-const devServer = {
-  host: WEBPACK_HOST || "0.0.0.0",
-  port,
-  hot: true,
-  headers: {
-    "Access-Control-Allow-Origin": "*"
-  }
-}
 
 const optimization = {
   splitChunks: {
@@ -102,14 +99,24 @@ const optimization = {
   },
 }
 
+const devServer = {
+  host: WEBPACK_HOST || "0.0.0.0",
+  port,
+  hot: true,
+  headers: {
+    "Access-Control-Allow-Origin": "*"
+  }
+}
+
 const getConfig = (isProd) => ({
   mode: isProd ? 'production' : 'development',
   devtool: "source-map",
+  target: ['web', 'es5'], // Remove if IE11 is not supported
   entry,
   output: {
     path: path.resolve(__dirname, 'public'),
     publicPath: isProd ? "/" : `//${host}:${port}/`,
-    filename: isProd ? "javascripts/[name]-[contenthash].js" : "javascripts/[name].js",
+    filename: getFilename(isProd, 'javascripts', 'js'),
     library: {
       type: 'window'
     },
@@ -119,7 +126,7 @@ const getConfig = (isProd) => ({
   },
   module: {
     rules: [
-      cssRule(isProd),
+      getCssRule(isProd),
       imageRule,
       ...exposeRules
     ],
