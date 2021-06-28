@@ -80,6 +80,7 @@ end
 
 group :development do
   gem "yard"
+  gem "rack-reverse-proxy"
 end
 
 group :test do

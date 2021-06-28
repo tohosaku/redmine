@@ -4,10 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const { NODE_ENV, WEBPACK_HOST, WEBPACK_PORT } = process.env;
 
-const host = WEBPACK_HOST || 'localhost';
-const port = WEBPACK_PORT || '3035'
-
-const getFilename = (isProd, dirName, ext) => isProd ? `${dirName}/[name]-[contenthash].${ext}` : `${dirName}/[name].${ext}`;
+const getFilename = (isProd, dirName, ext) => isProd && ext == "js" ? `${dirName}/[name]-[contenthash].${ext}` : `${dirName}/[name].${ext}?[contenthash]`;
 
 const entry = {
   application: path.resolve(__dirname, "app/assets/javascripts/application.js"),
@@ -101,9 +98,8 @@ const optimization = {
 }
 
 const devServer = {
-  host: WEBPACK_HOST || "0.0.0.0",
-  port,
-  hot: true,
+  host: WEBPACK_HOST || '0.0.0.0',
+  port: WEBPACK_PORT || '3035',
   headers: {
     "Access-Control-Allow-Origin": "*"
   }
@@ -116,7 +112,7 @@ const getConfig = (isProd) => ({
   entry,
   output: {
     path: path.resolve(__dirname, 'public'),
-    publicPath: isProd ? "/" : `//${host}:${port}/`,
+    publicPath: "/",
     filename: getFilename(isProd, 'javascripts', 'js'),
     library: {
       type: 'window'

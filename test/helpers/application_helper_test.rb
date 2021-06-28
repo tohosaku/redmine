@@ -18,11 +18,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../test_helper', __FILE__)
+require "simpacker/helper"
 
 class ApplicationHelperTest < Redmine::HelperTest
   include ERB::Util
   include Rails.application.routes.url_helpers
   include AvatarsHelper
+  include Simpacker::Helper
 
   fixtures :projects, :enabled_modules,
            :users, :email_addresses,

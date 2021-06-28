@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../test_helper', __FILE__)
-require 'webdrivers/chromedriver'
+#require 'webdrivers/chromedriver'
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   DOWNLOADS_PATH = File.expand_path(File.join(Rails.root, 'tmp', 'downloads'))
@@ -42,11 +42,12 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
                       'download.prompt_for_download' => false,
                       'plugins.plugins_disabled' => ["Chrome PDF Viewer"]
                     }
-                  }
+                  },
+#                  'goog:loggingPrefs': { browser: 'ALL' }
                 )
-
+  options[:browser] = :remote
   driven_by(
-    :selenium, using: :chrome, screen_size: [1024, 900],
+    :selenium, using: :chrome, screen_size: [1280, 1024],
     options: options
   )
 
@@ -64,6 +65,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   teardown do
+#    logs = page.driver.browser.manage.logs.get(:browser).collect(&:message)
+#    puts logs
     Setting.delete_all
     Setting.clear_cache
   end

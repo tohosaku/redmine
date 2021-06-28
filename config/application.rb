@@ -14,6 +14,7 @@ require 'action_view/railtie'
 require 'action_cable/engine'
 # require 'sprockets/railtie'
 require 'rails/test_unit/railtie'
+require 'rack/reverse_proxy'
 
 Bundler.require(*Rails.groups)
 
@@ -22,6 +23,17 @@ module RedmineApp
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    unless Rails.env.production?
+      webpack_host = ENV['WEBPACK_HOST'] || 'localhost'
+      webpack_port = ENV['WEBPACK_PORT'] || '3035'
+
+      config.middleware.insert_before(Rack::Runtime, Rack::ReverseProxy) do
+        reverse_proxy_options preserve_host: true
+        reverse_proxy /^\/stylesheets\/(.*)/, "http://#{webpack_host}:#{webpack_port}/stylesheets/$1"
+        reverse_proxy /^\/javascripts\/(?!i18n\/datepicker-\S+\.js)(?!jstoolbar\/lang\/jstoolbar-\S+\.js)(\S+\.js)/, "http://#{webpack_host}:#{webpack_port}/javascripts/$1"
+      end
+    end
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib)

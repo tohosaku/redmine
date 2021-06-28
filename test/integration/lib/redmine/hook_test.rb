@@ -18,12 +18,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require File.expand_path('../../../../test_helper', __FILE__)
+require 'simpacker/helper'
 
 class HookTest < Redmine::IntegrationTest
   fixtures :users, :roles, :projects, :members, :member_roles
 
   # Hooks that are manually registered later
   class ProjectBasedTemplate < Redmine::Hook::ViewListener
+    include Simpacker::Helper
     def view_layouts_base_html_head(context)
       # Adds a project stylesheet
       stylesheet_link_tag(context[:project].identifier) if context[:project]

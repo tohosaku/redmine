@@ -1639,10 +1639,13 @@ module ApplicationHelper
     options = sources.last.is_a?(Hash) ? sources.pop : {}
     plugin = options.delete(:plugin)
     sources = sources.map do |source|
+      pack = simpacker_context.manifest.lookup("#{source}#{compute_asset_extname(source.to_s, type: :stylesheet)}")
       if plugin
         "/plugin_assets/#{plugin}/stylesheets/#{source}"
       elsif current_theme && current_theme.stylesheets.include?(source)
         current_theme.stylesheet_path(source)
+      elsif pack
+        pack
       else
         source
       end
