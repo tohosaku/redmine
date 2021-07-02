@@ -11,7 +11,7 @@
 <%= favicon %>
 <%= stylesheet_link_tag 'application', :media => 'all' %>
 <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
-<%= javascript_pack_tag 'application' %>
+<%= javascript_include_tag 'application' %>
 <%= javascript_heads %>
 <%= heads_for_theme %>
 <%= heads_for_auto_complete(@project) %>

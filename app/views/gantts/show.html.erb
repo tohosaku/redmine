@@ -408,8 +408,8 @@
 <% html_title(l(:label_gantt)) -%>
 
 <% content_for :header_tags do %>
-  <%= javascript_pack_tag 'raphael' %>
-  <%= javascript_pack_tag 'gantt' %>
+  <%= javascript_include_tag 'raphael' %>
+  <%= javascript_include_tag 'gantt' %>
 <% end %>
 
 <%= javascript_tag do %>

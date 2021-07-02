@@ -1582,12 +1582,12 @@ module ApplicationHelper
   def context_menu
     unless @context_menu_included
       content_for :header_tags do
-        javascript_pack_tag('context_menu') +
-          stylesheet_pack_tag('context_menu')
+        javascript_include_tag('context_menu') +
+          stylesheet_link_tag('context_menu')
       end
       if l(:direction) == 'rtl'
         content_for :header_tags do
-          stylesheet_pack_tag('context_menu_rtl')
+          stylesheet_link_tag('context_menu_rtl')
         end
       end
       @context_menu_included = true
@@ -1639,7 +1639,7 @@ module ApplicationHelper
     options = sources.last.is_a?(Hash) ? sources.pop : {}
     plugin = options.delete(:plugin)
     sources = sources.map do |source|
-      pack = simpacker_context.manifest.lookup("#{source}#{compute_asset_extname(source.to_s, type: :stylesheet)}")
+      pack = lookup_packed_asset source, :stylesheet
       if plugin
         "/plugin_assets/#{plugin}/stylesheets/#{source}"
       elsif current_theme && current_theme.stylesheets.include?(source)
@@ -1674,13 +1674,15 @@ module ApplicationHelper
   #
   def javascript_include_tag(*sources)
     options = sources.last.is_a?(Hash) ? sources.pop : {}
-    if plugin = options.delete(:plugin)
-      sources = sources.map do |source|
-        if plugin
-          "/plugin_assets/#{plugin}/javascripts/#{source}"
-        else
-          source
-        end
+    plugin = options.delete(:plugin)
+    sources = sources.map do |source|
+      pack = lookup_packed_asset source, :javascript
+      if plugin
+        "/plugin_assets/#{plugin}/javascripts/#{source}"
+      elsif pack
+        pack
+      else
+        source
       end
     end
     super *sources, options
@@ -1831,5 +1833,9 @@ module ApplicationHelper
   def remove_double_quotes(identifier)
     name = identifier.gsub(%r{^"(.*)"$}, "\\1")
     return CGI.unescapeHTML(name)
+  end
+
+  def lookup_packed_asset(name, type)
+    Simpacker.default_context.manifest.lookup("#{name}#{compute_asset_extname(name.to_s, type: type)}")
   end
 end

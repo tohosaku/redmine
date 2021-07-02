@@ -1,5 +1,5 @@
 <% content_for :header_tags do %>
-  <%= javascript_pack_tag 'repository_navigation' %>
+  <%= javascript_include_tag 'repository_navigation' %>
 <% end %>
 
 <% if @entry && !@entry.is_dir? && @repository.supports_cat? %>

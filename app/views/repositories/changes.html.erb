@@ -14,7 +14,7 @@
            :locals => {:project => @project, :path => @path, :revisions => @changesets, :entry => @entry }) unless @changesets.empty? %>
 
 <% content_for :header_tags do %>
-<%=   stylesheet_pack_tag "scm" %>
+<%=   stylesheet_link_tag "scm" %>
 <% end %>
 
 <% html_title(l(:label_change_plural)) -%>

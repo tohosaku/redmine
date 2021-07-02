@@ -20,7 +20,7 @@
 <span class="pagination"><%= pagination_links_full @changeset_pages,@changeset_count %></span>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_pack_tag "scm" %>
+  <%= stylesheet_link_tag "scm" %>
   <%= auto_discovery_link_tag(
                :atom,
                :params => request.query_parameters.merge(:page => nil, :key => User.current.rss_key),

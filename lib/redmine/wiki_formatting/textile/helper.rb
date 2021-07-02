@@ -46,13 +46,13 @@ module Redmine
                 toolbar_language_options.split(',')
               end
             content_for :header_tags do
-              javascript_pack_tag('jstoolbar/jstoolbar') +
-              javascript_pack_tag('jstoolbar/textile') +
+              javascript_include_tag('jstoolbar/jstoolbar') +
+              javascript_include_tag('jstoolbar/textile') +
               javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
               javascript_tag(
                 "var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};" \
                   "var userHlLanguages = #{lang.to_json};") +
-              stylesheet_pack_tag('jstoolbar')
+              stylesheet_link_tag('jstoolbar')
             end
             @heads_for_wiki_formatter_included = true
           end
