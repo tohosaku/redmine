@@ -1,7 +1,7 @@
 /* Redmine - project management software
    Copyright (C) 2006-2021  Jean-Philippe Lang */
 
-import '../stylesheets/context_menu.css';
+import '~/stylesheets/context_menu.css';
 
 export var contextMenuObserving;
 

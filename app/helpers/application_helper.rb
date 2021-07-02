@@ -1645,7 +1645,7 @@ module ApplicationHelper
       elsif current_theme && current_theme.stylesheets.include?(source)
         current_theme.stylesheet_path(source)
       elsif pack
-        pack
+        "/#{pack}"
       else
         source
       end
@@ -1680,7 +1680,7 @@ module ApplicationHelper
       if plugin
         "/plugin_assets/#{plugin}/javascripts/#{source}"
       elsif pack
-        pack
+        "/#{pack}"
       else
         source
       end

@@ -29,6 +29,10 @@
 !/public/themes/alternate
 !/public/themes/classic
 !/public/themes/README
+/public/images/jquery-ui/*
+/public/javascripts/*.js*
+/public/javascripts/jstoolbar/*.js*
+/public/stylesheets/*.css*
 /tmp/*
 /tmp/cache/*
 /tmp/pdf/*

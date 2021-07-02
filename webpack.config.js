@@ -45,10 +45,36 @@ const getCssRule = (isProd) => ({
   ]
 });
 
-const imageRule = {
-  test: /\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
-  type: "asset/inline",
-}
+const imageRules = [
+  {
+    test: /\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
+    type: "asset/resource",
+    generator: {
+      filename: 'images/[base]?[hash]'
+    }
+  },
+  {
+    test: /node_modules\/jquery-ui-dist\/images\/[^/]*\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
+    type: "asset/resource",
+    generator: {
+      filename: 'images/jquery-ui/[base]?[hash]'
+    }
+  },
+  {
+    test: /jstoolbar\/[^/]*\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
+    type: "asset/resource",
+    generator: {
+      filename: 'images/jstoolbar/[base]?[hash]'
+    }
+  },
+  {
+    test: /files\/[^/]*\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
+    type: "asset/resource",
+    generator: {
+      filename: 'images/files/[base]?[hash]'
+    }
+  },
+]
 
 const exposeRules = [
   {
@@ -112,7 +138,6 @@ const getConfig = (isProd) => ({
   entry,
   output: {
     path: path.resolve(__dirname, 'public'),
-    publicPath: "/",
     filename: getFilename(isProd, 'javascripts', 'js'),
     library: {
       type: 'window'
@@ -120,11 +145,15 @@ const getConfig = (isProd) => ({
   },
   resolve: {
     extensions: [".js"],
+    alias: {
+      '@': path.resolve(__dirname, 'public'),
+      '~': path.resolve(__dirname, 'app/assets')
+    },
   },
   module: {
     rules: [
       getCssRule(isProd),
-      imageRule,
+      ...imageRules,
       ...exposeRules
     ],
   },
