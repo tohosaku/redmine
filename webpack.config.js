@@ -131,6 +131,13 @@ const devServer = {
   }
 }
 
+const cache = {
+  type: 'filesystem',
+  buildDependencies: {
+    config: [__filename]
+  }
+}
+
 const getConfig = (isProd) => ({
   mode: isProd ? 'production' : 'development',
   devtool: "source-map",
@@ -158,7 +165,8 @@ const getConfig = (isProd) => ({
     ],
   },
   plugins: getPlugins(isProd),
-  optimization
+  optimization,
+  cache
 });
 
 module.exports = (env, argv) => {
