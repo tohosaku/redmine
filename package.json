@@ -1,7 +1,8 @@
 {
   "scripts": {
     "server": "webpack serve",
-    "release": "webpack --mode=production"
+    "release": "webpack --mode=production",
+    "clean": "rimraf public/javascripts/*.js* public/javascripts/jstoolbar/*.js* public/stylesheets/*.css*"
   },
   "dependencies": {
     "@rails/ujs": "6.1.3-2",
@@ -19,6 +20,7 @@
     "mini-css-extract-plugin": "^2.0.0",
     "postcss": "^8.3.5",
     "postcss-loader": "^6.1.0",
+    "rimraf": "^3.0.2",
     "stylelint": "^13.0.0",
     "webpack": "^5.42.0",
     "webpack-assets-manifest": "^5.0.5",
