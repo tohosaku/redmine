@@ -25,6 +25,14 @@ module RedmineApp
     # -- all .rb files in that directory are automatically loaded.
 
     unless Rails.env.production?
+
+      node_modules = Pathname.new("#{__dir__}/../node_modules")
+      unless Dir.exist? node_modules
+        $stderr.puts 'In the development and test environments Redmine requires webpack to be installed and webpack-dev-server to be running.'
+        $stderr.puts 'Please read app/assets/README.md for details.'
+        exit!
+      end
+
       webpack_host = ENV['WEBPACK_HOST'] || 'localhost'
       webpack_port = ENV['WEBPACK_PORT'] || '3035'
 
