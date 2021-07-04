@@ -1,3 +1,7 @@
+/*
+"@/" in url is an alias for "public/". See: "https://webpack.js.org/configuration/resolve/#resolvealias"
+*/
+
 .jstBlock .hidden {
     display: none;
 }

@@ -1,3 +1,6 @@
+/*
+"@/" in url is an alias for "public/". See: "https://webpack.js.org/configuration/resolve/#resolvealias"
+*/
 html {direction:rtl;}
 h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
 /***** Layout *****/

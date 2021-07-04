@@ -1,3 +1,7 @@
+/*
+"@/" in url is an alias for "public/". See: "https://webpack.js.org/configuration/resolve/#resolvealias"
+*/
+
 #context-menu li.folder ul { left:auto; right:168px; }
 #context-menu li.folder>ul { left:auto; right:148px; }
 #context-menu li a.submenu { background:url("@/images/arrow_left.png") left no-repeat; }

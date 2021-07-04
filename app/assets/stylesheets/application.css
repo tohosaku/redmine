@@ -1,3 +1,7 @@
+/*
+"@/" in url is an alias for "public/". See: "https://webpack.js.org/configuration/resolve/#resolvealias"
+*/
+
 html, body { min-height: 100vh; }
 html {overflow-y:scroll;}
 body { font-family: Verdana, sans-serif; font-size: 12px; color:#333; margin: 0; padding: 0; min-width: 900px; }

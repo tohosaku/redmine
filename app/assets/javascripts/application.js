@@ -1,3 +1,8 @@
+
+/*
+  "~/" in import is an alias for "app/assets/stylesheets/". See: "https://webpack.js.org/configuration/resolve/#resolvealias"
+*/
+
 import $ from "jquery";
 import '~/stylesheets/application.css';
 import 'jquery-ui-dist/jquery-ui';

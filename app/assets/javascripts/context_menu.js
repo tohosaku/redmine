@@ -1,5 +1,8 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2021  Jean-Philippe Lang */
+   Copyright (C) 2006-2021  Jean-Philippe Lang
+
+  "~/" in import is an alias for "app/assets/stylesheets/". See: "https://webpack.js.org/configuration/resolve/#resolvealias"
+*/
 
 import '~/stylesheets/context_menu.css';
 
