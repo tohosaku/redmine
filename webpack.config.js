@@ -6,24 +6,38 @@ const { NODE_ENV, WEBPACK_HOST, WEBPACK_PORT } = process.env;
 
 const getFilename = (isProd, dirName, ext) => isProd && ext == "js" ? `${dirName}/[name]-[contenthash].${ext}` : `${dirName}/[name].${ext}?[contenthash]`;
 
-const entry = {
-  application: path.resolve(__dirname, "app/assets/javascripts/application.js"),
-  attachments: path.resolve(__dirname, "app/assets/javascripts/attachments.js"),
-  context_menu: path.resolve(__dirname, "app/assets/javascripts/context_menu.js"),
-  gantt: path.resolve(__dirname, "app/assets/javascripts/gantt.js"),
-  chart: path.resolve(__dirname, "app/assets/javascripts/chart.js"),
-  revision_graph: path.resolve(__dirname, "app/assets/javascripts/revision_graph.js"),
-  project_identifier: path.resolve(__dirname, "app/assets/javascripts/project_identifier.js"),
-  repository_navigation: path.resolve(__dirname, "app/assets/javascripts/repository_navigation.js"),
-  "jstoolbar/jstoolbar": path.resolve(__dirname, "app/assets/javascripts/jstoolbar/jstoolbar.js"),
-  "jstoolbar/markdown": path.resolve(__dirname, "app/assets/javascripts/jstoolbar/markdown.js"),
-  "jstoolbar/textile": path.resolve(__dirname, "app/assets/javascripts/jstoolbar/textile.js"),
-  context_menu_rtl: path.resolve(__dirname, "app/assets/stylesheets/context_menu_rtl.css"),
-  rtl: path.resolve(__dirname, "app/assets/stylesheets/rtl.css"),
-  scm: path.resolve(__dirname, "app/assets/stylesheets/scm.css"),
-  jstoolbar: path.resolve(__dirname, "app/assets/stylesheets/jstoolbar.css"),
+/* stored under app/assets */
+const assets = {
+  application: "javascripts/application.js",
+  attachments: "javascripts/attachments.js",
+  context_menu: "javascripts/context_menu.js",
+  gantt: "javascripts/gantt.js",
+  chart: "javascripts/chart.js",
+  revision_graph: "javascripts/revision_graph.js",
+  project_identifier: "javascripts/project_identifier.js",
+  repository_navigation: "javascripts/repository_navigation.js",
+  "jstoolbar/jstoolbar": "javascripts/jstoolbar/jstoolbar.js",
+  "jstoolbar/markdown": "javascripts/jstoolbar/markdown.js",
+  "jstoolbar/textile": "javascripts/jstoolbar/textile.js",
+  context_menu_rtl: "stylesheets/context_menu_rtl.css",
+  rtl: "stylesheets/rtl.css",
+  scm: "stylesheets/scm.css",
+  jstoolbar: "stylesheets/jstoolbar.css",
 };
 
+/**
+ * Generate an entry object for the configuration file
+ * https://webpack.js.org/configuration/entry-context/#entry
+ */
+const entry = {}
+Object.keys(assets).forEach(key => {
+  entry[key] = path.resolve(__dirname, 'app/assets/', assets[key]);
+})
+
+/**
+ * rule for CSS
+ * https://webpack.js.org/plugins/mini-css-extract-plugin/
+ */
 const getCssRule = (isProd) => ({
   test: /\.css$/,
   use: [
@@ -45,9 +59,18 @@ const getCssRule = (isProd) => ({
   ]
 });
 
+/**
+ * rules for images
+ * !! Rules are evaluated in order from bottom to top !!
+ * 
+ * Due to performance reasons, the image exploration locations are limited.
+ * If the images do not output properly, please review here.
+ * 
+ * https://webpack.js.org/guides/asset-modules/
+ */
 const imageRules = [
   {
-    test: /\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
+    test: /public\/images\/[^/]*\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
     type: "asset/resource",
     generator: {
       filename: 'images/[base]?[hash]'
@@ -61,14 +84,14 @@ const imageRules = [
     }
   },
   {
-    test: /jstoolbar\/[^/]*\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
+    test: /public\/images\/jstoolbar\/[^/]*\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
     type: "asset/resource",
     generator: {
       filename: 'images/jstoolbar/[base]?[hash]'
     }
   },
   {
-    test: /files\/[^/]*\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
+    test: /public\/images\/files\/[^/]*\.(gif|png|jpg|eot|wof|woff|ttf|svg)$/,
     type: "asset/resource",
     generator: {
       filename: 'images/files/[base]?[hash]'
@@ -76,6 +99,10 @@ const imageRules = [
   },
 ]
 
+/**
+ * rules for "expose-loader"
+ * https://webpack.js.org/loaders/expose-loader/
+ */
 const exposeRules = [
   {
     test: require.resolve("jquery"),
@@ -100,7 +127,13 @@ const exposeRules = [
   }
 ]
 
+/**
+ * plugin config
+ */
 const getPlugins = isProd => [
+  /**
+   * !! The main part of webpack integration with simpacker and Redmine !!
+   */
   new WebpackAssetsManifest({
     publicPath: true,
     output: "packs/manifest.json",
@@ -111,6 +144,10 @@ const getPlugins = isProd => [
   })
 ]
 
+/**
+ * optimization config
+ * https://webpack.js.org/plugins/split-chunks-plugin/#optimizationsplitchunks
+ */
 const optimization = {
   splitChunks: {
     cacheGroups: {
@@ -123,6 +160,10 @@ const optimization = {
   },
 }
 
+/**
+ * webpack-dev-server config
+ * https://webpack.js.org/configuration/dev-server/
+ */
 const devServer = {
   host: WEBPACK_HOST || '0.0.0.0',
   port: WEBPACK_PORT || '3035',
@@ -131,6 +172,10 @@ const devServer = {
   }
 }
 
+/**
+ * setting for chacing
+ * https://webpack.js.org/configuration/other-options/#cachebuilddependencies
+ */
 const cache = {
   type: 'filesystem',
   buildDependencies: {
@@ -138,10 +183,13 @@ const cache = {
   }
 }
 
+/**
+ * Bring the whole setting together
+ */
 const getConfig = (isProd) => ({
   mode: isProd ? 'production' : 'development',
   devtool: "source-map",
-  target: ['web', 'es5'], // Remove if IE11 is not supported
+  target: ['web', 'es5'], // Remove if abandon IE11 support
   entry,
   output: {
     path: path.resolve(__dirname, 'public'),
