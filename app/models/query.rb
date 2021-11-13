@@ -1581,7 +1581,7 @@ class Query < ActiveRecord::Base
       else
         from = from - 1 # second
       end
-      if self.class.default_timezone == :utc
+      if ActiveRecord.default_timezone == :utc
         from = from.utc
       end
       s << ("#{table}.#{field} > '%s'" % [quoted_time(from, is_custom_filter)])
@@ -1590,7 +1590,7 @@ class Query < ActiveRecord::Base
       if to.is_a?(Date)
         to = date_for_user_time_zone(to.year, to.month, to.day).end_of_day
       end
-      if self.class.default_timezone == :utc
+      if ActiveRecord.default_timezone == :utc
         to = to.utc
       end
       s << ("#{table}.#{field} <= '%s'" % [quoted_time(to, is_custom_filter)])
