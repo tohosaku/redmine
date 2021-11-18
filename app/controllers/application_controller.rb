@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
 
   layout 'base'
 
-  protect_from_forgery
+  protect_from_forgery :with => :exception
 
   def verify_authenticity_token
     unless api_request?
