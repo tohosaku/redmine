@@ -29,10 +29,10 @@
   <%= check_box_tag 'ids[]', i.id, false, :style => 'display:none;', :id => nil %>
   </div>
   <% else %>
-  <span class="icon icon-package">
+  <%= tag.span(class: 'icon icon-package') do %>
     <%= "#{i.project} -" unless @project && @project == i.project %>
     <%= link_to_version i %>
-  </span>
+  <% end %>
   <% end %>
 <% end %>
 </td>

@@ -23,7 +23,7 @@
       </td>
       <td>
         <% if enabled %>
-          <span class="icon <%= (scm_class.scm_available ? 'icon-ok' : 'icon-error') %>"></span>
+          <%= tag.span class: ['icon', (scm_class.scm_available ? 'icon-ok' : 'icon-error')] %>
           <%= scm_class.scm_command %>
         <% end %>
       </td>

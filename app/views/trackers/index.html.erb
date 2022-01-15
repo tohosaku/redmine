@@ -21,9 +21,9 @@
   <td class="description"><%= tracker.description %></td>
   <td>
     <% unless tracker.workflow_rules.exists? %>
-      <span class="icon icon-warning">
+      <%= tag.span(class: 'icon icon-warning') do %>
         <%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), edit_workflows_path(:tracker_id => tracker) %>)
-      </span>
+      <% end %>
     <% end %>
   </td>
   <td class="buttons">
