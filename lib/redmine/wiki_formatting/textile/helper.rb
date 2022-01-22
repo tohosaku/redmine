@@ -52,7 +52,8 @@ module Redmine
               javascript_tag(
                 "var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};" \
                   "var userHlLanguages = #{lang.to_json};") +
-              stylesheet_link_tag('jstoolbar')
+              stylesheet_link_tag('jstoolbar') +
+              preload_icon_link('jstoolbar')
             end
             @heads_for_wiki_formatter_included = true
           end

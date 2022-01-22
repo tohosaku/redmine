@@ -34,6 +34,8 @@ function jsToolBar(textarea) {
     return;
     }
 
+  var link = document.getElementById('jstoolbar_icon_path');
+  this.iconUrl = link !== null ? link.getAttribute('href') : null;
   this.textarea = textarea;
 
   this.toolbarBlock = document.createElement('div');
@@ -132,7 +134,7 @@ function jsButton(title, fn, scope, className) {
   this.scope = scope || null;
   this.className = className || null;
 }
-jsButton.prototype.draw = function() {
+jsButton.prototype.draw = function(icons = undefined) {
   if (!this.scope) return null;
 
   var button = document.createElement('button');
@@ -143,6 +145,15 @@ jsButton.prototype.draw = function() {
   var span = document.createElement('span');
   span.appendChild(document.createTextNode(this.title));
   button.appendChild(span);
+
+  if (icons) {
+    var icon = icons[this.className];
+    if (icon) {
+      var svgicon = createSVGIcon(icons[this.className]);
+      button.appendChild(svgicon);
+    }
+    button.classList.add('toolbar-svg')
+  }
 
   if (this.icon != undefined) {
     button.style.backgroundImage = 'url('+this.icon+')';
@@ -284,6 +295,22 @@ jsToolBar.prototype = {
     }
   },
   draw: function(mode) {
+    const This = this
+    if (this.iconUrl) {
+      fetch(this.iconUrl, {
+        method: 'GET'
+      })
+      .then(function(res) {
+        res.json().then(function(data) {
+          This._draw(mode, data);
+        })
+      });
+    } else {
+      This._draw(mode);
+    }
+  },
+
+  _draw: function(mode, icons = undefined) {
     this.setMode(mode);
 
     // Empty toolbar
@@ -305,7 +332,7 @@ jsToolBar.prototype = {
 
       if (!disabled && typeof this[b.type] == 'function') {
         tool = this[b.type](i);
-        if (tool) newTool = tool.draw();
+        if (tool) newTool = tool.draw(icons);
         if (newTool) {
           this.toolNodes[i] = newTool; //mémorise l'accès DOM pour usage éventuel ultérieur
           this.toolbar.appendChild(newTool);
