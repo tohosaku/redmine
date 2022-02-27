@@ -82,6 +82,13 @@ module RedmineApp
     # for more options (same options as config.cache_store).
     config.redmine_search_cache_store = :memory_store
 
+    # Enable experimental svg icons
+    config.redmine_enable_svg_icon = false
+
+    config.redmine_svg_icon_source = File.join(__dir__, 'icon_source.yml')
+
+    config.redmine_svg_icon_map = File.join(__dir__, 'icons')
+
     # Configure log level here so that additional environment file
     # can change it (environments/ENV.rb would take precedence over it)
     config.log_level = Rails.env.production? ? :info : :debug

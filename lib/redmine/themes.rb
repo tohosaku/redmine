@@ -43,6 +43,8 @@ module Redmine
 
     # Class used to represent a theme
     class Theme
+      include Redmine::Icon::MapLoader
+
       attr_reader :path, :name, :dir
 
       def initialize(path)
@@ -102,6 +104,14 @@ module Redmine
 
       def favicon_path
         "/themes/#{dir}/favicon/#{favicon}"
+      end
+
+      def icon_config_dir
+        "/themes/#{dir}"
+      end
+
+      def icon_dir
+        Rails.public_path.join("#{icon_config_dir}/icons")
       end
 
       private

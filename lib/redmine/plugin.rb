@@ -50,6 +50,8 @@ module Redmine
   #
   # See: http://www.redmine.org/projects/redmine/wiki/Plugin_Tutorial
   class Plugin
+    include Redmine::Icon::MapLoader
+
     # Absolute path to the directory where plugins are located
     cattr_accessor :directory
     self.directory = PluginLoader.directory
@@ -528,6 +530,14 @@ module Redmine
       def record_version_state_after_migrating(version)
         super(version.to_s + "-" + current_plugin.id.to_s)
       end
+    end
+
+    def icon_config_dir
+      File.join directory, 'config', 'icons'
+    end
+
+    def icon_dir
+      File.join public_directory.sub(Rails.public_path.to_s, ''), 'icons'
     end
   end
 end
