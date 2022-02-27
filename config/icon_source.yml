@@ -1,0 +1,350 @@
+common:
+  icon-add:
+    prefix: fa6-solid
+    name: circle-plus
+  icon-edit:
+    prefix: fa6-solid
+    name: pencil
+  icon-copy:
+    prefix: fa6-solid
+    name: clone
+  icon-copy-link:
+    prefix: fa6-regular
+    name: clipboard
+  icon-del:
+    prefix: fa6-regular
+    name: trash-can
+  icon-move:
+    prefix: fa6-solid
+    name: share
+  icon-save:
+    prefix: fa6-regular
+    name: floppy-disk
+  icon-download:
+    prefix: fa6-solid
+    name: download
+  icon-cancel:
+    prefix: fa6-solid
+    name: reply
+  icon-multiple:
+    prefix: fa-solid
+    name: sync-alt
+  icon-folder:
+    prefix: fa6-regular
+    name: folder
+  icon-package:
+    prefix: fa6-solid
+    name: cube
+  icon-user:
+    prefix: fa6-solid
+    name: user
+  icon-group:
+    prefix: fa6-solid
+    name: user-group
+  icon-project:
+    prefix: fa6-solid
+    name: cubes
+  icon-projects:
+    prefix: fa6-solid
+    name: cubes
+  icon-help:
+    prefix: fa6-solid
+    name: circle-info
+  icon-attachment:
+    prefix: fa6-solid
+    name: paperclip
+  icon-history:
+    prefix: fa6-solid
+    name: clock-rotate-left
+  icon-time-entry:
+    prefix: fa6-regular
+    name: clock
+  icon-time:
+    prefix: fa6-regular
+    name: clock
+  icon-time-add:
+    prefix: fa6-regular
+    name: clock
+  icon-stats:
+    prefix: fa6-regular
+    name: chart-bar
+  icon-warning:
+    prefix: fa6-solid
+    name: triangle-exclamation
+  icon-error:
+    prefix: fa6-solid
+    name: triangle-exclamation
+  icon-fav:
+    prefix: fa6-solid
+    name: star
+  icon-fav-off:
+    prefix: fa6-regular
+    name: star
+  icon-reload:
+    prefix: fa-solid
+    name: sync
+  icon-multiple:
+    prefix: fa-solid
+    name: sync
+  icon-lock:
+    prefix: fa6-solid
+    name: lock
+  icon-locked:
+    prefix: fa6-solid
+    name: lock
+  icon-unlock:
+    prefix: fa6-solid
+    name: unlock
+  icon-checked:
+    prefix: fa6-solid
+    name: check
+  icon-comment:
+    prefix: fa6-regular
+    name: comment
+  icon-comments:
+    prefix: fa6-regular
+    name: comment
+  icon-summary:
+    prefix: fa6-regular
+    name: table
+  icon-server-authentication:
+    prefix: fa6-solid
+    name: key
+  icon-issue:
+    prefix: fa6-regular
+    name: note-sticky
+  icon-zoom-in:
+    prefix: fa-solid
+    name: search-plus
+  icon-zoom-out:
+    prefix: fa-solid
+    name: search-minus
+  icon-passwd:
+    prefix: fa6-solid
+    name: key
+  icon-arrow-right:
+    prefix: fa6-solid
+    name: arrow-right
+  icon-test:
+    prefix: fa6-solid
+    name: arrow-right
+  icon-sticky:
+    prefix: fa6-solid
+    name: arrow-right
+  icon-email:
+    prefix: fa6-regular
+    name: envelope
+  icon-email-disabled:
+    prefix: fa6-solid
+    name: envelope
+  icon-email-add:
+    prefix: fa6-regular
+    name: envelope
+  icon-ok:
+    prefix: fa6-solid
+    name: check
+  icon-not-ok:
+    prefix: fa6-solid
+    name: xmark
+  icon-link-break:
+    prefix: fa6-solid
+    name: link-slash
+  icon-list:
+    prefix: fa6-solid
+    name: list-ul
+  icon-close:
+    prefix: fa6-solid
+    name: xmark
+  icon-settings:
+    prefix: fa6-solid
+    name: gear
+  icon-roles:
+    prefix: fa6-solid
+    name: eye
+  icon-issue-edit:
+    prefix: fa6-solid
+    name: pen-to-square
+  icon-workflows:
+    prefix: fa6-solid
+    name: gears
+  icon-custom-fields: 
+    prefix: fa6-regular
+    name: file-lines
+  icon-plugins:
+    prefix: fa6-solid
+    name: puzzle-piece
+  icon-news:
+    prefix: fa6-regular
+    name: newspaper
+  icon-issue-closed:
+    prefix: fa6-regular
+    name: square-check
+  icon-issue-note:
+    prefix: fa6-regular
+    name: comment
+  icon-changeset:
+    prefix: fa6-solid
+    name: code
+  icon-message:
+    prefix: fa6-regular
+    name: comment
+  icon-reply:
+    prefix: fa6-regular
+    name: comments
+  icon-wiki-page:
+    prefix: fa6-solid
+    name: book
+  icon-document:
+    prefix: fa6-regular
+    name: file
+  icon-add-bullet:
+    prefix: fa6-solid
+    name: circle-plus
+  icon-shared:
+    prefix: fa6-solid
+    name: link
+  icon-actions:
+    prefix: fa6-solid
+    name: ellipsis
+  icon-expanded:
+    prefix: fa6-solid
+    name: angle-down
+  icon-collapsed:
+    prefix: fa6-solid
+    name: angle-right
+  icon-bookmark:
+    prefix: fa6-solid
+    name: bookmark
+  icon-bookmark-off:
+    prefix: fa6-regular
+    name: bookmark
+  icon-bookmarked-project:
+    prefix: fa6-solid
+    name: bookmark
+  icon-sort-handle:
+    prefix: fa6-solid
+    name: bookmark
+  icon-sorted-asc:
+    prefix: fa6-solid
+    name: angle-down
+  icon-sorted-desc:
+    prefix: fa6-solid
+    name: angle-up
+  icon-toggle-plus:
+    prefix: fa6-regular
+    name: square-plus
+  icon-toggle-minus:
+    prefix: fa6-regular
+    name: square-minus
+  icon-clear-query:
+    prefix: fa6-solid
+    name: circle-xmark
+  icon-import:
+    prefix: fa6-solid
+    name: file-import
+  icon-file:
+    prefix: fa6-regular
+    name: file
+  icon-atom:
+    prefix: fa6-solid
+    name: square-rss
+plugin:
+  icon-plugin-tmp:
+    prefix: fa6-solid
+    name: cube
+file:
+  text-plain:
+    prefix: mdi
+    name: file-document-outline
+  text-x-c:
+    prefix: mdi
+    name: language-c
+  text-x-csharp:
+    prefix: mdi
+    name: language-csharp
+  text-x-java:
+    prefix: mdi
+    name: language-java
+  text-x-javascript:
+    prefix: mdi
+    name: language-javascript
+  text-x-php:
+    prefix: mdi
+    name: language-php
+  text-x-ruby:
+    prefix: mdi
+    name: language-ruby
+  text-xml:
+    prefix: mdi
+    name: xml
+  text-css:
+    prefix: mdi
+    name: language-css3
+  text-html:
+    prefix: mdi
+    name: xml
+  image-gif:
+    prefix: mdi
+    name: file-gif-box
+  image-jpeg:
+    prefix: mdi
+    name: file-jpg-box
+  image-png:
+    prefix: mdi
+    name: file-png-box
+  image-tiff:
+    prefix: mdi
+    name: file-image-outline
+  application-pdf:
+    prefix: mdi
+    name: file-pdf-box
+  application-zip:
+    prefix: mdi
+    name: zip-box-outline
+  application-x-gzip:
+    prefix: mdi
+    name: zip-box-outline
+jstoolbar:
+  jstb_strong:
+    prefix: fa6-solid
+    name: bold
+  jstb_em:
+    prefix: fa6-solid
+    name: italic
+  jstb_ins:
+    prefix: fa6-solid
+    name: underline
+  jstb_del:
+    prefix: fa6-solid
+    name: strikethrough
+  jstb_ul:
+    prefix: fa6-solid
+    name: list-ul
+  jstb_ol:
+    prefix: fa6-solid
+    name: list-ol
+  jstb_tl:
+    prefix: fa6-solid
+    name: list-check
+  jstb_bq:
+    prefix: fa6-solid
+    name: indent
+  jstb_unbq:
+    prefix: fa6-solid
+    name: outdent
+  jstb_table:
+    prefix: fa6-solid
+    name: table
+  jstb_precode:
+    prefix: fa6-solid
+    name: code
+  jstb_link:
+    prefix: fa6-solid
+    name: link
+  jstb_img:
+    prefix: fa6-solid
+    name: image
+  jstb_help:
+    prefix: fa6-regular
+    name: circle-question
+  # C, H1, H2, H3, PRE is string. not svg icon
