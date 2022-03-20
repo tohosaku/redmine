@@ -24,7 +24,7 @@
 </fieldset>
 
 <fieldset class="collapsible collapsed">
-  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_options) %></legend>
+  <%= tag.legend l(:label_options), onclick: 'toggleFieldset(this);', class: 'icon icon-collapsed' %>
   <div id="options-content" style="display:none;">
     <p><label><%= check_box_tag 'open_issues', 1, @open_issues %> <%= l(:label_search_open_issues_only) %></label></p>
     <p>

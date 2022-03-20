@@ -404,6 +404,9 @@ Rails.application.routes.draw do
 
   get 'robots', :to => 'welcome#robots'
 
+  # SVG icons map
+  resources :icon_sets, id: '/^[a-z]+$/', only: [:show], defaults: { :format => :json }
+
   Dir.glob File.expand_path("#{Redmine::Plugin.directory}/*") do |plugin_dir|
     file = File.join(plugin_dir, "config/routes.rb")
     if File.exist?(file)

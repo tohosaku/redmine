@@ -7,14 +7,14 @@
 <td style="padding-left: <%=18 * depth%>px;" class="<%=
            @repository.report_last_commit ? "filename" : "filename_no_report" %>">
 <% if entry.is_dir? %>
-<span class="expander icon icon-collapsed" onclick="scmEntryClick('<%= tr_id %>', '<%= escape_javascript(url_for(
-                       :action => 'show',
-                       :id     => @project,
-                       :repository_id => @repository.identifier_param,
-                       :path   => to_path_param(ent_path),
-                       :rev    => @rev,
-                       :depth  => (depth + 1),
-                       :parent_id => tr_id)) %>');">&nbsp;</span>
+<% url =  url_for(:action => 'show',
+                  :id     => @project,
+                  :repository_id => @repository.identifier_param,
+                  :path   => to_path_param(ent_path),
+                  :rev    => @rev,
+                  :depth  => (depth + 1),
+                  :parent_id => tr_id) %>
+<%= tag.span '&nbsp;', class: 'expander icon icon-collapsed', onclick: "scmEntryClick('#{tr_id}', '#{escape_javascript(url)}')" %>
 <% end %>
 <%=  link_to ent_name,
           {:action => (entry.is_dir? ? 'show' : 'entry'), :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(ent_path), :rev => @rev},
