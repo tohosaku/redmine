@@ -117,3 +117,14 @@ end
 Dir.glob File.expand_path("../plugins/*/{Gemfile,PluginGemfile}", __FILE__) do |file|
   eval_gemfile file
 end
+
+extension_gemfile = File.join(File.dirname(__FILE__), "Gemfile.extension")
+if File.exist?(extension_gemfile)
+  eval_gemfile extension_gemfile
+end
+
+if ENV['RAILS_ENV'] == 'test'
+  group :extension do
+    gem 'baz_plugin', :path => 'test/fixtures/gem_plugins/baz_plugin'
+  end
+end
