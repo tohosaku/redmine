@@ -404,11 +404,11 @@ Rails.application.routes.draw do
 
   get 'robots', :to => 'welcome#robots'
 
-  Redmine::Plugin.directory.glob("*/config/routes.rb").sort.each do |plugin_routes_path|
-    instance_eval(plugin_routes_path.read, plugin_routes_path.to_s)
+  Redmine::Plugin.all.each do |plugin|
+    next unless plugin.routes
+    instance_eval plugin.routes.read
   rescue SyntaxError, StandardError => e
-    plugin_name = plugin_routes_path.parent.parent.basename.to_s
-    puts "An error occurred while loading the routes definition of #{plugin_name} plugin (#{plugin_routes_path}): #{e.message}."
+    puts "An error occurred while loading the routes definition of #{plugin.id} plugin (#{plugin.routes}): #{e.message}."
     exit 1
   end
 end

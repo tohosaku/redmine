@@ -122,6 +122,24 @@ if File.exist?(local_gemfile)
 end
 
 # Load plugins' Gemfiles
-Dir.glob File.expand_path("../plugins/*/{Gemfile,PluginGemfile}", __FILE__) do |file|
-  eval_gemfile file
+Dir.glob File.expand_path("plugins/*", __dir__) do |entry|
+  next unless File.directory?(entry)
+
+  plugin_dir = File.expand_path(entry, __dir__)
+  files =
+    if Dir.exist?(plugin_dir + "*.gemspec")
+      Dir.glob(File.join(plugin_dir, "PluginGemfile"))
+    else
+      Dir.glob(File.join(plugin_dir,"{Gemfile,PluginGemfile}"))
+    end
+  files.each do |file|
+    eval_gemfile file
+  end
+end
+
+extension_gemfile = File.join(File.dirname(__FILE__), "Gemfile.extension")
+if File.exist?(extension_gemfile)
+  group :redmine_extension do
+    eval_gemfile extension_gemfile
+  end
 end

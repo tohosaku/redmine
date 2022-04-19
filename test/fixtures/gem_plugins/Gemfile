@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+original_gemfile = File.join(File.dirname(__FILE__), "../../../Gemfile")
+
+eval_gemfile original_gemfile
+
+gem 'quux', path: './quux', require: false
+
+group :redmine_extension do
+  gem 'baz', path: './baz'
+end
