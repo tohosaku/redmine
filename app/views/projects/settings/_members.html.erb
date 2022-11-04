@@ -19,7 +19,7 @@
   <% members.each do |member| %>
   <% next if member.new_record? %>
   <tr id="member-<%= member.id %>" class="member">
-  <td class="name icon icon-<%= member.principal.class.name.downcase %>"><%= link_to_user member.principal %></td>
+  <%= tag.td link_to_user(member.principal), class: "name icon icon-#{member.principal.class.name.downcase}" %>
   <td class="roles">
     <span id="member-<%= member.id %>-roles"><%= member.roles.sort.collect(&:to_s).join(', ') %></span>
     <div id="member-<%= member.id %>-form"></div>

@@ -35,7 +35,7 @@
 
 <% unless @replies.empty? %>
 <div id="replies">
-<h3 class="comments icon icon-comments"><%= l(:label_reply_plural) %> (<%= @reply_count %>)</h3>
+<%= tag.h3 "#{l(:label_reply_plural)}(#{@reply_count})", class: 'comments icon icon-comments' %>
 <% if !@topic.locked? && authorize_for('messages', 'reply') && @replies.size >= 3 %>
   <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content', :scroll => "message_content" %></p>
 <% end %>

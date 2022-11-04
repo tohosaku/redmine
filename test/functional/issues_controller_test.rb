@@ -764,7 +764,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_index_should_omit_page_param_in_export_links
     get(:index, :params => {:page => 2})
     assert_response :success
-    assert_select 'a.atom[href="/issues.atom"]'
+    assert_select 'a.icon-atom[href="/issues.atom"]'
     assert_select 'a.csv[href="/issues.csv"]'
     assert_select 'a.pdf[href="/issues.pdf"]'
     assert_select 'form#csv-export-form[action="/issues.csv"]'

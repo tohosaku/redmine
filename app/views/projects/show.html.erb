@@ -24,7 +24,7 @@
 <h2><%=l(:label_overview)%></h2>
 
 <% unless @project.active? %>
-  <p class="warning"><span class="icon icon-lock"><%= l(:text_project_closed) %></span></p>
+  <p class="warning"><%= tag.span l(:text_project_closed), class: 'icon icon-lock' %></p>
 <% end %>
 
 <div class="splitcontent">
@@ -47,13 +47,13 @@
 
   <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="issues box">
-    <h3 class="icon icon-issue">
+    <%= tag.h3(class: 'icon icon-issue') do %>
       <%=l(:label_issue_tracking)%>&nbsp;
       <%= link_to l(:label_details),
             project_issues_report_details_path(@project, :detail => 'tracker'),
             :class => 'icon-only icon-zoom-in',
             :title => l(:label_details) %>
-    </h3>
+    <% end %>
     <% if @trackers.present? %>
     <table class="list issue-report">
       <thead>
@@ -99,7 +99,7 @@
 
   <% if User.current.allowed_to?(:view_time_entries, @project) %>
   <div class="spent_time box">
-    <h3 class="icon icon-time"><%= l(:label_time_tracking) %></h3>
+    <%= tag.h3 l(:label_time_tracking), class: 'icon icon-time' %>
     <ul>
       <% if @total_estimated_hours.present? %>
         <li><%= l(:field_estimated_hours) %>: <%= l_hours(@total_estimated_hours) %>
@@ -123,7 +123,7 @@
 <div class="splitcontentright">
   <% if @news.any? && authorize_for('news', 'index') %>
   <div class="news box">
-    <h3 class="icon icon-news"><%=l(:label_news_latest)%></h3>
+    <%= tag.h3 l(:label_news_latest), class: 'icon icon-news' %>
     <%= render :partial => 'news/news', :collection => @news %>
     <p><%= link_to l(:label_news_view_all), project_news_index_path(@project) %></p>
   </div>
@@ -133,7 +133,7 @@
 
   <% if @subprojects.any? %>
   <div class="projects box">
-    <h3 class="icon icon-projects"><%=l(:label_subproject_plural)%></h3>
+    <%= tag.h3 l(:label_subproject_plural), class: 'icon icon-projects' %>
 	<ul class="subprojects">
 	  <% @subprojects.each do |project| %>
 	  <li><%= link_to(project.name, project_path(project), :class => project.css_classes).html_safe %></li>

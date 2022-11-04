@@ -22,7 +22,9 @@
       </div>
     <% end %>
     <header>
-      <h3 class="icon icon-package version inline-flex"><%= link_to_version version, :name => version_anchor(version) %></h3>
+      <%= tag.h3(class: 'icon icon-package version inline-flex') do %>
+        <%= link_to_version version, :name => version_anchor(version) %>
+      <% end %>
       <span class="badge badge-status-<%= version.status %>"><%= l("version_status_#{version.status}") %></span>
     </header>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>

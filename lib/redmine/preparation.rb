@@ -23,6 +23,7 @@ module Redmine
       ActiveRecord::Base.include Redmine::Acts::Positioned
       ActiveRecord::Base.include Redmine::Acts::Mentionable
       ActiveRecord::Base.include Redmine::I18n
+      ActionView::Helpers::TagHelper::TagBuilder.prepend Redmine::Icon::Patch
 
       Scm::Base.add "Subversion"
       Scm::Base.add "Mercurial"

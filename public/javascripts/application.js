@@ -27,11 +27,87 @@ function showAndScrollTo(id, focus) {
   $('html, body').animate({scrollTop: $('#'+id).offset().top}, 100);
 }
 
+/**
+ * 
+ * @param {HTMLElement} elem 
+ */
+function addSVGIcon(elem, iconClass) {
+  if (rm.icons && rm.icons.common) {
+    const data = rm.icons.common;
+    const svg = createSVGIcon(data[iconClass]);
+    elem.insertBefore(svg, elem.firstChild);
+  }
+}
+
+/**
+ * 
+ * @param {HTMLElement} elem 
+ */
+function removeSVGIcon(elem) {
+  const icon = elem.getElementsByTagName('svg')[0]
+  if (icon) {
+    elem.removeChild(icon);
+  }
+}
+
+/**
+ * 
+ * @param {string} iconUrl 
+ * @returns HTMLElement
+ */
+function createSVGIcon(iconUrl) {
+  const xmlns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(xmlns, 'svg');
+  const use = document.createElementNS(xmlns, 'use');
+  use.setAttribute('href', `${iconUrl}#icon`);
+  svg.appendChild(use);
+  svg.setAttribute('xmlns', xmlns)
+  svg.classList.add('s16');
+  return svg
+}
+
+/**
+ * 
+ * @param {Array<HTMLElement>} elems
+ * @param {string} from
+ * @param {string} to
+ */
+function switchClass(elems, from, to) {
+  elems.forEach(function(e) {
+    e.classList.remove(from);
+    removeSVGIcon(e);
+    e.classList.add(to);
+    addSVGIcon(e, to)
+  })
+}
+
+/**
+ * 
+ * @param {Array<HTMLElement>} elems
+ * @param {string} class1
+ * @param {string} class2
+ */
+function toggleClass(elems, class1, class2) {
+  const _elems = Array.isArray(elems) ? elems : [elems];
+  _elems.forEach(function(e) {
+    removeSVGIcon(e);
+    if (e.classList.contains(class1)) {
+      e.classList.remove(class1);
+      e.classList.add(class2);
+      addSVGIcon(e, class2);
+    } else if (e.classList.contains(class2)) {
+      e.classList.remove(class2);
+      e.classList.add(class1);
+      addSVGIcon(e, class1);
+    }
+  })
+}
+
 function toggleRowGroup(el) {
   var tr = $(el).parents('tr').first();
   var n = tr.next();
   tr.toggleClass('open');
-  $(el).toggleClass('icon-expanded icon-collapsed');
+  toggleClass(el, 'icon-expanded', 'icon-collapsed');
   while (n.length && !n.hasClass('group')) {
     n.toggle();
     n = n.next('tr');
@@ -43,7 +119,7 @@ function collapseAllRowGroups(el) {
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
       $(this).removeClass('open');
-      $(this).find('.expander').switchClass('icon-expanded', 'icon-collapsed');
+      switchClass($(this).find('.expander').get(), 'icon-expanded', 'icon-collapsed');
     } else {
       $(this).hide();
     }
@@ -55,7 +131,7 @@ function expandAllRowGroups(el) {
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
       $(this).addClass('open');
-      $(this).find('.expander').switchClass('icon-collapsed', 'icon-expanded');
+      switchClass($(this).find('.expander').get(), 'icon-collapsed', 'icon-expanded');
     } else {
       $(this).show();
     }
@@ -74,7 +150,7 @@ function toggleAllRowGroups(el) {
 function toggleFieldset(el) {
   var fieldset = $(el).parents('fieldset').first();
   fieldset.toggleClass('collapsed');
-  fieldset.children('legend').toggleClass('icon-expanded icon-collapsed');
+  toggleClass(fieldset.children('legend').get(), 'icon-expanded', 'icon-collapsed');
   fieldset.children('div').toggle();
 }
 
@@ -550,12 +626,12 @@ function scmEntryClick(id, url) {
     var el = $('#'+id);
     if (el.hasClass('open')) {
         collapseScmEntry(id);
-        el.find('.expander').switchClass('icon-expanded', 'icon-collapsed');
+        switchClass(el.find('.expander').get(), 'icon-expanded', 'icon-collapsed');
         el.addClass('collapsed');
         return false;
     } else if (el.hasClass('loaded')) {
         expandScmEntry(id);
-        el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
+        switchClass(el.find('.expander').get(), 'icon-collapsed', 'icon-expanded');
         el.removeClass('collapsed');
         return false;
     }
@@ -568,7 +644,7 @@ function scmEntryClick(id, url) {
       success: function(data) {
         el.after(data);
         el.addClass('open').addClass('loaded').removeClass('loading');
-        el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
+        switchClass(el.find('.expander').get(), 'icon-collapsed', 'icon-expanded');
       }
     });
     return true;
@@ -1219,7 +1295,6 @@ function inlineAutoComplete(element) {
     tribute.attach(element);
 }
 
-
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);
@@ -1230,4 +1305,20 @@ $(document).ready(setupFilePreviewNavigation);
 $(document).ready(setupWikiTableSortableHeader);
 $(document).on('focus', '[data-auto-complete=true]', function(event) {
   inlineAutoComplete(event.target);
+});
+
+window.addEventListener('DOMContentLoaded', function(event) {
+  const common_icon_path = document.getElementById('common_icon_path');
+  if (common_icon_path !== null) {
+    const url = common_icon_path.getAttribute('href');
+    fetch(url, {
+      method: 'GET'
+    })
+    .then(function(response){
+      response.json().then(function(data) {
+        rm.icons = rm.icons || {}
+        rm.icons.common = data;
+      })
+    });
+  }
 });

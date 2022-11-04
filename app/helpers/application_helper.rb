@@ -27,6 +27,7 @@ module ApplicationHelper
   include Redmine::SudoMode::Helper
   include Redmine::Themes::Helper
   include Redmine::Hook::Helper
+  include Redmine::Icon::Helper
   include Redmine::Helpers::URL
 
   extend Forwardable

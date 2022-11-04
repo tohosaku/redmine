@@ -14,6 +14,7 @@
 <%= javascript_heads %>
 <%= heads_for_theme %>
 <%= heads_for_auto_complete(@project) %>
+<%= preload_icon_link('common') %>
 <%= call_hook :view_layouts_base_html_head %>
 <!-- page specific tags -->
 <%= yield :header_tags -%>

@@ -40,7 +40,9 @@ class RedminePluginGenerator < Rails::Generators::NamedBase
     empty_directory "#{plugin_path}/assets/images"
     empty_directory "#{plugin_path}/assets/javascripts"
     empty_directory "#{plugin_path}/assets/stylesheets"
+    empty_directory "#{plugin_path}/assets/icons"
     empty_directory "#{plugin_path}/config/locales"
+    empty_directory "#{plugin_path}/config/icons"
     empty_directory "#{plugin_path}/test"
     empty_directory "#{plugin_path}/test/fixtures"
     empty_directory "#{plugin_path}/test/unit"
@@ -53,5 +55,7 @@ class RedminePluginGenerator < Rails::Generators::NamedBase
     template 'routes.rb',    "#{plugin_path}/config/routes.rb"
     template 'en_rails_i18n.yml',    "#{plugin_path}/config/locales/en.yml"
     template 'test_helper.rb.erb',    "#{plugin_path}/test/test_helper.rb"
+    template 'svg-icon.yml.erb',    "#{plugin_path}/config/icons/common.yml"
+    template 'cube-outline.svg',    "#{plugin_path}/assets/icons/cube-outline.svg"
   end
 end

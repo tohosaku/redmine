@@ -98,60 +98,124 @@
 
 /* Buttons
 -------------------------------------------------------- */
-.jstb_strong {
+.jstb_strong:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_strong.png);
 }
-.jstb_em {
+
+.jstb_em:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_em.png);
 }
-.jstb_ins {
+
+.jstb_ins:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_ins.png);
 }
-.jstb_del {
+
+.jstb_del:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_del.png);
 }
-.jstb_code {
+
+.jstb_code:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_code.png);
 }
-.jstb_h1 {
+
+.jstb_h1:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_h1.png);
 }
-.jstb_h2 {
+
+.jstb_h2:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_h2.png);
 }
-.jstb_h3 {
+
+.jstb_h3:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_h3.png);
 }
-.jstb_ul {
+
+.jstb_ul:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_ul.png);
 }
-.jstb_ol {
+
+.jstb_ol:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_ol.png);
 }
-.jstb_tl {
+
+.jstb_tl:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_tl.png);
 }
-.jstb_bq {
+
+.jstb_bq:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_bq.png);
 }
-.jstb_unbq {
+
+.jstb_unbq:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_bq_remove.png);
 }
-.jstb_pre {
+
+.jstb_pre:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_pre.png);
 }
-.jstb_precode {
+
+.jstb_precode:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_precode.png);
 }
-.jstb_link {
+
+.jstb_link:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_link.png);
 }
-.jstb_img {
+
+.jstb_img:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_img.png);
 }
-.jstb_table {
+
+.jstb_table:not(.toolbar-svg) {
     background-image: url(../images/jstoolbar/bt_table.png);
 }
-.jstb_help {
+
+.jstb_help:not(.toolbar-svg) {
     background-image: url(../images/help.png);
 }
+
+.toolbar-svg svg {
+    fill: #666;
+    margin-right: 4px;
+}
+
+button.toolbar-svg {
+    color: #666;
+    margin-right: 4px;
+    padding-left: 1px;
+}
+
+.jstb_code.toolbar-svg::before {
+    content: "C";
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.jstb_h1.toolbar-svg::before {
+    content: "H1";
+    padding-left: 2px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.jstb_h2.toolbar-svg::before {
+    content: "H2";
+    padding-left: 2px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.jstb_h3.toolbar-svg::before {
+    content: "H3";
+    padding-left: 2px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.jstb_pre.toolbar-svg::before {
+    padding: 0px 0px 3px 0px;
+    content: "pre";
+    font-size: 12px;
+    font-weight: 700;
+}
+

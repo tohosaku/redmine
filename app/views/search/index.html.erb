@@ -24,7 +24,7 @@
 </fieldset>
 
 <fieldset class="collapsible collapsed">
-  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_options) %></legend>
+  <%= tag.legend l(:label_options), onclick: 'toggleFieldset(this);', class: 'icon icon-collapsed' %>
   <div id="options-content" style="display:none;">
     <p><label><%= check_box_tag 'open_issues', 1, @open_issues %> <%= l(:label_search_open_issues_only) %></label></p>
     <p>
@@ -48,10 +48,10 @@
     <h3><%= l(:label_result_plural) %> (<%= @result_count %>)</h3>
     <dl id="search-results">
       <% @results.each do |e| %>
-        <dt class="<%= e.event_type %> icon icon-<%= e.event_type %>">
+        <%= tag.dt class: "#{e.event_type} icon icon-#{e.event_type}" do %>
           <%= content_tag('span', e.project, :class => 'project') unless @project == e.project %>
           <%= link_to(highlight_tokens(e.event_title.truncate(255), @tokens), e.event_url) %>
-        </dt>
+        <% end %>
         <dd><span class="description"><%= highlight_tokens(e.event_description, @tokens) %></span>
         <span class="author"><%= format_time(e.event_datetime) %></span></dd>
       <% end %>

@@ -27,7 +27,7 @@ module Redmine
       def link_to(name, options={})
         url = {:format => name.to_s.downcase}.merge(options.delete(:url) || {}).except('page')
         caption = options.delete(:caption) || name
-        html_options = {:class => name.to_s.downcase, :rel => 'nofollow'}.merge(options)
+        html_options = {:class => icon(name), :rel => 'nofollow'}.merge(options)
         @view.content_tag('span', @view.link_to(caption, url, html_options))
       end
 
@@ -37,8 +37,14 @@ module Redmine
         url = {:params => params, :page => nil, :format => name.to_s.downcase}.merge(url)
 
         caption = options.delete(:caption) || name
-        html_options = {:class => name.to_s.downcase, :rel => 'nofollow'}.merge(options)
+        html_options = {:class => icon(name), :rel => 'nofollow'}.merge(options)
         @view.content_tag('span', @view.link_to(caption, url, html_options))
+      end
+
+      def icon(name)
+        icon_map = IconSet.fetch('common')
+        format_name = name.to_s.downcase
+        icon_map["icon-#{format_name}"] ? "icon icon-#{format_name}" : format_name
       end
     end
   end

@@ -60,9 +60,9 @@
   <% end %>
   <%= export_csv_encoding_select_tag %>
   <% if @issue_count > Setting.issues_export_limit.to_i %>
-  <p class="icon icon-warning">
+  <%= tag.p(class: 'icon icon-warning') do %>
     <%= l(:setting_issues_export_limit) %>: <%= Setting.issues_export_limit.to_i %>
-  </p>
+  <% end %>
   <% end %>
   <p class="buttons">
     <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);", :data => { :disable_with => false } %>
