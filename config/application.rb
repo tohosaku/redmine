@@ -23,12 +23,12 @@ module RedmineApp
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    # Custom directories with classes and modules you want to be autoloadable.
-    config.autoloader = :zeitwerk
-
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
+
+    config.active_record.legacy_connection_handling = false
+    config.active_support.remove_deprecated_time_with_zone_name = true
 
     config.active_record.store_full_sti_class = true
     config.active_record.default_timezone = :local
@@ -103,5 +103,9 @@ module RedmineApp
     if File.exist?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
       instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     end
+
+    config.assets.paths << Rails.root.join('public/javascripts')
+    config.assets.paths << Rails.root.join('public/stylesheets')
+    config.assets.paths << Rails.root.join('public/images')
   end
 end

@@ -41,6 +41,13 @@ module Redmine
       found
     end
 
+    def self.asset_paths
+      themes.each_with_object({}) do |theme, hash|
+        assets_dir = Pathname.new(theme.path)
+        hash[theme.id] = assets_dir.children.filter_map{|child| child if child.directory? }
+      end
+    end
+
     # Class used to represent a theme
     class Theme
       include Redmine::Icon::MapLoader
@@ -91,19 +98,19 @@ module Redmine
       end
 
       def stylesheet_path(source)
-        "/themes/#{dir}/stylesheets/#{source}"
+        "themes/#{dir}/#{source}"
       end
 
       def image_path(source)
-        "/themes/#{dir}/images/#{source}"
+        "themes/#{dir}/#{source}"
       end
 
       def javascript_path(source)
-        "/themes/#{dir}/javascripts/#{source}"
+        "themes/#{dir}/#{source}"
       end
 
       def favicon_path
-        "/themes/#{dir}/favicon/#{favicon}"
+        "themes/#{dir}/#{favicon}"
       end
 
       def icon_config_dir

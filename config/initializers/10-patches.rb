@@ -47,20 +47,6 @@ module ActionView
       end
     end
   end
-
-  class Resolver
-    def find_all(name, prefix=nil, partial=false, details={}, key=nil, locals=[])
-      locals = locals.map(&:to_s).sort!.freeze
-
-      cached(key, [name, prefix, partial], details, locals) do
-        if (details[:formats] & [:xml, :json]).any?
-          details = details.dup
-          details[:formats] = details[:formats].dup + [:api]
-        end
-        _find_all(name, prefix, partial, details, key, locals)
-      end
-    end
-  end
 end
 
 ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| html_tag || ''.html_safe }
@@ -144,54 +130,32 @@ module ActionController
   end
 end
 
-# Adds asset_id parameters to assets like Rails 3 to invalidate caches in browser
 module ActionView
-  module Helpers
-    module AssetUrlHelper
-      @@cache_asset_timestamps = Rails.env.production?
-      @@asset_timestamps_cache = {}
-      @@asset_timestamps_cache_guard = Mutex.new
-
-      def asset_path_with_asset_id(source, options = {})
-        asset_id = rails_asset_id(source, options)
-        unless asset_id.blank?
-          source += "?#{asset_id}"
-        end
-        asset_path(source, options.merge(skip_pipeline: true))
+  LookupContext.prepend(Module.new do
+    def formats=(values)
+      if (Array(values) & [:xml, :json]).any?
+        values << :api
       end
-      alias :path_to_asset :asset_path_with_asset_id
-
-      def rails_asset_id(source, options = {})
-        if asset_id = ENV["RAILS_ASSET_ID"]
-          asset_id
-        else
-          if @@cache_asset_timestamps && (asset_id = @@asset_timestamps_cache[source])
-            asset_id
-          else
-            extname = compute_asset_extname(source, options)
-            path = File.join(Rails.public_path, "#{source}#{extname}")
-            exist = false
-            if File.exist? path
-              exist = true
-            else
-              path = File.join(Rails.public_path, public_compute_asset_path("#{source}#{extname}", options))
-              if File.exist? path
-                exist = true
-              end
-            end
-            asset_id = exist ? File.mtime(path).to_i.to_s : ''
-
-            if @@cache_asset_timestamps
-              @@asset_timestamps_cache_guard.synchronize do
-                @@asset_timestamps_cache[source] = asset_id
-              end
-            end
-
-            asset_id
-          end
-        end
-      end
+      super values
     end
+  end)
+
+  Rendering.prepend(Module.new do
+    def rendered_format
+      if lookup_context.formats.first == :api
+        return request.format
+      end
+
+      super
+    end
+  end)
+
+  class Template
+    Types.singleton_class.prepend(Module.new do
+      def symbols
+        super + [:api]
+      end
+    end)
   end
 end
 

@@ -260,7 +260,7 @@ module ApplicationHelper
     when 'Array'
       formatted_objects = object.map {|o| format_object(o, html)}
       html ? safe_join(formatted_objects, ', ') : formatted_objects.join(', ')
-    when 'Time'
+    when 'Time', 'ActiveSupport::TimeWithZone'
       format_time(object)
     when 'Date'
       format_date(object)
@@ -635,7 +635,7 @@ module ApplicationHelper
                  'span', nil,
                  :class => "name icon icon-#{principal.class.name.downcase}"
                )
-            ) + principal
+            ) + principal.to_s
         )
     end
     s.html_safe
@@ -1667,7 +1667,7 @@ module ApplicationHelper
     plugin = options.delete(:plugin)
     sources = sources.map do |source|
       if plugin
-        "/plugin_assets/#{plugin}/stylesheets/#{source}"
+        "plugins/#{plugin}/#{source}"
       elsif current_theme && current_theme.stylesheets.include?(source)
         current_theme.stylesheet_path(source)
       else
@@ -1684,7 +1684,7 @@ module ApplicationHelper
   #
   def image_tag(source, options={})
     if plugin = options.delete(:plugin)
-      source = "/plugin_assets/#{plugin}/images/#{source}"
+      source = "plugins/#{plugin}/#{source}"
     elsif current_theme && current_theme.images.include?(source)
       source = current_theme.image_path(source)
     end
@@ -1701,7 +1701,7 @@ module ApplicationHelper
     if plugin = options.delete(:plugin)
       sources = sources.map do |source|
         if plugin
-          "/plugin_assets/#{plugin}/javascripts/#{source}"
+          "plugins/#{plugin}/#{source}"
         else
           source
         end

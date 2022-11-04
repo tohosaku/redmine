@@ -175,6 +175,16 @@ module Redmine
       registered_plugins[id.to_sym].present?
     end
 
+    def self.asset_paths
+      all.each_with_object({}) do |plugin, hash|
+        if plugin.path.has_assets_dir?
+          assets_dir = Pathname.new(plugin.assets_directory)
+          paths = assets_dir.children.filter_map{|child| child if child.directory? }
+          hash[plugin.id] = paths unless paths.empty?
+        end
+      end
+    end
+
     def initialize(id)
       @id = id.to_sym
     end
