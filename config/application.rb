@@ -83,7 +83,7 @@ module RedmineApp
     config.redmine_search_cache_store = :memory_store
 
     # Enable experimental svg icons
-    config.redmine_enable_svg_icon = false
+    config.redmine_enable_svg_icon = true
 
     config.redmine_svg_icon_source = File.join(__dir__, 'icon_source.yml')
 
