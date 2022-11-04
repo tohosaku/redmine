@@ -98,13 +98,17 @@ module Redmine
       # Set a default name if it was not provided during registration
       p.name(id.to_s.humanize) if p.name.nil?
       # Set a default directory if it was not provided during registration
-      p.directory(File.join(self.directory, id.to_s)) if p.directory.nil?
+      p.path = PluginLoader.directories.find {|d| d.gem_id == p.id.to_s }
+      if p.path.present?
+        p.directory(p.path.to_s)
+      else
+        p.directory(File.join(self.directory, id.to_s)) if p.directory.nil?
+        p.path = PluginLoader.directories.find {|d| d.to_s == p.directory}
+      end
 
       unless File.directory?(p.directory)
         raise PluginNotFound, "Plugin not found. The directory for plugin #{p.id} should be #{p.directory}."
       end
-
-      p.path = PluginLoader.directories.find {|d| d.to_s == p.directory}
 
       # Adds plugin locales if any
       # YAML translation files should be found under <plugin>/config/locales/

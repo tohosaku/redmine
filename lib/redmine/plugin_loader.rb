@@ -19,10 +19,11 @@
 
 module Redmine
   class PluginPath
-    attr_reader :assets_dir, :initializer
+    attr_reader :assets_dir, :initializer, :gem_id
 
-    def initialize(dir)
+    def initialize(dir, gem_id = nil)
       @dir = dir
+      @gem_id = gem_id
       @assets_dir = File.join dir, 'assets'
       @initializer = File.join dir, 'init.rb'
     end
@@ -114,11 +115,25 @@ module Redmine
     def self.setup
       @plugin_directories = []
 
-      Dir.glob(File.join(directory, '*')).sort.each do |directory|
-        next unless File.directory?(directory)
+      Dir.glob(File.join(directory, '*')).sort.each do |dir|
+        next unless File.directory?(dir)
 
-        @plugin_directories << PluginPath.new(directory)
+        @plugin_directories << PluginPath.new(dir)
       end
+
+      plugin_specs.each do |s|
+        dir = File.join(directory, s.name)
+        next if File.directory?(dir)
+
+        @plugin_directories << PluginPath.new(s.full_gem_path, s.name)
+      end
+    end
+
+    def self.plugin_specs
+      Bundler.definition
+             .specs_for([:extension])
+             .to_a
+             .select{|s| s.name != 'bundler' && s.metadata['redmine_plugin'] != nil}
     end
 
     def self.add_autoload_paths
