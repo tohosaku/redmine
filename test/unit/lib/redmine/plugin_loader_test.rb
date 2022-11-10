@@ -26,6 +26,11 @@ class Redmine::PluginLoaderTest < ActiveSupport::TestCase
     @klass = Redmine::PluginLoader
     @klass.directory = Rails.root.join('test/fixtures/plugins')
     @klass.load
+    @klass.directories.each(&:draw_importmap)
+  end
+
+  test 'config/importmap.rb loaded' do
+    assert_equal @klass.importmap.packages['foo_plugin/foo'].path, 'plugin_assets/foo_plugin/foo.js'
   end
 
   def teardown

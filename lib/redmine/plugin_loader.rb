@@ -42,16 +42,78 @@ module Redmine
     def has_initializer?
       File.file?(@initializer)
     end
+
+    def draw_importmap
+      return unless importmap_path
+
+      begin
+        instance_eval(importmap_path.read, importmap_path.to_s)
+      rescue => e
+        Logger.warn "Importmap Error Occured. #{e}"
+      end
+    end
+
+    def importmap_path
+      path = File.join(@dir, 'config/importmap.rb')
+      if File.exist? path
+        Pathname.new(path)
+      else
+        nil
+      end
+    end
+
+    private
+
+    # with foo plugin
+    #
+    # pin 'bar'
+    #   => import { exampleFunction } from 'foo/bar'
+    #
+    def pin(name, to: nil, preload: true)
+      plugin_id     = File.basename(@dir)
+      modified_name = File.join(plugin_id, name)
+      to ||= name + '.js'
+      asset_name    = File.join(PluginLoader.prefix, plugin_id, to)
+
+      if PluginLoader.importmap
+        PluginLoader.importmap.pin modified_name, to: asset_name, preload: preload
+      end
+    end
+
+    # with foo plugin
+    # pin_all_from 'app/javascript/src', under: 'src', to: 'src'
+    #   => import { exampleFunction } from 'foo/src/example_module'
+    #
+    # The path name of the stimulus controller is not changed.
+    def pin_all_from(dir, under: nil, to: nil, preload: true)
+      plugin_id   = File.basename(@dir)
+      plugin_dir  = File.join(@dir, dir)
+
+      if PluginLoader.importmap
+        if under == 'controllers'
+          PluginLoader.importmap.pin_all_from plugin_dir, under: under, to: to, preload: preload
+        else
+          modified_under = File.join(plugin_id, under)
+          modified_to    = File.join(PluginLoader.prefix, plugin_id, to)
+          PluginLoader.importmap.pin_all_from plugin_dir, under: modified_under,
+                                                        to: modified_to,
+                                                        preload: preload
+        end
+      end
+    end
   end
 
   class PluginLoader
     # Absolute path to the directory where plugins are located
-    cattr_accessor :directory
+    cattr_accessor :directory, :importmap
     self.directory = Rails.root.join Rails.application.config.redmine_plugins_directory
+
+    cattr_accessor :prefix
+    self.prefix = 'plugin_assets'
 
     # Absolute path to the public directory where plugins assets are copied
     cattr_accessor :public_directory
-    self.public_directory = Rails.public_path.join('plugin_assets')
+    self.public_directory = Rails.public_path.join(prefix)
 
     def self.load
       setup
