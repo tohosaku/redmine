@@ -41,4 +41,8 @@ Rails.application.config.to_prepare do
   end
 end
 
+Rails.application.config.after_initialize do
+  Redmine::PluginLoader.directories.each(&:draw_importmap)
+end
+
 Rails.application.deprecators[:redmine] = ActiveSupport::Deprecation.new('7.0', 'Redmine')

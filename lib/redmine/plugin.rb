@@ -194,6 +194,13 @@ module Redmine
 
       base_dir = Pathname.new(path.assets_dir)
       paths = base_dir.children.select(&:directory?)
+      if path.importmap_path
+        plugin_root = Pathname.new(path.to_s)
+        ['app/javascript', 'vendor/javascript'].each do |dir|
+          jsdir = plugin_root.join(dir)
+          paths << jsdir if jsdir.exist?
+        end
+      end
       Redmine::AssetPath.new(base_dir, paths, asset_prefix)
     end
 

@@ -59,7 +59,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_equal 'http://example.net/jsmith', plugin.author_url
     assert_equal 'This is a test plugin', plugin.description
     assert_equal '0.0.1', plugin.version
-    assert_equal File.join(@klass.directory, 'foo_plugin', 'assets'), plugin.assets_directory
+    assert_equal File.join(@klass.directory, 'foo_plugin', 'assets'), plugin.assets_directory.to_s
   end
 
   ::FooModel = Class.new(ApplicationRecord)
