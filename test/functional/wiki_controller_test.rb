@@ -284,9 +284,9 @@ class WikiControllerTest < Redmine::ControllerTest
   def test_post_new_xhr_with_valid_title_should_redirect_to_edit
     @request.session[:user_id] = 2
 
-    post :new, :params => {:project_id => 'ecookbook', :title => 'New Page'}, :xhr => true
+    post :new, :params => {:project_id => 'ecookbook', :title => 'New Page'}, :format => :turbo_stream
     assert_response :success
-    assert_equal 'window.location = "/projects/ecookbook/wiki/New_Page"', response.body
+    assert_select 'turbo-stream template[data-controller=redirect][data-redirect-url-value=?]', '/projects/ecookbook/wiki/New_Page'
   end
 
   def test_post_new_should_redirect_to_edit_with_parent
@@ -300,7 +300,7 @@ class WikiControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     post :new, :params => {:project_id => 'ecookbook', :title => 'Another page'}
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_select_error 'Title has already been taken'
   end
 
@@ -309,15 +309,15 @@ class WikiControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     post :new, :params => {:project_id => 'ecookbook', :title => 'Sidebar'}
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_select_error /Title/
   end
 
   def test_post_new_xhr_with_invalid_title_should_display_errors
     @request.session[:user_id] = 2
 
-    post :new, :params => {:project_id => 'ecookbook', :title => 'Another page'}, :xhr => true
-    assert_response :success
+    post :new, :params => {:project_id => 'ecookbook', :title => 'Another page'}, :format => :turbo_stream
+    assert_response :unprocessable_entity
     assert_include 'Title has already been taken', response.body
   end
 

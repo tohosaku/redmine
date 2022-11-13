@@ -74,9 +74,11 @@ class WikiController < ApplicationController
       if @page.errors[:title].blank?
         path = project_wiki_page_path(@project, @page.title, :parent => params[:parent])
         respond_to do |format|
-          format.html {redirect_to path}
-          format.js   {render :js => "window.location = #{path.to_json}"}
+          format.html{redirect_to path}
+          format.turbo_stream{ render :action => 'redirect', :locals => { :path => path} }
         end
+      else
+        render action: 'new', status: :unprocessable_entity
       end
     end
   end
