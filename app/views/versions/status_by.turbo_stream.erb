@@ -1,0 +1,3 @@
+<%= turbo_stream.update 'status_by' do %>
+  <%= render_issue_status_by(@version, params[:status_by]) %>
+<% end %>
