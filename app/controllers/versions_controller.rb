@@ -83,11 +83,6 @@ class VersionsController < ApplicationController
   def new
     @version = @project.versions.build
     @version.safe_attributes = params[:version]
-
-    respond_to do |format|
-      format.html
-      format.js
-    end
   end
 
   def create
@@ -105,16 +100,16 @@ class VersionsController < ApplicationController
             flash[:notice] = l(:notice_successful_create)
             redirect_back_or_default settings_project_path(@project, :tab => 'versions')
           end
-          format.js
+          format.turbo_stream
           format.api do
             render :action => 'show', :status => :created, :location => version_url(@version)
           end
         end
       else
         respond_to do |format|
-          format.html {render :action => 'new'}
-          format.js   {render :action => 'new'}
-          format.api  {render_validation_errors(@version)}
+          format.html           {render action: 'new', status: :unprocessable_entity }
+          format.turbo_stream   {render action: 'new', status: :unprocessable_entity }
+          format.api            {render_validation_errors(@version)}
         end
       end
     end
@@ -173,7 +168,7 @@ class VersionsController < ApplicationController
   def status_by
     respond_to do |format|
       format.html {render :action => 'show'}
-      format.js
+      format.turbo_stream
     end
   end
 
