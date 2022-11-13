@@ -1,0 +1,4 @@
+<%= turbo_stream.append 'content' do %>
+  <%= tag.template data: { controller: 'redirect', redirect_url_value: path } %>
+<% end %>
+
