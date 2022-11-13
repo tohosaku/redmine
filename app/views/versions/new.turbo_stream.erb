@@ -1,0 +1,11 @@
+<%= show_turbo_modal width: '600px', title: l(:label_version_new) do %>
+
+  <%= labelled_form_for @version, url: project_versions_path(@project), data: { turbo: true } do |f| %>
+    <%= render partial: 'versions/form', locals: { f: f } %>
+    <p class="buttons">
+      <%= submit_tag l(:button_create), name: nil %>
+      <%= link_to l(:button_cancel), '#', data: { action: 'modal#hide' } %>
+    </p>
+  <% end %>
+
+<% end %>

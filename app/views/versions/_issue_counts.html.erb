@@ -1,11 +1,11 @@
-<%= form_tag({}, :id => "status_by_form") do -%>
+<%= form_with url: status_by_version_path(version), id: "status_by_form", data: { turbo: true, controller: 'form' } do -%>
 <fieldset>
 <legend>
 <%= l(:label_issues_by,
        select_tag('status_by',
                    status_by_options_for_select(criteria),
-                   :id => 'status_by_select',
-                   :data => {:remote => true, :method => 'post', :url => status_by_version_path(version)})).html_safe %>
+                   id: 'status_by_select',
+                   data: { action: 'form#submit' })).html_safe %>
 </legend>
 <% if counts.empty? %>
     <p><em><%= l(:label_no_data) %></em></p>

@@ -259,9 +259,9 @@ class VersionsControllerTest < Redmine::ControllerTest
 
   def test_new_from_issue_form
     @request.session[:user_id] = 2
-    get :new, :params => {:project_id => '1'}, :xhr => true
+    get :new, :params => {:project_id => '1'}, :format => :turbo_stream
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
   end
 
   def test_create
@@ -278,24 +278,24 @@ class VersionsControllerTest < Redmine::ControllerTest
   def test_create_from_issue_form
     @request.session[:user_id] = 2
     assert_difference 'Version.count' do
-      post :create, :params => {:project_id => '1', :version => {:name => 'test_add_version_from_issue_form'}}, :xhr => true
+      post :create, :params => {:project_id => '1', :version => {:name => 'test_add_version_from_issue_form'}}, :format => :turbo_stream
     end
     version = Version.find_by_name('test_add_version_from_issue_form')
     assert_not_nil version
     assert_equal 1, version.project_id
 
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     assert_include 'test_add_version_from_issue_form', response.body
   end
 
   def test_create_from_issue_form_with_failure
     @request.session[:user_id] = 2
     assert_no_difference 'Version.count' do
-      post :create, :params => {:project_id => '1', :version => {:name => ''}}, :xhr => true
+      post :create, :params => {:project_id => '1', :version => {:name => ''}}, :format => :turbo_stream
     end
-    assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_response :unprocessable_entity
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
   end
 
   def test_get_edit

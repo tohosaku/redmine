@@ -50,11 +50,10 @@
                 :include_blank => true, :required => @issue.required_attribute?('fixed_version_id') %>
 <%= link_to(sprite_icon('add', l(:label_version_new)),
             new_project_version_path(@issue.project),
-            :remote => true,
-            :method => 'get',
-            :title => l(:label_version_new),
-            :tabindex => 200,
-            :class => 'icon-only icon-add'
+            title: l(:label_version_new),
+            tabindex: 200,
+            class: 'icon-only icon-add',
+            data: { turbo: true, turbo_stream: true }
            ) if User.current.allowed_to?(:manage_versions, @issue.project) %>
 </p>
 <% end %>
