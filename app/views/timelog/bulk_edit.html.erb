@@ -29,7 +29,7 @@
 <% end %>
 </ul>
 
-<%= form_tag(bulk_update_time_entries_path, :id => 'bulk_edit_form') do %>
+<%= form_tag(bulk_update_time_entries_path, id: 'bulk_edit_form', data: { controller: :form, form_value_url: url_for(action: 'bulk_edit')}) do %>
 <%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id, :id => nil)}.join.html_safe %>
 <div class="box tabular">
   <% data = @project || @target_project ? {
@@ -42,8 +42,7 @@
       <label><%= l(:field_project) %></label>
       <%= select_tag('time_entry[project_id]', project_tree_options_for_select(@target_projects,
         include_blank: l(:label_no_change_option), selected: @target_project),
-        onchange: "updateBulkEditFrom('#{escape_javascript url_for(action: 'bulk_edit', format: 'js')}')",
-        data: { 'timelog__bulk_edit_issue_target: 'projectId' }) %>
+        data: { action: 'clear#clear form#update', timelog__bulk_edit_issue_target: 'projectId', clear_target: 'clear' }) %>
     </p>
     <p>
       <label for="time_entry_issue_id"><%= l(:field_issue) %></label>
