@@ -653,6 +653,9 @@ function replaceIssueFormWith(html){
   $('#all_attributes').prepend(replacement);
 }
 
+/**
+ * @deprecated use stimulus form_controller
+ */
 function updateBulkEditFrom(url) {
   $.ajax({
     url: url,
