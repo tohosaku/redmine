@@ -36,8 +36,8 @@ class CustomFieldEnumerationsController < ApplicationController
     @value.attributes = enumeration_params
     @value.save
     respond_to do |format|
-      format.html {redirect_to custom_field_enumerations_path(@custom_field)}
-      format.js
+      format.html { redirect_to custom_field_enumerations_path(@custom_field) }
+      format.turbo_stream
     end
   end
 
@@ -57,7 +57,7 @@ class CustomFieldEnumerationsController < ApplicationController
       return
     end
     @value.destroy(reassign_to)
-    redirect_to custom_field_enumerations_path(@custom_field)
+    redirect_to custom_field_enumerations_path(@custom_field), :status => :see_other
   end
 
   private
