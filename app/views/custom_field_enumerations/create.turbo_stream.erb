@@ -1,0 +1,13 @@
+<%= turbo_stream.remove 'errorExplanation' %>
+
+<% if @value.valid? %>
+  <%= turbo_stream.update 'content' do  %>
+    <%= render(template: 'custom_field_enumerations/index') %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.prepend 'add-element', error_messages_for(@value) %>
+<% end %>
+
+<%= turbo_stream.append 'add-element' do %>
+  <%= tag.template data: {focus_target: 'dummy'} %>
+<% end %>

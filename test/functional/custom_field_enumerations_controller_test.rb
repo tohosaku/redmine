@@ -64,7 +64,7 @@ class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
     assert_equal 3, enum.position
   end
 
-  def test_create_xhr
+  def test_create_turbo_stream
     assert_difference 'CustomFieldEnumeration.count' do
       post(
         :create,
@@ -74,7 +74,7 @@ class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
             :name => 'Baz'
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :success
     end
@@ -162,7 +162,7 @@ class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
           :reassign_to_id => @bar.id
         }
       )
-      assert_response :found
+      assert_response :see_other
     end
 
     assert_equal @bar.id.to_s, group.reload.custom_field_value(@field)
