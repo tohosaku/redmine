@@ -303,14 +303,13 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
         :custom_field => {
           :field_format => 'list'
         },
-        :format => 'js'
+        :format => 'turbo_stream'
       },
-      :xhr => true
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
 
-    assert_include '<option selected=\"selected\" value=\"list\">List<\/option>', response.body
+    assert_include '<option selected="selected" value="list">List</option>', response.body
   end
 
   def test_new_with_invalid_custom_field_class_should_render_select_type
