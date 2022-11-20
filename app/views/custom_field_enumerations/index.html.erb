@@ -14,7 +14,7 @@
         <%= check_box_tag "custom_field_enumerations[#{value.id}][active]", 1, value.active? %>
         <%= l(:field_active) %>
       </label>
-      <%= delete_link custom_field_enumeration_path(@custom_field, value) %>
+      <%= turbo_delete_link custom_field_enumeration_path(@custom_field, value) %>
     </li>
   <% end %>
   </ul>
@@ -26,7 +26,7 @@
 <% end %>
 <% end %>
 
-<%= form_tag custom_field_enumerations_path(@custom_field), :method => 'post', :remote => true, id: 'add-element' do %>
+<%= form_tag custom_field_enumerations_path(@custom_field), id: 'add-element' ,data: { turbo: true } do %>
   <p><%= l(:label_enumeration_new) %></p>
 
   <p><%= text_field_tag 'custom_field_enumeration[name]', '', :size => 40 %>
