@@ -1,0 +1,11 @@
+<%= show_turbo_modal width: '600px', title: l(:label_issue_category_new) do %>
+
+  <%= labelled_form_for @category, as: 'issue_category', url: project_issue_categories_path(@project), html: { data: { turbo: true }} do |f| %>
+    <%= render partial: 'issue_categories/form', locals: { f: f } %>
+    <p class="buttons">
+      <%= submit_tag l(:button_create), name: nil %>
+      <%= link_to l(:button_cancel), '#', data: { action: 'modal#hide' } %>
+    </p>
+  <% end %>
+
+<% end %>
