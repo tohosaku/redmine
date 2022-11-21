@@ -1,0 +1,8 @@
+<%= turbo_stream.hide_modal %>
+
+<%= turbo_stream.replace 'issue_category_id' do %>
+  <%= tag.select id: 'issue_category_id', name: 'issue[category_id]' do %>
+    <%= tag.option %>
+    <%= options_from_collection_for_select(@project.issue_categories, 'id', 'name', @category.id) %>
+  <% end %>
+<% end %>

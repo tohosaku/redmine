@@ -20,7 +20,7 @@
 module TurboStreamActionsHelper
   def show_modal(target = nil, width: nil, title: nil, partial: nil, locals: {}, &)
     dialog = target || 'ajax-modal'
-    html = @view_context.remote_dialog(width: width, title: title, partial: partial, locals: locals, &)
+    html = @view_context.component('remote_dialog', width: width, title: title, partial: partial, locals: locals, &)
     update dialog, html
   end
 
