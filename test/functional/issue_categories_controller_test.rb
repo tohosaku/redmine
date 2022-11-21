@@ -42,10 +42,10 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
       :params => {
         :project_id => '1'
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
   end
 
   def test_create
@@ -78,7 +78,7 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_select_error /Name cannot be blank/i
   end
 
@@ -93,14 +93,14 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
             :name => 'New category'
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
     end
     category = IssueCategory.order('id DESC').first
     assert_equal 'New category', category.name
 
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
   end
 
   def test_create_from_issue_form_with_failure
@@ -114,12 +114,12 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
             :name => ''
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
     end
 
-    assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_response :unprocessable_entity
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     assert_include 'Name cannot be blank', response.body
   end
 
@@ -156,7 +156,7 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_select_error /Name cannot be blank/i
   end
 
