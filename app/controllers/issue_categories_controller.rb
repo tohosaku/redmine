@@ -46,7 +46,7 @@ class IssueCategoriesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js
+      format.turbo_stream
     end
   end
 
@@ -59,7 +59,7 @@ class IssueCategoriesController < ApplicationController
           flash[:notice] = l(:notice_successful_create)
           redirect_to_settings_in_projects
         end
-        format.js
+        format.turbo_stream
         format.api do
           render(:action => 'show', :status => :created,
                  :location => issue_category_path(@category))
@@ -67,9 +67,9 @@ class IssueCategoriesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html {render :action => 'new'}
-        format.js   {render :action => 'new'}
-        format.api  {render_validation_errors(@category)}
+        format.html {render action: 'new', status: :unprocessable_entity }
+        format.turbo_stream {render action: 'new', status: :unprocessable_entity }
+        format.api  {render_validation_errors(@category) }
       end
     end
   end
@@ -89,8 +89,8 @@ class IssueCategoriesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html {render :action => 'edit'}
-        format.api {render_validation_errors(@category)}
+        format.html {render action: 'edit', status: :unprocessable_entity }
+        format.api {render_validation_errors(@category) }
       end
     end
   end
