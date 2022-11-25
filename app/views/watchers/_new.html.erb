@@ -8,9 +8,8 @@
   data = {data: { controller: 'search-field', search_field_url_value: url, action: 'keyup->search-field#check click->search-field#check mousemove->search-field#check'}}
 %>
 <%= form_tag(watchables.present? ? watchers_path : watchers_append_path,
-             :remote => true,
-             :method => :post,
-             :id => 'new-watcher-form') do %>
+             id: 'new-watcher-form',
+             data: { turbo: true }) do %>
 
   <% if watchables.present? %>
     <%= hidden_field_tag 'object_type', watchables.first.class.name.underscore %>

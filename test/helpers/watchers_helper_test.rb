@@ -30,7 +30,7 @@ class WatchersHelperTest < Redmine::HelperTest
     expected = link_to(
       sprite_icon("fav", "Watch"),
       "/watchers/watch?object_id=1&object_type=issue",
-      :remote => true, :method => 'post', :class => "issue-1-watcher icon icon-fav-off"
+      data: { turbo: true, turbo_method: 'post' }, class: "issue-1-watcher icon icon-fav-off"
     )
     assert_equal expected, watcher_link(Issue.find(1), User.find(1))
   end
@@ -39,7 +39,7 @@ class WatchersHelperTest < Redmine::HelperTest
     expected = link_to(
       sprite_icon("fav", "Watch"),
       "/watchers/watch?object_id=1&object_type=issue",
-      :remote => true, :method => 'post', :class => "issue-1-watcher icon icon-fav-off"
+      data: { turbo: true, turbo_method: 'post' }, class: "issue-1-watcher icon icon-fav-off"
     )
     assert_equal expected, watcher_link([Issue.find(1)], User.find(1))
   end
@@ -48,7 +48,7 @@ class WatchersHelperTest < Redmine::HelperTest
     expected = link_to(
       sprite_icon("fav", "Watch"),
       "/watchers/watch?object_id%5B%5D=1&object_id%5B%5D=3&object_type=issue",
-      :remote => true, :method => 'post', :class => "issue-bulk-watcher icon icon-fav-off"
+      data: { turbo: true, turbo_method: 'post' }, class: "issue-bulk-watcher icon icon-fav-off"
     )
     assert_equal expected, watcher_link([Issue.find(1), Issue.find(3)], User.find(1))
   end
@@ -63,7 +63,7 @@ class WatchersHelperTest < Redmine::HelperTest
     expected = link_to(
       sprite_icon("fav", "Unwatch"),
       "/watchers/watch?object_id=1&object_type=issue",
-      :remote => true, :method => 'delete', :class => "issue-1-watcher icon icon-fav"
+      data: { turbo: true, turbo_method: 'delete' }, class: "issue-1-watcher icon icon-fav"
     )
     assert_equal expected, watcher_link(Issue.find(1), User.find(1))
   end
