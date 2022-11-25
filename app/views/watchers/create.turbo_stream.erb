@@ -1,0 +1,6 @@
+<%= turbo_stream.update 'ajax-modal', partial: 'watchers/new', locals: {watchables: @watchables, users: @users} %>
+
+<% if @watchables.size == 1 %>
+  <%= render(partial: 'watchers/set_watcher',
+             locals: {watched: @watchables, user: User.current}) %>
+<% end %>

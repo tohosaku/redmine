@@ -1,0 +1,8 @@
+<%= turbo_stream.replace_all ".#{watcher_css(watched)}", watcher_link(watched, user) %>
+
+<% if watched.first.is_a?(Issue) %>
+  <%= turbo_stream.update_all "#watchers[data-watchable-id=\"#{watched.first.id}\"]", partial: 'watchers/watchers', locals: {watched: watched.first} %>
+<% else %>
+  <%= turbo_stream.update 'watchers', partial: 'watchers/watchers', locals: {watched: watched.first} %>
+<% end %>
+

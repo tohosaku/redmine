@@ -8,15 +8,13 @@
   data = { controller: 'search-field', search_field_url_value: url, action: 'keyup->search-field#check click->search-field#check mousemove->search-field#check'}
 %>
 <%= form_tag(watchables.present? ? watchers_path : watchers_append_path,
-             remote: true,
-             method: :post,
              id: 'new-watcher-form'
              data: {
+               turbo: true,
                controller: :preserve_selection,
                action: 'change->preserve_selection#preserve redmine:before-fetch-request->preserve_selection#save redmine:before-fetch-request->preserve_selection#restore',
                preserve_selection_selector_value: 'input[name=\"watcher[user_ids][]\"]'
              }) do %>
-
   <% if watchables.present? %>
     <%= hidden_field_tag 'object_type', watchables.first.class.name.underscore %>
     <% watchables.each do |watchable| %>

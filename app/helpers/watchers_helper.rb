@@ -34,7 +34,7 @@ module WatchersHelper
     )
     method = watched ? 'delete' : 'post'
 
-    link_to sprite_icon(icon, text), url, :remote => true, :method => method, :class => css
+    link_to sprite_icon(icon, text), url, data: { turbo: true, turbo_method: method}, class: css
   end
 
   # Returns the css class used to identify watch links for a given +object+
@@ -64,10 +64,10 @@ module WatchersHelper
                :object_id => object.id,
                :user_id => user}
         s << ' '
-        s << link_to(sprite_icon('link-break', l(:button_remove)), url,
-                     :remote => true, :method => 'delete',
-                     :class => "delete icon-only icon-link-break",
-                     :title => l(:button_remove))
+        s << link_to(sprite_icon('del', l(:button_remove)), url,
+                     data: { turbo: true, turbo_method: :delete },
+                     class: "delete icon-only icon-link-break",
+                     title: l(:button_remove))
       end
       content << content_tag('li', s, :class => "user-#{user.id}")
     end
