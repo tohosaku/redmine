@@ -33,7 +33,7 @@
 <%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id, :id => nil)}.join.html_safe %>
 <div class="box tabular">
   <% data = @project || @target_project ? {
-       controller: "timelog--bulk-edit-issue",
+       controller: "timelog--bulk-edit-issue clear",
        timelog__bulk_edit_issue_url_value: auto_complete_issues_path,
        timelog__bulk_edit_issue_project_value: @project,
      } : nil %>
@@ -52,7 +52,7 @@
         <%= check_box_tag 'time_entry[issue_id]', 'none', (@time_entry_params[:issue_id] == 'none'), :id => nil,
                             :data => stimulus_actions(conditional_attribute) %><%= l(:button_clear) %>
       </label>
-      <%= tag.span id: 'time_entry_issue', data: { timelog__bulk_edit_issue_target: 'select' } %>
+      <%= tag.span id: 'time_entry_issue', data: { timelog__bulk_edit_issue_target: 'select', clear_target: 'child' } %>
     </p>
 
     <% datepicker do |dataset| %>
