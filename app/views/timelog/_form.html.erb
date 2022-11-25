@@ -7,11 +7,16 @@
   <% elsif @time_entry.new_record? && params[:issue_id] %>
     <%= hidden_field_tag 'issue_id', params[:issue_id] %>
   <% else %>
-    <p><%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).to_a, :selected => @time_entry.project, :include_blank => true), :required => true %></p>
+    <p>
+      <%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).to_a, selected: @time_entry.project, include_blank: true),
+                                { required: true },
+                                data: { action: 'clear#clear form#update' } %>
+    </p>
   <% end %>
 
   <p>
-    <%= f.text_field :issue_id, :size => 6, :required => Setting.timelog_required_fields.include?('issue_id') %>
+    <%= f.text_field :issue_id, size: 6, required: Setting.timelog_required_fields.include?('issue_id'),
+                                            data: { action: 'change->form#update', clear_target: :clear } %>
     <span id="time_entry_issue">
       <%=  link_to_issue(@time_entry.issue) if @time_entry.issue.try(:visible?) %>
     </span>
@@ -38,19 +43,6 @@
 </div>
 
 <%= javascript_tag do %>
-  $(document).ready(function(){
-    $('#time_entry_project_id').change(function(){
-      $('#time_entry_issue_id').val('');
-    });
-    $('#time_entry_project_id, #time_entry_issue_id').change(function(){
-      $.ajax({
-        url: '<%= escape_javascript(@time_entry.new_record? ? new_time_entry_path(:format => 'js') : edit_time_entry_path(:format => 'js')) %>',
-        type: 'post',
-        data: $(this).closest('form').serialize()
-      });
-    });
-  });
-
   observeAutocompleteField('time_entry_issue_id',
     function(request, callback) {
       var url = '<%= j auto_complete_issues_path %>';

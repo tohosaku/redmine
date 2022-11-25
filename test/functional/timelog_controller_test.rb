@@ -152,11 +152,11 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_select 'select[name=?]', 'time_entry[user_id]', 0
   end
 
-  def test_post_new_as_js_should_update_activity_options
+  def test_post_new_as_turbo_stream_should_update_activity_options
     @request.session[:user_id] = 3
-    post :new, :params => {:time_entry => {:project_id => 1}, :format => 'js'}
+    post :new, :params => {:time_entry => {:project_id => 1}, :format => 'turbo_stream'}
     assert_response :success
-    assert_include '#time_entry_activity_id', response.body
+    assert_select 'turbo-stream[target=?]', 'time_entry_activity_id', 1
   end
 
   def test_get_edit_existing_time
