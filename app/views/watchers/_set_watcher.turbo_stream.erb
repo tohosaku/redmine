@@ -1,0 +1,3 @@
+<%= turbo_stream.replace_all ".#{watcher_css(watched)}", watcher_link(watched, user) %>
+
+<%= turbo_stream.update 'watchers', partial: 'watchers/watchers', locals: {watched: watched.first} %>

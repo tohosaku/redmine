@@ -34,7 +34,7 @@ class WatchersController < ApplicationController
   def new
     respond_to do |format|
       format.html { render_404 }
-      format.js do
+      format.turbo_stream do
         @users = users_for_new_watcher
       end
     end
@@ -64,7 +64,7 @@ class WatchersController < ApplicationController
           render(:html => 'Watcher added.', :status => :ok, :layout => true)
         end
       end
-      format.js  {@users = users_for_new_watcher}
+      format.turbo_stream  {@users = users_for_new_watcher}
       format.api {render_api_ok}
     end
   end
@@ -92,7 +92,7 @@ class WatchersController < ApplicationController
           render(:html => 'Watcher removed.', :status => :ok, :layout => true)
         end
       end
-      format.js
+      format.turbo_stream
       format.api {render_api_ok}
     end
   rescue ActiveRecord::RecordNotFound
@@ -140,7 +140,7 @@ class WatchersController < ApplicationController
           render(:html => text, :status => :ok, :layout => true)
         end
       end
-      format.js do
+      format.turbo_stream do
         render(:partial => 'set_watcher',
                :locals => {:user => user, :watched => watchables})
       end

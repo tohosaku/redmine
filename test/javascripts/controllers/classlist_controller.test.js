@@ -29,4 +29,3 @@ suite('classlist controller', () => {
     assert.isTrue(element.classList.contains("foo"));
   });
 });
-

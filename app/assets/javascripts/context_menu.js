@@ -24,7 +24,7 @@ function contextMenuClick(event) {
   var target = $(event.target);
   var lastSelected;
 
-  if (target.is('a') && target.hasClass('submenu')) {
+  if ((target.is('a') && target.hasClass('submenu')) || (target.is('a') && typeof target.data('turbo-method') !== 'undefined')) {
     event.preventDefault();
     return;
   }
@@ -259,3 +259,4 @@ $(document).ready(function(){
   contextMenuInit();
   $('input[type=checkbox].toggle-selection').on('change', toggleIssuesSelection);
 });
+

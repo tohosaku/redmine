@@ -41,9 +41,9 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_watch_a_single_object
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
-      post :watch, :params => {:object_type => 'issue', :object_id => '1'}, :xhr => true
+      post :watch, :params => {:object_type => 'issue', :object_id => '1'}, :format => :turbo_stream
       assert_response :success
-      assert_include '$(".issue-1-watcher")', response.body
+      assert_select 'a.issue-1-watcher', 1
     end
     assert Issue.find(1).watched_by?(User.find(3))
   end
@@ -51,9 +51,9 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_watch_a_collection_with_a_single_object
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
-      post :watch, :params => {:object_type => 'issue', :object_id => ['1']}, :xhr => true
+      post :watch, :params => {:object_type => 'issue', :object_id => ['1']}, :format => :turbo_stream
       assert_response :success
-      assert_include '$(".issue-1-watcher")', response.body
+      assert_select 'a.issue-1-watcher', 1
     end
     assert Issue.find(1).watched_by?(User.find(3))
   end
@@ -61,9 +61,9 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_watch_a_collection_with_multiple_objects
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', 2) do
-      post :watch, :params => {:object_type => 'issue', :object_id => ['1', '3']}, :xhr => true
+      post :watch, :params => {:object_type => 'issue', :object_id => ['1', '3']}, :format => :turbo_stream
       assert_response :success
-      assert_include '$(".issue-bulk-watcher")', response.body
+      assert_select 'turbo-stream[targets=?]', '.issue-bulk-watcher', 1
     end
     assert Issue.find(1).watched_by?(User.find(3))
     assert Issue.find(3).watched_by?(User.find(3))
@@ -74,7 +74,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_not_nil m = Project.find(1).enabled_module('news')
 
     assert_difference 'Watcher.count' do
-      post :watch, :params => {:object_type => 'enabled_module', :object_id => m.id.to_s}, :xhr => true
+      post :watch, :params => {:object_type => 'enabled_module', :object_id => m.id.to_s}, :format => :turbo_stream
       assert_response :success
     end
     assert m.reload.watched_by?(User.find(7))
@@ -85,8 +85,8 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_not_nil m = Project.find(2).enabled_module('news')
 
     assert_no_difference 'Watcher.count' do
-      post :watch, :params => {:object_type => 'enabled_module', :object_id => m.id.to_s}, :xhr => true
-      assert_response :forbidden
+      post :watch, :params => {:object_type => 'enabled_module', :object_id => m.id.to_s}, :format => :turbo_stream
+      assert_response  :forbidden
     end
   end
 
@@ -94,7 +94,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     Role.find(2).remove_permission! :view_issues
     @request.session[:user_id] = 3
     assert_no_difference('Watcher.count') do
-      post :watch, :params => {:object_type => 'issue', :object_id => '1'}, :xhr => true
+      post :watch, :params => {:object_type => 'issue', :object_id => '1'}, :format => :turbo_stream
       assert_response :forbidden
     end
   end
@@ -102,7 +102,7 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_watch_invalid_class_should_respond_with_404
     @request.session[:user_id] = 3
     assert_no_difference('Watcher.count') do
-      post :watch, :params => {:object_type => 'foo', :object_id => '1'}, :xhr => true
+      post :watch, :params => {:object_type => 'foo', :object_id => '1'}, :format => :turbo_stream
       assert_response :not_found
     end
   end
@@ -110,7 +110,7 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_watch_invalid_object_should_respond_with_404
     @request.session[:user_id] = 3
     assert_no_difference('Watcher.count') do
-      post :watch, :params => {:object_type => 'issue', :object_id => '999'}, :xhr => true
+      post :watch, :params => {:object_type => 'issue', :object_id => '999'}, :format => :turbo_stream
       assert_response :not_found
     end
   end
@@ -128,9 +128,9 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_unwatch
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
-      delete :unwatch, :params => {:object_type => 'issue', :object_id => '2'}, :xhr => true
+      delete :unwatch, :params => {:object_type => 'issue', :object_id => '2'}, :format => :turbo_stream
       assert_response :success
-      assert_include '$(".issue-2-watcher")', response.body
+      assert_select 'a.issue-2-watcher', 1
     end
     assert !Issue.find(1).watched_by?(User.find(3))
   end
@@ -141,9 +141,9 @@ class WatchersControllerTest < Redmine::ControllerTest
     Watcher.create!(:user_id => 3, :watchable => Issue.find(3))
 
     assert_difference('Watcher.count', -2) do
-      delete :unwatch, :params => {:object_type => 'issue', :object_id => ['1', '3']}, :xhr => true
+      delete :unwatch, :params => {:object_type => 'issue', :object_id => ['1', '3']}, :format => :turbo_stream
       assert_response :success
-      assert_include '$(".issue-bulk-watcher")', response.body
+      assert_select 'turbo-stream[targets=?]', '.issue-bulk-watcher', 1
     end
     assert !Issue.find(1).watched_by?(User.find(3))
     assert !Issue.find(3).watched_by?(User.find(3))
@@ -151,7 +151,7 @@ class WatchersControllerTest < Redmine::ControllerTest
 
   def test_new
     @request.session[:user_id] = 2
-    get :new, :params => {:object_type => 'issue', :object_id => '2'}, :xhr => true
+    get :new, :params => {:object_type => 'issue', :object_id => '2'}, :format => :turbo_stream
     assert_response :success
     assert_match /ajax-modal/, response.body
   end
@@ -164,35 +164,35 @@ class WatchersControllerTest < Redmine::ControllerTest
 
   def test_new_for_message
     @request.session[:user_id] = 2
-    get :new, :params => {:object_type => 'message', :object_id => '1'}, :xhr => true
+    get :new, :params => {:object_type => 'message', :object_id => '1'}, :format => :turbo_stream
     assert_response :success
     assert_match /ajax-modal/, response.body
   end
 
   def test_new_for_wiki_page
     @request.session[:user_id] = 2
-    get :new, :params => {:object_type => 'wiki_page', :object_id => '1'}, :xhr => true
+    get :new, :params => {:object_type => 'wiki_page', :object_id => '1'}, :format => :turbo_stream
     assert_response :success
     assert_match /ajax-modal/, response.body
   end
 
   def test_new_with_multiple_objects
     @request.session[:user_id] = 2
-    get :new, :params => {:object_type => 'issue', :object_id => ['1', '2']}, :xhr => true
+    get :new, :params => {:object_type => 'issue', :object_id => ['1', '2']}, :format => :turbo_stream
     assert_response :success
     assert_match /ajax-modal/, response.body
   end
 
   def test_new_for_new_record_with_project_id
     @request.session[:user_id] = 2
-    get :new, :params => {:project_id => 1}, :xhr => true
+    get :new, :params => {:project_id => 1}, :format => :turbo_stream
     assert_response :success
     assert_match /ajax-modal/, response.body
   end
 
   def test_new_for_new_record_with_project_identifier
     @request.session[:user_id] = 2
-    get :new, :params => {:project_id => 'ecookbook'}, :xhr => true
+    get :new, :params => {:project_id => 'ecookbook'}, :format => :turbo_stream
     assert_response :success
     assert_match /ajax-modal/, response.body
   end
@@ -202,7 +202,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     get :new, :params => {
       :object_id => [7, 9],
       :object_type => 'issue'
-    }, :xhr => true
+    }, :format => :turbo_stream
     assert_response :success
 
     assert_match(
@@ -262,7 +262,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       post :create, :params => {
         :object_type => 'issue', :object_id => '2',
         :watcher => {:user_id => '4'}
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -276,7 +276,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       post :create, :params => {
         :object_type => 'message', :object_id => '1',
         :watcher => {:user_id => '4'}
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -290,7 +290,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       post :create, :params => {
         :object_type => 'wiki_page', :object_id => '1',
         :watcher => {:user_id => '4'}
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -304,7 +304,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       post :create, :params => {
         :object_type => 'issue', :object_id => '2',
         :watcher => {:user_ids => ['4', '7', '10']}
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -321,7 +321,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       post :create, :params => {
         :object_type => 'message', :object_id => '1',
         :watcher => {:user_ids => ['4', '7', '10']}
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -338,7 +338,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       post :create, :params => {
         :object_type => 'wiki_page', :object_id => '1',
         :watcher => {:user_ids => ['4', '7', '10']}
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -355,7 +355,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       post :create, :params => {
         :object_type => 'issue', :object_id => ['1', '2'],
         :watcher => {:user_ids => ['4', '7', '10']}
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -444,7 +444,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     User.add_to_project(visible, Project.find(1))
 
     @request.session[:user_id] = 2
-    get :autocomplete_for_user, :params => {:q => 'autocomp', :project_id => 'ecookbook'}, :xhr => true
+    get :autocomplete_for_user, :params => {:q => 'autocomp', :project_id => 'ecookbook'}, :format => :turbo_stream
     assert_response :success
 
     assert_include visible.name, response.body
@@ -491,7 +491,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_no_difference 'Watcher.count' do
       post :append, :params => {
         :watcher => {:user_ids => ['4', '7']}, :project_id => 'ecookbook'
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_include 'watchers_inputs', response.body
       assert_include 'issue[watcher_user_ids][]', response.body
@@ -500,7 +500,7 @@ class WatchersControllerTest < Redmine::ControllerTest
 
   def test_append_without_user_should_render_nothing
     @request.session[:user_id] = 2
-    post :append, :params => {:project_id => 'ecookbook'}, :xhr => true
+    post :append, :params => {:project_id => 'ecookbook'}, :format => :turbo_stream
     assert_response :success
     assert response.body.blank?
   end
@@ -539,7 +539,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_difference('Watcher.count', -1) do
       delete :destroy, :params => {
         :object_type => 'issue', :object_id => '2', :user_id => '3'
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
     end
@@ -554,7 +554,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_difference('Watcher.count', -1) do
       delete :destroy, :params => {
         :object_type => 'message', :object_id => '1', :user_id => '1'
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
     end
@@ -570,7 +570,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_difference('Watcher.count', -1) do
       delete :destroy, :params => {
         :object_type => 'wiki_page', :object_id => '1', :user_id => '1'
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
     end
@@ -622,7 +622,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_difference('Watcher.count', -1) do
       delete :destroy, :params => {
         :object_type => 'issue', :object_id => '2', :user_id => '3'
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
     end

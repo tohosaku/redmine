@@ -1,0 +1,4 @@
+<%= show_turbo_modal width: '400px' do %>
+  <%= render(partial: 'watchers/new', locals: {watchables: @watchables, users: @users}) %>
+  <%= tag.template data: { classlist_target: 'add', css: 'watchers--new' } %>
+<% end %>

@@ -308,8 +308,10 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert page.first('#sidebar').has_content?('Watchers (0)')
 
     page.first('a.issue-1-watcher').click
-    assert page.first('#sidebar').has_content?('Watchers (1)')
-    assert page.first('#sidebar').has_content?(user.name)
+    within('#sidebar') do
+      assert page.has_content?('Watchers (1)')
+      assert page.has_content?(user.name)
+    end
   end
 
   def test_watch_issue_via_context_menu
