@@ -139,10 +139,10 @@
     <a href="#" class="submenu"><%= l(:label_issue_watchers) %></a>
     <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
-      <li><%= context_menu_link sprite_icon('add', l(:button_add)),
-                                new_watchers_path(:object_type => 'issue', :object_id => @issue_ids),
-                                :remote => true,
-                                :class => 'icon icon-add' %></li>
+      <li><%= context_menu_link  sprite_icon('add', l(:button_add)),
+                new_watchers_path(object_type: 'issue', object_id: @issue_ids),
+                data: { turbo: true, turbo_stream: true },
+                class: 'icon icon-add' %></li>
     </ul>
   </li>
 <% end %>

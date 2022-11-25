@@ -1,0 +1,4 @@
+<% @users.each do |user| %>
+  <%= turbo_stream.remove "issue_watcher_user_ids_#{user.id}" %>
+<% end %>
+<%= turbo_stream.append 'watchers_inputs', watchers_checkboxes(nil, @users, true) %>
