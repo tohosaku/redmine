@@ -12,12 +12,12 @@
     <p>
       <%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).to_a, selected: @time_entry.project, include_blank: true),
                                 { required: true },
-                                data: { timelog__form_issue_target: 'projectId' } %>
+                                data: { action: 'clear#clear form#update', timelog__form_issue_target: 'projectId' } %>
     </p>
   <% end %>
   <p>
     <%= f.text_field :issue_id, size: 6, required: Setting.timelog_required_fields.include?('issue_id'),
-                                            data: { action: 'tribute-replaced->timelog--form-issue#replace', timelog__form_issue_target: 'field' } %>
+                                            data: { action: 'change->form#update tribute-replaced->timelog--form-issue#replace', timelog__form_issue_target: 'field', clear_target: :clear } %>
     <span id="time_entry_issue" data-timelog--form-issue-target='select'>
       <%=  link_to_issue(@time_entry.issue) if @time_entry.issue.try(:visible?) %>
     </span>
