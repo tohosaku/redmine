@@ -1,0 +1,8 @@
+<%= turbo_stream.update 'time_entry_activity_id' do %>
+  <%= options_for_select(activity_collection_for_select_options(@time_entry), default_activity(@time_entry)) %>
+<% end %>
+
+<%= turbo_stream.update 'time_entry_issue' do %>
+  <%= link_to_issue(@time_entry.issue) if @time_entry.issue.try(:visible?) %>
+<% end %>
+
