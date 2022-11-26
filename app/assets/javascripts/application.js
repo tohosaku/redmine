@@ -775,7 +775,7 @@ $(document).ready(function(){
     }
   });
 
-  observeSearchfield('projects-quick-search', null, $('#projects-quick-search').data('automcomplete-url'));
+  // observeSearchfield('projects-quick-search', null, $('#projects-quick-search').data('automcomplete-url'));
 
   $(".drdn-content").keydown(function(event){
     var items = $(this).find(".drdn-items");
