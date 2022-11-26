@@ -206,7 +206,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_match(
-      %r{/watchers/autocomplete_for_user\?object_id%5B%5D=7&object_id%5B%5D=9&object_type=issue},
+      %r{/watchers/autocomplete_for_user\?object_id%5B%5D=7&amp;object_id%5B%5D=9&amp;object_type=issue},
       response.body
     )
   end
@@ -376,7 +376,7 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_autocomplete_on_watchable_creation
     @request.session[:user_id] = 2
     group = Group.generate!(:name => 'Group Minimum')
-    get :autocomplete_for_user, :params => {:q => 'mi', :project_id => 'ecookbook'}, :xhr => true
+    get :autocomplete_for_user, :params => {:q => 'mi', :project_id => 'ecookbook'}, :format => :turbo_stream
     assert_response :success
     assert_select 'input', :count => 5
     assert_select 'input[name=?][value="1"]', 'watcher[user_ids][]'
@@ -392,7 +392,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     user = User.generate!(:firstname => 'issue15622')
     membership = user.membership(project)
     assert_nil membership
-    get :autocomplete_for_user, :params => {:q => 'issue15622', :project_id => 'ecookbook'}, :xhr => true
+    get :autocomplete_for_user, :params => {:q => 'issue15622', :project_id => 'ecookbook'}, :format => :turbo_stream
     assert_response :success
     assert_select 'input', :count => 1
   end
@@ -402,7 +402,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     get :autocomplete_for_user, :params => {
       :object_type => 'issue', :object_id => '2',
       :project_id => 'ecookbook', :q => 'mi'
-    }, :xhr => true
+    }, :format => :turbo_stream
     assert_response :success
     assert_select 'input', :count => 3
     assert_select 'input[name=?][value="2"]', 'watcher[user_ids][]'
@@ -420,7 +420,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     get :autocomplete_for_user, :params => {
       :object_type => 'issue', :object_id => '2',
       :project_id => 'ecookbook', :q => 'issue15622'
-    }, :xhr => true
+    }, :format => :turbo_stream
     assert_response :success
     assert_select 'input', :count => 1
 
@@ -428,7 +428,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       post :create, :params => {
         :object_type => 'issue', :object_id => '2',
         :watcher => {:user_ids => ["#{user.id}"]}
-      }, :xhr => true
+      }, :format => :turbo_stream
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
@@ -458,7 +458,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       project_id: 'onlinestore',
       object_id: '4',
       object_type: 'issue'
-    }, :xhr => true
+    }, :format => :turbo_stream
 
     assert_response :success
 
@@ -473,7 +473,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     get :autocomplete_for_user, :params => {
       :object_id => [7, 9],
       :object_type => 'issue'
-    }, :xhr => true
+    }, :format => :turbo_stream
 
     assert_response :success
 

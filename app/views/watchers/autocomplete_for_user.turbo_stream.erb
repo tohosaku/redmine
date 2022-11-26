@@ -1,0 +1,3 @@
+<%= turbo_stream.update 'users_for_watcher' do %>
+  <%= principals_check_box_tags 'watcher[user_ids][]', @users %>
+<% end %>
