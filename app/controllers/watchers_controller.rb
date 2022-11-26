@@ -101,7 +101,6 @@ class WatchersController < ApplicationController
 
   def autocomplete_for_user
     @users = users_for_new_watcher
-    render :layout => false
   end
 
   def autocomplete_for_mention

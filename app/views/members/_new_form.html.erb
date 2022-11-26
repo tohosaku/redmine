@@ -1,7 +1,10 @@
+<%
+  url = autocomplete_project_memberships_path(@project)
+  data = {:data => { :controller => 'search-field', :search_field_url_value => url, :action => 'keyup->search-field#check click->search-field#check mousemove->search-field#check'}}
+%>
 <fieldset class="box">
   <legend><%= label_tag("principal_search", l(:label_principal_search)) %></legend>
-  <p><%= text_field_tag('principal_search', nil) %></p>
-  <%= javascript_tag "observeSearchfield('principal_search', null, '#{ escape_javascript autocomplete_project_memberships_path(@project, :format => 'js') }')" %>
+  <p><%= text_field_tag 'principal_search', nil, data %></p>
   <div id="principals_for_new_member">
     <%= render_principals_for_new_members(@project) %>
   </div>
