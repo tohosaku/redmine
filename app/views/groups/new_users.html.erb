@@ -1,6 +1,14 @@
 <h2><%= l(:label_user_new) %></h2>
 
-<%= form_for(@group, :url => group_users_path(@group), :method => :post) do |f| %>
+<%= form_for(@group, url: group_users_path(@group),
+                     method: :post,
+                     html: {
+                       data: {
+                         controller: :preserve_selection,
+                         action: 'change->preserve_selection#preserve redmine:before-fetch-request->preserve_selection#save redmine:before-fetch-request->preserve_selection#restore',
+                         preserve_selection_selector_value: 'input[name=\"user_ids[]\"]'
+                       }
+                     }) do |f| %>
   <%= render :partial => 'new_users_form' %>
   <p><%= submit_tag l(:button_add) %></p>
 <% end %>

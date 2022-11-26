@@ -130,9 +130,6 @@ class MembersController < ApplicationController
   end
 
   def autocomplete
-    respond_to do |format|
-      format.js
-    end
   end
 
   private

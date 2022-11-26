@@ -158,9 +158,6 @@ class GroupsController < ApplicationController
   end
 
   def autocomplete_for_user
-    respond_to do |format|
-      format.js
-    end
   end
 
   private

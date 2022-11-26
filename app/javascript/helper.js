@@ -104,11 +104,16 @@ export function toBoolean(str) {
 }
 
 export function withProgress(request, element) {
+  const event = new CustomEvent('redmine:before-fetch-request')
+  element.dispatchEvent(event);
+
   const loading = 'ajax-loading';
   element.classList.add(loading)
 
   return request.finally(() => {
     element.classList.remove(loading)
+    const event = new CustomEvent('redmine:complete-fetch-request')
+    element.dispatchEvent(event);
   });
 }
 
