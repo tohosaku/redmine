@@ -1,0 +1,8 @@
+<%= turbo_stream.update_all '#project-jump .drdn-items.projects' do %>
+  <% if @projects.any? %>
+    <%= render_projects_for_jump_box(@projects, query: params[:q]) %>
+  <% elsif params[:q].present? %>
+    <%= content_tag('span', l(:label_no_data)) %>
+  <% end %>
+<% end %>
+
