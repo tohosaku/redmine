@@ -84,7 +84,7 @@ class ProjectsController < ApplicationController
 
   def autocomplete
     respond_to do |format|
-      format.js do
+      format.turbo_stream do
         if params[:q].present?
           @projects = Project.visible.like(params[:q]).to_a
         else
