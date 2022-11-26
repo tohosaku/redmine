@@ -334,27 +334,25 @@ class ProjectsControllerTest < Redmine::ControllerTest
   def test_autocomplete_js
     get(
       :autocomplete,
-      :params => {
-        :format => 'js',
-        :q => 'coo'
+      params: {
+        q: 'coo'
       },
-      :xhr => true
+      format: :turbo_stream
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
   end
 
   def test_autocomplete_js_with_blank_search_term
     get(
       :autocomplete,
-      :params => {
-        :format => 'js',
-        :q => ''
+      params: {
+        q: ''
       },
-      :xhr => true
+      format: :turbo_stream
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
   end
 
   test "#index by non-admin user with view_time_entries permission should show overall spent time link" do
