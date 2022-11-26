@@ -269,7 +269,7 @@ class ProjectsController < ApplicationController
       jump_box.bookmark_project @project
     end
     respond_to do |format|
-      format.js
+      format.turbo_stream
       format.html {redirect_to project_path(@project)}
     end
   end

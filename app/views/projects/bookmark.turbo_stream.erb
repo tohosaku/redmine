@@ -1,0 +1,7 @@
+<%= turbo_stream.update_all '#project-jump div.drdn-items.projects' do %>
+  <%= render_projects_for_jump_box(projects_for_jump_box(User.current), selected: @project) %>
+<% end %>
+
+<%= turbo_stream.replace_all '.contextual a.icon.bookmark' do %>
+  <%= bookmark_link @project %>
+<% end %>
