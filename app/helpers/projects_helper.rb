@@ -181,22 +181,20 @@ module ProjectsHelper
 
     @jump_box ||= Redmine::ProjectJumpBox.new user
     bookmarked = @jump_box.bookmark?(project)
-    css = +"icon bookmark "
+    css = +'icon bookmark '
 
     if bookmarked
-      css << "icon-bookmark"
-      icon = "bookmark"
-      method = "delete"
-      text = icon_with_label(icon, l(:button_project_bookmark_delete))
+      css << 'icon-bookmark'
+      data = { turbo: true, turbo_method: :delete }
+      text = icon_with_label('bookmark', l(:button_project_bookmark_delete))
     else
-      css << "icon-bookmark-off"
-      icon = "bookmark-off"
-      method = "post"
-      text = icon_with_label(icon, l(:button_project_bookmark))
+      css << 'icon-bookmark-off'
+      data = { turbo: true, turbo_method: :post }
+      text = icon_with_label('bookmark-off', l(:button_project_bookmark))
     end
 
     url = bookmark_project_path(project)
-    link_to text, url, remote: true, method: method, class: css
+    link_to text, url, class: css, data: data
   end
 
   def grouped_project_list(projects, query, &)
