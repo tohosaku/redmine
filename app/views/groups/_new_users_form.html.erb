@@ -1,7 +1,10 @@
+<%
+  url = autocomplete_for_user_group_path(@group)
+  data = {data: { controller: 'search-field', search_field_url_value: url, action: 'keyup->search-field#check click->search-field#check mousemove->search-field#check'}}
+%>
 <fieldset class="box">
   <legend><%= label_tag "user_search", l(:label_user_search) %></legend>
-  <p><%= text_field_tag 'user_search', nil %></p>
-  <%= javascript_tag "observeSearchfield('user_search', null, '#{ escape_javascript autocomplete_for_user_group_path(@group) }')" %>
+  <p><%= text_field_tag 'user_search', nil, data %></p>
 
   <div id="users">
     <%= render_principals_for_new_group_users(@group) %>
