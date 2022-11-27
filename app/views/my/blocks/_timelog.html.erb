@@ -11,7 +11,7 @@
 
 
 <div id="timelog-settings" style="display:none;">
-  <%= form_tag(my_page_path, :remote => true) do %>
+  <%= form_tag(my_page_path, data: { turbo: true }) do %>
     <div class="box">
       <p>
       <label>
