@@ -168,7 +168,7 @@ class MyController < ApplicationController
       @user.pref.save
       respond_to do |format|
         format.html {redirect_to my_page_path}
-        format.js
+        format.turbo_stream
       end
     else
       render_error :status => 422
@@ -184,7 +184,7 @@ class MyController < ApplicationController
     @user.pref.save
     respond_to do |format|
       format.html {redirect_to my_page_path}
-      format.js
+      format.turbo_stream
     end
   end
 

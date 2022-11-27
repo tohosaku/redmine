@@ -1,0 +1,4 @@
+<%= turbo_stream.remove "block-#{@block}" %>
+<%= turbo_stream.replace 'block-select' do %>
+  <%= block_select_tag(@user) %>
+<% end %>

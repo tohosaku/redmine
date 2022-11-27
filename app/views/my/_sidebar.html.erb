@@ -21,7 +21,7 @@
 <% if Setting.rest_api_enabled? %>
 <h4><%= l(:label_api_access_key) %></h4>
 <div>
-  <%= link_to l(:button_show), my_api_key_path, :remote => true %>
+  <%= link_to l(:button_show), my_api_key_path, data: { turbo: true, turbo_stream: true } %>
   <pre id='api-access-key' class='autoscroll'></pre>
 </div>
 <%= javascript_tag("$('#api-access-key').hide();") %>
