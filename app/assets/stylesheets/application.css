@@ -1493,6 +1493,7 @@ div.wiki .task-list input.task-list-item-checkbox {
 .dragging .block-receiver {
   border:1px dashed #777;
   margin-bottom: 20px;
+  user-select: none;
 }
 .mypage-box {
   border:1px solid #ddd;
@@ -2087,3 +2088,19 @@ th[role=columnheader]:not(.no-sort):hover:after {
 	display: inline;
 	opacity: 1;
 }
+
+[data-controller*=sortable] {
+  position: relative;
+}
+
+.draggable__drag {
+  position: absolute;
+  width: 100%;
+  border: 1px solid #f1f1f1;
+  z-index: 10;
+  -webkit-box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.05);
+  opacity: 1;
+}
+
+table.list:not(.odd-even) tbody tr.is-dragging { background-color:#E0FFFF; }
