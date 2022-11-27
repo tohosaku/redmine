@@ -1,0 +1,9 @@
+<%= turbo_stream.remove "block-#{@block}" %>
+
+<%= turbo_stream.prepend "list-top" do %>
+  <%= render_blocks([@block], @user) %>
+<% end %>
+
+<%= turbo_stream.replace "block-select" do %>
+  <%= block_select_tag(@user) %>
+<% end %>

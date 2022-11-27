@@ -10,7 +10,7 @@
 </h3>
 
 <div id="<%= block %>-settings" style="display:none;">
-  <%= form_tag(my_page_path, :remote => true) do %>
+  <%= form_tag(my_page_path, data: { turbo: true }) do %>
     <div id="list-definition">
       <div class="box">
         <%= render_query_columns_selection(query, :name => "settings[#{block}][columns]") %>
@@ -24,13 +24,13 @@
 </div>
 
 <% if issues.any? %>
-  <%= render :partial => 'issues/list',
-             :locals => {
-               :issues => issues,
-               :query => query,
-               :query_options => {
-                 :sort_param => "settings[#{block}][sort]",
-                 :sort_link_options => {:method => :post, :remote => true}
+  <%= render partial: 'issues/list',
+             locals: {
+               issues: issues,
+               query: query,
+               query_options: {
+                 sort_param: "settings[#{block}][sort]",
+                 sort_link_options: {data: { turbo: true, turbo_method: :post }}
                }
              } %>
 <% else %>

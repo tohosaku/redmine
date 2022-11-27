@@ -76,7 +76,7 @@ class MyControllerTest < Redmine::ControllerTest
     get :page
     assert_select '#block-issuesassignedtome' do
       assert_select 'table.issues' do
-        assert_select 'th a[data-remote=true][data-method=post]', :text => 'Tracker'
+        assert_select 'th a[data-turbo-method=post]', :text => 'Tracker'
       end
       assert_select '#issuesassignedtome-settings' do
         assert_select 'select[name=?]', 'settings[issuesassignedtome][columns][]'
@@ -693,7 +693,7 @@ class MyControllerTest < Redmine::ControllerTest
       :xhr => true
     )
     assert_response :success
-    assert_include '$("#block-issuesassignedtome").replaceWith(', response.body
+    assert_select 'turbo-stream[target=?]', 'block-issuesassignedtome', 1
     assert_include 'Due date', response.body
 
     assert_equal({:columns => ['subject', 'due_date']},
@@ -711,13 +711,13 @@ class MyControllerTest < Redmine::ControllerTest
     assert User.find(2).pref[:my_page_layout]['top'].include?('issueswatched')
   end
 
-  def test_add_block_xhr
+  def test_add_block_turbo_stream
     post(
       :add_block,
       :params => {
         :block => 'issueswatched'
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     assert_response :success
     assert_include 'issueswatched', User.find(2).pref[:my_page_layout]['top']
@@ -744,16 +744,17 @@ class MyControllerTest < Redmine::ControllerTest
     assert !User.find(2).pref[:my_page_layout].values.flatten.include?('issuesassignedtome')
   end
 
-  def test_remove_block_xhr
+  def test_remove_block_turbo
     post(
       :remove_block,
       :params => {
         :block => 'issuesassignedtome'
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     assert_response :success
-    assert_include '$("#block-issuesassignedtome").remove();', response.body
+    assert_select 'turbo-stream[target=?]', 'block-issuesassignedtome', 1
+    assert_select 'turbo-stream[action=?]', 'remove', 1
     assert !User.find(2).pref[:my_page_layout].values.flatten.include?('issuesassignedtome')
   end
 
