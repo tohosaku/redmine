@@ -11,7 +11,7 @@
 
 
 <div id="timelog-settings" style="display:none" data-controller="visibility" data-action="command:toggle->visibility#toggle" data-relay-events="command:toggle">
-  <%= form_tag(my_page_path, :remote => true) do %>
+  <%= form_tag(my_page_path, data: { turbo: true }) do %>
     <div class="box">
       <p>
       <label>

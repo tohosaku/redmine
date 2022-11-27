@@ -27,7 +27,7 @@
 <h4><%= l(:label_api_access_key) %></h4>
 <div data-controller="api-key-copy">
   <div class="api-key-actions">
-    <%= link_to l(:button_show), my_api_key_path, :remote => true %>
+    <%= link_to l(:button_show), my_api_key_path, data: { turbo: true, turbo_stream: true }  %>
     <a class="copy-api-key-link icon icon-only"
        title="<%= l(:button_copy) %>"
        aria-label="<%= l(:button_copy) %>"
