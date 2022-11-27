@@ -3,11 +3,11 @@
 <% if @custom_field.enumerations.any? %>
 <%= form_tag custom_field_enumerations_path(@custom_field), :method => 'put' do %>
 <div class="box">
-  <ul id="custom_field_enumerations" class="flat">
+  <ul id="custom_field_enumerations" class="flat" <%= tag.attributes data: custom_field_enumerations_controller %>>
   <% @custom_field.enumerations.each_with_index do |value, position| %>
-    <li>
+    <li <%= tag.attributes data: custom_field_enumerations_target(position) %>>
       <%= tag.span(sprite_icon('reorder', ''), :class => 'icon-only icon-sort-handle sort-handle', :title => l(:button_move)) %>
-      <%= hidden_field_tag "custom_field_enumerations[#{value.id}][position]", position, :class => 'position' %>
+      <%= hidden_field_tag "custom_field_enumerations[#{value.id}][position]", position, :class => 'position', :data => { :custom_field_enumerations__sortable_target => 'position' } %>
       <%= text_field_tag "custom_field_enumerations[#{value.id}][name]", value.name, :size => 40 %>
       <%= hidden_field_tag "custom_field_enumerations[#{value.id}][active]", 0 %>
       <label>
@@ -31,17 +31,4 @@
 
   <p><%= text_field_tag 'custom_field_enumeration[name]', '', :size => 40 %>
   <%= submit_tag(l(:button_add)) %></p>
-<% end %>
-
-<%= javascript_tag do %>
-$(function() {
-  $("#custom_field_enumerations").sortable({
-    handle: ".sort-handle",
-    update: function(event, ui) {
-      $("#custom_field_enumerations li").each(function(){
-        $(this).find("input.position").val($(this).index()+1);
-      });
-    }
-  });
-});
 <% end %>

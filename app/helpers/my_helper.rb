@@ -36,12 +36,12 @@ module MyHelper
     if content.present?
       handle = content_tag('span', sprite_icon('reorder', ''), :class => 'icon-only icon-sort-handle sort-handle', :title => l(:button_move))
       close = link_to(sprite_icon('close', l(:button_delete)),
-                      {:action => "remove_block", :block => block},
-                      :remote => true, :method => 'post',
-                      :class => "icon-only icon-close", :title => l(:button_delete))
-      content = content_tag('div', handle + close, :class => 'contextual') + content
+                      {action: 'remove_block', block: block},
+                      data: { turbo: true, turbo_method: :post },
+                      class: 'icon-only icon-close', title: l(:button_delete))
+      content = content_tag('div', handle + close, class: 'contextual') + content
 
-      content_tag('div', content, :class => "mypage-box", :id => "block-#{block}")
+      content_tag('div', content, :class => "mypage-box", :id => "block-#{block}", :data => {:sortable_target => 'item'})
     end
   end
 
@@ -72,7 +72,7 @@ module MyHelper
     Redmine::MyPage.block_options(blocks_in_use).each do |label, block|
       options << content_tag('option', label, :value => block, :disabled => block.blank?)
     end
-    select_tag('block', options, :id => "block-select", :onchange => "$('#block-form').submit();")
+    select_tag('block', options, id: "block-select", data: { action: 'form#submit', form_target: 'select' })
   end
 
   def render_calendar_block(block, settings)
@@ -183,5 +183,21 @@ module MyHelper
     events_by_day = Redmine::Activity::Fetcher.new(User.current, :author => User.current).events(nil, nil, :limit => 10).group_by {|event| User.current.time_to_date(event.event_datetime)}
 
     render :partial => 'my/blocks/activity', :locals => {:events_by_day => events_by_day}
+  end
+
+  def my_block_controller
+    {
+      controller: 'my--page',
+      action: ['sortable:start->my--page#start',
+               'pointermove->my--page#move',
+               'pointerup->my--page#end',
+               'pointercancel->my--page#end',
+               'touchstart->my--page#noop',
+               'dragstart->my--page#noop'].join(' ')
+    }
+  end
+
+  def my_block_items_target(index)
+    {sortable_target: 'item', presorted_index: index + 1, sorted_index: index + 1}
   end
 end
