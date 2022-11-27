@@ -1930,6 +1930,24 @@ module ApplicationHelper
     )
   end
 
+  def positioned_items
+    {
+      controller: 'sortable positioned-items',
+      action: ['pointerdown->sortable#start',
+               'pointermove->sortable#move',
+               'pointerup->sortable#end',
+               'pointercancel->sortable#end',
+               'touchstart->sortable#noop',
+               'dragstart->sortable#noop',
+               'sortable:sorted->positioned-items#update'].join(' '),
+      sortable_target: 'area'
+    }
+  end
+
+  def positioned_items_target(index)
+    {sortable_target: 'item', presorted_index: index + 1, sorted_index: index + 1}
+  end
+
   private
 
   def wiki_helper

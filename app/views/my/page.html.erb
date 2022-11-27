@@ -1,5 +1,5 @@
 <div class="contextual">
-  <%= form_tag({:action => "add_block"}, :remote => true, :id => "block-form", authenticity_token: true) do %>
+  <%= form_tag({action: "add_block"}, id: "block-form", authenticity_token: true, data: { controller: 'form', turbo: true }) do %>
     <%= label_tag('block-select', l(:button_add)) %>:
     <%= block_select_tag(@user) %>
   <% end %>
@@ -8,11 +8,11 @@
 
 <h2><%=l(:label_my_page)%></h2>
 
-<div id="my-page" class="splitcontent">
-<% @groups.each do |group| %>
-  <div id="list-<%= group %>" class="block-receiver splitcontent<%= group %>">
+<div id="my-page" class="splitcontent" <%= tag.attributes data: my_block_controller%>>
+<% @groups.each.with_index do |group, index| %>
+  <%= tag.div id: "list-#{group}", class: "block-receiver splitcontent#{ group }", data: {sortable_target: 'area'} do %>
     <%= render_blocks(@blocks[group], @user) %>
-  </div>
+  <% end %>
 <% end %>
 <%= call_hook(:view_my_page_splitcontent, :user => @user) %>
 </div>
@@ -22,26 +22,6 @@
 <%= javascript_tag do %>
 $(document).ready(function(){
   $('#block-select').val('');
-  $('.block-receiver').sortable({
-    connectWith: '.block-receiver',
-    tolerance: 'pointer',
-    handle: '.sort-handle',
-    start: function(event, ui){$(this).parent().addClass('dragging');},
-    stop: function(event, ui){$(this).parent().removeClass('dragging');},
-    update: function(event, ui){
-      // trigger the call on the list that receives the block only
-      if ($(this).find(ui.item).length > 0) {
-        $.ajax({
-          url: "<%= escape_javascript url_for(:action => "order_blocks") %>",
-          type: 'post',
-          data: {
-            'group': $(this).attr('id').replace(/^list-/, ''),
-            'blocks': $.map($(this).children(), function(el){return $(el).attr('id').replace(/^block-/, '');})
-          }
-        });
-      }
-    }
-  });
 });
 <% end %>
 

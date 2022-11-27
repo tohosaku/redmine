@@ -8,15 +8,16 @@
 <p><%= link_to sprite_icon('add', l(:label_enumeration_new)), new_enumeration_path(:type => klass.name), :class => 'icon icon-add' %></p>
 
 <% if enumerations.any? %>
-<table class="list enumerations"><thead>
+<table class="list enumerations" <%= tag.attributes data: positioned_items %>><thead>
 <tr>
     <th><%= l(:field_name) %></th>
     <th><%= l(:field_is_default) %></th>
     <th><%= l(:field_active) %></th>
     <th></th>
 </tr></thead>
-<% enumerations.each do |enumeration| %>
-<tr>
+<tbody>
+<% enumerations.each.with_index do |enumeration, index| %>
+<tr <%= tag.attributes data: positioned_items_target(index) %>>
     <td class="name"><%= link_to enumeration, edit_enumeration_path(enumeration) %></td>
     <td class="tick"><%= checked_image enumeration.is_default? %></td>
     <td class="tick"><%= checked_image enumeration.active? %></td>
@@ -26,6 +27,7 @@
     </td>
 </tr>
 <% end %>
+</tbody>
 </table>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
@@ -33,7 +35,3 @@
 <% end %>
 
 <% html_title(l(:label_enumerations)) -%>
-
-<%= javascript_tag do %>
-  $(function() { $("table.enumerations tbody").positionedItems(); });
-<% end %>
