@@ -1598,6 +1598,17 @@ module ApplicationHelper
     link_to sprite_icon('del', button_name), url, options
   end
 
+  def turbo_delete_link(url, options={}, button_name=l(:button_delete))
+    options[:data] = {
+      turbo: true,
+      turbo_method: :delete,
+      turbo_confirm: l(:text_are_you_sure)
+    }
+    options[:class] = 'icon icon-del'
+
+    link_to button_name, url, options
+  end
+
   def link_to_function(name, function, html_options={})
     content_tag(:a, name, {:href => '#', :onclick => "#{function}; return false;"}.merge(html_options))
   end
