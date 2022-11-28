@@ -44,10 +44,10 @@ class MembersControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_xhr_new
-    get(:new, :params => {:project_id => 1}, :xhr => true)
+  def test_turbo_stream_new
+    get(:new, :params => {:project_id => 1}, :format => :turbo_stream)
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
   end
 
   def test_create
@@ -125,7 +125,7 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_equal [1, 2], member.role_ids
   end
 
-  def test_xhr_create
+  def test_turbo_stream_create
     assert_difference 'Member.count', 3 do
       post(
         :create,
@@ -136,10 +136,10 @@ class MembersControllerTest < Redmine::ControllerTest
             :user_ids => [7, 8, 9]
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
     assert User.find(7).member_of?(Project.find(1))
     assert User.find(8).member_of?(Project.find(1))
@@ -147,7 +147,7 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_include 'tab-content-members', response.body
   end
 
-  def test_xhr_create_with_failure
+  def test_turbo_stream_create_with_failure
     assert_no_difference 'Member.count' do
       post(
         :create,
@@ -158,10 +158,10 @@ class MembersControllerTest < Redmine::ControllerTest
             :user_ids => [7, 8, 9]
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
     assert_match /alert/, response.body, "Alert message not sent"
   end
@@ -172,8 +172,8 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?][value=?][checked=checked]', 'membership[role_ids][]', '2'
   end
 
-  def test_xhr_edit
-    get(:edit, :params => {:id => 2}, :xhr => true)
+  def test_turbo_stream_edit
+    get(:edit, :params => {:id => 2}, :format => :turbo_stream)
     assert_response :success
   end
 
@@ -247,7 +247,7 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_equal [1, 2], member.reload.role_ids.sort
   end
 
-  def test_xhr_update
+  def test_turbo_stream_update
     assert_no_difference 'Member.count' do
       put(
         :update,
@@ -258,10 +258,10 @@ class MembersControllerTest < Redmine::ControllerTest
             :user_id => 3
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
     member = Member.find(2)
     assert_equal [1], member.role_ids
@@ -307,11 +307,11 @@ class MembersControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_xhr_destroy
+  def test_turbo_stream_destroy
     assert_difference 'Member.count', -1 do
-      delete(:destroy, :params => {:id => 2}, :xhr => true)
+      delete(:destroy, :params => {:id => 2}, :format => :turbo_stream)
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
     assert_nil Member.find_by_id(2)
     assert_include 'tab-content-members', response.body
@@ -323,9 +323,8 @@ class MembersControllerTest < Redmine::ControllerTest
       :params => {
         :project_id => 1,
         :q => 'mis',
-        :format => 'js'
-      },
-      :xhr => true
+        :format => 'turbo_stream'
+      }
     )
     assert_response :success
     assert_include 'User Misc', response.body
