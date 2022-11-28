@@ -1,0 +1,11 @@
+<%= show_turbo_modal width: '90%', title: l(:label_member_new) do %>
+
+  <%= form_for @member, as: :membership, url: project_memberships_path(@project), method: :post, data: { turbo: true } do |f| %>
+    <%= render :partial => 'new_form' %>
+    <p class="buttons">
+      <%= submit_tag l(:button_add), :id => 'member-add-submit' %>
+      <%= link_to l(:button_cancel), '#', data: { action: 'modal#hide' } %>
+    </p>
+  <% end %>
+
+<% end %>

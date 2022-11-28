@@ -4,7 +4,7 @@
 <% if User.current.admin? %>
   <div class="contextual"><%= link_to icon_with_label('settings', l(:label_administration)), users_path, :class => "icon icon-settings" %></div>
 <% end %>
-<p><%= link_to icon_with_label('add', l(:label_member_new)), new_project_membership_path(@project), :remote => true, :class => "icon icon-add" %></p>
+<p><%= link_to icon_with_label('add', l(:label_member_new)), new_project_membership_path(@project), data: { turbo: true, turbo_stream: true}, class: "icon icon-add" %></p>
 
 <% if members.any? %>
 <table class="list members">
@@ -31,11 +31,12 @@
   <td class="buttons">
       <%= link_to icon_with_label('edit', l(:button_edit)),
                   edit_membership_path(member),
-                  :remote => true,
-                  :class => 'icon icon-edit' %>
-      <%= delete_link membership_path(member),
-                      :remote => true,
-                      :data => (!User.current.admin? && member.include?(User.current) ? {:confirm => l(:text_own_membership_delete_confirmation)} : {}) if member.deletable? %>
+                  class: 'icon icon-edit',
+                  data: {turbo: true, turbo_stream: true} %>
+      <%= link_to l(:button_delete), membership_path(member),
+                  class: 'icon icon-del',
+                  data: (!User.current.admin? && member.include?(User.current) ? {turbo: true, turbo_method: :delete, turbo_confirm: l(:text_own_membership_delete_confirmation)}
+                                                                               : {turbo: true, turbo_method: :delete, turbo_confirm: l(:text_are_you_sure)}) if member.deletable? %>
   </td>
   <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
   </tr>
