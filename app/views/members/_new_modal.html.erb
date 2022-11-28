@@ -1,7 +1,0 @@
-<%= form_for @member, :as => :membership, :url => project_memberships_path(@project), :remote => true, :method => :post do |f| %>
-  <%= render :partial => 'new_form' %>
-  <p class="buttons">
-    <%= submit_tag l(:button_add), :id => 'member-add-submit' %>
-    <%= link_to l(:button_cancel), '#', data: { action: 'modal#hide' } %>
-  </p>
-<% end %>
