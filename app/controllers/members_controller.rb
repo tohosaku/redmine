@@ -75,7 +75,7 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.html {redirect_to_settings_in_projects}
-      format.js do
+      format.turbo_stream do
         @members = members
         @member = Member.new
       end
@@ -101,7 +101,7 @@ class MembersController < ApplicationController
     saved = @member.save
     respond_to do |format|
       format.html {redirect_to_settings_in_projects}
-      format.js
+      format.turbo_stream
       format.api do
         if saved
           render_api_ok
@@ -117,8 +117,8 @@ class MembersController < ApplicationController
       @member.destroy
     end
     respond_to do |format|
-      format.html {redirect_to_settings_in_projects}
-      format.js
+      format.html {redirect_to_settings_in_projects status: :see_other}
+      format.turbo_stream
       format.api do
         if @member.destroyed?
           render_api_ok
@@ -134,7 +134,7 @@ class MembersController < ApplicationController
 
   private
 
-  def redirect_to_settings_in_projects
-    redirect_to settings_project_path(@project, :tab => 'members')
+  def redirect_to_settings_in_projects(options = {})
+    redirect_to settings_project_path(@project, tab: 'members'), options
   end
 end

@@ -1,0 +1,19 @@
+<%= turbo_stream.show_modal width: '90%', title: l(:label_member_new) do %>
+  <%= form_for @member, as: :membership,
+                        url: project_memberships_path(@project),
+                        remote: true,
+                        method: :post,
+                        html: {
+                          data: {
+                            controller: :preserve_selection,
+                            action: 'change->preserve_selection#preserve redmine:before-fetch-request->preserve_selection#save redmine:before-fetch-request->preserve_selection#restore',
+                            preserve_selection_selector_value: 'input[name=\"membership[user_ids][]\"]'
+                          }
+                        } do |f| %>
+    <%= render :partial => 'new_form' %>
+    <p class="buttons">
+      <%= submit_tag l(:button_add), :id => 'member-add-submit' %>
+      <%= link_to l(:button_cancel), '#', data: { action: 'dialog#cancel' } %>
+    </p>
+  <% end %>
+<% end %>
