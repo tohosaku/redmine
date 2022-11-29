@@ -1,0 +1,8 @@
+<% if @membership.valid? %>
+  <%= turbo_stream.update 'tab-content-memberships', partial: 'groups/memberships', locals: {members_to_highlight: [@membership.id]} %>
+<% else %>
+  <%= turbo_stream.append 'content' do %>
+    <% errors = l(:notice_failed_to_save_members, errors: @membership.errors.full_messages.join(', ')) %>
+    <%= tag.template errors, data: { controller: 'alert' } %>
+  <% end %>
+<% end %>

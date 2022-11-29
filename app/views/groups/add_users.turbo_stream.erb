@@ -1,0 +1,2 @@
+<%= turbo_stream.hide_modal %>
+<%= turbo_stream.update 'tab-content-users', partial: 'groups/users', locals: {users_to_highlight: @users.map{|user| user.id}} %>

@@ -2,9 +2,9 @@
   <legend><%= toggle_checkboxes_link('.projects-selection input:enabled') %><%= l(:label_project_plural) %></legend>
   <div class="objects-selection">
     <div class="projects-selection">
-    <%= render_project_nested_lists(@projects) do |p| %>
+    <%= render_project_nested_lists(@projects) do |project, has_children| %>
       <label>
-        <%= check_box_tag('membership[project_ids][]', p.id, false, :id => nil, :disabled => @principal.member_of?(p)) %> <%= p %>
+        <%= check_box_tag('membership[project_ids][]', project.id, false, id: nil, disabled: @principal.member_of?(project), data: { list_target: 'checkbox', action: has_children ? 'item#check' : nil }) %> <%= project.name %>
       </label>
     <% end %>
     </div>

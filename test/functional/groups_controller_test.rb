@@ -212,16 +212,16 @@ class GroupsControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?]', 'user_search'
   end
 
-  def test_xhr_new_users
+  def test_turbo_stream_new_users
     get(
       :new_users,
       :params => {
         :id => 10
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
   end
 
   def test_add_users
@@ -240,7 +240,7 @@ class GroupsControllerTest < Redmine::ControllerTest
     assert_redirected_to '/groups/10/edit?tab=users'
   end
 
-  def test_xhr_add_users
+  def test_turbo_stream_add_users
     assert_difference 'Group.find(10).users.count', 2 do
       post(
         :add_users,
@@ -248,10 +248,10 @@ class GroupsControllerTest < Redmine::ControllerTest
           :id => 10,
           :user_ids => ['2', '3']
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
     assert_match /John Smith/, response.body
   end
@@ -396,9 +396,8 @@ class GroupsControllerTest < Redmine::ControllerTest
       :params => {
         :id => 10,
         :q => 'smi',
-        :format => 'js'
-      },
-      :xhr => true
+        :format => :turbo_stream
+      }
     )
     assert_response :success
     assert_include 'John Smith', response.body

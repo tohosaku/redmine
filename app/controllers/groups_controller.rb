@@ -121,7 +121,7 @@ class GroupsController < ApplicationController
         flash[:notice] = l(:notice_successful_update)
         redirect_back_or_default edit_group_path(@group, :tab => 'users')
       end
-      format.js
+      format.turbo_stream
       format.api do
         if @users.any?
           render_api_ok
