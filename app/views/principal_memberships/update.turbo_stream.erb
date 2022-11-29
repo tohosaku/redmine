@@ -1,0 +1,17 @@
+<% if @membership.destroyed? %>
+  <%= turbo_stream.remove "member-#{ @membership.id }" %>
+<% elsif @membership.valid? %>
+  <%= turbo_stream.update "member-#{ @membership.id }-form", "" %>
+  <%= turbo_stream.update "member-#{ @membership.id }-roles" do %>
+    <%= @membership.roles.sort.collect(&:to_s).join(', ') %>
+  <% end %>
+  <%= turbo_stream.show "member-#{ @membership.id }-roles" %>
+  <%= turbo_stream.append "member-#{ @membership.id }-roles" do %>
+    <%= tag.template data: { classlist_target: 'dummy', css: 'effect', force: 'true'} %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.append 'content' do %>
+    <% errors = l(:notice_failed_to_save_members, errors: @membership.errors.full_messages.join(', ')) %>
+    <%= tag.template errors, data: { controller: 'alert' } %>
+  <% end %>
+<% end %>

@@ -1,0 +1,11 @@
+<%= show_turbo_modal width: '700px', title: l(:label_user_new) do %>
+
+  <%= form_for(@group, url: group_users_path(@group), method: 'post', data: { turbo: true }) do |f| %>
+    <%= render partial: 'new_users_form' %>
+    <p class="buttons">
+      <%= submit_tag l(:button_add) %>
+      <%= link_to l(:button_cancel), '#', data: { action: 'modal#hide' } %>
+    </p>
+  <% end %>
+
+<% end %>

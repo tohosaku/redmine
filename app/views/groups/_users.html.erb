@@ -1,5 +1,5 @@
 <% users_to_highlight = local_assigns[:users_to_highlight] || [] %>
-<p><%= link_to icon_with_label('add', l(:label_user_new)), new_group_users_path(@group), :remote => true, :class => "icon icon-add" %></p>
+<p><%= link_to icon_with_label('add', l(:label_user_new)), new_group_users_path(@group), data: { turbo: true, turbo_stream: true } , class: "icon icon-add" %></p>
 
 <% if @group.users.any? %>
   <table class="list users">
@@ -12,7 +12,7 @@
       <tr <%= tag.attributes id: "user-#{user.id}", class: [effect: users_to_highlight.include?(user.id)] %>>
         <td class="name"><%= link_to_user user %></td>
         <td class="buttons">
-          <%= delete_link group_user_path(@group, :user_id => user), :remote => true %>
+          <%= turbo_delete_link group_user_path(@group, user_id: user) %>
         </td>
       </tr>
     <% end %>
