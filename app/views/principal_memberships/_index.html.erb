@@ -1,7 +1,7 @@
 <% members_to_highlight = local_assigns[:members_to_highlight] || [] %>
 <% memberships = principal.memberships.preload(:member_roles, :roles).sorted_by_project.to_a %>
 
-<p><%= link_to sprite_icon('add', l(:label_add_projects)), new_principal_membership_path(principal), :remote => true, :class => "icon icon-add" %></p>
+<p><%= link_to sprite_icon('add', l(:label_add_projects)), new_principal_membership_path(principal), class: "icon icon-add", data: { turbo: true, turbo_stream: true } %></p>
 
 <% if memberships.any? %>
 <table class="list memberships">
@@ -25,10 +25,10 @@
   <td class="buttons">
       <%= link_to sprite_icon('edit', l(:button_edit)),
                   edit_principal_membership_path(principal, membership),
-                  :remote => true,
-                  :class => 'icon icon-edit'
+                  class: 'icon icon-edit',
+                  data: { turbo: true, turbo_stream: true }
           %>
-      <%= delete_link principal_membership_path(principal, membership), :remote => true if membership.deletable? %>
+      <%= turbo_delete_link principal_membership_path(principal, membership) if membership.deletable? %>
   </td>
       <%= call_table_row_hook principal, membership %>
   </tr>

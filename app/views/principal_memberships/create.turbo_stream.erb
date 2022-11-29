@@ -1,0 +1,11 @@
+<% members_to_highlight = @members.present? && @members.all? {|m| m.persisted? } ? @members.map{|m| m.id} : [] %>
+<%= turbo_stream.update 'tab-content-memberships', partial: 'principal_memberships/index', locals: {principal: @principal, members_to_highlight: members_to_highlight} %>
+
+<% if @members.present? && @members.all? {|m| m.persisted? } %>
+  <%= turbo_stream.hide_modal %>
+<% elsif @members.present? %>
+  <% errors = @members.collect {|m| m.errors.full_messages}.flatten.uniq.join(', ') %>
+  <%= turbo_stream.append 'content' do %>
+    <%= tag.template l(:notice_failed_to_save_members, errors: errors), data: { controller: 'alert' } %>
+  <% end %>
+<% end %>

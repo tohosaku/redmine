@@ -32,7 +32,7 @@ class PrincipalMembershipsController < ApplicationController
     @roles = Role.find_all_givable
     respond_to do |format|
       format.html
-      format.js
+      format.turbo_stream
     end
   end
 
@@ -40,7 +40,7 @@ class PrincipalMembershipsController < ApplicationController
     @members = Member.create_principal_memberships(@principal, params[:membership])
     respond_to do |format|
       format.html {redirect_to_principal @principal}
-      format.js
+      format.turbo_stream
     end
   end
 
@@ -53,7 +53,7 @@ class PrincipalMembershipsController < ApplicationController
     @membership.save
     respond_to do |format|
       format.html {redirect_to_principal @principal}
-      format.js
+      format.turbo_stream
     end
   end
 
@@ -62,8 +62,8 @@ class PrincipalMembershipsController < ApplicationController
       @membership.destroy
     end
     respond_to do |format|
-      format.html {redirect_to_principal @principal}
-      format.js
+      format.html {redirect_to_principal @principal, status: :see_other}
+      format.turbo_stream { render :destroy }
     end
   end
 
@@ -83,7 +83,7 @@ class PrincipalMembershipsController < ApplicationController
     render_404
   end
 
-  def redirect_to_principal(principal)
-    redirect_to edit_polymorphic_path(principal, :tab => 'memberships')
+  def redirect_to_principal(principal, options={})
+    redirect_to edit_polymorphic_path(principal, tab: 'memberships'), options
   end
 end

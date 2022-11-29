@@ -445,34 +445,17 @@ module ApplicationHelper
   # The given collection may be a subset of the whole project tree
   # (eg. some intermediate nodes are private and can not be seen)
   def render_project_nested_lists(projects, &block)
-    s = +''
-    if projects.any?
-      ancestors = []
-      original_project = @project
-      projects.sort_by(&:lft).each do |project|
-        # set the project environment to please macros.
-        @project = project
-        if ancestors.empty? || project.is_descendant_of?(ancestors.last)
-          s << "<ul class='projects #{ancestors.empty? ? 'root' : nil}'>\n"
-        else
-          ancestors.pop
-          s << "</li>"
-          while ancestors.any? && !project.is_descendant_of?(ancestors.last)
-            ancestors.pop
-            s << "</ul></li>\n"
-          end
-        end
-        classes = (ancestors.empty? ? 'root' : 'child')
-        classes += ' archived' if project.archived?
-        s << "<li class='#{classes}'><div class='#{classes}'>"
-        s << h(block ? capture(project, &block) : project.name)
-        s << "</div>\n"
-        ancestors << project
+    tree = Redmine::Helpers::Tree.build(projects) do |t|
+      tag.ul class: [:projects, root: t.classes.empty? ], data: { controller: 'list', item_target: !t.classes.empty? && 'list' } do
+        t.children.map do |child|
+          child.classes << :archived if child.object.archived?
+          tag.li class: child.classes, data: { controller: 'item', list_target: 'item' } do
+            tag.div(class: child.classes){ block.call(child.object, child.children.present? ) } + child.content(self)
+          end.html_safe
+        end.join('').html_safe
       end
-      s << ("</li></ul>\n" * ancestors.size)
-      @project = original_project
     end
-    s.html_safe
+    render tree if tree
   end
 
   def render_page_hierarchy(pages, node=nil, options={})
