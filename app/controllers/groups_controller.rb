@@ -118,7 +118,7 @@ class GroupsController < ApplicationController
     @group.users << @users
     respond_to do |format|
       format.html {redirect_to edit_group_path(@group, :tab => 'users')}
-      format.js
+      format.turbo_stream
       format.api do
         if @users.any?
           render_api_ok
@@ -132,8 +132,8 @@ class GroupsController < ApplicationController
   def remove_user
     @group.users.delete(User.find(params[:user_id])) if request.delete?
     respond_to do |format|
-      format.html {redirect_to edit_group_path(@group, :tab => 'users')}
-      format.js
+      format.html {redirect_to edit_group_path(@group, tab: 'users'), status: :see_other}
+      format.turbo_stream
       format.api {render_api_ok}
     end
   end
