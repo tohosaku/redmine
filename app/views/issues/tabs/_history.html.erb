@@ -5,13 +5,13 @@
 
 <% reply_links = issue.notes_addable? -%>
 <% for journal in journals %>
-  <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>">
+  <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>" data-controller="journals--update journals--edit">
     <div id="note-<%= journal.indice %>" class="note">
     <div class="contextual">
       <span class="journal-actions"><%= render_journal_actions(issue, journal, :reply_links => reply_links) %></span>
       <a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>
     </div>
-    <h4 class='note-header'>
+    <h4 class='note-header' data-journals--update-target="header">
       <%= avatar(journal.user) %>
       <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
       <%= render_private_notes_indicator(journal) %>

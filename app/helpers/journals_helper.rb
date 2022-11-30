@@ -42,23 +42,20 @@ module JournalsHelper
 
     if journal.notes.present?
       if options[:reply_links]
-        url = quoted_issue_path(issue, :journal_id => journal, :journal_indice => indice)
+        url = quoted_issue_path(issue, journal_id: journal, journal_indice: indice)
         links << quote_reply(url, "#journal-#{journal.id}-notes", icon_only: true)
       end
       if journal.editable_by?(User.current)
         links << link_to(sprite_icon('edit', l(:button_edit)),
                          edit_journal_path(journal),
-                         :remote => true,
-                         :method => 'get',
-                         :title => l(:button_edit),
-                         :class => 'icon-only icon-edit'
+                         title: l(:button_edit),
+                         class: 'icon-only icon-edit',
+                         data: { turbo: true, turbo_stream: true }
                         )
         dropbown_links << link_to(sprite_icon('del', l(:button_delete)),
-                                  journal_path(journal, :journal => {:notes => ""}),
-                                  :remote => true,
-                                  :method => 'put',
-                                  :data => {:confirm => l(:text_are_you_sure)},
-                                  :class => 'icon icon-del'
+                                  journal_path(journal, journal: {notes: ""}),
+                                  class: 'icon icon-del',
+                                  data: { turbo: true, turbo_method: :put, turbo_confirm: l(:text_are_you_sure) }
                                  )
       end
     end
@@ -66,7 +63,10 @@ module JournalsHelper
   end
 
   def render_notes(issue, journal, options={})
-    content_tag('div', textilizable(journal, :notes), :id => "journal-#{journal.id}-notes", :class => "wiki")
+    data = { journals__edit_target: :notes }
+    visible = options.delete(:visible)
+    data[:visible] = 'true' if visible
+    content_tag('div', textilizable(journal, :notes), id: "journal-#{journal.id}-notes", class: "wiki", data: data)
   end
 
   def render_private_notes_indicator(journal)
@@ -78,6 +78,6 @@ module JournalsHelper
   def render_journal_update_info(journal)
     return if journal.created_on == journal.updated_on
 
-    content_tag('span', "· #{l(:label_edited)}", :title => l(:label_time_by_author, :time => format_time(journal.updated_on), :author => journal.updated_by), :class => 'update-info')
+    content_tag('span', "· #{l(:label_edited)}", title: l(:label_time_by_author, time: format_time(journal.updated_on), author: journal.updated_by), class: 'update-info', data: { 'journals--update-target': :update_info })
   end
 end

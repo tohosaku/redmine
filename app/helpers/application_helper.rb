@@ -31,7 +31,7 @@ module ApplicationHelper
   include IconsHelper
 
   extend Forwardable
-  def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
+  def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter, :wiki_help_url
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)

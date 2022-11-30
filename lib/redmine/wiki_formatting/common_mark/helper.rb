@@ -25,6 +25,16 @@ module Redmine
           "# #{page.pretty_title}"
         end
 
+        def wiki_help_url
+          help_file = "/help/#{current_language.to_s.downcase}/wiki_syntax_common_mark.html"
+          # fall back to the english help page if there is none for the current
+          # language
+          unless File.readable? Rails.public_path.join(help_file)
+            help_file = "/help/en/wiki_syntax_common_mark.html"
+          end
+          "#{Redmine::Utils.relative_url_root}#{help_file}"
+        end
+
         def heads_for_wiki_formatter
           unless @heads_for_wiki_formatter_included
             toolbar_language_options = User.current && User.current.pref.toolbar_language_options
