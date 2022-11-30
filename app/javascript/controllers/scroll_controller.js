@@ -5,13 +5,17 @@ export default class extends Controller {
 
   scroll(e) {
     if (e.detail.visible && e.detail.source.dataset.scroll == 'true') {
-      const { top } = position(this.element);
-      window.scrollTo({
-        left: 0,
-        top: top,
-        behavior: 'smooth'
-      });
+      this.scrollTo();
     }
+  }
+
+  scrollTo() {
+    const { top } = position(this.element);
+    window.scrollTo({
+      left: 0,
+      top: top,
+      behavior: 'smooth'
+    });
   }
 }
 

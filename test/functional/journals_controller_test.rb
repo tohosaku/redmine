@@ -166,9 +166,8 @@ class JournalsControllerTest < Redmine::ControllerTest
     post(:new, :params => {:id => 6}, :xhr => true)
     assert_response :success
 
-    assert_equal 'text/javascript', response.media_type
-    assert_include 'showAndScrollTo("add_notes");', response.body
-    assert_include '> This is an issue', response.body
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
+    assert_include '&gt; This is an issue', response.body
   end
 
   def test_reply_to_issue_without_permission
@@ -189,10 +188,9 @@ class JournalsControllerTest < Redmine::ControllerTest
       :xhr => true
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
-    assert_include 'showAndScrollTo("add_notes");', response.body
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     assert_include 'Redmine Admin wrote in #note-1:', response.body
-    assert_include '> A comment with a private version', response.body
+    assert_include '&gt; A comment with a private version', response.body
   end
 
   def test_reply_to_private_note_should_fail_without_permission
@@ -208,8 +206,8 @@ class JournalsControllerTest < Redmine::ControllerTest
       :xhr => true
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
-    assert_include '> Privates notes', response.body
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
+    assert_include '&gt; Privates notes', response.body
 
     Role.find(1).remove_permission! :view_private_notes
     post(
@@ -230,9 +228,9 @@ class JournalsControllerTest < Redmine::ControllerTest
     post :new, params: params, xhr: true
 
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     assert_include 'John Smith wrote:', response.body
-    assert_include '> a private subproject of cookbook', response.body
+    assert_include '&gt; a private subproject of cookbook', response.body
   end
 
   def test_reply_to_note_with_partial_quote
@@ -242,16 +240,16 @@ class JournalsControllerTest < Redmine::ControllerTest
     post :new, params: params, xhr: true
 
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     assert_include 'Redmine Admin wrote in #note-1:', response.body
-    assert_include '> a private version', response.body
+    assert_include '&gt; a private version', response.body
   end
 
   def test_edit_xhr
     @request.session[:user_id] = 1
     get(:edit, :params => {:id => 2}, :xhr => true)
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     assert_include 'textarea', response.body
   end
 
@@ -262,7 +260,7 @@ class JournalsControllerTest < Redmine::ControllerTest
 
     get(:edit, :params => {:id => journal.id}, :xhr => true)
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     assert_include 'textarea', response.body
 
     Role.find(1).remove_permission! :view_private_notes
@@ -270,7 +268,7 @@ class JournalsControllerTest < Redmine::ControllerTest
     assert_response :not_found
   end
 
-  def test_update_xhr
+  def test_update_turbo_stream
     @request.session[:user_id] = 1
     post(
       :update,
@@ -280,17 +278,17 @@ class JournalsControllerTest < Redmine::ControllerTest
           :notes => 'Updated notes'
         }
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     assert_equal 'Updated notes', Journal.find(2).notes
     assert_include 'journal-2-notes', response.body
     # response should include journal_indice param for quote link
     assert_include 'journal_indice=2', response.body
   end
 
-  def test_update_xhr_with_private_notes_checked
+  def test_update_turbo_stream_with_private_notes_checked
     @request.session[:user_id] = 1
     post(
       :update,
@@ -300,16 +298,16 @@ class JournalsControllerTest < Redmine::ControllerTest
           :private_notes => '1'
         }
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     assert_equal true, Journal.find(2).private_notes
     assert_include 'change-2', response.body
     assert_include 'journal-2-private_notes', response.body
   end
 
-  def test_update_xhr_with_private_notes_unchecked
+  def test_update_turbo_stream_with_private_notes_unchecked
     Journal.find(2).update(:private_notes => true)
     @request.session[:user_id] = 1
     post(
@@ -320,16 +318,16 @@ class JournalsControllerTest < Redmine::ControllerTest
           :private_notes => '0'
         }
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     assert_equal false, Journal.find(2).private_notes
     assert_include 'change-2', response.body
     assert_include 'journal-2-private_notes', response.body
   end
 
-  def test_update_xhr_without_set_private_notes_permission_should_ignore_private_notes
+  def test_update_turbo_stream_without_set_private_notes_permission_should_ignore_private_notes
     @request.session[:user_id] = 2
     Role.find(1).add_permission! :edit_issue_notes
     Role.find(1).add_permission! :view_private_notes
@@ -343,13 +341,13 @@ class JournalsControllerTest < Redmine::ControllerTest
           :private_notes => '1'
         }
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     assert_response :success
     assert_equal false, Journal.find(2).private_notes
   end
 
-  def test_update_xhr_with_empty_notes_should_delete_the_journal
+  def test_update_turbo_stream_with_empty_notes_should_delete_the_journal
     @request.session[:user_id] = 1
     assert_difference 'Journal.count', -1 do
       post(
@@ -360,10 +358,10 @@ class JournalsControllerTest < Redmine::ControllerTest
             :notes => ''
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
     assert_nil Journal.find_by_id(2)
     assert_include 'change-2', response.body
