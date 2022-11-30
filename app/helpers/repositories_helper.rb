@@ -147,8 +147,11 @@ module RepositoriesHelper
     end
     select_tag('repository_scm',
                options_for_select(scm_options, repository.class.name.demodulize),
-               :disabled => (repository && !repository.new_record?),
-               :data => {:remote => true, :method => 'get', :url => new_project_repository_path(repository.project)})
+               disabled: (repository && !repository.new_record?),
+               data: { controller: 'select',
+                          select_url_value: new_project_repository_path(repository.project, format: 'turbo_stream'),
+                          action: 'select#update'
+                        })
   end
 
   def with_leading_slash(path)

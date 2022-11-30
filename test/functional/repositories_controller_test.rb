@@ -367,12 +367,11 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
           :repository_id => 10,
           :rev => 4,
           :issue_id => 2,
-          :format => 'js'
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
     assert_equal [2], Changeset.find(103).issue_ids
     assert_include 'related-issues', response.body
@@ -389,9 +388,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
           :repository_id => 10,
           :rev => 4,
           :issue_id => "#2",
-          :format => 'js'
         },
-        :xhr => true
+        :format => :turbo_stream
       )
     end
     assert_equal [2], Changeset.find(103).issue_ids
@@ -407,14 +405,13 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
           :repository_id => 10,
           :rev => 4,
           :issue_id => 9999,
-          :format => 'js'
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
-    assert_include 'alert("Issue is invalid")', response.body
+    assert_select 'template[data-controller=alert]', text: 'Issue is invalid'
   end
 
   def test_remove_related_issue
@@ -429,12 +426,11 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
           :repository_id => 10,
           :rev => 4,
           :issue_id => 2,
-          :format => 'js'
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
     assert_equal [1], Changeset.find(103).issue_ids
     assert_include 'related-issue-2', response.body
