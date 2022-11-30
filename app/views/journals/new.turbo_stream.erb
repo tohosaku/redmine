@@ -1,0 +1,4 @@
+<%= turbo_stream.append 'add_notes' do %>
+<% is_private = @journal && @journal.private_notes? %>
+<%= tag.template data: { journals__new_target: :new, 'journal-private': is_private } do -%><%= @content -%><%- end -%>
+<%- end -%>
