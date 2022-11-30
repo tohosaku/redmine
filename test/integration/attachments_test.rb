@@ -33,7 +33,7 @@ class AttachmentsTest < Redmine::IntegrationTest
     log_user('jsmith', 'jsmith')
     assert_difference 'Attachment.count' do
       post(
-        "/uploads.js?attachment_id=1&filename=foo.txt",
+        "/uploads?attachment_id=1&filename=foo.txt&format=turbo_stream",
         :params => "File content",
         :headers => {"CONTENT_TYPE" => 'application/octet-stream'})
       assert_response :success
@@ -46,9 +46,9 @@ class AttachmentsTest < Redmine::IntegrationTest
     log_user('jsmith', 'jsmith')
     assert_difference 'Attachment.count' do
       post(
-        "/uploads.js?attachment_id=1&filename=foo&content_type=image/jpeg",
+        "/uploads?attachment_id=1&filename=foo&content_type=image/jpeg&format=turbo_stream",
         :params => "File content",
-        :headers => {"CONTENT_TYPE" => 'application/octet-stream'})
+        :headers => {'Content-Type' => 'application/octet-stream'})
       assert_response :success
     end
     attachment = Attachment.order(:id => :desc).first
@@ -203,9 +203,9 @@ class AttachmentsTest < Redmine::IntegrationTest
     token = ajax_upload('myupload.txt', 'File content')
 
     attachment = Attachment.order('id DESC').first
-    attachment_path = "/attachments/#{attachment.id}.js?attachment_id=1"
+    attachment_path = "/attachments/#{attachment.id}.turbo_stream?attachment_id=1"
     assert_include(
-      "href: '#{attachment_path}'",
+      attachment_path,
       response.body,
       "Path to attachment: #{attachment_path} not found in response:\n#{response.body}"
     )
@@ -213,8 +213,7 @@ class AttachmentsTest < Redmine::IntegrationTest
       delete attachment_path
       assert_response :success
     end
-
-    assert_include "$('#attachments_1').remove();", response.body
+    assert_select 'turbo-stream template[data-attachment-target=destroy]'
   end
 
   def test_download_should_set_sendfile_header
@@ -281,14 +280,13 @@ class AttachmentsTest < Redmine::IntegrationTest
   def ajax_upload(filename, content, attachment_id=1)
     assert_difference 'Attachment.count' do
       post(
-        "/uploads.js?attachment_id=#{attachment_id}&filename=#{filename}",
+        "/uploads.turbo_stream?attachment_id=#{attachment_id}&filename=#{filename}",
         :params => content,
         :headers => {"CONTENT_TYPE" => 'application/octet-stream'})
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
-
-    token = response.body.match(/\.val\('(\d+\.[0-9a-f]+)'\)/)[1]
+    token = response.body.match(/value="(\d+\.[0-9a-f]+)"/)[1]
     assert_not_nil token, "No upload token found in response:\n#{response.body}"
     token
   end
