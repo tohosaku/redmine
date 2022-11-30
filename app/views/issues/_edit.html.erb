@@ -30,17 +30,18 @@
     </fieldset>
     <% end %>
     <% if @issue.notes_addable? %>
-      <fieldset id="add_notes"><legend><%= l(:field_notes) %></legend>
+      <fieldset id="add_notes" data-controller="journals--new"><legend><%= l(:field_notes) %></legend>
       <%= f.text_area :notes, cols: 60, rows: 10, class: 'wiki-edit',
             data: {
                 controller: 'inline-autocomplete',
+                journals__new_target: 'text',
                 wiki_toolbar: true,
                 wiki_preview_url: preview_issue_path(project_id: @project, issue_id: @issue)
             },
             no_label: true %>
 
       <% if @issue.safe_attribute? 'private_notes' %>
-      <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
+        <%= f.check_box :private_notes, no_label: true, data: { journals__new_target: 'private' } %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
       <% end %>
 
       <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>

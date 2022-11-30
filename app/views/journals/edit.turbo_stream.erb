@@ -1,0 +1,5 @@
+<%= turbo_stream.append "change-#{@journal.id}" do %>
+  <%= tag.template data: { journals__edit_target: :edit } do %>
+    <%= render(partial: "notes_form") %>
+  <% end %>
+<% end %>

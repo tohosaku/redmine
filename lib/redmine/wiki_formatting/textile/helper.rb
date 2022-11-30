@@ -25,6 +25,11 @@ module Redmine
           "h1. #{page.pretty_title}"
         end
 
+        def wiki_help_url
+          # Is there a simple way to link to a public resource?
+          url = "#{Redmine::Utils.relative_url_root}/help/#{current_language.to_s.downcase}/wiki_syntax_textile.html"
+        end
+
         def heads_for_wiki_formatter
           unless @heads_for_wiki_formatter_included
             toolbar_language_options = User.current && User.current.pref.toolbar_language_options

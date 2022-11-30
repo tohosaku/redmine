@@ -1,0 +1,24 @@
+<% change_id = "change-#{@journal.id}" %>
+<% if @journal.frozen? %>
+  <%= turbo_stream.remove change_id %>
+<% else %>
+  <%= turbo_stream.update_all "##{change_id} .journal-actions" do %>
+    <%= render_journal_actions(@journal.issue, @journal, reply_links: authorize_for('issues', 'edit')) %>
+  <% end %>
+  <%= turbo_stream.replace "journal-#{@journal.id}-private_notes" do %>
+    <%=  render_private_notes_indicator(@journal) %>
+  <% end %>
+  <%= turbo_stream.replace "journal-#{@journal.id}-notes" do %>
+    <%=  render_notes(@journal.issue, @journal, reply_links: authorize_for('issues', 'edit')) %>
+  <% end %>
+  <%= turbo_stream.show "journal-#{@journal.id}-notes" %>
+  <%= turbo_stream.remove "journal-#{@journal.id}-form" %>
+
+  <%= turbo_stream.append change_id do %>
+    <%= tag.template css_classes: @journal.css_classes, data: { journal_target: 'update' }  do %>
+      <%= render_journal_update_info(@journal) %>
+    <% end %>
+  <% end  %>
+<% end %>
+
+<%= call_hook(:view_journals_update_js_bottom, { journal: @journal }) %>

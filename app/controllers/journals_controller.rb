@@ -85,7 +85,7 @@ class JournalsController < ApplicationController
     (render_403; return false) unless @journal.editable_by?(User.current)
     respond_to do |format|
       # TODO: implement non-JS journal update
-      format.js
+      format.turbo_stream
     end
   end
 
@@ -99,7 +99,7 @@ class JournalsController < ApplicationController
     call_hook(:controller_journals_edit_post, {:journal => @journal, :params => params})
     respond_to do |format|
       format.html {redirect_to issue_path(@journal.journalized)}
-      format.js
+      format.turbo_stream
       format.api { render_api_ok }
     end
   end
