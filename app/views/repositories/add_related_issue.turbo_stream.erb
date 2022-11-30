@@ -1,0 +1,11 @@
+<% if @issue %>
+  <%= turbo_stream.update 'related-issues', partial: 'related_issues', locals: {issue_to_highlight: @issue.id} %>
+  <%= turbo_stream.append 'new-relation-form' do %>
+    <%= tag.template data: {focus_target: 'dummy'} %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.append 'content' do %>
+    <% errors = l(:label_issue) + ' ' + l('activerecord.errors.messages.invalid')%>
+    <%= tag.template errors, data: { controller: 'alert' } %>
+  <% end %>
+<% end %>
