@@ -1,0 +1,17 @@
+<% i = params[:attachment_id] %>
+<% attachment_param ||= 'attachments' %>
+<% attachment = @attachment %>
+<% description = defined?(description) && description %>
+
+<% if @attachment.new_record? %>
+  <%= turbo_stream.append 'attachments_upload' do %>
+    <%= tag.template(@attachment.errors.full_messages.join(', '), data: { controller: 'alert' }) %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "attachments_#{i}" do %>
+    <%= text_field_tag("#{attachment_param}[#{i}][filename]", attachment.filename, class: 'filename') %>
+    <%= text_field_tag("#{attachment_param}[#{i}][description]", attachment.description, maxlength: 255, placeholder: l(:label_optional_description), class: 'description') if description %>
+    <%= link_to('&nbsp;'.html_safe, attachment_path(attachment, attachment_id: "#{i}", format: :turbo_stream), data: { turbo: true, turbo_method: :delete }, class: 'icon-only icon-del remove-upload') %>
+    <%= hidden_field_tag "#{attachment_param}[#{i}][token]", attachment.token %>
+  <% end %>
+<% end %>
