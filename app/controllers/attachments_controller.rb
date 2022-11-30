@@ -116,10 +116,16 @@ class AttachmentsController < ApplicationController
     saved = @attachment.save
 
     respond_to do |format|
-      format.js
+      format.turbo_stream do
+        if saved
+          render action: 'upload'
+        else
+          render action: 'upload', status: :unprocessable_entity
+        end
+      end
       format.api do
         if saved
-          render :action => 'upload', :status => :created
+          render action: 'upload', status: :created
         else
           render_validation_errors(@attachment)
         end
@@ -182,7 +188,7 @@ class AttachmentsController < ApplicationController
 
     respond_to do |format|
       format.html {redirect_to_referer_or project_path(@project)}
-      format.js
+      format.turbo_stream
       format.api {render_api_ok}
     end
   end
