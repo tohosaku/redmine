@@ -28,10 +28,9 @@
   <td>
     <% if options[:deletable] %>
       <%= link_to sprite_icon('del', l(:button_delete)), attachment_path(attachment),
-                  :data => {:confirm => l(:text_are_you_sure)},
-                  :method => :delete,
-                  :class => 'delete icon-only icon-del ',
-                  :title => l(:button_delete) %>
+                  data: { turbo: true, turbo_method: :delete, turbo_confirm: l(:text_are_you_sure)},
+                  class: 'delete icon-only icon-del',
+                  title: l(:button_delete) %>
     <% end %>
   </td>
 </tr>

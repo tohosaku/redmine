@@ -1,0 +1,4 @@
+<%= turbo_stream.before "attachments_#{params[:attachment_id]}" do %>
+  <%= tag.template data: { attachment_target: :destroy } %>
+<% end %>
+<%= turbo_stream.remove "attachments_#{params[:attachment_id]}" %>
