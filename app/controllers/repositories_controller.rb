@@ -251,7 +251,7 @@ class RepositoriesController < ApplicationController
       else
         format.api { render_api_errors "#{l(:label_issue)} #{l('activerecord.errors.messages.invalid')}" }
       end
-      format.js
+      format.turbo_stream
     end
   end
 
@@ -264,7 +264,7 @@ class RepositoriesController < ApplicationController
     end
     respond_to do |format|
       format.api { render_api_ok }
-      format.js
+      format.turbo_stream
     end
   end
 
