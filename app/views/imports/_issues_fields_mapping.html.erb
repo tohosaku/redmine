@@ -1,13 +1,13 @@
 <p>
   <label for="import_mapping_project_id"><%= l(:label_project) %></label>
   <%= select_tag 'import_settings[mapping][project_id]',
-        options_for_select(project_tree_options_for_select(@import.allowed_target_projects, :selected => @import.project)),
-        :id => 'import_mapping_project_id' %>
+        options_for_select(project_tree_options_for_select(@import.allowed_target_projects, selected: @import.project)),
+        id: 'import_mapping_project_id', data: { action: 'form#post' } %>
 </p>
 <p>
   <label for="import_mapping_tracker"><%= l(:field_tracker) %></label>
-  <%= mapping_select_tag @import, 'tracker', :required => true,
-        :values => @import.allowed_target_trackers.sorted.map {|t| [t.name, t.id]} %>
+  <%= mapping_select_tag @import, 'tracker', { required: true, values: @import.allowed_target_trackers.sorted.map {|t| [t.name, t.id]}},
+                                             { data: { action: 'form#post' }} %>
 </p>
 <p>
   <label for="import_mapping_status"><%= l(:field_status) %></label>

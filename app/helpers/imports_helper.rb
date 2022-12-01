@@ -38,9 +38,9 @@ module ImportsHelper
     tags
   end
 
-  def mapping_select_tag(import, field, options={})
+  def mapping_select_tag(import, field, options={}, html_options={})
     name = "import_settings[mapping][#{field}]"
-    select_tag name, options_for_mapping_select(import, field, options), :id => "import_mapping_#{field}"
+    select_tag name, options_for_mapping_select(import, field, options), html_options.merge({id: "import_mapping_#{field}"})
   end
 
   # Returns the options for the date_format setting

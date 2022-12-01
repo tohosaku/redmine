@@ -12,6 +12,8 @@ export default class extends Controller {
 
   connect() {
     this.element.classList.add('ajax-loading');
-    post(this.element.dataset.runpath);
+    post(this.element.dataset.runpath, {
+      responseKind: 'turbo-stream'
+    });
   }
 }
