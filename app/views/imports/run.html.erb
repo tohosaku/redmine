@@ -1,16 +1,9 @@
 <h2><%= import_title %></h2>
 
-<div id="import-details">
-  <div id="import-progress"><div id="progress-label">0 / <%= @import.total_items.to_i %></div></div>
-</div>
-
-<%= javascript_tag do %>
-$(document).ready(function() {
-  $('#import-details').addClass('ajax-loading');
-  $('#import-progress').progressbar({value: 0, max: <%= @import.total_items.to_i %>});
-  $.ajax({
-    url: '<%= import_run_path(@import, :format => 'js') %>',
-    type: 'post'
-  });
-});
+<%= tag.div id: 'import-details', data: { controller: "imports--run", imports__run_max_value: @import.total_items.to_i, imports__run_runpath_value: import_run_path(@import) } do %>
+  <%= tag.div id: 'import-progress', data: { imports__run_target: 'progressbar' } do %>
+    <%= tag.div id: 'progress-label', data: { imports__run_target: 'label' } do %>
+      0 / <%= @import.total_items.to_i %>
+    <% end %>
+  <% end %>
 <% end %>

@@ -81,7 +81,7 @@ class ImportsController < ApplicationController
             redirect_to import_run_path(@import)
           end
         end
-        format.js # updates mapping form on project or tracker change
+        format.turbo_stream # updates mapping form on project or tracker change
       end
     end
   end
@@ -100,7 +100,7 @@ class ImportsController < ApplicationController
             redirect_to import_run_path(@import)
           end
         end
-        format.js
+        format.turbo_stream
       end
     end
   end
