@@ -1,0 +1,7 @@
+<%= turbo_stream.update 'import-details' do %>
+  <% if @import.finished? %>
+    <%= tag.template data: {controller: 'redirect', redirect_url_value: import_path(@import)} %>
+  <% else %>
+    <%= render partial: 'progressbar', locals: {current: @current.to_i} %>
+  <% end %>
+<% end %>

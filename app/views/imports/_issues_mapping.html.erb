@@ -1,8 +1,8 @@
 <fieldset class="box tabular">
   <legend><%= l(:label_fields_mapping) %></legend>
-  <div id="fields-mapping">
+  <%= tag.div id: "fields-mapping", data: { controller: 'form', form_url_value: import_mapping_path(@import) }  do %>
     <%= render :partial => 'issues_fields_mapping' %>
-  </div>
+  <% end %>
 </fieldset>
 
 <fieldset class="box tabular collapsible collapsed">
@@ -15,12 +15,3 @@
   </div>
 </fieldset>
 
-<%= javascript_tag do %>
-  $('#fields-mapping').on('change', '#import_mapping_project_id, #import_mapping_tracker', function(){
-    $.ajax({
-      url: '<%= import_mapping_path(@import, :format => 'js') %>',
-      type: 'post',
-      data: $('#import-form').serialize()
-    });
-  });
-<% end %>
