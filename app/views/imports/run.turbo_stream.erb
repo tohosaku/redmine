@@ -1,0 +1,10 @@
+<%= turbo_stream.append 'import-details' do %>
+  <%= tag.template data: {
+    imports__run_target: 'progress',
+    path: import_path(@import),
+    runpath: import_run_path(@import),
+    finished: @import.finished?,
+    current: @current,
+    label: "#{@current} / #{@import.total_items}"
+  } %>
+<% end %>
