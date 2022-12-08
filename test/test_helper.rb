@@ -329,6 +329,7 @@ module Redmine
 
   class HelperTest < ActionView::TestCase
     include Redmine::I18n
+    include Propshaft::Helper
 
     def setup
       super
