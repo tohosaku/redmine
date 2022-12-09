@@ -32,3 +32,47 @@ Rails.application.config.to_prepare do
 
   plugin_assets_reloader.execute_if_updated
 end
+
+Rails.application.config.to_prepare do
+  module Propshaft
+    LoadPath.prepend(Module.new do
+      def assets_by_path
+        extension_paths = {
+          plugins: Redmine::PluginLoader.asset_paths,
+          themes:  Redmine::Themes.asset_paths
+        }
+        merge_required = @cached_assets_by_path == nil && extension_paths.values.any?{|e| !e.empty? }
+
+        super
+
+        if merge_required
+          extension_paths.each do |name, paths|
+            assets = extension_assets(name, paths)
+            @cached_assets_by_path.merge!(assets)
+          end
+        end
+        @cached_assets_by_path
+      end
+
+      def extension_assets(name, extension_paths)
+        extension_paths.each_with_object({}) do |(id, paths), hash|
+          paths.each do |path|
+            without_dotfiles(all_files_from_tree(path)).each do |file|
+              logical_path = "#{name}/#{id}/#{file.relative_path_from(path)}"
+              asset = Propshaft::Asset.new(file, logical_path: logical_path, version: version)
+              hash[asset.logical_path.to_s] ||= asset
+            end
+          end
+        end
+      end
+    end)
+
+    Helper.prepend(Module.new do
+      def compute_asset_path(path, options = {})
+        super
+      rescue MissingAssetError => e
+        File.join Rails.application.assets.resolver.prefix, path
+      end
+    end)
+  end
+end

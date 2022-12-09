@@ -35,6 +35,10 @@ module Redmine
       @dir
     end
 
+    def name
+      File.basename(@dir)
+    end
+
     def mirror_assets
       return unless has_assets_dir?
 
@@ -141,6 +145,16 @@ module Redmine
         directories.find{|d| d.to_s == File.join(directory, name)}.mirror_assets
       else
         directories.each(&:mirror_assets)
+      end
+    end
+
+    def self.asset_paths
+      @plugin_directories.each_with_object({}) do |path, hash|
+        if path.has_assets_dir?
+          assets_dir = Pathname.new(path.assets_dir)
+          paths = assets_dir.children.filter_map{|child| child if child.directory? }
+          hash[path.name] = paths unless paths.empty?
+        end
       end
     end
   end
