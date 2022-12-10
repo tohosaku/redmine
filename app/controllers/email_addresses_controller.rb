@@ -42,13 +42,17 @@ class EmailAddressesController < ApplicationController
           redirect_to user_email_addresses_path(@user)
         else
           index
-          render :action => 'index'
+          render :action => 'index', status: :unprocessable_entity
         end
       end
-      format.js do
+      format.turbo_stream do
         @address = nil if saved
         index
-        render :action => 'index'
+        if saved
+          render action: 'index'
+        else
+          render action: 'index', status: :unprocessable_entity
+        end
       end
     end
   end
@@ -57,16 +61,25 @@ class EmailAddressesController < ApplicationController
     if params[:notify].present?
       @address.notify = params[:notify].to_s
     end
-    @address.save
+    saved = @address.save
 
     respond_to do |format|
       format.html do
-        redirect_to user_email_addresses_path(@user)
+        if saved
+          redirect_to user_email_addresses_path(@user)
+        else
+          index
+          render :action => 'index', status: :unprocessable_entity
+        end
       end
-      format.js do
+      format.turbo_stream do
         @address = nil
         index
-        render :action => 'index'
+        if saved
+          render action: 'index'
+        else
+          render action: 'index', status: :unprocessable_entity
+        end
       end
     end
   end
@@ -76,12 +89,12 @@ class EmailAddressesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to user_email_addresses_path(@user)
+        redirect_to user_email_addresses_path(@user), :status => :see_other
       end
-      format.js do
+      format.turbo_stream do
         @address = nil
         index
-        render :action => 'index'
+        render action: 'index'
       end
     end
   end
