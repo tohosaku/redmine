@@ -1,0 +1,4 @@
+<%= turbo_stream.remove "relation-#{@relation.id}" %>
+<%= turbo_stream.replace 'issues-relations' do %>
+  <%= render_relations_stats(@issue, @relations) %>
+<% end %>

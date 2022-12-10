@@ -1,48 +1,25 @@
-import Tribute from '@redmine-ui/tribute'
 import { Controller } from "@hotwired/stimulus"
-import { createQuery } from 'helper'
+import { setDisplay } from "helper"
 
 // Connects to data-controller="issue-relations--form"
 export default class extends Controller {
-  static targets = ['field']
-  static values = { path: String }
+  static targets = ['predecessor', 'select']
+  static values  = {'condition': Array}
 
   connect() {
-    this.multipleAutocompleteField(this.fieldTarget, this.pathValue);
-    setPredecessorFieldsVisibility()
+    this.setPredecessorFieldsVisibility()
   }
 
   set(e) {
-    setPredecessorFieldsVisibility()
+    this.setPredecessorFieldsVisibility()
   }
 
-  multipleAutocompleteField(field, path, options) {
+  get isMatched() {
+    const value = this.selectTarget.value
+    return this.conditionValue.includes(value)
+  }
 
-    if (field.classList.contains('autocomplete')) return;
-
-    const tribute = new Tribute(Object.assign({
-      autocompleteMode: true,
-      menuShowMinLength: 2,
-      noMatchTemplate: '',
-      lookup: 'label',
-      values: createQuery(field, path),
-      selectTemplate: function(item) {
-        if (typeof item === "undefined") return null;
-
-        const terms = field.value.split(/,\s*/);
-        // remove the current input
-        terms.pop();
-        // add the selected item
-        terms.push(item.original.value);
-        // add placeholder to get the comma-and-space at the end
-        terms.push("");
-
-        field.value = terms.join(", ");
-        return '';
-      }
-    }, options));
-    tribute.attach(field);
-
-    field.classList.add('autocomplete');
+  setPredecessorFieldsVisibility() {
+    setDisplay(this.predecessorTarget, this.isMatched)
   }
 }

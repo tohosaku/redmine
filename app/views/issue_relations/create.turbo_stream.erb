@@ -1,0 +1,7 @@
+<%= turbo_stream.update 'relations' do %>
+  <%= render 'issues/relations' %>
+  <% if @relation.errors.empty? %>
+    <%= tag.template data: {clear_target: 'dummy'} %>
+  <% end %>
+  <%= tag.template data: {visibility_target: 'dummy', selector: 'new-relation-form'} %>
+<% end %>
