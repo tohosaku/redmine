@@ -1,6 +1,0 @@
-<%# locals: (template:) %>
-<% html = component 'remote_dialog', modal: false, width: '300px', title: content_for?(:help_title) ? yield(:help_title) : 'Wiki formatting' do %>
-  <%= render template: template, layout: nil %>
-<% end %>
-
-$('#wiki-help').html('<%= escape_javascript(html) %>')

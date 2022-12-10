@@ -28,7 +28,7 @@ class HelpControllerTest < Redmine::ControllerTest
 
     formatters.each do |formatter, result|
       with_settings :text_formatting => formatter do
-        get :show_wiki_syntax
+        get :show_wiki_syntax, :format => :turbo_stream
 
         assert_response :success
         assert_select 'h1', :text => result
@@ -60,7 +60,7 @@ class HelpControllerTest < Redmine::ControllerTest
     user.save!
     @request.session[:user_id] = 2
 
-    get :show_wiki_syntax
+    get :show_wiki_syntax, :format => :turbo_stream
     assert_response :success
 
     assert_select 'h1', :text => "Wiki Syntax Schnellreferenz (CommonMark Markdown (GitHub Flavored))"
@@ -88,7 +88,7 @@ class HelpControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     with_settings :text_formatting => 'common_mark' do
-      get :show_wiki_syntax
+      get :show_wiki_syntax, :format => :turbo_stream
     end
     assert_response :success
 

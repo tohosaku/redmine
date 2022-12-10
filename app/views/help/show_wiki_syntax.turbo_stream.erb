@@ -1,0 +1,6 @@
+<%# locals: (template:) %>
+<%= turbo_stream.update 'wiki-help' do %>
+  <%= component 'remote_dialog', modal: false, width: '300px', title: content_for?(:help_title) ? yield(:help_title) : 'Wiki formatting' do %>
+    <%= render template: template, layout: nil %>
+  <% end %>
+<% end %>

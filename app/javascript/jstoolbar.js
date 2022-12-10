@@ -61,7 +61,7 @@ export default class jsToolBar {
   }
 
   showHelp() {
-    get(this.help_link, { responseKind: 'js' });
+    get(this.help_link, { responseKind: 'turbo-stream' });
   }
 
   setPreviewUrl(url) {
