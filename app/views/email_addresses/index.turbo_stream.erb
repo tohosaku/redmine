@@ -1,0 +1,4 @@
+<%= show_turbo_modal width: '600px', title: l(:label_email_address_plural) do %>
+  <%= render :partial => 'email_addresses/index' %>
+<% end %>
+<%= turbo_stream.focus 'email_address_address' %>

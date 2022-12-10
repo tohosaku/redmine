@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-  Jean-Philippe Lang
@@ -79,7 +78,7 @@ module UsersHelper
 
   def additional_emails_link(user)
     if user.email_addresses.count > 1 || Setting.max_additional_emails.to_i > 0
-      link_to icon_with_label('email', l(:label_email_address_plural)), user_email_addresses_path(@user), :class => 'icon icon-email-add', :remote => true
+      link_to icon_with_label('email', l(:label_email_address_plural)), user_email_addresses_path(@user), :class => 'icon icon-email-add', :data => { :turbo => true, :turbo_stream => true }
     end
   end
 

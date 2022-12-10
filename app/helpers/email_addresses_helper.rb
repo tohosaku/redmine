@@ -23,17 +23,17 @@ module EmailAddressesHelper
     if address.notify?
       link_to(
         icon_with_label('email', l(:label_disable_notifications)),
-        user_email_address_path(address.user, address, :notify => '0'),
-        :method => :put, :remote => true,
-        :title => l(:label_disable_notifications),
-        :class => 'icon-only icon-email')
+        user_email_address_path(address.user, address, notify: '0'),
+        data: { turbo: true, turbo_method: :put },
+        title: l(:label_disable_notifications),
+        class: 'icon-only icon-email')
     else
       link_to(
         icon_with_label('email-disabled', l(:label_enable_notifications)),
-        user_email_address_path(address.user, address, :notify => '1'),
-        :method => :put, :remote => true,
-        :title => l(:label_enable_notifications),
-        :class => 'icon-only icon-email-disabled')
+        user_email_address_path(address.user, address, notify: '1'),
+        data: { turbo: true, turbo_method: :put },
+        title: l(:label_enable_notifications),
+        class: 'icon-only icon-email-disabled')
     end
   end
 end
