@@ -193,6 +193,7 @@ module IssuesHelper
     content_tag(
       'span',
       "#{all_block} (#{open_block} &#8212; #{closed_block})".html_safe,
+      :id => 'issues-relations',
       :class => 'issues-stat'
     )
   end
@@ -209,9 +210,11 @@ module IssuesHelper
           link_to(
             sprite_icon('link-break', l(:label_relation_delete)),
             relation_path(relation, issue_id: issue.id),
-            :remote => true,
-            :method => :delete,
-            :data => {:confirm => l(:text_are_you_sure)},
+            :data => {
+              :turbo => true,
+              :turbo_method => :delete,
+              :turbo_confirm => l(:text_are_you_sure)
+            },
             :title => l(:label_relation_delete),
             :class => 'icon-only icon-link-break'
           )
