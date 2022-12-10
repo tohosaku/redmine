@@ -75,7 +75,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_create_xhr
+  def test_create_turbo_stream
     assert_difference 'IssueRelation.count' do
       post(
         :create,
@@ -87,10 +87,10 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
             :delay => ''
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
     relation = IssueRelation.order('id DESC').first
     assert_equal 1, relation.issue_from_id
@@ -170,7 +170,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
             :delay => ''
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
     end
     assert_include 'Followed issue', response.body
@@ -196,7 +196,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_create_xhr_with_failure
+  def test_create_turbo_stream_with_failure
     assert_no_difference 'IssueRelation.count' do
       post(
         :create,
@@ -208,10 +208,10 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
             :delay => ''
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
     end
     assert_include 'Related issue cannot be blank', response.body
   end
@@ -233,7 +233,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
             :delay => ''
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
     end
 
@@ -255,7 +255,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
             :delay => ''
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
     end
 
@@ -282,13 +282,13 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
               :delay => ''
             }
           },
-          :xhr => true
+          :format => :turbo_stream
         )
       end
     end
 
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     # issue #1 is invalid
     assert_include 'Related issue is invalid: #1', response.body
     # issues #4 and #5 can't be related by default
@@ -309,16 +309,16 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_destroy_xhr
+  def test_destroy_turbo
     IssueRelation.create!(:relation_type => IssueRelation::TYPE_RELATES) do |r|
       r.issue_from_id = 3
       r.issue_to_id = 1
     end
 
     assert_difference 'IssueRelation.count', -1 do
-      delete(:destroy, :params => {:id => '2', :issue_id => '2'}, :xhr => true)
+      delete(:destroy, :params => {:id => '2', :issue_id => '2'}, :format => :turbo_stream)
       assert_response :success
-      assert_equal 'text/javascript', response.media_type
+      assert_equal 'text/vnd.turbo-stream.html', response.media_type
       assert_include 'relation-2', response.body
     end
   end

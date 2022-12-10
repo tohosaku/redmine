@@ -1,0 +1,8 @@
+<%= turbo_stream.update 'relations', partial: 'issues/relations' %>
+<% if @relation.errors.empty? %>
+  <%= turbo_stream.clear 'relation_delay' %>
+  <%= turbo_stream.clear 'relation_issue_to_id' %>
+<% end %>
+
+<%= turbo_stream.show 'new-relation-form' %>
+<%= turbo_stream.focus 'relation_issue_to_id' %>

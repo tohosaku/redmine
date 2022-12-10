@@ -67,7 +67,7 @@ class IssueRelationsController < ApplicationController
 
     respond_to do |format|
       format.html {redirect_to issue_path(@issue)}
-      format.js do
+      format.turbo_stream do
         @relations = select_relations(@issue)
         @unsaved_relations = unsaved_relations
       end
@@ -89,7 +89,7 @@ class IssueRelationsController < ApplicationController
 
     respond_to do |format|
       format.html {redirect_to issue_path(@relation.issue_from)}
-      format.js do
+      format.turbo_stream do
         find_issue
         @relations = select_relations(@issue)
       end
