@@ -91,7 +91,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
             :address => 'another@somenet.foo'
           }
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :ok
     end
@@ -109,7 +109,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response :success
+      assert_response :unprocessable_entity
       assert_select_error /email is invalid/i
     end
   end
@@ -128,7 +128,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
             }
           }
         )
-        assert_response :success
+        assert_response :unprocessable_entity
         assert_select_error 'Email contains a domain not allowed (black.example)'
       end
     end
@@ -144,7 +144,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
             }
           }
         )
-        assert_response :success
+        assert_response :unprocessable_entity
         assert_select_error 'Email contains a domain not allowed (example.fr)'
       end
     end
@@ -202,7 +202,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
         :id => email.id,
         :notify => '0'
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     assert_response :ok
 
@@ -221,7 +221,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
         :id => email.id,
         :notify => '0'
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
@@ -243,7 +243,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
           :id => email.id
         }
       )
-      assert_response :found
+      assert_response :see_other
       assert_redirected_to '/users/2/email_addresses'
     end
   end
@@ -259,7 +259,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
           :user_id => 2,
           :id => email.id
         },
-        :xhr => true
+        :format => :turbo_stream
       )
       assert_response :ok
     end
@@ -291,7 +291,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
         :user_id => 2,
         :id => email.id
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
