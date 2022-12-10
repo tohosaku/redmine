@@ -10,7 +10,7 @@
 </p>
 
 <% if @relations.present? %>
-<%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do %>
+<%= form_tag({}, data: {cm_url: issues_context_menu_path}) do %>
   <div class="relation-issues-wrapper">
     <%= render_issue_relations(@issue, @relations) %>
   </div>
@@ -18,15 +18,16 @@
 <% end %>
 
 <%= form_for @relation, {
-                 as: :relation, remote: true,
+                 as: :relation,
                  url: issue_relations_path(@issue),
                  html: {
                    id: 'new-relation-form',
                    style: 'display: none;',
                    data: {
+                     turbo: true,
                      controller: 'visibility'
                    }
                  }
                } do |f| %>
-<%= render :partial => 'issue_relations/form', :locals => {:f => f}%>
+<%= render partial: 'issue_relations/form', locals: {f: f}%>
 <% end %>
