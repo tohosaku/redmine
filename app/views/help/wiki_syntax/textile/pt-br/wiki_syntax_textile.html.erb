@@ -1,12 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Formata&ccedil;&atilde;o Wiki</title>
-<%= stylesheet_link_tag "wiki_syntax.css" %>
-</head>
-<body>
-
+<% content_for(:help_title) { 'Formata&ccedil;&atilde;o Wiki' } %>
 <h1>Sintaxe Wiki - Refer&ecirc;ncia R&aacute;pida</h1>
 
 <table style="width:100%">
@@ -76,6 +68,3 @@
 </table>
 
 <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">Mais Informa&ccedil;&otilde;es</a></p>
-
-</body>
-</html>

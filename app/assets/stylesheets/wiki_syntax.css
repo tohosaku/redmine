@@ -36,42 +36,45 @@
   --fonts-main: "Noto Sans", sans-serif;
 }
 
-h1 { font-family: var(--fonts-main); font-size: 0.875rem; text-align: center; color: var(--oc-gray-8); }
-body { font-family: var(--fonts-main); font-size: 0.75rem; color: var(--oc-gray-8); }
-pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
-table th { padding-block-start: 1em; }
-table th img {
+#wiki-help div.dialog { width: 300px; position: fixed; top: 5%; right: 10%; box-shadow: 0 2px 4px rgba(0,0,0,0.25) }
+#wiki-help div.dialog-content { height: 640px; overflow: scroll }
+#wiki-help h1 { font-family: var(--fonts-main); font-size: 0.875rem; text-align: center; color: var(--oc-gray-8); }
+#wiki-help { font-family: var(--fonts-main); font-size: 0.75rem; color: var(--oc-gray-8); }
+#wiki-help pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
+#wiki-help table th { padding-block-start: 1em; }
+#wiki-help table th img {
   border: 1px solid var(--oc-gray-5);
   opacity: 0.7;
 }
-table th .syntax-pre {
+#wiki-help table th .syntax-pre {
   display: inline-block;
   border: 1px solid var(--oc-gray-5);
   inline-size: 18px;
   block-size: 18px;
 }
-table th .syntax-pre:before {
+#wiki-help table th .syntax-pre:before {
   content: "pre";
   font-size: 0.625rem;
   color: var(--oc-gray-7);
 }
-table td { background-color: var(--oc-gray-0); block-size: 2em; vertical-align: middle;}
-table td code { font-size: 1.2em; }
-table td h1 { font-size: 1.8em; text-align: start; }
-table td h2 { font-size: 1.4em; text-align: start; }
-table td h3 { font-size: 1.2em; text-align: start; }
 
-table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; }
-table.sample th, table.sample td { border: solid 1px var(--oc-gray-5); padding: 4px; block-size: 1em; }
+#wiki-help table td { background-color: var(--oc-gray-0); block-size: 2em; vertical-align: middle;}
+#wiki-help table td code { font-size: 1.2em; }
+#wiki-help table td h1 { font-size: 1.8em; text-align: start; }
+#wiki-help table td h2 { font-size: 1.4em; text-align: start; }
+#wiki-help table td h3 { font-size: 1.2em; text-align: start; }
 
-a, a:link, a:visited{ color: var(--oc-blue-9); text-decoration: none; }
-a:hover, a:active{ color: var(--oc-red-9); text-decoration: underline;}
+#wiki-help table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; }
+#wiki-help table.sample th, #wiki-help table.sample td { border: solid 1px var(--oc-gray-5); padding: 4px; block-size: 1em; }
 
-.syntaxhl .mi { color: #0000DD; font-weight: bold }
-.syntaxhl .nf { color: #0066BB; font-weight: bold }
-.syntaxhl .k { color: #008800; font-weight: bold }
-.syntaxhl .nb { color: #007020 }
-.syntaxhl .s1 { background-color: #fff0f0 }
+#wiki-help a,#wiki-help a:link,#wiki-help a:visited{ color: var(--oc-blue-9); text-decoration: none; }
+#wiki-help a:hover, #wiki-help a:active{ color: var(--oc-red-9); text-decoration: underline;}
+
+#wiki-help .syntaxhl .mi { color: #0000DD; font-weight: bold }
+#wiki-help .syntaxhl .nf { color: #0066BB; font-weight: bold }
+#wiki-help .syntaxhl .k { color: #008800; font-weight: bold }
+#wiki-help .syntaxhl .nb { color: #007020 }
+#wiki-help .syntaxhl .s1 { background-color: #fff0f0 }
 
 span.more_info { font-weight: normal; }
 
@@ -85,3 +88,4 @@ span.more_info { font-weight: normal; }
 }
 .markdown-alert-note { border-color: var(--oc-indigo-7); }
 .markdown-alert-note .markdown-alert-title { color: var(--oc-indigo-9); }
+#wiki-help span.more_info { font-weight: normal; }

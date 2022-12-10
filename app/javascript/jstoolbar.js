@@ -6,6 +6,7 @@
  * Modified by JP LANG for multiple text formatting
  */
 import { isMac } from 'helper'
+import { get } from '@rails/request.js'
 
 export default class jsToolBar {
   static lastJstPreviewed = null;
@@ -60,7 +61,7 @@ export default class jsToolBar {
   }
 
   showHelp() {
-    window.open(this.help_link, '', 'resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes')
+    get(this.help_link, { responseKind: 'js' });
   }
 
   setPreviewUrl(url) {

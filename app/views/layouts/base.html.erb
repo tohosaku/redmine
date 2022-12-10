@@ -9,6 +9,7 @@
 <%= csrf_meta_tag %>
 <%= favicon %>
 <%= stylesheet_link_tag 'jquery/jquery-ui-1.13.2', 'tribute', 'application', 'dropdown', 'responsive', :media => 'all' %>
+<%= stylesheet_link_tag "wiki_syntax.css" %>
 <%= javascript_importmap_tags %>
 <%= javascript_heads %>
 <%= heads_for_theme %>
@@ -168,5 +169,6 @@
 </div>
 <div id="ajax-modal" data-controller="dialog-dispatcher"></div>
 <div id="sudo-modal" data-controller="dialog-dispatcher"></div>
+<div id="wiki-help" data-controller="dialog-dispatcher"></div>
 </body>
 </html>
