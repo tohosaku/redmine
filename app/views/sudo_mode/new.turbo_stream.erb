@@ -1,0 +1,4 @@
+<%= turbo_stream.hide 'sudo-modal' %>
+<%= turbo_stream.update 'sudo-modal', partial: 'sudo_mode/new_modal' %>
+<%= show_turbo_modal 'sudo-modal', width: '400px' %>
+<%= turbo_stream.focus '#sudo-password' %>
