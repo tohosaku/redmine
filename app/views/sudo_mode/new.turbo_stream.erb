@@ -1,0 +1,23 @@
+<%= turbo_stream.hide_modal 'sudo-modal' %>
+<%= show_turbo_modal 'sudo-modal', width: '400px' do %>
+  <p class="nodata" style="font-size: 1em;"><%= t 'sudo_mode_new_info_html' %></p>
+  <%= form_tag({}, id: 'sodo-modal-form', data: { turbo: true, controller: 'focus' }) do %>
+
+    <%= hidden_field_tag '_method', request.request_method %>
+    <%= hash_to_hidden_fields @sudo_form.original_fields %>
+    <%= render_flash_messages %>
+    <div class="box tabular">
+      <p>
+        <label for="sudo_password"><%= l :field_password %><span class="required">*</span></label>
+        <%= password_field_tag :sudo_password, nil, size: 25, data: {focus_target: 'point'} %>
+        <br/><%= link_to l(:label_password_lost), lost_password_path, :class => "lost_password" if Setting.lost_password? %>
+      </p>
+    </div>
+
+    <p class="buttons">
+      <%= submit_tag l(:button_submit), data: { action: 'modal#hide' } %>
+      <%= link_to l(:button_cancel), '#', data: { action: 'modal#hide' } %>
+    </p>
+    <%= tag.template data: {focus_target: 'dummy'} %>
+  <% end %>
+<% end %>
