@@ -1,0 +1,17 @@
+<%= turbo_stream.append 'issue-form' do %>
+  <%= tag.template data: { issue_target: 'form' } do %>
+    <%= render(partial: 'form') %>
+  <% end %>
+<% end %>
+
+<% if User.current.allowed_to?(:log_time, @issue.project) %>
+  <%= turbo_stream.show :log_time %>
+<% else %>
+  <%= turbo_stream.hide :log_time %>
+<% end %>
+
+<% if @issue.notes_addable? %>
+  <%= turbo_stream.show '#add_notes, #add_attachments' %>
+<% else %>
+  <%= turbo_stream.hide '#add_notes, #add_attachments' %>
+<% end %>

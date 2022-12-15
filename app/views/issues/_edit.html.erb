@@ -1,10 +1,12 @@
-<%= labelled_form_for @issue, :html => {:id => 'issue-form', :multipart => true} do |f| %>
+<%= labelled_form_for @issue,
+      html: {id: 'issue-form', multipart: true,
+      data: { controller: 'issue', issue_url_value: update_issue_form_path(@project, @issue) }} do |f| %>
     <%= error_messages_for 'issue', 'time_entry' %>
     <%= render :partial => 'conflict' if @conflict %>
     <%= droppable_box do %>
     <% if @issue.attributes_editable? %>
         <fieldset class="tabular"><legend><%= l(:label_change_properties) %></legend>
-        <div id="all_attributes">
+        <div id="all_attributes" data-issue-target="attribute">
         <%= render :partial => 'form', :locals => {:f => f} %>
         </div>
         </fieldset>

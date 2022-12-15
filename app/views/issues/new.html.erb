@@ -2,12 +2,13 @@
 
 <%= call_hook(:view_issues_new_top, {:issue => @issue}) %>
 
-<%= labelled_form_for @issue, :url => _project_issues_path(@project),
-                             :html => {:id => 'issue-form', :multipart => true} do |f| %>
+<%= labelled_form_for @issue, url: _project_issues_path(@project),
+      html: {id: 'issue-form', multipart: true,
+      data: { controller: 'issue', issue_url_value: update_issue_form_path(@project, @issue) }} do |f| %>
   <%= error_messages_for 'issue' %>
   <%= hidden_field_tag 'copy_from', params[:copy_from] if params[:copy_from] %>
   <%= droppable_box class: 'tabular' do %>
-    <div id="all_attributes">
+    <div id="all_attributes" data-issue-target="attribute">
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
     </div>
 

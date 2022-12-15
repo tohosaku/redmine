@@ -1,0 +1,18 @@
+<%= turbo_stream.append 'issue-form' do %>
+  <%= tag.template data: { issue_target: 'form' } do %>
+    <%= render(partial: 'form') %>
+  <% end %>
+<% end %>
+
+<% case params[:form_update_triggered_by] %>
+<% when "issue_project_id" %>
+  <%= turbo_stream.replace :watchers_form_container do %>
+    <%= render partial: 'issues/watchers_form', formats: [:html] %>
+  <% end %>
+<% when "issue_category_id" %>
+  <%= turbo_stream.append 'issue-form' do %>
+    <%= tag.template data: { issue_target: 'category' } do %>
+      <%= escape_javascript(@issue.category.try(:assigned_to).try(:name)).presence || '&nbsp;'.html_safe %>
+    <% end %>
+  <% end %>
+<% end %>
