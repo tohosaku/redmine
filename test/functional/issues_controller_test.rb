@@ -4058,10 +4058,10 @@ class IssuesControllerTest < Redmine::ControllerTest
           :priority_id => 5
         }
       },
-      :xhr => true
+      format: :turbo_stream
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
     assert_include 'This is the test_new issue', response.body
   end
 
@@ -6043,10 +6043,10 @@ class IssuesControllerTest < Redmine::ControllerTest
           :priority_id => 5
         }
       },
-      :xhr => true
+      :format => :turbo_stream
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
 
     assert_include 'This is the test_new issue', response.body
   end
@@ -6853,8 +6853,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    assert_select '#errorExplanation', {text: /Log time is invalid/, count: 0}
-    assert_select '#errorExplanation', {text: /Issue is invalid/, count: 0}
+    assert_equal response.status, 302
     assert_redirected_to action: 'show', id: private_issue.id
     assert_not private_issue.reload.visible?
   end

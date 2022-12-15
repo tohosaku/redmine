@@ -402,7 +402,7 @@ module IssuesHelper
   # Returns the path for updating the issue form
   # with project as the current project
   def update_issue_form_path(project, issue)
-    options = {:format => 'js'}
+    options = {}
     if issue.new_record?
       if project
         new_project_issue_path(project, options)

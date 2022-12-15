@@ -643,7 +643,6 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     # Change project to trigger an update on issue form
     page.find('#issue_project_id').select('» Private child of eCookbook')
-    wait_for_ajax
 
     # assert log time form does not exist anymore for user without required permissions on the new project
     assert page.has_no_css?('#log_time')
@@ -663,7 +662,6 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     # Change project to trigger an update on issue form
     page.find('#issue_project_id').select('» Private child of eCookbook')
-    wait_for_ajax
 
     # assert add notes form does not exist anymore for user without required permissions on the new project
     assert page.has_no_css?('#add_notes')
