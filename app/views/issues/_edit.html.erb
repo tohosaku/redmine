@@ -1,17 +1,19 @@
-<%= labelled_form_for @issue, :html => {:id => 'issue-form', :multipart => true} do |f| %>
+<%= labelled_form_for @issue,
+      html: {id: 'issue-form', multipart: true,
+      data: { controller: 'issues--form', issue_url_value: update_issue_form_path(@project, @issue) }} do |f| %>
     <%= call_hook(:view_issues_edit_top, { :issue => @issue, :form => f }) %>
     <%= error_messages_for 'issue', 'time_entry' %>
     <%= render :partial => 'conflict' if @conflict %>
     <div class="box" <%= tag.attributes dragdrop_wrapper %>>
     <% if @issue.attributes_editable? %>
         <fieldset class="tabular"><legend><%= l(:label_change_properties) %></legend>
-        <div id="all_attributes">
+        <div id="all_attributes" data-issues--form-target="attribute">
         <%= render :partial => 'form', :locals => {:f => f} %>
         </div>
         </fieldset>
     <% end %>
     <% if @issue.time_loggable? %>
-        <fieldset class="tabular" id="log_time"><legend><%= l(:button_log_time) %></legend>
+        <fieldset class="tabular" id="log_time" data-controller="visibility"><legend><%= l(:button_log_time) %></legend>
         <%= labelled_fields_for :time_entry, @time_entry do |time_entry| %>
         <div class="splitcontent">
         <div class="splitcontentleft">
@@ -31,7 +33,7 @@
     </fieldset>
     <% end %>
     <% if @issue.notes_addable? %>
-      <fieldset id="add_notes" data-controller="scroll journals--new" data-action="journals--new:connected->scroll#scrollTo"><legend><%= l(:field_notes) %></legend>
+      <fieldset id="add_notes" data-controller="scroll visibility journals--new" data-action="journals--new:connected->scroll#scrollTo"><legend><%= l(:field_notes) %></legend>
       <%= component 'wikieditor', preview_url: preview_issue_path(project_id: @project, issue_id: @issue) do |d| %>
         <%= f.textarea :notes, cols: 60, rows: 10, class: 'wiki-edit', no_label: true,
               data: d.merge({
