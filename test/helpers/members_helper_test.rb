@@ -40,6 +40,6 @@ class MembersHelperTest < Redmine::HelperTest
     result = render_principals_for_new_members(project, 3)
     assert_select_in result, 'span.pagination'
     assert_select_in result, 'span.pagination li.current span', :text => '1'
-    assert_select_in result, 'a[href=?]', "/projects/#{project.identifier}/memberships/autocomplete.js?page=2", :text => '2'
+    assert_select_in result, 'a[href=?]', "/projects/#{project.identifier}/memberships/autocomplete?page=2", :text => '2'
   end
 end

@@ -39,6 +39,6 @@ class GroupsHelperTest < Redmine::HelperTest
     result = render_principals_for_new_group_users(group, 3)
     assert_select_in result, 'span.pagination'
     assert_select_in result, 'span.pagination li.current span', :text => '1'
-    assert_select_in result, 'a[href=?]', "/groups/#{group.id}/autocomplete_for_user.js?page=2", :text => '2'
+    assert_select_in result, 'a[href=?]', "/groups/#{group.id}/autocomplete_for_user?page=2", :text => '2'
   end
 end
