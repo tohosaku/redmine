@@ -43,9 +43,9 @@ module GroupsHelper
           text,
           autocomplete_for_user_group_path(
             group,
-            parameters.merge(:q => params[:q], :format => 'js')
+            parameters.merge(q: params[:q])
           ),
-          :remote => true
+          data: { turbo: true, turbo_stream: true }
         )
       end
     s + content_tag('span', links, :class => 'pagination')
