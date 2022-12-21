@@ -41,9 +41,9 @@ module MembersHelper
           text,
           autocomplete_project_memberships_path(
             project,
-            parameters.merge(:q => params[:q], :format => 'js')
+            parameters.merge(q: params[:q])
           ),
-          :remote => true)
+          data: { turbo: true, turbo_stream: true })
       end
     s + content_tag('span', links, :class => 'pagination')
   end
