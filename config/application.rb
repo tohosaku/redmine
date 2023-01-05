@@ -109,5 +109,10 @@ module RedmineApp
     if File.exist?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
       instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     end
+
+    if Rails.env.local?
+      config.importmap_mocha_style = 'tdd'
+      config.importmap_mocha_scripts = ['jquery-3.7.1-ui-1.13.3']
+    end
   end
 end

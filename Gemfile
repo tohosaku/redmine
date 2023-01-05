@@ -93,6 +93,8 @@ end
 
 group :development, :test do
   gem 'debug'
+  # For running javascript tests
+  gem 'importmap_mocha-rails'
 end
 
 group :development do
