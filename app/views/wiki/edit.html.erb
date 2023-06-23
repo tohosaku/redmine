@@ -40,14 +40,14 @@
 <div class="contextual"><%= link_to l(:label_edit_attachments), '#', :onclick => "$('#existing-attachments').toggle(); return false;" %></div>
 <div id="existing-attachments" style="<%= @page.deleted_attachment_ids.blank? ? 'display:none;' : '' %>">
   <% @page.attachments.each do |attachment| %>
-  <span class="existing-attachment">
+  <span class="existing-attachment" data-controller="toggle-class" data-toggle-class-klass-class="deleted">
     <%= sprite_icon('attachment', size: 12) %>
     <%= text_field_tag '', attachment.filename, :class => "icon icon-attachment filename", :disabled => true %>
     <label class='inline'>
       <%= check_box_tag 'wiki_page[deleted_attachment_ids][]',
                         attachment.id,
                         @page.deleted_attachment_ids.include?(attachment.id),
-                        :id => nil, :class => "deleted_attachment" %> <%= l(:button_delete) %>
+                        :id => nil, :class => "deleted_attachment", :data => { :action => 'toggle-class#toggleClass', :toggle_class_target => 'input' } %> <%= l(:button_delete) %>
     </label>
   </span>
   <% end %>
