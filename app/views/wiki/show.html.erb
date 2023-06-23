@@ -75,7 +75,7 @@
     <%= form_tag({:controller => 'wiki', :action => 'add_attachment',
                   :project_id => @project, :id => @page.title},
                  :multipart => true, :id => "add_attachment_form") do %>
-      <div class="box">
+      <div class="box" <%= tag.attributes dragdrop_wrapper %>>
       <p><%= render :partial => 'attachments/form' %></p>
       </div>
       <%= submit_tag l(:button_add) %>

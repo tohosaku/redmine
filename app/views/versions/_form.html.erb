@@ -17,7 +17,9 @@
 <% end %>
 
 <% @version.visible_custom_field_values.each do |value| %>
-  <p><%= custom_field_tag_with_label :version, value %></p>
+  <p <%= tag.attributes value.wrapper_attribute %>>
+    <%= custom_field_tag_with_label :version, value %>
+  </p>
 <% end %>
 
 </div>
