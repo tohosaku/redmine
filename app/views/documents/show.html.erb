@@ -31,7 +31,7 @@
 <p><%= link_to l(:label_attachment_new), {}, :onclick => "$('#add_attachment_form').show(); return false;",
                                              :id => 'attach_files_link' %></p>
   <%= form_tag({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>
-  <div class="box">
+  <div class="box" <%= tag.attributes dragdrop_wrapper %>>
   <p><%= render :partial => 'attachments/form' %></p>
   </div>
   <%= submit_tag l(:button_add) %>

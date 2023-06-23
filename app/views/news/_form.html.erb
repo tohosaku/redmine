@@ -1,6 +1,6 @@
 <%= error_messages_for @news %>
 
-<div class="box tabular">
+<div class="box tabular" <%= tag.attributes dragdrop_wrapper %>>
 <% if @project.nil? %>
   <p>
     <label><%= l(:field_project) %> <span class="required">*</span></label>

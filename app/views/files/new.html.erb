@@ -2,7 +2,7 @@
 
 <%= error_messages_for 'attachment' %>
 <%= form_tag(project_files_path(@project), :multipart => true, :class => "tabular") do %>
-<div class="box">
+<div class="box" <%= tag.attributes dragdrop_wrapper %>>
 
 <% if @versions.any? %>
 <p><label for="version_id"><%=l(:field_version)%></label>

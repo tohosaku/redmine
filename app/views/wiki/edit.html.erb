@@ -12,7 +12,7 @@
 <% end %>
 <%= error_messages_for 'content' %>
 
-<div class="box tabular">
+<div class="box tabular" <%= tag.attributes dragdrop_wrapper %>>
 <%= component 'wikieditor' do |d| %>
   <%= textarea_tag 'content[text]', @text, cols: 100, rows: 25, accesskey: accesskey(:edit),
                     class: 'wiki-edit',

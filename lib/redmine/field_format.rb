@@ -1102,6 +1102,10 @@ module Redmine
               :attachment_format_custom_field => true
             })
       end
+
+      def wrapper_attribute
+        AttachmentsHelper::CUSTOM_DRAGDROP_WRAPPER
+      end
     end
 
     class ProgressbarFormat < Numeric

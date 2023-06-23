@@ -1,6 +1,6 @@
 <%= error_messages_for @document %>
 
-<div class="box tabular">
+<div class="box tabular" <%= tag.attributes dragdrop_wrapper %>>
   <p><%= f.select :category_id, DocumentCategory.active.collect {|c| [c.name, c.id]} %></p>
   <p><%= f.text_field :title, :required => true, :size => 60 %></p>
   <p>

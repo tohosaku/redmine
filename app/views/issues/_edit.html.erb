@@ -2,7 +2,7 @@
     <%= call_hook(:view_issues_edit_top, { :issue => @issue, :form => f }) %>
     <%= error_messages_for 'issue', 'time_entry' %>
     <%= render :partial => 'conflict' if @conflict %>
-    <div class="box">
+    <div class="box" <%= tag.attributes dragdrop_wrapper %>>
     <% if @issue.attributes_editable? %>
         <fieldset class="tabular"><legend><%= l(:label_change_properties) %></legend>
         <div id="all_attributes">

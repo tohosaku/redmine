@@ -97,4 +97,30 @@ module AttachmentsHelper
       render :partial => 'common/file', :locals => {:content => content, :filename => attachment.filename}
     end
   end
+
+  def dragdrop_wrapper
+    {
+      data: {
+        controller: 'dragdrop',
+        action: ['dragover->dragdrop#start:stop:prevent',
+                 'dragleave->dragdrop#end:stop:prevent',
+                 'drop->dragdrop#handleFile:stop:prevent',
+                 'paste->dragdrop#copyImageFromClipBoard'].join(' ')
+      }
+    }
+  end
+
+  CUSTOM_DRAGDROP_WRAPPER =
+    {
+      data: {
+        controller: 'dragdrop',
+        action: ['dragover->dragdrop#start:stop:prevent',
+                 'dragleave->dragdrop#end:stop:prevent',
+                 'drop->dragdrop#handleFile:stop:prevent'].join(' ')
+      }
+    }
+
+  def custom_dragdrop_wrapper
+    CUSTOM_DRAGDROP_WRAPPER
+  end
 end

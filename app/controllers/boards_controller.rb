@@ -25,6 +25,7 @@ class BoardsController < ApplicationController
   helper :sort
   include SortHelper
   helper :watchers
+  helper :attachments
 
   def index
     @boards = @project.boards.preload(:last_message => :author).to_a
