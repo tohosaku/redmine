@@ -2,7 +2,7 @@
 
 <%= error_messages_for 'attachment' %>
 <%= form_tag(project_files_path(@project), :multipart => true, :class => "tabular") do %>
-<div class="box">
+<%= droppable_box do %>
 
 <% if @versions.any? %>
 <p><label for="version_id"><%=l(:field_version)%></label>
@@ -11,6 +11,6 @@
 <% end %>
 
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
-</div>
+<% end %>
 <%= submit_tag l(:button_add) %>
 <% end %>

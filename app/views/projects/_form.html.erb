@@ -24,7 +24,9 @@
 <% end %>
 
 <% @project.visible_custom_field_values.each do |value| %>
-  <p><%= custom_field_tag_with_label :project, value %></p>
+  <%= custom_droppable_tag value.custom_field do %>
+    <%= custom_field_tag_with_label :project, value %>
+  <% end %>
 <% end %>
 <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
 </div>

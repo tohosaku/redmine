@@ -8,7 +8,9 @@
 <% i = 0 %>
 <% split_on = (custom_field_values.size / 2.0).ceil - 1 %>
 <% custom_field_values.each do |value| %>
-  <p><%= custom_field_tag_with_label :issue, value, :required => @issue.required_attribute?(value.custom_field_id) %></p>
+  <%= custom_droppable_tag value.custom_field do %>
+    <%= custom_field_tag_with_label :issue, value, :required => @issue.required_attribute?(value.custom_field_id) %>
+  <% end %>
 <% if i == split_on -%>
 </div><div class="splitcontentright">
 <% end -%>
@@ -19,10 +21,10 @@
 <% end %>
 
 <% custom_field_values_full_width.each do |value| %>
-  <p>
+  <%= custom_droppable_tag value.custom_field do %>
     <%= custom_field_tag_with_label :issue, value,
       required: @issue.required_attribute?(value.custom_field_id),
       data: { wiki_toolbar: value.custom_field.full_text_formatting?, wiki_preview_url: preview_issue_path(:project_id => @issue.project, :issue_id => @issue.id) }
     %>
-  </p>
+  <% end %>
 <% end %>

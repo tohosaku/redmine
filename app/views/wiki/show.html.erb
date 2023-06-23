@@ -75,9 +75,9 @@
     <%= form_tag({:controller => 'wiki', :action => 'add_attachment',
                   :project_id => @project, :id => @page.title},
                  :multipart => true, :id => "add_attachment_form") do %>
-      <div class="box">
+      <%= droppable_box do %>
       <p><%= render :partial => 'attachments/form' %></p>
-      </div>
+      <% end %>
       <%= submit_tag l(:button_add) %>
     <% end %>
   </div>

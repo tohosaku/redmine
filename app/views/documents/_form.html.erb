@@ -1,6 +1,6 @@
 <%= error_messages_for @document %>
 
-<div class="box tabular">
+<%= droppable_box class: 'tabular' do %>
   <p><%= f.select :category_id, DocumentCategory.active.collect {|c| [c.name, c.id]} %></p>
   <p><%= f.text_field :title, :required => true, :size => 60 %></p>
   <p><%= f.text_area :description, :cols => 60, :rows => 15, :class => 'wiki-edit',
@@ -10,10 +10,12 @@
                     } %></p>
 
   <% @document.custom_field_values.each do |value| %>
-    <p><%= custom_field_tag_with_label :document, value %></p>
+    <%= custom_droppable_tag value.custom_field do %>
+      <%= custom_field_tag_with_label :document, value %>
+    <% end %>
   <% end %>
 
   <% if @document.new_record? %>
     <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form', :locals => {:container => @document} %></p>
   <% end %>
-</div>
+<% end %>

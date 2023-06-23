@@ -6,6 +6,8 @@
   <p><%= f.check_box :is_default %></p>
 
   <% @enumeration.custom_field_values.each do |value| %>
-    <p><%= custom_field_tag_with_label :enumeration, value %></p>
+    <%= custom_droppable_tag value.custom_field do %>
+      <%= custom_field_tag_with_label :enumeration, value %>
+    <% end %>
   <% end %>
 </div>

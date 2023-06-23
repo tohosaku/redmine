@@ -14,6 +14,8 @@
   <% end %>
 
   <% @group.custom_field_values.each do |value| %>
-    <p><%= custom_field_tag_with_label :group, value %></p>
+    <%= custom_droppable_tag value.custom_field do %>
+      <%= custom_field_tag_with_label :group, value %>
+    <% end %>
   <% end %>
 </div>
