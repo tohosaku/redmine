@@ -98,4 +98,31 @@ module AttachmentsHelper
       render :partial => 'common/file', :locals => {:content => content, :filename => attachment.filename}
     end
   end
+
+  def droppable_box(options = {}, &)
+    css_class = ['box', options.delete(:class)]
+    data = options.delete(:data) || {}
+    data[:controller] = 'dragdrop'
+    data[:action] = ['dragover->dragdrop#onDragover:stop:prevent',
+                     'dragleave->dragdrop#onDragout:stop:prevent',
+                     'drop->dragdrop#handleFile:stop:prevent',
+                     'paste->dragdrop#copy'].join(' ')
+
+    tag.div options, class: css_class, data: data, &
+  end
+
+  def custom_droppable_tag(custom_field, &)
+    data = nil
+
+    if custom_field.field_format == 'attachment'
+      data = {
+        controller: 'dragdrop',
+        action: ['dragover->dragdrop#onDragover:stop:prevent',
+                 'dragleave->dragdrop#onDragout:stop:prevent',
+                 'drop->dragdrop#handleFile:stop:prevent'].join(' ')
+      }
+    end
+
+    tag.p data: data, &
+  end
 end

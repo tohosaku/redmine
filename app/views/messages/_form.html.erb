@@ -1,7 +1,7 @@
 <%= error_messages_for 'message' %>
 <% replying ||= false %>
 
-<div class="box">
+<%= droppable_box do %>
 <!--[form:message]-->
 <p><label for="message_subject"><%= l(:field_subject) %></label><br />
 <%= f.text_field :subject, :size => 120, :id => "message_subject" %>
@@ -35,4 +35,4 @@
 
 <p><%= l(:label_attachment_plural) %><br />
 <%= render :partial => 'attachments/form', :locals => {:container => @message} %></p>
-</div>
+<% end %>

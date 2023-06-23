@@ -196,10 +196,10 @@
    <% i = 0 %>
    <% split_on = (custom_fields.size / 2.0).ceil - 1 %>
    <% custom_fields.each do |custom_field| %>
-     <p>
+     <%= custom_droppable_tag custom_field do %>
        <label><%= custom_field.name %></label>
        <%= custom_field_tag_for_bulk_edit('issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
-     </p>
+     <% end %>
      <% if i == split_on %>
        </div><div class="splitcontentright">
      <% end %>
@@ -210,11 +210,11 @@
 <% end %>
 
 <% custom_fields_full_width.each do |custom_field| %>
-  <p>
+  <%= custom_droppable_tag custom_field do %>
     <label><%= custom_field.name %></label>
     <%= custom_field_tag_for_bulk_edit 'issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s],
           data: { wiki_toolbar: custom_field.full_text_formatting?, wiki_preview_url: preview_issue_path(project_id: @project, issue_id: nil) } %>
-  </p>
+  <% end %>
 <% end %>
 
 </fieldset>

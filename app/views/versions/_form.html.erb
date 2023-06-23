@@ -15,7 +15,9 @@
 <% end %>
 
 <% @version.visible_custom_field_values.each do |value| %>
-  <p><%= custom_field_tag_with_label :version, value %></p>
+  <%= custom_droppable_tag value.custom_field do %>
+    <%= custom_field_tag_with_label :version, value %>
+  <% end %>
 <% end %>
 
 </div>

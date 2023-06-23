@@ -1,7 +1,7 @@
 <%= labelled_form_for @issue, :html => {:id => 'issue-form', :multipart => true} do |f| %>
     <%= error_messages_for 'issue', 'time_entry' %>
     <%= render :partial => 'conflict' if @conflict %>
-    <div class="box">
+    <%= droppable_box do %>
     <% if @issue.attributes_editable? %>
         <fieldset class="tabular"><legend><%= l(:label_change_properties) %></legend>
         <div id="all_attributes">
@@ -22,7 +22,9 @@
         </div>
         <p><%= time_entry.text_field :comments, :size => 60 %></p>
         <% @time_entry.editable_custom_field_values.each do |value| %>
-          <p><%= custom_field_tag_with_label :time_entry, value %></p>
+          <%= custom_droppable_tag value.custom_field do %>
+            <%= custom_field_tag_with_label :time_entry, value %>
+          <% end %>
         <% end %>
         <% end %>
     </fieldset>
@@ -74,7 +76,7 @@
         </div>
       </fieldset>
     <% end %>
-    </div>
+    <% end %>
 
     <%= f.hidden_field :lock_version %>
     <%= hidden_field_tag 'last_journal_id', params[:last_journal_id] || @issue.last_journal_id %>

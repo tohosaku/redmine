@@ -12,7 +12,7 @@
 <% end %>
 <%= error_messages_for 'content' %>
 
-<div class="box tabular">
+<%= droppable_box class: 'tabular' do %>
 <%= text_area_tag 'content[text]', @text, :cols => 100, :rows => 25, :accesskey => accesskey(:edit),
                   :class => 'wiki-edit',
                   :data => {
@@ -58,7 +58,7 @@
   <%= render :partial => 'attachments/form' %>
 </div>
 </fieldset>
-</div>
+<% end %>
 
 <p>
   <%= submit_tag l(:button_save) %>

@@ -1,6 +1,6 @@
 <%= error_messages_for @news %>
 
-<div class="box tabular">
+<%= droppable_box class: 'tabular' do %>
 <% if @project.nil? %>
   <p>
     <label><%= l(:field_project) %> <span class="required">*</span></label>
@@ -18,4 +18,4 @@
                    }
 %></p>
 <p id="attachments_form"><label><%= l(:label_attachment_plural) %></label><%= render :partial => 'attachments/form', :locals => {:container => @news} %></p>
-</div>
+<% end %>
