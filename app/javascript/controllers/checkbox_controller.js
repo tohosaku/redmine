@@ -17,4 +17,10 @@ export default class extends Controller {
     const elements = document.getElementById(e.params.id).querySelectorAll('input[type=checkbox]:enabled');
     Array.from(elements).forEach(el => el.checked = e.params.checked);
   }
+
+  inspect(e) {
+    const event = new CustomEvent('checkbox:inspect')
+    event.param = { matched: this.element.checked }
+    this.element.dispatchEvent(event);
+  }
 }

@@ -19,6 +19,15 @@ export function jsonContent(id) {
   return JSON.parse(json.textContent)
 }
 
+export function randomKey(size) {
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  let key = '';
+  for (let i = 0; i < size; i++) {
+    key += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return key;
+}
+
 export function updateSVGIcon(element, icon) {
   const iconElement = element.getElementsByTagName('use').item(0)
 

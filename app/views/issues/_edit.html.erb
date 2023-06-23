@@ -60,14 +60,14 @@
         <div class="contextual"><%= link_to l(:label_edit_attachments), '#', data: { action: 'visibility#toggleField' } %></div>
         <div id="existing-attachments" style="<%= @issue.deleted_attachment_ids.blank? ? 'display:none;' : '' %>" data-visibility-target="field">
           <% @issue.attachments.each do |attachment| %>
-          <span class="existing-attachment">
+          <span class="existing-attachment" data-controller="classlist" data-action="checkbox:inspect->classlist#toggle" data-classlist-target="field" data-classlist-toggle-class="deleted">
             <%= sprite_icon('attachment', size: 12) %>
             <%= text_field_tag '', attachment.filename, :class => "icon icon-attachment filename", :disabled => true %>
             <label>
               <%= check_box_tag 'issue[deleted_attachment_ids][]',
                                 attachment.id,
                                 @issue.deleted_attachment_ids.include?(attachment.id),
-                                :id => nil, :class => "deleted_attachment" %> <%= l(:button_delete) %>
+                                :id => nil, :class => "deleted_attachment", :data => { :controller => 'checkbox', :action => 'checkbox#inspect' }  %> <%= l(:button_delete) %>
             </label>
           </span>
           <% end %>

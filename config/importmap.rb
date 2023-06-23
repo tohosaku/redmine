@@ -9,6 +9,7 @@ pin "svg_drawer"
 pin "gantt", preload: false
 pin "revision_graph"
 pin "jstoolbar", preload: false
+pin "attachment", preload: false
 pin_all_from "app/javascript/jstoolbar/formatting", under: "jstoolbar/formatting", preload: false
 
 pin "wc-datepicker", to: "wc-datepicker.js"

@@ -1,45 +1,68 @@
+/**
+ * Redmine - project management software
+ * Copyright (C) 2006-  Jean-Philippe Lang
+ * This code is released under the GNU General Public License.
+ */
 import { Controller } from "@hotwired/stimulus"
-import { FetchRequest } from "@rails/request.js"
 
 // Connects to data-controller="attachment"
 export default class extends Controller {
 
-  static targets = ['destroy', 'input']
+  static targets = ['destroy', 'input', 'field', 'template']
+
+  static values = { param: String, maxfilenumber: Number }
 
   connect() {
-    window.FetchRequest = FetchRequest;
+    this.element.attachment_controller = this;
   }
 
   add(e) {
-    this.addInputFiles(e.currentTarget);
+    this.invoke(attachment => {
+      try {
+        attachment.addInputFiles(e.target);
+      } catch(e) {
+        this.alert(e);
+      }
+    })
+  }
+
+  uploadAndAttachFiles(files, inputEl) {
+    this.invoke(attachment => {
+      try {
+        attachment.uploadAndAttachFiles(files, inputEl)
+      } catch(e) {
+        this.alert(e);
+      }
+    })
+  }
+
+  deleteFile(e) {
+    if (e.target.matches('[data-delete-file=true]')) {
+      this.inputTarget.style.display = '';
+      e.currentTarget.remove();
+    }
   }
 
   destroyTargetConnected(element) {
-    this.inputTarget.show();
+    this.inputTarget.style.display = '';
     element.remove()
   }
 
-  addInputFiles(inputEl) {
-    var attachmentsFields = $(inputEl).closest('.attachments_form').find('.attachments_fields');
-    var addAttachment = $(inputEl).closest('.attachments_form').find('.add_attachment');
-    var clearedFileInput = $(inputEl).clone().val('');
-    var sizeExceeded = false;
-    var param = $(inputEl).data('param');
-    if (!param) {param = 'attachments'};
-
-    if ($.ajaxSettings.xhr().upload && inputEl.files) {
-      // upload files using ajax
-      sizeExceeded = uploadAndAttachFiles(inputEl.files, inputEl);
-      $(inputEl).remove();
-    } else {
-      // browser not supporting the file API, upload on form submission
-      var attachmentId;
-      var aFilename = inputEl.value.split(/\/|\\/);
-      attachmentId = addFile(inputEl, { name: aFilename[ aFilename.length - 1 ] }, false);
-      if (attachmentId) {
-        $(inputEl).attr({ name: param + '[' + attachmentId + '][file]', style: 'display:none;' }).appendTo('#attachments_' + attachmentId);
+  invoke(fn) {
+    import('attachment').then(mod => {
+      const { default: Attachment } = mod;
+      if (this.attachment === undefined) {
+        this.attachment = new Attachment(this.fieldTarget,
+                                         this.inputTarget,
+                                         this.templateTarget.textContent,
+                                         this.paramValue,
+                                         this.maxfilenumberValue);
       }
-    }
-    clearedFileInput.prependTo(addAttachment);
+      fn(this.attachment)
+    })
+  }
+
+  alert(error) {
+    window.alert(error.message);
   }
 }
