@@ -205,4 +205,14 @@ module ProjectsHelper
       ancestors << project unless project.leaf?
     end
   end
+
+  def member_deletable(current_user, project)
+    if !current_user.admin? && project.inherit_members? && project.parent && current_user.member_of?(project.parent)
+      {
+        controller: 'inherit_members',
+        action: 'inherit_members#check',
+        inherit_members_confirm_value: l(:text_own_membership_delete_confirmation)
+      }
+    end
+  end
 end
