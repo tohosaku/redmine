@@ -20,7 +20,7 @@
 <% end %>
 
 <% if @project.safe_attribute? 'inherit_members' %>
-<p><%= f.check_box :inherit_members %></p>
+  <p><%= f.check_box :inherit_members, data: member_deletable(User.current, @project) %></p>
 <% end %>
 
 <% @project.visible_custom_field_values.each do |value| %>
@@ -47,19 +47,5 @@
 <% unless @project.identifier_frozen? %>
   <% content_for :header_tags do %>
     <%= javascript_include_tag 'project_identifier' %>
-  <% end %>
-<% end %>
-
-<% if !User.current.admin? && @project.inherit_members? && @project.parent && User.current.member_of?(@project.parent) %>
-  <%= javascript_tag do %>
-    $(document).ready(function() {
-      $("#project_inherit_members").change(function(){
-        if (!$(this).is(':checked')) {
-          if (!confirm("<%= escape_javascript(l(:text_own_membership_delete_confirmation)) %>")) {
-            $("#project_inherit_members").attr("checked", true);
-          }
-        }
-      });
-    });
   <% end %>
 <% end %>
