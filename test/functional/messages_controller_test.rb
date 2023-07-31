@@ -309,36 +309,36 @@ class MessagesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     post(
       :quote,
-      :params => {
-        :board_id => 1,
-        :id => 1
+      params: {
+        board_id: 1,
+        id: 1
       },
-      :xhr => true
+      format: :turbo_stream
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
 
     assert_include 'RE: First post', response.body
     assert_include "Redmine Admin wrote:", response.body
-    assert_include '> This is the very first post\n> in the forum', response.body
+    assert_include ERB::Util.h("> This is the very first post\n> in the forum"), response.body
   end
 
   def test_quote_if_message_is_not_root
     @request.session[:user_id] = 2
     post(
       :quote,
-      :params => {
-        :board_id => 1,
-        :id => 3
+      params: {
+        board_id: 1,
+        id: 3
       },
-      :xhr => true
+      format: :turbo_stream
     )
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
 
     assert_include 'RE: First post', response.body
     assert_include 'John Smith wrote in message#3:', response.body
-    assert_include '> An other reply', response.body
+    assert_include ERB::Util.h('> An other reply'), response.body
   end
 
   def test_quote_with_partial_quote_if_message_is_root
@@ -346,28 +346,28 @@ class MessagesControllerTest < Redmine::ControllerTest
 
     params = { board_id: 1, id: 1,
                quote: "the very first post\nin the forum" }
-    post :quote, params: params, xhr: true
+    post :quote, params: params, format: :turbo_stream
 
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
 
     assert_include 'RE: First post', response.body
     assert_include "Redmine Admin wrote:", response.body
-    assert_include '> the very first post\n> in the forum', response.body
+    assert_include "&gt; the very first post\n&gt; in the forum", response.body
   end
 
   def test_quote_with_partial_quote_if_message_is_not_root
     @request.session[:user_id] = 2
 
     params = { board_id: 1, id: 3, quote: 'other reply' }
-    post :quote, params: params, xhr: true
+    post :quote, params: params, format: :turbo_stream
 
     assert_response :success
-    assert_equal 'text/javascript', response.media_type
+    assert_equal 'text/vnd.turbo-stream.html', response.media_type
 
     assert_include 'RE: First post', response.body
     assert_include 'John Smith wrote in message#3:', response.body
-    assert_include '> other reply', response.body
+    assert_include '&gt; other reply', response.body
   end
 
   def test_quote_as_html_should_respond_with_404

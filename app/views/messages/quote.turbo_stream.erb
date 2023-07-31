@@ -1,0 +1,9 @@
+<%= turbo_stream.after 'message_subject' do %>
+  <%= tag.template @subject, data: { controller: 'value' } %>
+<% end %>
+<%= turbo_stream.after 'message_content' do %>
+  <%= tag.template @content, data: { controller: 'value' } %>
+<% end %>
+<%= turbo_stream.append 'reply' do %>
+  <%= tag.template data: { visibility_target: 'dummy' } %>
+<% end %>
