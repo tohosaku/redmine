@@ -7,7 +7,7 @@
 <div class="contextual">
     <%= watcher_link(@topic, User.current) %>
     <%= quote_reply(
-          url_for(:action => 'quote', :id => @topic, :format => 'js'),
+          url_for(action: 'quote', id: @topic, format: 'turbo_stream'),
           '#message_topic_wiki'
         ) if !@topic.locked? && authorize_for('messages', 'reply') %>
     <%= link_to(
@@ -45,7 +45,7 @@
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <div class="contextual">
       <%= quote_reply(
-            url_for(:action => 'quote', :id => message, :format => 'js'),
+            url_for(action: 'quote', id: message, format: 'js'),
             "#message-#{message.id} .wiki",
             icon_only: true
           ) if !@topic.locked? && authorize_for('messages', 'reply') %>
@@ -85,7 +85,7 @@
   <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
   <%= submit_tag l(:button_submit) %>
 <% end %>
-</div>
+<% end %>
 <% end %>
 
 <% html_title @topic.subject %>
