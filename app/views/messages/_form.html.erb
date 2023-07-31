@@ -26,6 +26,7 @@
 <%= f.text_area :content, cols: 80, rows: 15, class: 'wiki-edit', id: 'message_content',
                 accesskey: accesskey(:edit),
                 data: {
+                    show_and_scroll_target: 'focus',
                     controller: 'inline-autocomplete',
                     wiki_toolbar: true,
                     wiki_preview_url: preview_board_message_path(:board_id => @board, :id => @message)

@@ -128,7 +128,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       format.html { render_404 }
-      format.js
+      format.turbo_stream
     end
   end
 
