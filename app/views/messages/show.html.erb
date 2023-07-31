@@ -4,7 +4,7 @@
   <div class="contextual">
     <%= watcher_link(@topic, User.current) %>
     <%= quote_reply_button(
-          url: url_for(action: 'quote', id: @topic, format: 'js')
+          url: url_for(action: 'quote', id: @topic, format: 'turbo_stream')
         ) if !@topic.locked? && authorize_for('messages', 'reply') %>
     <%= link_to(
           sprite_icon('edit', l(:button_edit)),
@@ -54,7 +54,7 @@
           <span class="journal-meta">
             <%= reaction_button message %>
             <%= quote_reply_button(
-                  url: url_for(action: 'quote', id: message, format: 'js'),
+                  url: url_for(action: 'quote', id: message, format: 'turbo_stream'),
                   icon_only: true
                 ) if !@topic.locked? && authorize_for('messages', 'reply') %>
             <%= link_to(
