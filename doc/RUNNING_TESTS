@@ -21,6 +21,12 @@ variable:
 Before running tests, you need to configure both development
 and test databases.
 
+To test if a gem plugin is loaded, do the following
+
+`export BUNDLE_GEMFILE=./test/fixtures/gem_plugins/Gemfile`
+`bundle install`
+`bin/rails test test/unit/lib/redmine/plugin_test.rb`
+
 Creating test repositories
 ==========================
 

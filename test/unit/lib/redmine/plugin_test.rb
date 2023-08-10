@@ -80,6 +80,14 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_equal '0.0.1', plugin.version
   end
 
+  def test_gemified_plugin_depended_by_other_plugin
+    skip unless gemfile_for_test?
+    path = Redmine::PluginLoader.find_path(plugin_id: "quux_plugin", plugin_dir: nil)
+    path.run_initializer
+    plugin = @klass.find('quux_plugin')
+    assert_equal :quux_plugin, plugin.id
+  end
+
   def test_invalid_gemified_plugin
     skip unless gemfile_for_test?
     path = Redmine::PluginLoader.find_path(plugin_id: nil, plugin_dir: File.join(@klass.directory, 'qux_plugin'))
