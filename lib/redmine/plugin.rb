@@ -239,9 +239,9 @@ module Redmine
     end
 
     def routes
-      file = File.join(directory, "config/routes.rb")
-      if File.exist?(file)
-        file
+      path = Pathname.new(directory).join("config/routes.rb")
+      if path.exist?
+        path
       else
         nil
       end
