@@ -19,11 +19,10 @@
 
 module Redmine
   class PluginPath
-    attr_reader :assets_dir, :initializer
+    attr_reader :initializer
 
     def initialize(dir)
       @dir = dir
-      @assets_dir = File.join dir, 'assets'
       @initializer = File.join dir, 'init.rb'
     end
 
@@ -35,8 +34,19 @@ module Redmine
       @dir
     end
 
+    ASSET_PATHS = ['app/assets', 'assets']
+
+    def assets_dir
+      paths = ASSET_PATHS.filter_map do |entry|
+        path = Pathname.new(@dir).join(entry)
+        path if path.exist? && path.directory?
+      end
+      @assets_dir = paths.first
+    end
+
     def has_assets_dir?
-      File.directory?(@assets_dir)
+      return false unless assets_dir
+      File.directory?(assets_dir)
     end
 
     def has_initializer?
