@@ -223,7 +223,7 @@ class RepositoriesController < ApplicationController
   def revision
     respond_to do |format|
       format.html
-      format.js {render :layout => false}
+      format.turbo_stream {render :layout => false}
     end
   end
 

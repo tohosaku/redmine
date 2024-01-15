@@ -61,12 +61,12 @@ class IssueStatusesController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to issue_statuses_path(:page => params[:page])
         end
-        format.js {head :ok}
+        format.turbo_stream {head :ok}
       end
     else
       respond_to do |format|
         format.html {render :action => 'edit'}
-        format.js {head :unprocessable_content}
+        format.turbo_stream {head :unprocessable_content}
       end
     end
   end
