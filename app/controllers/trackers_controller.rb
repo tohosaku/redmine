@@ -73,7 +73,7 @@ class TrackersController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to trackers_path(:page => params[:page])
         end
-        format.js {head :ok}
+        format.json {head :ok}
       end
     else
       respond_to do |format|
@@ -81,7 +81,7 @@ class TrackersController < ApplicationController
           edit
           render :action => 'edit'
         end
-        format.js {head :unprocessable_content}
+        format.json {head :unprocessable_content}
       end
     end
   end
