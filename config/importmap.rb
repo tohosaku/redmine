@@ -19,3 +19,4 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 pin "tablesort", to: "tablesort.min.js"
 pin "tablesort.number", to: "tablesort.number.min.js"
 pin "chart.js", preload: false, to: "chart.min.js" # @4.5.1
+pin "@hotwired/turbo-rails", to: "turbo.min.js"
