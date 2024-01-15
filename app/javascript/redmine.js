@@ -1,7 +1,10 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "controllers"
+import "@hotwired/turbo-rails"
 import Tribute from '@redmine-ui/tribute'
 import { get, post, put, patch, destroy } from '@rails/request.js'
+
+Turbo.session.drive = false;
 
 export function ajaxGet(element, func) {
   const loading = 'ajax-loading';
