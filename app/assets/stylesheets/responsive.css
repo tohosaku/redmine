@@ -19,6 +19,10 @@
   F) PAGE SPECIFIC STYLES
   G) FORMS
 */
+:root {
+  /* the height of our header on mobile */
+  --mobileheader-height: 64px
+}
 
 /* Hide new elements (toggle button and flyout menu) above 900px */
 .mobile-toggle-button,
@@ -91,7 +95,7 @@
 
   #header {
     width: 100%;
-    height: 64px; /* the height of our header on mobile */
+    height: var(--mobileheader-height);
     min-height: 0;
     margin: 0;
     padding: 0;

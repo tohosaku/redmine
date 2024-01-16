@@ -366,6 +366,10 @@ table.list, .table-list {
   margin-bottom: 4px;
   overflow: hidden;
 }
+table.list.sticky thead {
+  position: absolute;
+  z-index: 1;
+}
 table.list th, .table-list-header { background-color:#EEEEEE; padding: 4px; white-space:nowrap; font-weight:bold; border-bottom: 2px solid #d0d7de; }
 table.list th.whitespace-normal {white-space: normal;}
 table.list td {text-align:center; vertical-align:middle; padding-top: 3px; padding-right: 10px; padding-bottom: 3px; border-top: 1px solid #d0d7de;}
@@ -377,7 +381,7 @@ table.list td.attachments span {display: block; height: 16px;}
 table.list td.attachments span a.icon-download {display: inline-block; visibility: hidden;}
 table.list td.attachments span:hover a.icon-download {visibility: visible;}
 table.list td.tick {width:15%}
-table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
+table.list td.checkbox { width: 15px; padding: 4px; }
 table.list .checkbox input {padding:0px; height: initial;}
 table.list td.buttons, div.buttons { white-space:nowrap; text-align: right; }
 table.list td.buttons a, div.buttons a, table.list td.buttons span.icon-only { margin-right: 0.6em; }

@@ -30,8 +30,7 @@ export function updateSVGIcon(element, icon) {
 
 export function isMobile() {
   const element = document.querySelector('.js-flyout-menu-toggle-button')
-  const style = window.getComputedStyle(element);
-  return (style.display !== 'none')
+  return isVisible(element);
 }
 
 export function isVisible(element) {

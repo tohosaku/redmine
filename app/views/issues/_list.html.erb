@@ -4,12 +4,15 @@
 <%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
 <%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
 <%= query_columns_hidden_tags(query) %>
-<div class="autoscroll">
+
+<%= tag.div class: 'autoscroll', data: { controller: 'sticky-table-header', action: 'scroll@window->sticky-table-header#setHeaderPosition responsive:switch@window->sticky-table-header#reobserve' } do %>
+<table class="list sticky" style="display:none" data-sticky-table-header-target="sticky">
+</table>
 <table class="list issues odd-even <%= query.css_classes %>">
-  <thead>
+  <thead data-sticky-table-header-target="head">
     <tr>
       <th class="checkbox hide-when-print">
-        <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+        <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection', :id => nil,
               :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
       </th>
       <% query.inline_columns.each do |column| %>
@@ -18,7 +21,7 @@
       <th class="buttons hide-when-print"></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody data-sticky-table-header-target="body">
   <% grouped_issue_list(issues, query) do |issue, level, group_name, group_count, group_totals| -%>
   <% if group_name %>
     <% reset_cycle %>
@@ -53,5 +56,5 @@
   <% end -%>
   </tbody>
 </table>
-</div>
+<% end %>
 <% end -%>
