@@ -4,8 +4,11 @@
 <%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
 <%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
 <%= query_columns_hidden_tags(query) %>
-<div class="autoscroll">
-<table class="list issues odd-even <%= query.css_classes %>">
+
+<%= tag.div class: 'autoscroll', data: { controller: 'fixed-header', action: 'resize@window->fixed-header#syncWidth', fixed_header_section_value: 'query_form' } do %>
+  <table class="list" style="display:none" data-fixed-header-target="sticky">
+  </table>
+<table class="list issues odd-even <%= query.css_classes %>" data-fixed-header-target="main">
   <thead>
     <tr>
       <th class="checkbox hide-when-print">
@@ -53,5 +56,5 @@
   <% end -%>
   </tbody>
 </table>
-</div>
+<% end %>
 <% end -%>

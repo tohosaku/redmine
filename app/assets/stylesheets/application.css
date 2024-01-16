@@ -334,7 +334,7 @@ table.list td.attachments span {display: block; height: 16px;}
 table.list td.attachments span a.icon-download {display: inline-block; visibility: hidden;}
 table.list td.attachments span:hover a.icon-download {visibility: visible;}
 table.list td.tick {width:15%}
-table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
+table.list td.checkbox { width: 15px; padding: 4px; }
 table.list .checkbox input {padding:0px; height: initial;}
 table.list td.buttons, div.buttons { white-space:nowrap; text-align: right; }
 table.list td.buttons a, div.buttons a, table.list td.buttons span.icon-only { margin-right: 0.6em; }
