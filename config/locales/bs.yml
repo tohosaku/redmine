@@ -718,6 +718,7 @@ bs:
   button_watch: Posmatraj
   button_configure: Konfiguracija
   button_quote: Citat
+  button_close_dialog: Close
 
   status_active: aktivan
   status_registered: registrovan

@@ -730,6 +730,7 @@ el:
   button_update: Ενημέρωση
   button_configure: Ρύθμιση
   button_quote: Παράθεση
+  button_close_dialog: Close
 
   status_active: ενεργό(ς)/ή
   status_registered: εγεγγραμμένο(ς)/η

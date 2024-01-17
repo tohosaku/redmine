@@ -670,6 +670,7 @@ pt-BR:
   button_update: Atualizar
   button_configure: Configurar
   button_quote: Responder
+  button_close_dialog: Close
 
   status_active: ativo
   status_registered: registrado

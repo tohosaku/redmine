@@ -798,6 +798,7 @@ ca:
   button_configure: "Configurar"
   button_quote: "Citar"
   button_show: "Mostrar"
+  button_close_dialog: Close
 
   status_active: "actiu"
   status_registered: "registrat"

@@ -206,6 +206,7 @@ es-PA:
   button_change_password: Cambiar contraseña
   button_check_all: Seleccionar todo
   button_clear: Anular
+  button_close_dialog: Close
   button_configure: Configurar
   button_copy: Copiar
   button_create: Crear
@@ -233,6 +234,7 @@ es-PA:
   button_update: Actualizar
   button_view: Ver
   button_watch: Monitorizar
+
   default_activity_design: Diseño
   default_activity_development: Desarrollo
   default_doc_category_tech: Documentación técnica

@@ -654,6 +654,7 @@ pt:
   button_update: Atualizar
   button_configure: Configurar
   button_quote: Citar
+  button_close_dialog: Close
 
   status_active: ativo
   status_registered: registado

@@ -1080,6 +1080,7 @@ fr:
   button_reopen: Réouvrir
   button_import: Importer
   button_filter: Filtrer
+  button_close_dialog: Close
 
   status_active: actif
   status_registered: enregistré

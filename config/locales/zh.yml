@@ -814,6 +814,7 @@ zh:
   button_configure: 配置
   button_quote: 引用
   button_show: 显示
+  button_close_dialog: Close
 
   status_active: 活动的
   status_registered: 已注册

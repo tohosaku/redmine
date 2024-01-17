@@ -1216,6 +1216,7 @@ pl:
   button_delete_object: "Usuń %{object_name}"
   button_create_and_follow: Utwórz i przejdź
   button_apply_issues_filter: Zastosuj filtr na liście zagadnień
+  button_close_dialog: Close
 
   status_active: aktywny
   status_registered: zarejestrowany

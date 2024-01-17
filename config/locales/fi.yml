@@ -612,6 +612,7 @@ fi:
   button_copy: Kopioi
   button_annotate: Lisää selitys
   button_update: Päivitä
+  button_close_dialog: Close
 
   status_active: aktiivinen
   status_registered: rekisteröity

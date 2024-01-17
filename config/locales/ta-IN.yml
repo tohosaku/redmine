@@ -824,6 +824,7 @@ ta-IN:
   button_configure: உள்ளமைக்கவும்
   button_quote: மேற்கோள்
   button_show: காட்டு
+  button_close_dialog: Close
 
   status_active: செயலில்
   status_registered: பதிவுசெய்யப்பட்டது

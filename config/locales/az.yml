@@ -259,6 +259,7 @@ az:
   button_update: Yeniləmək
   button_view: Baxmaq
   button_watch: İzləmək
+  button_close_dialog: Close
 
   default_activity_design: Layihənin hazırlanması
   default_activity_development: Hazırlanma prosesi
