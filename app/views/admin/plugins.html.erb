@@ -24,50 +24,15 @@
       </tbody>
   </table>
 </div>
-<p><a href="#" id="check-for-updates"><%= l(:label_check_for_updates) %></a></p>
+<p>
+<%= link_to l(:label_check_for_updates), '#',
+  id: "check-for-updates",
+  data: { controller: "admin--plugins",
+          action: "admin--plugins#checkForUpdates",
+          admin__plugins_latest_value: l(:label_latest_compatible_version),
+          admin__plugins_unknown_value: l(:label_unknown_plugin),
+          admin__plugins_data_value: plugin_data_for_updates(@plugins).to_json } if @plugins.any? %>
+</p>
 <% else %>
-<p class="nodata"><%= l(:label_no_data) %></p>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
-
-<%= javascript_tag do %>
-$(document).ready(function(){
-  $("#check-for-updates").click(function(e){
-    e.preventDefault();
-    $.ajax({
-      dataType: "jsonp",
-      url: "https://www.redmine.org/plugins/check_updates",
-      data: <%= raw_json plugin_data_for_updates(@plugins) %>,
-      timeout: 10000,
-      beforeSend: function(){
-        $('#ajax-indicator').show();
-      },
-      success: function(data){
-        $('#ajax-indicator').hide();
-        $("table.plugins td.version span").addClass("unknown");
-        $.each(data, function(plugin_id, plugin_data){
-          var s = $("tr#plugin-"+plugin_id+" td.version span");
-          s.removeClass("icon-ok icon-warning unknown");
-          if (plugin_data.url) {
-            if (s.parent("a").length>0) {
-              s.unwrap();
-            }
-            s.addClass("found");
-            s.wrap($("<a></a>").attr("href", plugin_data.url).attr("target", "_blank"));
-          }
-          if (plugin_data.c == s.text()) {
-            s.addClass("icon-ok");
-          } else if (plugin_data.c) {
-            s.addClass("icon-warning");
-            s.attr("title", "<%= escape_javascript l(:label_latest_compatible_version) %>: "+plugin_data.c);
-          }
-        });
-        $("table.plugins td.version span.unknown").addClass("icon-help").attr("title", "<%= escape_javascript l(:label_unknown_plugin) %>");
-      },
-      error: function(){
-        $('#ajax-indicator').hide();
-        alert("Unable to retrieve plugin informations from www.redmine.org");
-      }
-    });
-  });
-});
-<% end if @plugins.any? %>
