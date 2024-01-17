@@ -1230,6 +1230,7 @@ it:
   button_delete_object: "Elimina %{object_name}"
   button_create_and_follow: Crea e segui
   button_apply_issues_filter: Applica filtro segnalazioni
+  button_close_dialog: Close
 
   status_active: attivo
   status_registered: registrato

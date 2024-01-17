@@ -128,10 +128,14 @@
 </div>
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
-<div id="ajax-modal" style="display:none;"></div>
 <div id="icon-copy-source" style="display: none;"><%= sprite_icon('') %></div>
 
 </div>
 <%= call_hook :view_layouts_base_body_bottom %>
+<div id="modal-backdrop">
+  <%= yield :modal %>
+</div>
+<div id="ajax-modal" data-controller="dialog-dispatcher"></div>
+<div id="sudo-modal" data-controller="dialog-dispatcher"></div>
 </body>
 </html>

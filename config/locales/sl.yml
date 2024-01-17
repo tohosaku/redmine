@@ -699,6 +699,7 @@ sl:
   button_update: Posodobi
   button_configure: Konfiguriraj
   button_quote: Citiraj
+  button_close_dialog: Close
 
   status_active: aktivni
   status_registered: registriran

@@ -1,15 +1,14 @@
 <% if trackers.any? {|t| t.description.present? } %>
-  <div class="modal" id="trackers_description">
-    <h3 class="title"><%= l(:label_trackers_description) %></h3>
-      <dl>
+  <%= modal_dialog "trackers_description", l(:label_trackers_description), data: { controller: 'dialog' } do %>
+    <dl>
       <% trackers.each do |tracker| %>
         <% if tracker.description.present? %>
-          <dt><%= content_tag 'a', tracker.name, :onclick => "selectTracker('#{tracker.id}'); return false;", :href => '#', :title => l(:text_select_apply_tracker) %></dt>
+          <dt><%= link_to tracker.name, '#', onclick: "selectTracker('#{tracker.id}'); return false;", title: l(:text_select_apply_tracker) %></dt>
           <dd><%= tracker.description %></dd>
         <% end %>
       <% end %>
-      </dl>
-  </div>
+    </dl>
+  <% end %>
 <% end %>
 <%= javascript_tag do %>
   function selectTracker(id) {
@@ -17,6 +16,6 @@
     target.attr("selected", false);
     target.find('option[value="' + id + '"]').prop('selected', true);
     target.trigger('change');
-    hideModal('#trackers_description h3');
+    $('#trackers_description').get(0).dialog_controller.hide();
   }
 <% end %>

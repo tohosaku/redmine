@@ -814,6 +814,7 @@ cs:
   button_configure: Konfigurovat
   button_quote: Citovat
   button_show: Zobrazit
+  button_close_dialog: Close
 
   status_active: aktivní
   status_registered: registrovaný

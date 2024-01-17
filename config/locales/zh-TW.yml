@@ -1148,6 +1148,7 @@
   button_reopen: 重新開啟
   button_import: 匯入
   button_filter: 篩選器
+  button_close_dialog: Close
 
   status_active: 活動中
   status_registered: 註冊完成

@@ -211,6 +211,7 @@ de:
   button_view: Anzeigen
   button_watch: Beobachten
   button_actions: Aktionen
+  button_close_dialog: Close
 
   default_activity_design: Design
   default_activity_development: Entwicklung

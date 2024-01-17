@@ -698,6 +698,7 @@ vi:
   button_update: Cập nhật
   button_configure: Cấu hình
   button_quote: Trích dẫn
+  button_close_dialog: Close
 
   status_active: Đang hoạt động
   status_registered: Mới đăng ký

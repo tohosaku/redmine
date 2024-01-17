@@ -269,6 +269,7 @@ ru:
   button_update: Обновить
   button_view: Просмотреть
   button_watch: Следить
+  button_close_dialog: Close
 
   default_activity_design: Проектирование
   default_activity_development: Разработка

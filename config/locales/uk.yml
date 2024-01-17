@@ -592,6 +592,7 @@ uk:
   button_change_password: Змінити пароль
   button_copy: Копіювати
   button_annotate: Анотувати
+  button_close_dialog: Close
 
   status_active: Активний
   status_registered: Зареєстрований

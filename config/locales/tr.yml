@@ -645,6 +645,7 @@ tr:
   button_annotate: Değişiklik geçmişine göre göster
   button_update: Güncelle
   button_configure: Yapılandır
+  button_close_dialog: Close
 
   status_active: faal
   status_registered: kayıtlı

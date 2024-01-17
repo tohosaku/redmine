@@ -777,6 +777,7 @@ eu:
   button_configure: Konfiguratu
   button_quote: Aipatu
   button_show: Ikusi
+  button_close_dialog: Close
 
   status_active: gaituta
   status_registered: izena emanda

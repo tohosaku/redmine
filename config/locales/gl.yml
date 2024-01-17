@@ -183,6 +183,7 @@ gl:
   button_change_password: "Cambiar o contrasinal"
   button_check_all: "Seleccionalo todo"
   button_clear: Anular
+  button_close_dialog: Close
   button_configure: Configurar
   button_copy: Copiar
   button_create: Crear

@@ -774,6 +774,7 @@ lv:
   button_configure: Konfigurēt
   button_quote: Citāts
   button_show: Rādīt
+  button_close_dialog: Close
 
   status_active: aktīvs
   status_registered: reģistrēts

@@ -1152,6 +1152,7 @@ sq:
   button_project_bookmark_delete: Hiqe faqerojtësin
   button_filter: Filtër
   button_actions: Veprime
+  button_close_dialog: Close
 
   status_active: aktive
   status_registered: e regjistruar

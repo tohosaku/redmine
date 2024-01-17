@@ -795,6 +795,7 @@ sr-YU:
   button_configure: Podesi
   button_quote: Pod navodnicima
   button_show: Prikaži
+  button_close_dialog: Close
 
   status_active: aktivni
   status_registered: registrovani

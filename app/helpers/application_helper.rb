@@ -1950,6 +1950,17 @@ module ApplicationHelper
     )
   end
 
+  def remote_dialog(width: nil, modal: true, title: nil, partial: nil, locals: {}, &block)
+    data = {
+      controller: 'dialog',
+      width: width,
+      dialog_modal_value: modal,
+      dialog_dispatcher_target: 'show'
+    }
+    block = -> { render partial: partial, locals: locals } if partial
+    render layout: 'common/dialog', locals: { id: nil, title: title, data: data }, formats: [:html], &block
+  end
+
   private
 
   def wiki_helper
@@ -1968,6 +1979,19 @@ module ApplicationHelper
     {
       issues: auto_complete_issues_path(project_id: project, q: ''),
       wiki_pages: auto_complete_wiki_pages_path(project_id: project, q: ''),
+    }
+  end
+
+  def modal_dialog(id, title, data: nil, &block)
+    content_for(:modal) { render 'common/dialog', { id: id, title: title, data: data }, &block }
+  end
+
+  def dialog_dispatcher(element_id, width)
+    {
+      controller: 'dialog-dispatcher',
+      action: 'dialog-dispatcher#show',
+      dialog_dispatcher_dialog_outlet: "##{element_id}",
+      dialog_dispatcher_width_param: width
     }
   end
 end

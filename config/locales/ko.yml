@@ -765,6 +765,7 @@ ko:
   button_update: 업데이트
   button_configure: 설정
   button_quote: 댓글달기
+  button_close_dialog: Close
 
   status_active: 사용중
   status_registered: 등록대기
