@@ -1,5 +1,3 @@
-<h3 class="title"><%=l(:label_wiki_page_new)%></h3>
-
 <%= labelled_form_for :page, @page,
             :url => new_project_wiki_page_path(@project),
             :method => 'post',
@@ -24,6 +22,6 @@
 
   <p class="buttons">
     <%= submit_tag l(:label_next), :name => nil %>
-    <%= link_to_function l(:button_cancel), "hideModal(this);" %>
+    <%= link_to l(:button_cancel), '#', data: { action: 'modal#hide' } %>
   </p>
 <% end %>

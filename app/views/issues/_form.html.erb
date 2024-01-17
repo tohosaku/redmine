@@ -16,13 +16,14 @@
 <% end %>
 
 <% if @issue.safe_attribute?('tracker_id') || (@issue.persisted? && @issue.tracker_id_changed?) %>
-<p>
+<p data-controller="issues--select">
   <%= f.select :tracker_id, trackers_options_for_select(@issue), {:required => true},
                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)",
+               :data => { :issues__select_target => 'field' },
                :title => @issue.tracker.description %>
-  <%= content_tag 'a', sprite_icon('help', l(:label_open_trackers_description)), :class => 'icon-only icon-help', :title => l(:label_open_trackers_description), :onclick => "showModal('trackers_description', '500px'); return false;", :href => '#' if trackers_for_select(@issue).any? {|t| t.description.present? } %>
-</p>
+  <%= link_to sprite_icon('help', l(:label_open_trackers_description)), '#', :class => 'icon-only icon-help', :title => l(:label_open_trackers_description), :data => modal_dispatcher('trackers_description', '500px') if trackers_for_select(@issue).any? {|t| t.description.present? } %>
   <%= render partial: 'issues/trackers_description', locals: {trackers: trackers_for_select(@issue)} %>
+</p>
 <% end %>
 
 <% if @issue.safe_attribute? 'subject' %>
@@ -62,9 +63,6 @@
 
 <%= javascript_tag do %>
 $(document).ready(function(){
-  $("#issue_tracker_id, #issue_status_id").each(function(){
-    $(this).val($(this).find("option[selected=selected]").val());
-  });
   $(".assign-to-me-link").click(function(event){
     event.preventDefault();
     var element = $(event.target);

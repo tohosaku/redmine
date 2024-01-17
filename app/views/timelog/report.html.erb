@@ -66,18 +66,18 @@
 </div>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
+  <%= f.link_to_with_query_parameters 'CSV', {}, :data => modal_dispatcher('csv-export-options', '330px') %>
 <% end %>
 <% end %>
-<div id="csv-export-options" style="display: none;">
-  <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
+<% modal_dialog "csv-export-options", l(:label_export_options, export_format: 'CSV') do %>
   <%= export_csv_encoding_select_tag %>
   <%= export_csv_separator_select_tag %>
   <p class="buttons">
-    <%= submit_tag l(:button_export), :name => nil, :id => 'csv-export-button' %>
-    <%= submit_tag l(:button_cancel), :name => nil, :onclick => 'hideModal(this);', :type => 'button' %>
+    <%= submit_tag l(:button_export), :name => nil, :id => 'csv-export-button',
+      :data => { :controller => 'timelog--report', :action => 'timelog--report#csv modal#hide', :timelog__report_csvpath_param => _report_time_entries_path(@project, nil, :format => 'csv'), :timelog__report_path_param => _report_time_entries_path(@project, nil) } %>
+    <%= submit_tag l(:button_cancel), :name => nil, :type => 'button', :data => { :action => 'modal#hide' } %>
   </p>
-</div>
+<% end %>
 <% end %>
 <% end %>
 
@@ -86,15 +86,3 @@
 <% end %>
 
 <% html_title(@query.new_record? ? l(:label_spent_time) : @query.name, l(:label_report)) %>
-
-
-<%= javascript_tag do %>
-$(document).ready(function(){
-  $('input#csv-export-button').click(function(){
-    $('form input#encoding').val($('select#encoding option:selected').val());
-    $('form#query_form').attr('action', '<%= _report_time_entries_path(@project, nil, :format => 'csv') %>').submit();
-    $('form#query_form').attr('action', '<%= _report_time_entries_path(@project, nil) %>');
-    hideModal(this);
-  });
-});
-<% end %>

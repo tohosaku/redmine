@@ -2,7 +2,7 @@ $('#tab-content-members').html('<%= escape_javascript(render :partial => 'projec
 hideOnLoad();
 
 <% if @members.present? && @members.all? {|m| m.valid? } %>
-  hideModal();
+  $('#ajax-modal').append('<template data-modal-dispatcher-target="hide"></template>')
   <% @members.each do |member| %>
     $("#member-<%= member.id %>").effect("highlight");
   <% end %>

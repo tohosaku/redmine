@@ -3,16 +3,16 @@
 <div class="splitcontent">
 <div class="splitcontentleft">
 <% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? %>
-<p>
+<p data-controller="issues--select">
   <%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
     :onchange => "updateIssueFrom('#{escape_javascript(update_issue_form_path(@project, @issue))}', this)",
-    :title => @issue.status.description %>
-  <%= content_tag 'a', sprite_icon('help', l(:label_open_issue_statuses_description)), :class => 'icon-only icon-help', :title => l(:label_open_issue_statuses_description), :onclick => "showModal('issue_statuses_description', '500px'); return false;", :href => '#' if @allowed_statuses.any? {|s| s.description.present? } %>
+    :title => @issue.status.description, :data => {:issues__select_target => 'field'} %>
+  <%= link_to sprite_icon('help', l(:label_open_issue_statuses_description)), '#', :class => 'icon-only icon-help', :title => l(:label_open_issue_statuses_description), :data => modal_dispatcher('issue_statuses_description', '500px') if @allowed_statuses.any? {|s| s.description.present? } %>
   <% if @issue.transition_warning %>
     <span class="icon-only icon-warning" title="<%= @issue.transition_warning %>"><%= @issue.transition_warning %></span>
   <% end %>
+  <%= render partial: 'issues/issue_status_description', locals: { issue_statuses: @allowed_statuses } %>
 </p>
-<%= render partial: 'issues/issue_status_description', locals: { issue_statuses: @allowed_statuses } %>
 <%= hidden_field_tag 'was_default_status', @issue.status_id, :id => nil if @issue.status == @issue.default_status %>
 <% else %>
 <p><label><%= l(:field_status) %></label> <%= @issue.status %></p>

@@ -1,4 +1,3 @@
-<h3 class="title"><%= l(:label_password_required) %></h3>
 <p class="nodata" style="font-size: 1em;"><%= t 'sudo_mode_new_info_html' %></p>
 <%= form_tag({}, remote: true) do %>
 
@@ -14,7 +13,7 @@
   </div>
 
   <p class="buttons">
-    <%= submit_tag l(:button_submit), onclick: "hideModal(this);"  %>
-    <%= link_to_function l(:button_cancel), "hideModal(this);" %>
+    <%= submit_tag l(:button_submit), data: { action: 'modal#hide' } %>
+    <%= link_to l(:button_cancel), '#', data: { action: 'modal#hide' } %>
   </p>
 <% end %>

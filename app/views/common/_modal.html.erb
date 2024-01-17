@@ -1,0 +1,13 @@
+<%= tag.div style: 'display:none', class: 'modal', id: id, data: (data || { controller: 'modal' })  do %>
+  <div class="handle" data-action="pointerdown->modal#start pointerup->modal#end pointercancel->modal#end  pointermove->modal#move touchstart->modal#noop dragstart->modal#noop" data-modal-target="handler">
+    <span class="title"><%= title %></span>
+    <button type="button" title="Close" data-action="modal#hide">
+      <span><%= sprite_icon 'false'%></span>
+      <span> </span>
+    </button>
+  </div>
+
+  <div>
+    <%= yield %>
+  </div>
+<% end %>

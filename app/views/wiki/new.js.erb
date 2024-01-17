@@ -1,2 +1,2 @@
-$('#ajax-modal').html('<%= escape_javascript(render :partial => 'wiki/new_modal') %>');
-showModal('ajax-modal', '600px');
+<% html = remote_modal_dialog(width: '600px', title: l(:label_wiki_page_new), partial: 'wiki/new_modal') %>
+$('#ajax-modal').html('<%= escape_javascript(html) %>');
