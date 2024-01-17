@@ -3,7 +3,7 @@
 <div class="splitcontent">
 <div class="splitcontentleft">
 <% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? %>
-<p>
+<p data-controller="issues--select">
   <%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
     :onchange => "updateIssueFrom('#{escape_javascript(update_issue_form_path(@project, @issue))}', this)",
     :title => @issue.status.description %>
