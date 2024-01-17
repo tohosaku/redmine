@@ -1,2 +1,2 @@
-$('#ajax-modal').html('<%= escape_javascript(render :partial => 'issue_categories/new_modal') %>');
-showModal('ajax-modal', '600px');
+<% html = remote_modal_dialog(width: '600px', title: l(:label_issue_category_new), partial: 'issue_categories/new_modal', locals: {watchables: @watchables, users: @users}) %>
+$('#ajax-modal').html('<%= escape_javascript(html) %>');

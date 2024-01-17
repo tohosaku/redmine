@@ -1,13 +1,3 @@
-<%
-title =
-  if watchables.present?
-    l(:"permission_add_#{watchables.first.class.name.underscore}_watchers")
-  else
-    l(:permission_add_issue_watchers)
-  end
--%>
-<h3 class="title"><%= title %></h3>
-
 <%= form_tag(watchables.present? ? watchers_path : watchers_append_path,
              :remote => true,
              :method => :post,
@@ -42,7 +32,7 @@ title =
   </div>
 
   <p class="buttons">
-    <%= submit_tag l(:button_add), :name => nil, :onclick => "hideModal(this);" %>
-    <%= link_to_function l(:button_cancel), "hideModal(this);" %>
+    <%= submit_tag l(:button_add), name: nil, data: { action: 'modal#hide' } %>
+    <%= link_to l(:button_cancel), '#', data: { action: 'modal#hide' } %>
   </p>
 <% end %>

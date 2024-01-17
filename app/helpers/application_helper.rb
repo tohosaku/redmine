@@ -1960,4 +1960,27 @@ module ApplicationHelper
       wiki_pages: auto_complete_wiki_pages_path(project_id: project, q: ''),
     }
   end
+
+  def modal_dialog(id, title, data: nil, &block)
+    content_for(:modal) { render 'common/modal', { id: id, title: title, data: data }, &block }
+  end
+
+  def remote_modal_dialog(width:, title: nil, partial: nil, locals: {}, &block)
+    data = {
+      controller: 'modal',
+      width: width,
+      modal_dispatcher_target: 'show'
+    }
+    block = -> { render partial: partial, locals: locals } if partial
+    render 'common/modal', { id: nil, title: title, data: data }, &block
+  end
+
+  def modal_dispatcher(element_id, width)
+    {
+      controller: 'modal-dispatcher',
+      action: 'modal-dispatcher#show',
+      modal_dispatcher_modal_outlet: "##{element_id}",
+      modal_dispatcher_width_param: width
+    }
+  end
 end

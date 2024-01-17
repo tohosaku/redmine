@@ -3955,7 +3955,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
 
     assert_select 'div#trackers_description' do
-      assert_select 'h3', :text => 'Trackers description', :count => 1
+      assert_select '.title', :text => 'Trackers description', :count => 1
       # only Bug and Feature have descriptions
       assert_select 'dt', 2
       assert_select 'dt', :text => 'Bug', :count => 1
@@ -3999,7 +3999,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
 
     assert_select 'div#issue_statuses_description' do
-      assert_select 'h3', :text => 'Issue statuses description', :count => 1
+      assert_select '.title', :text => 'Issue statuses description', :count => 1
       assert_select 'dt', 2
       assert_select 'dt', :text => 'New', :count => 1
       assert_select 'dd', :text => 'Description for New issue status', :count => 1
