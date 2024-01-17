@@ -29,6 +29,7 @@
                                                           :id => "criterias") %>
      <%= link_to sprite_icon('reload', l(:button_clear)), {:params => request.query_parameters.merge(:criteria => nil)}, :class => 'icon icon-reload' %></p>
   <%= hidden_field_tag 'encoding', l(:general_csv_encoding) unless l(:general_csv_encoding).casecmp('UTF-8') == 0 %>
+  <%= hidden_field_tag 'field_separator' %>
 <% end %>
 
 <% if @query.valid? %>
@@ -70,12 +71,13 @@
   <%= f.link_to_with_query_parameters 'CSV', {}, data: dialog_dispatcher('csv-export-options', '330px') %>
 <% end %>
 <% end %>
-<% component 'modal_dialog', id: 'csv-export-options', title: l(:label_export_options, export_format: 'CSV') do %>
+<% component 'modal_dialog', id: 'csv-export-options', title: l(:label_export_options, export_format: 'CSV'), data: {controller: 'dialog timelog--report'}  do %>
   <%= export_csv_encoding_select_tag %>
   <%= export_csv_separator_select_tag %>
   <p class="buttons">
-    <%= submit_tag l(:button_export), name: nil, id: 'csv-export-button', data: { action: 'dialog#hide' } %>
-    <%= link_to l(:button_cancel), '#', data: { action: 'dialog#cancel' } %>
+    <%= submit_tag l(:button_export), :name => nil, :id => 'csv-export-button', :form => 'query_form',
+      :data => { :action => 'timelog--report#csv dialog#hide', :timelog__report_csvpath_param => _report_time_entries_path(@project, nil, :format => 'csv') } %>
+    <%= submit_tag l(:button_cancel), :name => nil, :type => 'button', :data => { :action => 'click->dialog#cancel' } %>
   </p>
 <% end %>
 <% end %>
@@ -86,13 +88,3 @@
 <% end %>
 
 <% html_title(@query.new_record? ? l(:label_spent_time) : @query.name, l(:label_report)) %>
-
-<%= javascript_tag do %>
-$(document).ready(function(){
-  $('input#csv-export-button').click(function(){
-    $('form input#encoding').val($('select#encoding option:selected').val());
-    $('form#query_form').attr('action', '<%= _report_time_entries_path(@project, nil, :format => 'csv') %>').submit();
-    $('form#query_form').attr('action', '<%= _report_time_entries_path(@project, nil) %>');
-  });
-});
-<% end %>

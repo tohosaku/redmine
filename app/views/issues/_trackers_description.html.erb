@@ -1,21 +1,12 @@
 <% if trackers.any? {|t| t.description.present? } %>
   <% component 'modal_dialog', id: 'trackers_description', title: l(:label_trackers_description) do %>
     <dl>
-      <% trackers.each do |tracker| %>
-        <% if tracker.description.present? %>
-          <dt><%= link_to tracker.name, '#', onclick: "selectTracker('#{tracker.id}'); return false;", title: l(:text_select_apply_tracker) %></dt>
-          <dd><%= tracker.description %></dd>
-        <% end %>
+    <% trackers.each do |tracker| %>
+      <% if tracker.description.present? %>
+        <dt><%= link_to tracker.name, '#', data: { action: 'issues--select#select dialog#hide', issues__select_id_param: tracker.id }, title: l(:text_select_apply_tracker) %></dt>
+        <dd><%= tracker.description %></dd>
       <% end %>
+    <% end %>
     </dl>
   <% end %>
-<% end %>
-<%= javascript_tag do %>
-  function selectTracker(id) {
-    var target = $('#issue_tracker_id');
-    target.attr("selected", false);
-    target.find('option[value="' + id + '"]').prop('selected', true);
-    target.trigger('change');
-    $('#trackers_description').get(0).dialog_controller.hide();
-  }
 <% end %>
