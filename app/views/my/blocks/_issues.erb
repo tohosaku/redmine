@@ -1,5 +1,6 @@
 <div class="contextual">
-  <%= link_to_function icon_with_label('settings', l(:label_options)), "$('##{block}-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
+  <%= link_to icon_with_label('settings', l(:label_options)), '#', class: 'icon-only icon-settings', title: l(:label_options),
+              data: { controller: 'visibility', action: 'visibility#toggle', visibility_selector_param: "##{block}-settings" } %>
 </div>
 
 <h3>
@@ -17,7 +18,7 @@
     </div>
     <p>
       <%= submit_tag l(:button_save) %>
-      <%= link_to_function l(:button_cancel), "$('##{block}-settings').toggle();" %>
+      <%= link_to l(:button_cancel), data: { controller: 'visibility', action: 'visibility#toggle', visibility_selector_param: "##{block}-settings" } %>
     </p>
   <% end %>
 </div>

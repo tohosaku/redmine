@@ -16,5 +16,5 @@
 <%= l(:field_delay) %>: <%= f.text_field :delay, :size => 3 %> <%= l(:label_day_plural) %>
 </span>
 <%= submit_tag l(:button_add) %>
-<%= link_to_function l(:button_cancel), '$("#new-relation-form").hide();'%>
+<%= link_to l(:button_cancel), '#', data: { action: 'visibility#hide' } %>
 </p>

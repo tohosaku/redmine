@@ -54,10 +54,10 @@
                                                                                                object_id: @issue.id)}) %>
     <% end %>
     <% if @issue.attachments_addable? %>
-      <fieldset id="add_attachments"><legend><%= l(:label_attachment_plural) %></legend>
+      <fieldset id="add_attachments" data-controller="visibility"><legend><%= l(:label_attachment_plural) %></legend>
         <% if @issue.attachments.any? && @issue.safe_attribute?('deleted_attachment_ids') %>
-        <div class="contextual"><%= link_to l(:label_edit_attachments), '#', :onclick => "$('#existing-attachments').toggle(); return false;" %></div>
-        <div id="existing-attachments" style="<%= @issue.deleted_attachment_ids.blank? ? 'display:none;' : '' %>">
+        <div class="contextual"><%= link_to l(:label_edit_attachments), '#', data: { action: 'visibility#toggleField' } %></div>
+        <div id="existing-attachments" style="<%= @issue.deleted_attachment_ids.blank? ? 'display:none;' : '' %>" data-visibility-target="field">
           <% @issue.attachments.each do |attachment| %>
           <span class="existing-attachment" data-controller="toggle-class" data-toggle-class-klass-class="deleted">
           <span class="existing-attachment">
@@ -87,7 +87,7 @@
     <%= submit_tag l(:button_submit) %>
     <%= link_to(
           l(:button_cancel), issue_path(id: @issue.id),
-          :onclick => params[:action] == 'show' ? "$('#update').hide(); return false;" : ''
+          data: { action: params[:action] == 'show' ? 'visibility#hide' : '' } 
         ) %>
     <%= hidden_field_tag 'prev_issue_id', @prev_issue_id if @prev_issue_id %>
     <%= hidden_field_tag 'next_issue_id', @next_issue_id if @next_issue_id %>

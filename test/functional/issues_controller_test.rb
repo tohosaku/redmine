@@ -8636,18 +8636,18 @@ class IssuesControllerTest < Redmine::ControllerTest
     user
   end
 
-  def test_cancel_edit_link_for_issue_show_action_should_have_onclick_action
+  def test_cancel_edit_link_for_issue_show_action_should_have_data_action
     @request.session[:user_id] = 1
     get(:show, :params => {:id => 1})
     assert_response :success
-    assert_select 'a[href=?][onclick=?]', "/issues/1", "$('#update').hide(); return false;", :text => 'Cancel'
+    assert_select 'a[href=?][data-action=?]', "/issues/1", "visibility#hide", :text => 'Cancel'
   end
 
   def test_cancel_edit_link_for_issue_edit_action_should_not_have_onclick_action
     @request.session[:user_id] = 1
     get(:edit, :params => {:id => 1})
     assert_response :success
-    assert_select 'a[href=?][onclick=?]', "/issues/1", "", :text => 'Cancel'
+    assert_select 'a[href=?][data-action=?]', "/issues/1", "", :text => 'Cancel'
   end
 
   def test_show_should_display_author_gravatar_only_when_not_assigned

@@ -5,19 +5,19 @@
       edit_news_path(@news),
       :class => 'icon icon-edit',
       :accesskey => accesskey(:edit),
-      :onclick => '$("#edit-news").show(); return false;') if User.current.allowed_to?(:manage_news, @project) %>
+      :data => {:controller => 'visibility', :action => 'visibility#show', :visibility_selector_param => '#edit-news'} if User.current.allowed_to?(:manage_news, @project) %>
 <%= delete_link news_path(@news) if User.current.allowed_to?(:manage_news, @project) %>
 </div>
 
 <h2><%= avatar(@news.author) %> <%=h @news.title %></h2>
 
 <% if authorize_for('news', 'edit') %>
-<div id="edit-news" style="display:none;">
+<div id="edit-news" style="display:none;" data-controller="visibility">
 <%= labelled_form_for :news, @news, :url => news_path(@news),
                                            :html => { :id => 'news-form', :multipart => true, :method => :put } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <%= submit_tag l(:button_save) %>
-<%= link_to l(:button_cancel), "#", :onclick => '$("#edit-news").hide(); return false;' %>
+<%= link_to l(:button_cancel), "#", data: { action: 'visibility#hide' } %>
 <% end %>
 </div>
 <% end %>
