@@ -1,7 +1,7 @@
 <%= title [l(:label_role_plural), roles_path], l(:label_permissions_report) %>
 
 <div class="hide-when-print">
-  <fieldset id="filters" class="collapsible collapsed">
+  <fieldset id="filters" class="collapsible collapsed" data-controller="checkbox">
     <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
       <%= sprite_icon("angle-right") %>
       <%= l(:label_filter_plural) %>
@@ -9,7 +9,7 @@
     <div style="display: none;">
       <%= form_tag({}, :method => :get) do %>
         <fieldset>
-          <legend><%= toggle_checkboxes_link('#filters input[type=checkbox]:enabled') %></legend>
+          <legend><%= toggle_checkboxes_link('input[type=checkbox]:enabled') %></legend>
           <% Role.sorted.to_a.each do |role| %>
             <label>
               <%= check_box_tag "ids[]", role.id, @roles.include?(role) %>
@@ -31,7 +31,7 @@
     <%= hidden_field_tag "permissions[#{role.id}][]", '', :id => nil %>
 <% end %>
 <div class="autoscroll">
-<table class="list permissions">
+<table class="list permissions" data-controller="checkbox">
 <thead>
     <tr>
     <th><%=l(:label_permissions)%></th>

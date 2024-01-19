@@ -6,7 +6,7 @@
     <%= render_principals_for_new_members(@project) %>
   </div>
 </fieldset>
-<fieldset class="box">
+<fieldset class="box" data-controller="checkbox">
   <legend><%= toggle_checkboxes_link('.roles-selection input') %><%= l(:label_role_plural) %></legend>
   <div class="roles-selection">
     <% User.current.managed_roles(@project).each do |role| %>

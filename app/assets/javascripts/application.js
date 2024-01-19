@@ -14,6 +14,9 @@ function checkAll(id, checked) {
   $('#'+id).find('input[type=checkbox]:enabled').prop('checked', checked);
 }
 
+/**
+ * @deprecated use stimulus checkbox_controller
+ */
 function toggleCheckboxesBySelector(selector) {
   var all_checked = true;
   $(selector).each(function(index) {
