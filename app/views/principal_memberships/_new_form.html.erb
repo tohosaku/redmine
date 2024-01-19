@@ -1,4 +1,4 @@
-<fieldset class="box">
+<fieldset class="box" data-controller="checkbox">
   <legend><%= toggle_checkboxes_link('.projects-selection input:enabled') %><%= l(:label_project_plural) %></legend>
   <div class="objects-selection">
     <div class="projects-selection">
@@ -11,7 +11,7 @@
   </div>
 </fieldset>
 
-<fieldset class="box">
+<fieldset class="box" data-controller="checkbox">
   <legend><%= toggle_checkboxes_link('.roles-selection input') %><%= l(:label_role_plural) %></legend>
   <div class="roles-selection">
   <% @roles.each do |role| %>
