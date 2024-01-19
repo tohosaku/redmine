@@ -42,9 +42,9 @@
     <label><%= radio_button_tag 'c[]', 'all_inline' %> <%= l(:description_all_columns) %></label>
   </p>
   <% if @query.available_block_columns.any? %>
-    <fieldset id="csv-export-block-columns">
+    <fieldset id="csv-export-block-columns" data-controller="checkbox">
       <legend>
-        <%= toggle_checkboxes_link('#csv-export-block-columns input[type=checkbox]') %>
+        <%= toggle_checkboxes_link %>
       </legend>
       <% @query.available_block_columns.each do |column| %>
         <label><%= check_box_tag 'c[]', column.name, @query.has_column?(:column), :id => nil %> <%= column.caption %></label>

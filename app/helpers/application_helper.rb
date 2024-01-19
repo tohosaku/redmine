@@ -1623,18 +1623,18 @@ module ApplicationHelper
   end
 
   def check_all_links(form_name)
-    link_to_function(l(:button_check_all), "checkAll('#{form_name}', true)") +
+    link_to(l(:button_check_all), '#', data: { controller: 'checkbox', action: 'checkbox#checkAll', checkbox_id_param: form_name, checkbox_checked_param: 'true'}) +
     " | ".html_safe +
-    link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
+    link_to(l(:button_uncheck_all), '#', data: { controller: 'checkbox', action: 'checkbox#checkAll', checkbox_id_param: form_name, checkbox_checked_param: 'false'})
   end
 
-  def toggle_checkboxes_link(selector, options={})
+  def toggle_checkboxes_link(selector='input[type=checkbox]', options={})
     css_classes = 'icon icon-checked'
     css_classes += ' ' + options[:class] if options[:class]
-    link_to_function sprite_icon('checked', ''),
-                     "toggleCheckboxesBySelector('#{selector}')",
-                     :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
-                     :class => css_classes
+    link_to sprite_icon('checked', ''), '#',
+        title: "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
+        class: css_classes,
+        data: { action: 'checkbox#toggle', checkbox_selector_param: selector }
   end
 
   def progress_bar(pcts, options={})

@@ -50,7 +50,7 @@
 </div>
 
 <h3><%= l(:label_permissions) %></h3>
-<div class="box tabular" id="permissions">
+<div class="box tabular" id="permissions" data-controller="checkbox">
 <% setable_permissions = @role.setable_permissions %>
 <% perms_by_module = setable_permissions.group_by {|p| p.project_module.to_s} %>
 <% perms_by_module.keys.sort.each do |mod| %>
@@ -83,7 +83,7 @@
       <th class="<%= "#{permission}_shown" %>"><%= l("permission_#{permission}") %></th>
       <% end %>
   </thead>
-  <tbody>
+  <tbody data-controller="checkbox">
     <tr class='permissions-all-trackers'>
       <td class="name"><%= toggle_checkboxes_link('tr.permissions-all-trackers input[type="checkbox"]') %><b><%= l(:label_tracker_all) %></b></td>
       <% permissions.each do |permission| %>
