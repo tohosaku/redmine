@@ -1,4 +1,4 @@
-<fieldset class="box" data-controller="conditional-attribute">
+<fieldset class="box" data-controller="conditional-attribute checkbox">
   <legend><%= toggle_checkboxes_link("#custom_field_project_ids input[type=checkbox]:enabled") %><%= l(:label_project_plural) %></legend>
   <p><%= f.check_box :is_for_all, :data => conditional_attribute.toggle_disabled(equal_to: '1') %></p>
 
