@@ -18,7 +18,7 @@
 <% if @issue.safe_attribute?('tracker_id') || (@issue.persisted? && @issue.tracker_id_changed?) %>
 <p data-controller="issues--select">
   <%= f.select :tracker_id, trackers_options_for_select(@issue), {required: true},
-               data: { action: 'issue#update'},
+               data: { action: 'issue#update', issues__select_target: 'field' },
                title: @issue.tracker.description %>
   <%= link_to icon_with_label('help', l(:label_open_trackers_description)), '#', :class => 'icon-only icon-help', :title => l(:label_open_trackers_description), :data => modal_dispatcher('trackers_description', '500px') if trackers_for_select(@issue).any? {|t| t.description.present? } %>
   <%= render partial: 'issues/trackers_description', locals: {trackers: trackers_for_select(@issue)} %>
