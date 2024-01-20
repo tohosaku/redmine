@@ -1,16 +1,5 @@
-<%= javascript_tag do %>
-function revisionGraphHandler(){
-  drawRevisionGraph(
-    document.getElementById('holder'),
-    <%= commits.to_json.html_safe %>,
-    <%= space %>
-  );
-}
-$(document).ready(revisionGraphHandler);
-$(window).resize(revisionGraphHandler);
-<% end %>
-
-<div id="holder" class="revision-graph"></div>
+<script id="commits_json" type="text/json"><%= raw commits.to_json %></script>
+<div id="holder" class="revision-graph" data-controller="repositories--revision-graph" data-repositories--revision-graph-space-value="<%= space %>" data-action="resize@window->repositories--revision-graph#handle"></div>
 
 <% content_for :header_tags do %>
   <%= javascript_include_tag 'raphael' %>
