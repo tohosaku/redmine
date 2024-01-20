@@ -4,7 +4,7 @@
 <div class="splitcontentleft">
 <% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? %>
 <p data-controller="issues--select">
-  <%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {required: true}, title: @issue.status.description, data: { action: 'issue#update'} %>
+  <%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {required: true}, title: @issue.status.description, data: { action: 'issue#update', issues__select_target: 'field'} %>
   <%= link_to sprite_icon('help', l(:label_open_issue_statuses_description)), '#', :class => 'icon-only icon-help', :title => l(:label_open_issue_statuses_description), :data => modal_dispatcher('issue_statuses_description', '500px') if @allowed_statuses.any? {|s| s.description.present? } %>
   <% if @issue.transition_warning %>
     <span class="icon-only icon-warning" title="<%= @issue.transition_warning %>"><%= @issue.transition_warning %></span>
