@@ -1,11 +1,12 @@
 <h2><%= l(:label_search) %></h2>
 
-<%= form_tag({}, :method => :get, :id => 'search-form') do %>
+<%= form_tag({}, :method => :get, :id => 'search-form', :data => { :controller => 'search--form', :action => 'search--form#setVisibilityOfOptions' }) do %>
 <div class="box">
 <%= label_tag "search-input", l(:description_search), :class => "hidden-for-sighted" %>
 <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input',
                       :data => {
-                          :controller => 'inline-autocomplete'
+                          :controller => 'inline-autocomplete',
+                          :search__form_target => 'input'
                       } %>
 <%= project_select_tag %>
 <%= hidden_field_tag 'all_words', '', :id => nil %>
@@ -16,9 +17,9 @@
 
 <fieldset class="box" data-controller="checkbox">
   <legend><%= toggle_checkboxes_link('p#search-types input') %></legend>
-  <p id="search-types">
+  <p id="search-types" data-search--form-target="types">
   <% @object_types.each do |t| %>
-  <label><%= check_box_tag t, 1, @scope.include?(t) %> <%= link_to type_label(t), "#" %></label>
+  <label><%= check_box_tag t, 1, @scope.include?(t) %> <%= link_to type_label(t), "#", data: { action: 'search--form#submitForm' } %></label>
   <% end %>
   </p>
 </fieldset>
@@ -28,7 +29,7 @@
     <%= sprite_icon("angle-right") %>
     <%= l(:label_options) %>
   </legend>
-  <div id="options-content" style="display:none;">
+  <div id="options-content" style="display:none;" data-seach--form-target="options">
     <p><label><%= check_box_tag 'open_issues', 1, @open_issues %> <%= l(:label_search_open_issues_only) %></label></p>
     <p>
       <label><%= radio_button_tag 'attachments', '0', @search_attachments == '0' %> <%= l(:label_search_attachments_no) %></label>
@@ -38,7 +39,7 @@
     <%= call_hook(:view_search_index_options_content_bottom) %>
   </div>
 </fieldset>
-<%= hidden_field_tag 'options', '', :id => 'show-options' %>
+<%= hidden_field_tag 'options', '', :id => 'show-options', :data => { :search__form_target => 'hidden' } %>
 
 </div>
 <p><%= submit_tag l(:label_search) %></p>
@@ -73,20 +74,7 @@
 <% html_title(l(:label_search)) -%>
 
 <%= javascript_tag do %>
-$("#search-types a").click(function(e){
-  e.preventDefault();
-  $("#search-types input[type=checkbox]").prop('checked', false);
-  $(this).siblings("input[type=checkbox]").prop('checked', true);
-  if ($("#search-input").val() != "") {
-    $("#search-form").submit();
-  }
-});
-
-$("#search-form").submit(function(){
-  $("#show-options").val($("#options-content").is(":visible") ? '1' : '0');
-});
-
-<% if params[:options] == '1' %>
-toggleFieldset($("#options-content"));
-<% end %>
+  <% if params[:options] == '1' %>
+    toggleFieldset($("#options-content"));
+  <% end %>
 <% end %>
