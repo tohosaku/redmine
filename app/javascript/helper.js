@@ -28,6 +28,22 @@ export function randomKey(size) {
   return key;
 }
 
+export function toggleExpandCollapseIcon(el) {
+  const svg = el.getElementsByTagName('svg').item(0)
+
+  if (svg === null) {
+    return false;
+  }
+
+  if (el.classList.contains('icon-expanded')) {
+    updateSVGIcon(svg, 'angle-down')
+    svg.classList.remove('icon-rtl')
+  } else {
+    updateSVGIcon(svg, 'angle-right')
+    svg.classList.add('icon-rtl')
+  }
+}
+
 export function updateSVGIcon(element, icon) {
   const iconElement = element.getElementsByTagName('use').item(0)
 
