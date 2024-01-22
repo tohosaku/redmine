@@ -1,5 +1,5 @@
 <div class="contextual">
-  <%= form_tag({action: "add_block"}, id: "block-form", authenticity_token: true, data: { controller: 'form', turbo: true }) do %>
+  <%= form_tag({action: "add_block"}, id: "block-form", authenticity_token: true, data: { controller: 'form clear', turbo: true, clear_defaultclear_value: 'true' }) do %>
     <%= label_tag('block-select', l(:button_add)) %>:
     <%= block_select_tag(@user) %>
   <% end %>
@@ -18,11 +18,5 @@
 </div>
 
 <%= context_menu %>
-
-<%= javascript_tag do %>
-$(document).ready(function(){
-  $('#block-select').val('');
-});
-<% end %>
 
 <% html_title(l(:label_my_page)) -%>

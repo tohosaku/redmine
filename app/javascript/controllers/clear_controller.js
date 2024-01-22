@@ -8,6 +8,15 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
 
   static targets = ['element', 'clear', 'child', 'dummy'];
+  static values = {
+    defaultclear: Boolean
+  }
+
+  connect() {
+    if (this.defaultclearValue) {
+      this.clear();
+    }
+  }
 
   clearIfChecked(e) {
     if (!e.target.checked) return
