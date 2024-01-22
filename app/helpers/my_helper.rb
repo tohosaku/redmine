@@ -72,7 +72,7 @@ module MyHelper
     Redmine::MyPage.block_options(blocks_in_use).each do |label, block|
       options << content_tag('option', label, :value => block, :disabled => block.blank?)
     end
-    select_tag('block', options, id: "block-select", data: { action: 'form#submit', form_target: 'select' })
+    select_tag('block', options, id: "block-select", data: { action: 'form#submit', form_target: 'select', clear_target: 'clear' })
   end
 
   def render_calendar_block(block, settings)
