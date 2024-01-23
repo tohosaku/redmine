@@ -8,7 +8,10 @@
               options_for_select(query_available_inline_columns_options(query)),
               :id => available_tag_id,
               :multiple => true, :size => 10,
-              :ondblclick => "moveOptions(this.form.#{available_tag_id}, this.form.#{selected_tag_id});" %>
+              :data => { :controller => 'queries--columns',
+                         :action => 'dblclick->queries--columns#moveOptions',
+                         :queries__columns_from_param => available_tag_id,
+                         :queries__columns_to_param => selected_tag_id } %>
 </div>
 <div class="buttons">
       <input type="button" value="&#8594;" class="move-right"
@@ -22,7 +25,10 @@
               options_for_select(query_selected_inline_columns_options(query)),
               :id => selected_tag_id,
               :multiple => true, :size => 10,
-              :ondblclick => "moveOptions(this.form.#{selected_tag_id}, this.form.#{available_tag_id});" %>
+              :data => { :controller => 'queries--columns-submit queries--columns',
+                         :action => 'dblclick->queries--columns#moveOptions',
+                         :queries__columns_from_param => selected_tag_id,
+                         :queries__columns_to_param => available_tag_id } %>
 </div>
 <div class="buttons">
       <input type="button" value="&#8648;" onclick="moveOptionTop(this.form.<%= selected_tag_id %>);" />
@@ -30,11 +36,3 @@
       <input type="button" value="&#8595;" onclick="moveOptionDown(this.form.<%= selected_tag_id %>);" />
       <input type="button" value="&#8650;" onclick="moveOptionBottom(this.form.<%= selected_tag_id %>);" />
 </div>
-
-<%= javascript_tag do %>
-$(document).ready(function(){
-  $('.query-columns').closest('form').submit(function(){
-    $('#<%= selected_tag_id %> option:not(:disabled)').prop('selected', true);
-  });
-});
-<% end %>
