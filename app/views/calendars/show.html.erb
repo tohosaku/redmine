@@ -2,7 +2,7 @@
 <%= @query.persisted? && @query.description.present? ? content_tag('p', @query.description, class: 'subtitle') : '' %>
 
 <%= form_tag({:controller => 'calendars', :action => 'show', :project_id => @project},
-             :method => :get, :id => 'query_form') do %>
+             :method => :get, :id => 'query_form', :data => { :controller => 'calendars--show' }) do %>
 <%= hidden_field_tag 'set_filter', '1' %>
 <%= hidden_field_tag 'calendar', '1' %>
 
@@ -35,12 +35,12 @@
   <%= label_tag('year', l(:label_year)) %>
   <%= select_year(@year, :prefix => "year", :discard_type => true) %>
 
-  <%= link_to_function sprite_icon('checked', l(:button_apply)), '$("#query_form").submit()', :class => 'icon icon-checked' %>
+  <%= link_to sprite_icon('checked', l(:button_apply)), '#',:class => 'icon icon-checked', :data => { :action => 'calendars--show#apply' } %>
   <%= link_to sprite_icon('reload', l(:button_clear)), { :project_id => @project, :set_filter => 1 }, :class => 'icon icon-reload' %>
   <% if @query.new_record? && User.current.allowed_to?(:save_queries, @project, :global => true) %>
-    <%= link_to_function sprite_icon('save', l(:button_save_object, object_name: l(:label_query)).capitalize),
-                         "$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }').submit();",
-                         :class => 'icon icon-save' %>
+    <%= link_to sprite_icon('save', l(:button_save_object, object_name: l(:label_query)).capitalize), '#',
+                         :class => 'icon icon-save',
+                         :data => { :action => 'calendars--show#apply', :calendars__show_action_param =>  @project ? new_project_query_path(@project) : new_query_path }%>
   <% end %>
   <% if !@query.new_record? && @query.editable_by?(User.current) %>
     <%= link_to sprite_icon('edit', l(:button_edit_object, object_name: l(:label_query)).capitalize), edit_query_path(@query, :calendar => 1), :class => 'icon icon-edit' %>
