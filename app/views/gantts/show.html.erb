@@ -3,7 +3,6 @@
 <div class="contextual"></div>
 
 <h2><%= @query.new_record? ? l(:label_gantt) : @query.name %></h2>
-
 <% if @query.persisted? && @query.description.present? %>
 <%= content_tag('p', @query.description, class: 'subtitle') %>
 <% end %>
