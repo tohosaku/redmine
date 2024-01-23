@@ -9,15 +9,12 @@
     </ul>
   </div>
 <% end %>
-<p><%= f.select :relation_type, collection_for_relation_type_select, {}, :onchange => "setPredecessorFieldsVisibility();" %>
-<%= l(:label_issue) %> #<%= f.text_field :issue_to_id, :value => unsaved_relations_ids, :size => 10 %>
+<p data-controller="issue-relations--form" data-issue-relations--form-path-value="<%= auto_complete_issues_path(:project_id => @project, :scope => (Setting.cross_project_issue_relations? ? 'all' : nil), :issue_id => @issue.id) %>">
+<%= f.select :relation_type, collection_for_relation_type_select, {}, :data => { :action => 'issue-relations--form#set' } %>
+<%= l(:label_issue) %> #<%= f.text_field :issue_to_id, :value => unsaved_relations_ids, :autocomplete => 'off', :size => 10, :data => { issue_relations__form_target: 'field' } %>
 <span id="predecessor_fields" style="display:none;">
 <%= l(:field_delay) %>: <%= f.text_field :delay, :size => 3 %> <%= l(:label_day_plural) %>
 </span>
 <%= submit_tag l(:button_add) %>
 <%= link_to_function l(:button_cancel), '$("#new-relation-form").hide();'%>
 </p>
-
-<%= javascript_tag "multipleAutocompleteField('relation_issue_to_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (Setting.cross_project_issue_relations? ? 'all' : nil), :issue_id => @issue.id)}')" %>
-
-<%= javascript_tag "setPredecessorFieldsVisibility();" %>

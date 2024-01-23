@@ -12,7 +12,7 @@
 <p><%= f.text_area :summary, :cols => 60, :rows => 2 %></p>
 <p><%= f.text_area :description, :required => true, :cols => 60, :rows => 15, :class => 'wiki-edit',
                    :data => {
-                       :auto_complete => true,
+                       :controller => 'inline-autocomplete',
                        :wiki_toolbar => true,
                        :wiki_preview_url => preview_news_path(:project_id => @project, :id => @news)
                    }

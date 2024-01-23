@@ -84,9 +84,7 @@ module CustomFieldsHelper
     placeholder&.tr!("\n", ' ') if cf.field_format != 'text'
     if cf.full_text_formatting?
       css += ' wiki-edit'
-      data.merge! {
-        :auto_complete => true
-      }
+      data[:controller] = 'inline-autocomplete'
     end
     cf.format.edit_tag(
       self,
@@ -135,9 +133,7 @@ module CustomFieldsHelper
     data = options.delete(:data) || {}
     if custom_field.full_text_formatting?
       css += ' wiki-edit'
-      data.merge!i({
-        :auto_complete => true
-      })
+      data[:controller] = 'inline-autocomplete'
     end
     custom_field.format.bulk_edit_tag(
       self,
