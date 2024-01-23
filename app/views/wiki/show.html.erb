@@ -62,12 +62,12 @@
 
 <%= render(:partial => "wiki/content", :locals => {:content => @content}) %>
 
-<fieldset class="collapsible collapsed hide-when-print">
-  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+<fieldset class="collapsible collapsed hide-when-print" data-controller="fieldset">
+  <%= tag.legend class: 'icon icon-collapsed', data: { action: 'click->fieldset#toggle' } do %>
     <%= sprite_icon("angle-right") %>
     <%= l(:label_attachment_plural) %> (<%= @page.attachments.length %>)
-  </legend>
-  <div style="display: none;">
+  <% end %>
+  <div style="display: none;" data-fieldset-target="display">
 
   <%= link_to_attachments @page, :thumbnails => true %>
 

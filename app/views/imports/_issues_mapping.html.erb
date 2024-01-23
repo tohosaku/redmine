@@ -5,12 +5,12 @@
   <% end %>
 </fieldset>
 
-<fieldset class="box tabular collapsible collapsed">
-  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+<fieldset class="box tabular collapsible collapsed" data-controller="fieldset">
+  <%= tag.legend class: 'icon icon-collapsed', data: { action: 'click->fieldset#toggle' } do %>
     <%= sprite_icon("angle-right") %>
     <%= l(:label_relations_mapping) %>
-  </legend>
-  <div id="relations-mapping" style="display: none;">
+  <% end %>
+  <div id="relations-mapping" style="display: none;" data-field-target="display">
     <%= render :partial => 'issues_relations_mapping' %>
   </div>
 </fieldset>

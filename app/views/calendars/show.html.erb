@@ -8,12 +8,12 @@
 
 <div id="query_form_with_buttons" class="hide-when-print">
 <div id="query_form_content">
-  <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-    <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expanded" : "collapsed" %>">
+  <fieldset id="filters" class="collapsible" data-controller="fieldset" data-fieldset-hidden-value="<%= @query.new_record? %>">
+    <%= tag.legend class: collapsible(@query.new_record?),  data: { action: 'click->fieldset#toggle' } do %>
       <%= sprite_icon(@query.new_record? ? "angle-down" : "angle-right") %>
       <%= l(:label_filter_plural) %>
-    </legend>
-    <div style="<%= @query.new_record? ? "" : "display: none;" %>">
+    <% end %>
+    <div data-fieldset-target="display">
       <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     </div>
   </fieldset>

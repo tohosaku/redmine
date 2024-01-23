@@ -768,6 +768,11 @@ module ApplicationHelper
     concat('</p>'.html_safe)
   end
 
+  def collapsible(is_new_record)
+    css_class = is_new_record ? 'icon-expanded' : 'icon-collapsed'
+    ['icon', css_class]
+  end
+
   def page_header_title
     if @project.nil? || @project.new_record?
       h(Setting.app_title)
