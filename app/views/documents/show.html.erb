@@ -28,9 +28,9 @@
 <%= link_to_attachments @document, :thumbnails => true %>
 
 <% if authorize_for('documents', 'add_attachment') %>
-<p><%= link_to l(:label_attachment_new), {}, :onclick => "$('#add_attachment_form').show(); return false;",
-                                             :id => 'attach_files_link' %></p>
-  <%= form_tag({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>
+  <p data-controller="visibility">
+  <%= link_to l(:label_attachment_new), {}, :id => 'attach_files_link', :data => { :action => 'visibility#showField' } %></p>
+  <%= form_tag({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true, :id => "add_attachment_form", :style => "display:none;", :data => { :visibility_target => 'field' }) do %>
   <div class="box" <%= tag.attributes dragdrop_wrapper %>>
   <p><%= render :partial => 'attachments/form' %></p>
   </div>
