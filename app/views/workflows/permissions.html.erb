@@ -64,9 +64,9 @@
           <%= name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
         </td>
         <% for status in @statuses -%>
-        <td class="<%= @permissions[status.id][field].try(:join, ' ') %>" title="<%= name %> (<%= status.name %>)">
+        <td class="<%= @permissions[status.id][field].try(:join, ' ') %>" title="<%= name %> (<%= status.name %>)" data-controller="workflows--permissions">
           <%= field_permission_tag(@permissions, status, field, @roles) %>
-          <% unless status == @statuses.last %><a href="#" class="repeat-value" title="<%= l(:button_copy) %>">&#187;</a><% end %>
+          <% unless status == @statuses.last %><a href="#" class="repeat-value" title="<%= l(:button_copy) %>" data-action="workflows--permissions#select">&#187;</a><% end %>
         </td>
         <% end -%>
       </tr>
@@ -84,9 +84,9 @@
             <%= field.name %> <%= content_tag('span', '*', :class => 'required') if field_required?(field) %>
           </td>
           <% for status in @statuses -%>
-          <td class="<%= @permissions[status.id][field.id.to_s].try(:join, ' ') %>" title="<%= field.name %> (<%= status.name %>)">
+          <td class="<%= @permissions[status.id][field.id.to_s].try(:join, ' ') %>" title="<%= field.name %> (<%= status.name %>)" data-controller="workflows--permissions">
             <%= field_permission_tag(@permissions, status, field, @roles) %>
-            <% unless status == @statuses.last %><a href="#" class="repeat-value">&#187;</a><% end %>
+            <% unless status == @statuses.last %><a href="#" class="repeat-value" data-action="workflows--permissions#select">&#187;</a><% end %>
           </td>
           <% end -%>
         </tr>
@@ -97,13 +97,4 @@
     </div>
     <%= submit_tag l(:button_save) %>
   <% end %>
-<% end %>
-
-<%= javascript_tag do %>
-$("a.repeat-value").click(function(e){
-  e.preventDefault();
-  var td = $(this).closest('td');
-  var selected = td.find("select").find(":selected").val();
-  td.nextAll('td').find("select").val(selected);
-});
 <% end %>
