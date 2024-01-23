@@ -24,11 +24,11 @@
   </p>
 </fieldset>
 
-<fieldset class="collapsible collapsed">
-  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+<fieldset class="collapsible collapsed" data-controller="fieldset">
+  <%= tag.legend class: 'icon icon-collapsed', data: { action: 'click->fieldset#toggle' } do %>
     <%= sprite_icon("angle-right") %>
     <%= l(:label_options) %>
-  </legend>
+  <% end %>
   <div id="options-content" style="display:none;" data-seach--form-target="options">
     <p><label><%= check_box_tag 'open_issues', 1, @open_issues %> <%= l(:label_search_open_issues_only) %></label></p>
     <p>

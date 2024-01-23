@@ -39,27 +39,25 @@
     <div class="autoscroll">
       <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
 
-      <fieldset class="collapsible" style="padding: 0; margin-top: 0.5em;">
-        <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+      <fieldset class="collapsible" style="padding: 0; margin-top: 0.5em;" data-controller="fieldset" data-fieldset-hidden-value="<%= !@workflows['author'].present? %>">
+        <%= tag.legend class: 'icon icon-collapsed', data: { action: 'click->fieldset#toggle' } do %>
           <%= sprite_icon("angle-right") %>
           <%= l(:label_additional_workflow_transitions_for_author) %>
-        </legend>
+        <% end %>
         <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
           <%= render :partial => 'form', :locals => {:name => 'author', :workflows => @workflows['author']} %>
         </div>
       </fieldset>
-      <%= javascript_tag "hideFieldset($('#author_workflows'))" unless @workflows['author'].present? %>
 
-      <fieldset class="collapsible" style="padding: 0;">
-        <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+      <fieldset class="collapsible" style="padding: 0;" data-controller="fieldset" data-fieldset-hidden-value="<%= !@workflows['assignee'].present? %>">
+        <%= tag.legend class: 'icon icon-collapsed' , data: { action: 'click->fieldset#toggle' } do %>
           <%= sprite_icon("angle-right") %>
           <%= l(:label_additional_workflow_transitions_for_assignee) %>
-        </legend>
+        <% end %>
         <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">
-      <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
+          <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
         </div>
       </fieldset>
-      <%= javascript_tag "hideFieldset($('#assignee_workflows'))" unless @workflows['assignee'].present? %>
     </div>
     <%= submit_tag l(:button_save) %>
   <% end %>
