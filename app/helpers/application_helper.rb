@@ -1790,7 +1790,6 @@ module ApplicationHelper
     tags = javascript_include_tag(
       'jquery-3.7.1-ui-1.13.3',
       'rails-ujs',
-      'tribute-5.1.3.min',
       'tablesort-5.2.1.min.js',
       'tablesort-5.2.1.number.min.js',
       'application',

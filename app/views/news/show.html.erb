@@ -56,7 +56,7 @@
 <div class="box">
     <%= text_area_tag 'comment', nil, :cols => 80, :rows => 15, :class => 'wiki-edit',
                   :data => {
-                    :auto_complete => true,
+                    :controller => 'inline-autocomplete',
                     :wiki_toolbar => true,
                     :wiki_preview_url => preview_news_path(:project_id => @project, :id => @news)
                   }

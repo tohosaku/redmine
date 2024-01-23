@@ -31,7 +31,7 @@
       <fieldset id="add_notes"><legend><%= l(:field_notes) %></legend>
       <%= f.text_area :notes, cols: 60, rows: 10, class: 'wiki-edit',
             data: {
-                auto_complete: true,
+                controller: 'inline-autocomplete',
                 wiki_toolbar: true,
                 wiki_preview_url: preview_issue_path(project_id: @project, issue_id: @issue)
             },

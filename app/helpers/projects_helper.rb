@@ -141,7 +141,7 @@ module ProjectsHelper
       node << render_boards_tree(boards, board, level+1, &block)
       s << content_tag('div', node, data: positioned_items_target(index))
     end
-    content_tag('div', s, class: 'sort-level', data: positioned_items )
+    tag.div s, class: 'sort-level', data: positioned_items
   end
 
   def render_api_includes(project, api)

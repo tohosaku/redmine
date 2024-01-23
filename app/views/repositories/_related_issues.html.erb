@@ -26,17 +26,19 @@
 </ul>
 
 <% if manage_allowed %>
-  <%= form_tag({:controller => 'repositories', :action => 'add_related_issue',
-                :id => @project, :repository_id => @repository.identifier_param,
-                :rev => @changeset.identifier},
-       :remote => true,
-       :method => :post,
-       :id => 'new-relation-form', :style => (@issue ? '' : 'display: none;')) do |f| %>
-  <%= l(:label_issue) %> #<%= text_field_tag 'issue_id', '', :size => 10 %>
+  <%= form_tag({controller: 'repositories', action: 'add_related_issue',
+                id: @project, repository_id: @repository.identifier_param,
+                rev: @changeset.identifier},
+       remote: true,
+       method: :post,
+       id: 'new-relation-form', style: (@issue ? '' : 'display: none;')) do |f| %>
+  <%= l(:label_issue) %> #<%= text_field_tag 'issue_id', '', size: 10,
+                                     data: {
+                                       controller: 'observe-autocomplete',
+                                       observe_autocomplete_path_value: auto_complete_issues_path(:project_id => @project, :scope => 'all')
+                                     } %>
   <%= submit_tag l(:button_add) %>
   <%= toggle_link l(:button_cancel), 'new-relation-form'%>
   <% end %>
 <% end %>
 </div>
-
-<%= javascript_tag "observeAutocompleteField('issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => 'all')}')" %>
