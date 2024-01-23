@@ -6,7 +6,7 @@
     <%= component 'wikieditor', preview_url: preview_issue_path(project_id: @project, issue_id: @journal.issue) do |d| %>
       <%= textarea_tag 'journal[notes]', @journal.notes, id: "journal_#{@journal.id}_notes", class: 'wiki-edit',
             rows: (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min),
-            data: d.merge({auto_complete: true})
+            data: d.merge({controller: 'inline-autocomplete'})
       %>
     <% end %>
     <% if @journal.safe_attribute? 'private_notes' %>

@@ -5,7 +5,7 @@
   <p><%= f.text_field :title, :required => true, :size => 60 %></p>
   <p>
     <%= component 'wikieditor' do |d| %>
-      <%= f.textarea :description, cols: 60, rows: 15, class: 'wiki-edit', data: d.merge({ auto_complete: true }) %>
+      <%= f.textarea :description, cols: 60, rows: 15, class: 'wiki-edit', data: d.merge({controller: 'inline-autocomplete'}) %>
     <% end %>
   </p>
   <% @document.custom_field_values.each do |value| %>

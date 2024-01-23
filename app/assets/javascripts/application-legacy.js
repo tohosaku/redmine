@@ -5,7 +5,7 @@
  */
 
 function sanitizeHTML(string) {
-  var temp = document.createElement('span');
+  const temp = document.createElement('span');
   temp.textContent = string;
   return temp.innerHTML;
 }
@@ -1298,165 +1298,6 @@ function removeHoverTooltips(container) {
 }
 $(function() { setupHoverTooltips(); });
 
-function inlineAutoComplete(element) {
-    'use strict';
-
-    // do not attach if Tribute is already initialized
-    if (element.dataset.tribute === 'true') {return};
-
-    const getDataSource = function(entity) {
-      const dataSources = rm.AutoComplete.dataSources;
-
-      if (dataSources[entity]) {
-        return dataSources[entity];
-      } else {
-        return false;
-      }
-    }
-
-    const debounce = function(func, delay) {
-      let timeout;
-
-      return function(...args) {
-        const context = this;
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(context, args), delay);
-      };
-    }
-
-    const remoteSearch = debounce((url, cb) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function ()
-      {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            var data = JSON.parse(xhr.responseText);
-            cb(data);
-          } else if (xhr.status === 403) {
-            cb([]);
-          }
-        }
-      };
-      xhr.open("GET", url, true);
-      xhr.send();
-    }, 200);
-
-    const autocompleteSearchCache = {};
-    const latestAutocompleteSearchQuery = {};
-
-    const cachedAutocompleteResults = function(url, text) {
-      const cache = autocompleteSearchCache[url];
-
-      if (!cache) {
-        return null;
-      }
-
-      if (text === cache.query) {
-        return cache.results;
-      }
-
-      if (cache.query && text.startsWith(cache.query) && cache.results.length === 0) {
-        return [];
-      }
-
-      return null;
-    }
-
-    const tribute = new Tribute({
-      collection: [
-        {
-          trigger: '#',
-          values: function (text, cb) {
-            if (event.target.type === 'text' && element.getAttribute('autocomplete') != 'off') {
-              element.setAttribute('autocomplete', 'off');
-            }
-            // When triggered with text starting with "##", like "##a", the search term will become "#a",
-            // causing the SQL query to fail in finding issues with "a" in the subject.
-            // To avoid this, remove the first "#" from the search term.
-            if (text) {
-              text = text.replace(/^#/, '');
-            }
-            remoteSearch(getDataSource('issues') + encodeURIComponent(text), function (issues) {
-              return cb(issues);
-            });
-          },
-          lookup: 'label',
-          fillAttr: 'label',
-          requireLeadingSpace: true,
-          selectTemplate: function (issue) {
-            let leadingHash = "#"
-            // keep ## syntax which is a valid issue syntax to show issue with title.
-            if (this.currentMentionTextSnapshot.charAt(0) === "#") {
-              leadingHash = "##"
-            }
-            return leadingHash + issue.original.id;
-          },
-          menuItemTemplate: function (issue) {
-            return sanitizeHTML(issue.original.label);
-          }
-        },
-        {
-          trigger: '[[',
-          values: function (text, cb) {
-            remoteSearch(getDataSource('wiki_pages') + encodeURIComponent(text), function (wikiPages) {
-              return cb(wikiPages);
-            });
-          },
-          lookup: 'label',
-          fillAttr: 'label',
-          requireLeadingSpace: true,
-          selectTemplate: function (wikiPage) {
-            return '[[' + wikiPage.original.value + ']]';
-          },
-          menuItemTemplate: function (wikiPage) {
-            return sanitizeHTML(wikiPage.original.label);
-          }
-        },
-        {
-          trigger: '@',
-          lookup: function (user, mentionText) {
-            return user.name + user.firstname + user.lastname + user.login;
-          },
-          values: function (text, cb) {
-            const url = getDataSource('users');
-            if (!url) {
-              return cb([]);
-            }
-
-            latestAutocompleteSearchQuery[url] = text;
-
-            const cachedUsers = cachedAutocompleteResults(url, text);
-            if (cachedUsers !== null) {
-              return cb(cachedUsers);
-            }
-
-            remoteSearch(url + encodeURIComponent(text), function (users) {
-              // Ignore stale responses for queries that are no longer current.
-              if (latestAutocompleteSearchQuery[url] !== text) {
-                return;
-              }
-
-              autocompleteSearchCache[url] = {
-                query: text,
-                results: users
-              };
-              return cb(users);
-            });
-          },
-          menuItemTemplate: function (user) {
-            return sanitizeHTML(user.original.name);
-          },
-          selectTemplate: function (user) {
-            return '@' + user.original.login;
-          }
-        }
-      ],
-      noMatchTemplate: ""
-    });
-
-    tribute.attach(element);
-}
-
 // collapsible sidebar jQuery plugin
 (function($) {
   // main container this is applied to
@@ -1535,6 +1376,3 @@ $(document).ready(defaultFocus);
 $(document).ready(setupAttachmentDetail);
 $(document).ready(setupTabs);
 $(document).ready(setupFilePreviewNavigation);
-$(document).on('focus', '[data-auto-complete=true]', function(event) {
-  inlineAutoComplete(event.target);
-});

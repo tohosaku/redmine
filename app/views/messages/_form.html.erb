@@ -26,7 +26,7 @@
 <%= component 'wikieditor', preview_url: preview_board_message_path(:board_id => @board, :id => @message) do |d| %>
   <%= f.textarea :content, cols: 80, rows: 15, class: 'wiki-edit', id: 'message_content',
                  accesskey: accesskey(:edit),
-                 data:  d.merge({ auto_complete: true }) %>
+                 data:  d.merge({controller: 'inline-autocomplete'}) %>
 <% end %>
 </p>
 <!--[eoform:message]-->

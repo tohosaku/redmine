@@ -1790,8 +1790,7 @@ module ApplicationHelper
   def javascript_heads
     tags = javascript_include_tag(
       'jquery-3.7.1-ui-1.13.3',
-      'rails-ujs',
-      'tribute-5.1.3.min'
+      'rails-ujs'
     )
     tags << javascript_include_tag('application-legacy', 'responsive')
     unless User.current.pref.warn_on_leaving_unsaved == '0'

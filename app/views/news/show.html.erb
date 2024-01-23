@@ -68,7 +68,7 @@
 <%= form_tag({:controller => 'comments', :action => 'create', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
 <div class="box">
   <%= component 'wikieditor', preview_url: preview_news_path(project_id: @project, id: @news) do |d| %>
-    <%= textarea_tag 'comment', nil, cols: 80, rows: 15, class: 'wiki-edit', data: d.merge({ auto_complete: true }) %>
+    <%= textarea_tag 'comment', nil, cols: 80, rows: 15, class: 'wiki-edit', data: d.merge({controller: 'inline-autocomplete'}) %>
   <% end %>
 </div>
 <p><%= submit_tag l(:button_add) %></p>

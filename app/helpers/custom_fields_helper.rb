@@ -85,7 +85,7 @@ module CustomFieldsHelper
     if cf.full_text_formatting?
       css += ' wiki-edit'
       data = {
-        :auto_complete => true
+         :controller => 'inline-autocomplete'
       }
     end
     cf.format.edit_tag(
@@ -136,7 +136,7 @@ module CustomFieldsHelper
     if custom_field.full_text_formatting?
       css += ' wiki-edit'
       data = {
-        :auto_complete => true
+         :controller => 'inline-autocomplete'
       }
     end
     custom_field.format.bulk_edit_tag(

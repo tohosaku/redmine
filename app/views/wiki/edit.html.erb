@@ -16,7 +16,7 @@
 <%= component 'wikieditor' do |d| %>
   <%= textarea_tag 'content[text]', @text, cols: 100, rows: 25, accesskey: accesskey(:edit),
                     class: 'wiki-edit',
-                    data: d.merge({ auto_complete: true }) %>
+                    data: d.merge({controller: 'inline-autocomplete'}) %>
 <% end %>
 <% if @page.safe_attribute_names.include?('parent_id') && @wiki.pages.any? %>
   <%= fields_for @page do |fp| %>

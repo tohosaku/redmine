@@ -14,7 +14,7 @@
 <p>
 <%= component 'wikieditor', preview_url: preview_news_path(:project_id => @project, :id => @news) do |d| %>
   <%= f.textarea :description, required: true, cols: 60, rows: 15, class: 'wiki-edit',
-                   data: d.merge({auto_complete: true}) %>
+                   data: d.merge({controller: 'inline-autocomplete'}) %>
 <% end %>
 </p>
 <p id="attachments_form"><label><%= l(:label_attachment_plural) %></label><%= render :partial => 'attachments/form', :locals => {:container => @news} %></p>

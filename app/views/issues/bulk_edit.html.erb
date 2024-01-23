@@ -146,14 +146,17 @@
 <% if @safe_attributes.include?('parent_issue_id') && @project %>
 <p data-controller="conditional-attribute clear">
   <label for='issue_parent_issue_id'><%= l(:field_parent_issue) %></label>
-  <%= text_field_tag 'issue[parent_issue_id]', '', :size => 10, :value => @issue_params[:parent_issue_id],
-        data: conditional_attribute.element.merge(clear_target: 'element') %>
+  <%= text_field_tag 'issue[parent_issue_id]', '', size: 10, value: @issue_params[:parent_issue_id],
+        data: conditional_attribute.element.merge(
+          controller: 'observe-autocomplete',
+          clear_target: 'element',
+          observe_autocomplete_path_value: auto_complete_issues_path(project_id: @project, scope: Setting.cross_project_subtasks)
+        ) %>
   <label class="inline">
     <%= check_box_tag 'issue[parent_issue_id]', 'none', (@issue_params[:parent_issue_id] == 'none'), id: nil,
         data: stimulus_append_actions(conditional_attribute.toggle_disabled(equal_to: 'none'), 'clear#clearIfChecked') %><%= l(:button_clear) %>
   </label>
 </p>
-<%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path(:project_id => @project, :scope => Setting.cross_project_subtasks)}')" %>
 <% end %>
 
 <% if @safe_attributes.include?('start_date') %>
@@ -240,7 +243,7 @@
 <fieldset>
 <legend><%= l(:field_notes) %></legend>
 <%= component 'wikieditor' do |d| %>
-  <%= textarea_tag 'notes', @notes, cols: 60, rows: 10, class: 'wiki-edit', data: d.merge({auto_complete: true}) %>
+  <%= textarea_tag 'notes', @notes, cols: 60, rows: 10, class: 'wiki-edit', data: d.merge({controller: 'inline-autocomplete'}) %>
 <% end %>
 
 <% if User.current.allowed_to?(:add_issue_watchers, nil, global: true)%>
