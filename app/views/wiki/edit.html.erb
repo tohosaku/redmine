@@ -16,9 +16,8 @@
 <%= text_area_tag 'content[text]', @text, :cols => 100, :rows => 25, :accesskey => accesskey(:edit),
                   :class => 'wiki-edit',
                   :data => {
-                      :auto_complete => true
-                  }
-%>
+                    controller: 'inline-autocomplete'
+                  } %>
 
 <% if @page.safe_attribute_names.include?('parent_id') && @wiki.pages.any? %>
   <%= fields_for @page do |fp| %>

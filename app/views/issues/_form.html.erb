@@ -37,7 +37,7 @@
     <%= f.text_area :description, :cols => 60, :accesskey => accesskey(:edit), :class => 'wiki-edit',
                    :rows => [[10, @issue.description.to_s.length / 50].max, 20].min,
                    :data => {
-                       :auto_complete => true,
+                       :controller => 'inline-autocomplete'
                    },
                    :no_label => true %>
   <% end %>

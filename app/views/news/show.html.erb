@@ -69,7 +69,7 @@
 <div class="box">
     <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit',
                   :data => {
-                    :auto_complete => true
+                    :controller => 'inline-autocomplete'
                   }
     %>
     <%= wikitoolbar_for 'comment_comments', preview_news_path(:project_id => @project, :id => @news) %>
