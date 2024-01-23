@@ -1,7 +1,9 @@
-<div class="contextual">
-<%= link_to_function icon_with_label('add', l(:label_custom_field_new)), "location.href = '#{new_custom_field_path}?tab=' + encodeURIComponent(($('.tabs a.selected').attr('id')||'').split('tab-').pop())", :class => 'icon icon-add' %>
+<div class="contextual" data-controller="custom-fields--redirect">
+  <%= link_to icon_with_label('add', l(:label_custom_field_new)), '#',
+   class: 'icon icon-add',
+   data: { action: 'custom-fields--redirect#add', custom_fields__redirect_path_param: new_custom_field_path }
+  %>
 </div>
-
 <%= title l(:label_custom_field_plural) %>
 
 <% if @custom_fields_by_type.present? %>
