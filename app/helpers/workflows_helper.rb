@@ -46,11 +46,10 @@ module WorkflowsHelper
     field.is_a?(CustomField) ? field.is_required? : %w(project_id tracker_id subject priority_id is_private).include?(field)
   end
 
-  def field_permission_tag(permissions, status, field, roles)
+  def field_permission_tag(permissions, status, field, roles, html_options = {})
     name = field.is_a?(CustomField) ? field.id.to_s : field
     options = [["", ""], [l(:label_readonly), "readonly"]]
     options << [l(:label_required), "required"] unless field_required?(field)
-    html_options = {}
 
     if perm = permissions[status.id][name]
       if perm.uniq.size > 1 || perm.size < @roles.size * @trackers.size
