@@ -58,14 +58,16 @@
   <% end %>
 </div>
 
-<p class="buttons">
-  <%= link_to_function sprite_icon('checked', l(:button_apply)), '$("#query_form").submit()', :class => 'icon icon-checked' %>
+<p class="buttons" data-controller="queries--query-form">
+  <%= link_to sprite_icon('checked', l(:button_apply)), '#', :class => 'icon icon-checked', :data => { :action => 'queries--query-form#apply' } %>
   <%= link_to sprite_icon('reload', l(:button_clear)), { :set_filter => 1, :sort => '', :project_id => @project }, :class => 'icon icon-reload'  %>
   <% if @query.new_record? %>
     <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
-      <%= link_to_function sprite_icon('save', l(:button_save_object, object_name: l(:label_query)).capitalize),
-                           "$('#query_type').prop('disabled',false);$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }').submit()",
-                           :class => 'icon icon-save' %>
+      <%= link_to sprite_icon('save', l(:button_save_object, object_name: l(:label_query)).capitalize), '#',
+                  :class => 'icon icon-save',
+                  :data => {
+                    :action => 'queries--query-form#saveObject',
+                    :queries__query_form_path_value => @project ? new_project_query_path(@project) : new_query_path } %>
     <% end %>
   <% else %>
     <% if @query.editable_by?(User.current) %>
