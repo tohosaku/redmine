@@ -1,4 +1,4 @@
-<%= form_tag({:action => 'edit', :tab => 'repositories'}) do %>
+<%= form_tag(:action => 'edit', :tab => 'repositories', :data => { :controller => "settings--repositories"}) do %>
 
 <fieldset class="box settings enabled_scm">
 <legend><%= l(:setting_enabled_scm) %></legend>
@@ -36,19 +36,18 @@
 <p><em class="info"><%= l(:text_scm_config) %></em></p>
 </fieldset>
 
-<div class="box tabular settings">
+<div class="box tabular settings" data-controller="availability random-key">
 <p><%= setting_check_box :autofetch_changesets %></p>
 
 <p><%= setting_check_box :sys_api_enabled,
-                         :onclick =>
-                             "if (this.checked) { $('#settings_sys_api_key').removeAttr('disabled'); } else { $('#settings_sys_api_key').attr('disabled', true); }" %></p>
+                         :data => { :action => 'click->availability#enableIfChecked' } %></p>
 
 <p><%= setting_text_field :sys_api_key,
                           :size     => 30,
                           :id       => 'settings_sys_api_key',
-                          :disabled => !Setting.sys_api_enabled? %>
-  <%= link_to_function l(:label_generate_key),
-                       "if (!$('#settings_sys_api_key').attr('disabled')) { $('#settings_sys_api_key').val(randomKey(20)) }" %>
+                          :disabled => !Setting.sys_api_enabled?,
+                          :data => { :availability_target => 'field',:random_key_target => 'field' } %>
+  <%= link_to l(:label_generate_key), '#', data: { action: 'random-key#generate' } %>
 </p>
 
 <p><%= setting_text_field :repository_log_display_limit, :size => 6 %></p>
@@ -56,7 +55,7 @@
 <p><%= setting_check_box :commit_logs_formatting %></p>
 </div>
 
-<fieldset class="box tabular settings">
+<fieldset class="box tabular settings" data-controller="availability">
 <legend><%= l(:text_issues_ref_in_commit_messages) %></legend>
 <p><%= setting_text_field :commit_ref_keywords, :size => 30 %>
 <em class="info"><%= l(:text_comma_separated) %></em></p>
@@ -64,16 +63,16 @@
 <p><%= setting_check_box :commit_cross_project_ref %></p>
 
 <p><%= setting_check_box :commit_logtime_enabled,
-                         :onclick =>
-                            "if (this.checked) { $('#settings_commit_logtime_activity_id').removeAttr('disabled'); } else { $('#settings_commit_logtime_activity_id').attr('disabled', true); }"%></p>
+                         :data => { :action => 'click->availability#enableIfChecked' } %></p>
 
 <p><%= setting_select :commit_logtime_activity_id,
                       [[l(:label_default), 0]] +
                           TimeEntryActivity.shared.active.collect{|activity| [activity.name, activity.id.to_s]},
-                      :disabled => !Setting.commit_logtime_enabled?%></p>
+                      :disabled => !Setting.commit_logtime_enabled?,
+                      :data => { :availability_target => 'field' } %></p>
 </fieldset>
 
-<table class="list" id="commit-keywords">
+<table class="list" id="commit-keywords" data-action="click->settings--repositories#keyword">
   <thead>
     <tr>
       <th><%= l(:label_tracker) %></th>
@@ -141,20 +140,4 @@
 </table>
 
 <p><%= submit_tag l(:button_save) %></p>
-<% end %>
-
-<%= javascript_tag do %>
-$('#commit-keywords').on('click', 'a.delete-commit-keywords', function(e){
-  e.preventDefault();
-  if ($('#commit-keywords tbody tr.commit-keywords').length > 1) {
-    $(this).parents('#commit-keywords tr').remove();
-  } else {
-    $('#commit-keywords tbody tr.commit-keywords').find('input, select').val('');
-  }
-});
-$('#commit-keywords').on('click', 'a.add-commit-keywords', function(e){
-  e.preventDefault();
-  var row = $('#commit-keywords tr.commit-keywords:last');
-  row.clone().insertAfter(row).find('input, select').val('');
-});
 <% end %>
