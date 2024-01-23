@@ -21,14 +21,14 @@
   <p><%= setting_select :mail_handler_preferred_body_part, [[l(:label_preferred_body_part_text), 'plain'], [l(:label_preferred_body_part_html), 'html']] %></p>
 </div>
 
-<div class="box tabular settings">
-<p><%= setting_check_box :mail_handler_api_enabled,
-         :onclick => "if (this.checked) { $('#settings_mail_handler_api_key').removeAttr('disabled'); } else { $('#settings_mail_handler_api_key').attr('disabled', true); }"%></p>
+<div class="box tabular settings" data-controller="availability random-key">
+<p><%= setting_check_box :mail_handler_api_enabled, :data => { :action => 'click->availability#enableIfChecked' } %></p>
 
 <p><%= setting_text_field :mail_handler_api_key, :size => 30,
                                                  :id => 'settings_mail_handler_api_key',
-                                                 :disabled => !Setting.mail_handler_api_enabled? %>
-  <%= link_to_function l(:label_generate_key), "if (!$('#settings_mail_handler_api_key').attr('disabled')) { $('#settings_mail_handler_api_key').val(randomKey(20)) }" %>
+                                                 :disabled => !Setting.mail_handler_api_enabled?,
+                                                 :data => { :random_key_target => 'field', :availability_target => 'field' } %>
+   <%= link_to l(:label_generate_key), '#', :data => { :action => 'random-key#generate' } %>
 </p>
 </div>
 
