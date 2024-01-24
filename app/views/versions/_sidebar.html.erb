@@ -41,11 +41,9 @@
 <% end %>
 </ul>
 <% if @completed_versions.present? %>
-<p>
-  <%= link_to_function icon_with_label('angle-right', l(:label_completed_versions)),
-                       '$("#toggle-completed-versions").toggleClass("icon-collapsed icon-expanded"); $("#completed-versions").toggle()',
-                       :id => 'toggle-completed-versions', :class => 'icon icon-collapsed collapsible' %>
-  <ul id = "completed-versions" style = "display:none;">
+<p data-controller="versions--sidebar">
+  <%= link_to icon_with_label('angle-right', l(:label_completed_versions)), '#', :id => 'toggle-completed-versions', :class => 'icon icon-collapsed collapsible' %>
+  <ul id = "completed-versions" style = "display:none;" data-versions--sidebar-target="completed">
     <% @completed_versions.each do |version| %>
       <li><%= link_to_version version %></li>
     <% end %>
