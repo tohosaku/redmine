@@ -7,7 +7,7 @@
   <% end %>
   <%= turbo_stream.append "member-#{ @membership.id }-roles" do %>
     <%= tag.template data: { visibility_target: 'dummy', force: 'true'} %>
-    <%= tag.template data: { classlist_target: 'dummy', css: 'effect', force: 'true'} %>
+    <%= tag.template data: { classlist_target: 'dummy', force: 'true'} %>
   <% end %>
 <% else %>
   <%= turbo_stream.append 'content' do %>
