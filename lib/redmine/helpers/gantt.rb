@@ -792,7 +792,7 @@ module Redmine
           }
         end
         if has_children
-          content = view.content_tag(:span, view.sprite_icon('angle-down').html_safe, :class => 'icon icon-expanded expander') + content
+          content = view.content_tag(:span, view.sprite_icon('angle-down').html_safe, :class => 'icon icon-expanded expander', :data => { :action => 'click->gantts--table#toggle'}) + content
           tag_options[:class] += ' open'
         else
           if params[:indent]
