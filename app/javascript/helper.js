@@ -219,6 +219,7 @@ export function createQuery(element, source) {
 }
 
 export function observeAutocomplete(element, source, options={}) {
+  if (element.dataset.tribute === 'true') return;
 
   const tribute = new Tribute(Object.assign({
     autocompleteMode: true,
