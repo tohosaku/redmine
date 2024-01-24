@@ -10,8 +10,8 @@
     <%= render partial: 'issues/watchers_form', formats: [:html] %>
   <% end %>
 <% when "issue_category_id" %>
-  <%= turbo_stream.append 'issue-form' do %>
-    <%= tag.template data: { issue_target: 'category' } do %>
+  <%= turbo_stream.after 'issue_category_id' do %>
+    <%= tag.template data: { issue__assigned_to_target: 'category' } do %>
       <%= escape_javascript(@issue.category.try(:assigned_to).try(:name)).presence || '&nbsp;'.html_safe %>
     <% end %>
   <% end %>
