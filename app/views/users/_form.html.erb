@@ -1,6 +1,7 @@
+<%# locals: (f: nil, path: '') %>
 <%= error_messages_for 'user' %>
 
-<div id="user_form">
+<%= tag.div id: 'user_form', data: { controller: 'users--form', users__form_path_value: path } do %>
 <!--[form:user]-->
 <div class="splitcontent">
 <div class="splitcontentleft">
@@ -41,7 +42,7 @@
     <% end %>
   </p>
   <p><%= f.password_field :password_confirmation, :required => @user.new_record?, :size => 25  %></p>
-  <p><%= f.check_box :generate_password %></p>
+  <p><%= f.check_box :generate_password, :data => { :action => 'users--form#initGeneration', :users__form_target => 'generate' } %></p>
   <p><%= f.check_box :must_change_passwd %></p>
   </div>
   <% if Setting.twofa? && !@user.new_record? -%>
@@ -80,19 +81,6 @@
 </fieldset>
 </div>
 </div>
-</div>
+<% end %>
 <div style="clear:left;"></div>
 <!--[eoform:user]-->
-
-<%= javascript_tag do %>
-$(document).ready(function(){
-  $('#user_generate_password').change(function(){
-    var passwd = $('#user_password, #user_password_confirmation');
-    if ($(this).is(':checked')){
-      passwd.val('').attr('disabled', true);
-    }else{
-      passwd.removeAttr('disabled');
-    }
-  }).trigger('change');
-});
-<% end %>
