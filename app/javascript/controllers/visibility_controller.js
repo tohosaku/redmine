@@ -28,8 +28,12 @@ export default class extends Controller {
 
   toggleField(e) {
     e.preventDefault();
+    let force
+    if (typeof e.params !== 'undefined') {
+      force = e.params.matched
+    }
 
-    this.toggleElements(this.fieldTargets)
+    this.toggleElements(this.fieldTargets, force)
   }
 
   show(e) {
