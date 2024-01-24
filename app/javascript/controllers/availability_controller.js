@@ -7,4 +7,10 @@ export default class extends Controller {
   enableIfChecked(e) {
     this.fieldTarget.disabled = !e.currentTarget.checked
   }
+
+  toggle(e) {
+    if (typeof e.params !== 'undefined') {
+      this.fieldTarget.disabled = e.params.matched;
+    }
+  }
 }
