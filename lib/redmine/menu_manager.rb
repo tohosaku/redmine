@@ -132,7 +132,7 @@ module Redmine
         caption, url, selected = extract_node_details(node, project)
 
         html = [].tap do |html|
-          html << '<li>'
+          html << '<li data-controller="classlist" data-classlist-toggle-class="visible">'
           # Parent
           html << render_single_menu_node(node, caption, url, selected)
 
@@ -143,7 +143,7 @@ module Redmine
             end
           end
 
-          html << content_tag(:ul, standard_children_list, :class => 'menu-children') unless standard_children_list.empty?
+          html << content_tag(:ul, standard_children_list, :class => 'menu-children', :data => {:classlist_target => 'field'}) unless standard_children_list.empty?
 
           # Unattached children
           unattached_children_list = render_unattached_children_menu(node, project)

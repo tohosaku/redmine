@@ -300,8 +300,7 @@ module Redmine
         menu.push(
           :new_object, nil, :caption => ' + ',
           :if => Proc.new {|p| Setting.new_item_menu_tab == '2'},
-          :html => {:id => 'new-object',
-                    :onclick => 'toggleNewObjectDropdown(); return false;'}
+          :html => {:id => 'new-object', :data => {:acttion => 'classlist#toggle'}}
         )
         menu.push(
           :new_issue_sub,
