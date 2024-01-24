@@ -21,11 +21,13 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'assigned_to_id' %>
-<p>
+<p data-controller="issues--assigned-to">
   <%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to),
-                  :include_blank => true, :required => @issue.required_attribute?('assigned_to_id') %>
+                  :include_blank => true, :required => @issue.required_attribute?('assigned_to_id'),
+                  :data => { :action => 'change->issues--assigned-to#assignId', issues__assigned_to_target: 'select' } %>
   <% if @issue.assignable_users.include?(User.current) %>
-    <a class="assign-to-me-link<%= ' hidden' if @issue.assigned_to_id == User.current.id %>" href="#" data-id="<%= User.current.id %>"><%= l(:label_assign_to_me) %></a>
+    <%= link_to l(:label_assign_to_me), '#', class: ['assign-to-me-link', 'hidden': @issue.assigned_to_id == User.current.id ],
+                                             data: { id: User.current.id, action: "issues--assigned-to#assignToMe", issues__assigned_to_target: 'link' } %>
   <% end %>
 </p>
 <% end %>
