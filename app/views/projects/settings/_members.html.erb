@@ -20,13 +20,13 @@
   <% members.each do |member| %>
   <% next if member.new_record? %>
   <tr <%= tag.attributes id: "member-#{member.id}", class: ['member', effect: members_to_highlight.include?(member.id)] %>>
-  <td class="name icon icon-<%= member.principal.class.name.downcase %>">
+  <%= tag.td class: "name icon icon-#{member.principal.class.name.downcase}" do %>
     <%= principal_icon(member.principal.class.name.downcase) %>
     <%= link_to_user member.principal %>
-  </td>
-  <td class="roles">
-    <span id="member-<%= member.id %>-roles"><%= member.roles.sort.collect(&:to_s).join(', ') %></span>
-    <div id="member-<%= member.id %>-form"></div>
+  <% end %>
+  <td class="roles" data-controller="projects--settings--members">
+    <span id="member-<%= member.id %>-roles" data-projects--settings--members-target="roles"><%= member.roles.sort.collect(&:to_s).join(', ') %></span>
+    <div id="member-<%= member.id %>-form" data-projects--settings--members-target="form"></div>
   </td>
   <td class="buttons">
       <%= link_to sprite_icon('edit', l(:button_edit)),
