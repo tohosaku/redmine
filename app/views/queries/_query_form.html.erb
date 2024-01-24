@@ -15,7 +15,7 @@
   </fieldset>
 
   <% if @query.available_columns.any? %>
-    <fieldset id="options" class="collapsible collapsed" data-controller="fieldset">
+    <fieldset id="options" class="collapsible collapsed" data-controller="fieldset queries--query-form-list" data-action="change->queries--query-form-list#toggle">
       <%= tag.legend class: 'icon icon-collapsed', data: { action: 'click->fieldset#toggle' } do %>
         <%= sprite_icon("angle-right") %>
         <%= l(:label_options) %>
@@ -27,7 +27,7 @@
             <%= available_display_types_tags(@query) %>
           </div>
           <% end %>
-          <div id="list-definition" class="<%= 'hidden' if (@query.display_type != 'list') %>">
+          <div id="list-definition" class="<%= 'hidden' if (@query.display_type != 'list') %>" data-queries--query-form-list-target="definition">
           <% if @query.available_columns.any? %>
             <div>
               <div class="field"><%= l(:field_column_names) %></div>
@@ -80,17 +80,3 @@
 </div>
 
 <%= error_messages_for @query %>
-
-<%= javascript_tag do %>
-$(function ($) {
-  $('input[name=display_type]').change(function (e) {
-    if ($("#display_type_list").is(':checked')) {
-      $('table#list-definition').show();
-    } else {
-      $('table#list-definition').hide();
-    }
-
-  })
-});
-
-<% end %>
