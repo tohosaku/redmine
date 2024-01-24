@@ -18,9 +18,9 @@
   <td class="project name">
     <%= link_to_project membership.project %>
   </td>
-  <td class="roles">
-    <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
-    <div id="member-<%= membership.id %>-form"></div>
+  <td class="roles" data-controller="projects--settings--members">
+    <span id="member-<%= membership.id %>-roles" data-projects--settings--members-target="roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
+    <div id="member-<%= membership.id %>-form" data-projects--settings--members-target="form"></div>
   </td>
   <td class="buttons">
       <%= link_to icon_with_label('edit', l(:button_edit)),
