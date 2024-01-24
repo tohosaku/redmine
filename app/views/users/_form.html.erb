@@ -1,15 +1,16 @@
+<%# locals: (f: nil, path: '') %>
 <%= error_messages_for 'user' %>
 
-<div id="user_form">
+<%= tag.div id: 'user_form', data: { controller: 'users--form' } do %>
 <!--[form:user]-->
 <div class="splitcontent">
 <div class="splitcontentleft">
 <fieldset class="box tabular">
   <legend><%=l(:label_information_plural)%></legend>
-  <p><%= f.text_field :login, :required => true, :size => 25  %></p>
-  <p><%= f.text_field :firstname, :required => true %></p>
-  <p><%= f.text_field :lastname, :required => true %></p>
-  <p><%= f.text_field :mail, :required => true %></p>
+  <p><%= f.text_field :login, :required => true, :size => 25, :data => path.present? && {controller: 'observe-autocomplete', observe_autocomplete_path_value: path, action: 'tribute-replaced->users--form#update'} %></p>
+  <p><%= f.text_field :firstname, :required => true, :data => {:users__form__target => 'text', :fieldname => 'firstname'} %></p>
+  <p><%= f.text_field :lastname, :required => true, :data => {:users__form__target => 'text', :fieldname => 'lastname'} %></p>
+  <p><%= f.text_field :mail, :required => true, :data => {:users__form__target => 'text', :fieldname => 'mail'}  %></p>
   <% unless @user.force_default_language? %>
   <p><%= f.select :language, lang_options_for_select %></p>
   <% end %>
@@ -29,19 +30,21 @@
   <% unless @auth_sources.empty? %>
   <p>
     <%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {},
-                      data: {action: 'change->visibility#toggleField:matched', condition: ''} %>
+                      data: {action: 'change->visibility#toggleField:matched', condition: '', users__form_target: 'select'} %>
   </p>
   <% end %>
-  <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>" data-visibility-target="field">
+  <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>"
+       data-controller="users--form-password"
+       data-visibility-target="field">
   <p>
-    <%= f.password_field :password, :required => @user.new_record?, :size => 25  %>
+    <%= f.password_field :password, :required => @user.new_record?, :size => 25, :data => {:users__form_password_target => 'password'} %>
     <em class="info"><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em>
     <% if Setting.password_required_char_classes.any? %>
       <em class="info"><%= l(:text_characters_must_contain, :character_classes => Setting.password_required_char_classes.collect{|c| l("label_password_char_class_#{c}")}.join(", ")) %></em>
     <% end %>
   </p>
-  <p><%= f.password_field :password_confirmation, :required => @user.new_record?, :size => 25  %></p>
-  <p><%= f.check_box :generate_password %></p>
+  <p><%= f.password_field :password_confirmation, :required => @user.new_record?, :size => 25, :data => {:users__form_password_target => 'password'} %></p>
+  <p><%= f.check_box :generate_password, :data => { :controller => 'trigger', :action => 'users--form-password#init' } %></p>
   <p><%= f.check_box :must_change_passwd %></p>
   </div>
   <% if Setting.twofa? && !@user.new_record? -%>
@@ -88,19 +91,6 @@
 </fieldset>
 </div>
 </div>
-</div>
+<% end %>
 <div style="clear:left;"></div>
 <!--[eoform:user]-->
-
-<%= javascript_tag do %>
-$(document).ready(function(){
-  $('#user_generate_password').change(function(){
-    var passwd = $('#user_password, #user_password_confirmation');
-    if ($(this).is(':checked')){
-      passwd.val('').attr('disabled', true);
-    }else{
-      passwd.removeAttr('disabled');
-    }
-  }).trigger('change');
-});
-<% end %>
