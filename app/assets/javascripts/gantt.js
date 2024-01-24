@@ -176,17 +176,18 @@ function drawSelectedColumns(){
       $('.gantt_subjects_container').addClass('draw_selected_columns');
       $('td.gantt_selected_column').each(function() {
         $(this).show();
-        var column_name = $(this).attr('id');
-        $(this).resizable({
+
+        const column_name = $(this).attr('id');
+        const handle = createHandle(this.closest('table'));
+
+        resizableElement(this, height, {
           alsoResize: '.gantt_' + column_name + '_container, .gantt_' + column_name + '_container > .gantt_hdr',
-          minWidth: 20,
-          handles: "e",
-          create: function() {
-            $(".ui-resizable-e").css("cursor","ew-resize");
-          }
-        }).on('resize', function (e) {
-            e.stopPropagation();
+          minWidth: 20
         });
+
+        this.addEventListener('resize', (e) => {
+          e.stopPropagation();
+        })
       });
     }
   }else{
@@ -216,21 +217,20 @@ function resizableSubjectColumn(){
   $('.issue-subject, .project-name, .version-name').each(function(){
     $(this).width($(".gantt_subjects_column").width()-$(this).position().left);
   });
-  $('td.gantt_subjects_column').resizable({
-    alsoResize: '.gantt_subjects_container, .gantt_subjects_container>.gantt_hdr, .project-name, .issue-subject, .version-name',
-    minWidth: 100,
-    handles: 'e',
-    create: function( event, ui ) {
-      $('.ui-resizable-e').css('cursor','ew-resize');
-    }
-  }).on('resize', function (e) {
+
+  if (!isMobile()) {
+    const element = document.querySelector('td.gantt_subjects_column');
+    const handle = createHandle(element.closest('table'));
+
+    resizableElement(element, handle, {
+      alsoResize: '.gantt_subjects_container, .gantt_subjects_container>.gantt_hdr, .project-name, .issue-subject, .version-name',
+      minWidth: 100
+    })
+
+    element.addEventListener('resize', (e) => {
       e.stopPropagation();
-  });
-  if(isMobile()) {
-    $('td.gantt_subjects_column').resizable('disable');
-  }else{
-    $('td.gantt_subjects_column').resizable('enable');
-  };
+    })
+  }
 }
 
 ganttEntryClick = function(e){
@@ -261,7 +261,6 @@ ganttEntryClick = function(e){
     var el_selected_columns = 'td.gantt_selected_column div[data-collapse-expand="' + json.obj_id + '"][data-number-of-rows="' + number_of_rows + '"]';
     if(out_of_hierarchy || parseInt(el.css('left')) <= subject_left){
       out_of_hierarchy = true;
-      if(target_shown == null) return false;
 
       var new_top_val = parseInt(el.css('top')) + total_height * (target_shown ? -1 : 1);
       el.css('top', new_top_val);
@@ -306,3 +305,90 @@ function disable_unavailable_columns(unavailable_columns) {
     $('#available_c, #selected_c').children("[value='" + value + "']").prop('disabled', true);
   });
 }
+
+function resizableElement(element, handle, { alsoResize, minWidth } = {}) {
+  let pageX;
+  let curWidth;
+  let curAdd = [];
+  const resizing = '2px solid #0000ff';
+
+  element.appendChild(handle);
+  element.style.position = 'relative';
+
+  const additional = alsoResize ? document.querySelectorAll(alsoResize) : []
+
+  // start
+  handle.addEventListener('mousedown', (e) => {
+    pageX = e.pageX; 
+
+    e.target.setPointerCapture(e.pointerId);
+    curWidth = getWidth(element)
+    curAdd   = Array.from(additional).map(elem => ({ element: elem, width: getWidth(elem)}));
+  });
+
+  // resize
+  handle.addEventListener('mousemove', (e) => {
+    if (!element) return;
+
+    const diff  = e.pageX - pageX
+    const width = curWidth + diff;
+
+    if (minWidth && width < minWidth) return;
+
+    element.style.width = `${width}px`;
+    curAdd.forEach(a => {
+      a.element.style.width = `${a.width + diff}px`;
+    })
+  })
+
+  // end
+  handle.addEventListener('mouseup', (e) => {
+    pageX = undefined;
+    curWidth = undefined
+  });
+
+  handle.addEventListener('mouseover', (e) => {
+    e.target.style.borderRight = resizing;
+  })
+
+  handle.addEventListener('mouseout', (e) => {
+    e.target.style.borderRight = '';
+  })
+
+  function getWidth(element) {
+    const padding = paddingDiff(element);
+    return element.offsetWidth - padding;
+  }
+
+  function paddingDiff(col) {
+
+    if (getStyleVal(col,'box-sizing') == 'border-box'){
+      return 0;
+    }
+
+    const padLeft = getStyleVal(col,'padding-left');
+    const padRight = getStyleVal(col,'padding-right');
+    return (parseInt(padLeft) + parseInt(padRight));
+  }
+
+  function getStyleVal(elm,css) {
+    return window.getComputedStyle(elm, null).getPropertyValue(css)
+  }
+}
+
+function createHandle(element) {
+  const height = element.offsetHeight;
+  const handle = document.createElement('div');
+  handle.style.cursor = 'ew-resize'
+  handle.style.top = 0;
+  handle.style.right = 0;
+  handle.style.width = '5px';
+  handle.style.position = 'absolute';
+  handle.style.userSelect = 'none';
+  handle.style.height = height + 'px';
+  handle.style.zIndex = 100;
+
+  return handle;
+}
+
+document.dispatchEvent(new Event('redmine:gantt:load'))
