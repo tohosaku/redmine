@@ -44,9 +44,4 @@ export default class extends Controller {
     this.replace(clone);
     element.remove();
   }
-
-  categoryTargetConnected(element) {
-    $('#issue_assigned_to_id').find('option').first().html(element.innerHTML)
-    element.remove();
-  }
 }
