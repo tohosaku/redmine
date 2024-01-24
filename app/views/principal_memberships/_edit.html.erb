@@ -16,7 +16,6 @@
   <%= hidden_field_tag 'membership[role_ids][]', '', :id => nil %>
   <p>
     <%= submit_tag l(:button_save) %>
-    <%= link_to_function l(:button_cancel),
-                         "$('#member-#{@membership.id}-roles').show(); $('#member-#{@membership.id}-form').empty(); return false;" %>
+    <%= cancel_edit_roles %>
   </p>
 <% end %>

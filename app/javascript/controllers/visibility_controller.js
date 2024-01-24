@@ -7,7 +7,12 @@ export default class extends Controller {
 
   dummyTargetConnected(element) {
     const force = toBoolean(element.dataset.force);
-    this.toggleElements([this.element], force);
+
+    if (this.hasFieldTarget) {
+      this.toggleElements(this.fieldTargets, force);
+    } else {
+      this.toggleElements([this.element], force);
+    }
     element.remove();
   }
 

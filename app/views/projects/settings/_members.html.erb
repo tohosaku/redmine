@@ -28,9 +28,9 @@
       <% end %>
     </span>
   </td>
-  <td class="roles">
-    <span id="member-<%= member.id %>-roles"><%= member.roles.sort.collect(&:to_s).join(', ') %></span>
-    <div id="member-<%= member.id %>-form"></div>
+  <td class="roles" data-controller="visibility">
+    <span id="member-<%= member.id %>-roles" data-visibility-target="field"><%= member.roles.sort.collect(&:to_s).join(', ') %></span>
+    <div id="member-<%= member.id %>-form" data-controller="clear" data-clear-target="child"></div>
   </td>
   <td class="buttons">
       <%= link_to sprite_icon('edit', l(:button_edit)),
