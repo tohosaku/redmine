@@ -44,12 +44,4 @@ export default class extends Controller {
     this.replace(clone);
     element.remove();
   }
-
-  categoryTargetConnected(element) {
-    $('#issue_assigned_to_id').find('option').first()
-      // Browsers prefer option[label] over inner text, so remove the blank label.
-      .removeAttr('label')
-      .html(element.innerHTML);
-    element.remove();
-  }
 }
