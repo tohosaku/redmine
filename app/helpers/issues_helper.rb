@@ -295,6 +295,38 @@ module IssuesHelper
     s
   end
 
+  def issue_switch_box(&)
+    SwitchBoxBuilder.new(self).build(:p, &)
+  end
+
+  SwitchBoxBuilder = Struct.new(:view_context) do
+    def build(tag_name, &)
+      view_context.content_tag tag_name, data: {controller: 'availability clear datepicker'} do
+        yield self
+      end
+    end
+
+    def text_field(name, value, options={})
+      options[:data] ||= {}
+      options[:data].merge!({availability_target: 'field', clear_target: 'clear'})
+      view_context.text_field_tag name, value, options
+    end
+
+    def date_field(name, value, options={})
+      options[:data] ||= {}
+      options[:data].merge!(view_context.datepicker_input)
+      options[:data].merge!({availability_target: 'field', clear_target: 'clear'})
+      view_context.date_field_tag name, value, options
+    end
+
+    def checkbox(name, value, checked, options={})
+      options[:data] ||= {}
+      options[:data].merge!({controller: 'trigger', action: 'change->availability#disableIfChecked change->clear#clearIfChecked'})
+      options[:id] = nil
+      view_context.check_box_tag(name, value, checked, options) + view_context.l(:button_clear)
+    end
+  end
+
   # Returns a link for adding a new subtask to the given issue
   def link_to_new_subtask(issue)
     link_to(l(:button_add), url_for_new_subtask(issue))

@@ -18,6 +18,12 @@ export default class extends Controller {
     this.childTargets.forEach(elm => elm.replaceChildren());
   }
 
+  clearIfChecked(e) {
+    if (e.target.checked) {
+      this.clearTargets.forEach(elm => elm.value = '');
+    }
+  }
+
   dummyTargetConnected(element) {
     this.clear();
     element.remove();
