@@ -1785,7 +1785,6 @@ module ApplicationHelper
   def javascript_heads
     tags = javascript_include_tag(
       'jquery-3.7.1.min',
-      'rails-ujs',
       'tablesort-5.2.1.min.js',
       'tablesort-5.2.1.number.min.js',
       'application',

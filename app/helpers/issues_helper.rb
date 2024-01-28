@@ -106,8 +106,7 @@ module IssuesHelper
               {:id => child.id, :issue => {:parent_issue_id => ''},
                :back_url => issue_path(issue.id), :no_flash => '1'}
             ),
-            :method => :put,
-            :data => {:confirm => l(:text_are_you_sure)},
+            :data => {:turbo => true, :turbo_method => :put, :turbo_confirm => l(:text_are_you_sure)},
             :title => l(:label_delete_link_to_subtask),
             :class => 'icon-only icon-link-break'
           )
