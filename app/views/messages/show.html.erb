@@ -18,8 +18,7 @@
     <%= link_to(
           sprite_icon('del', l(:button_delete)),
           {:action => 'destroy', :id => @topic},
-          :method => :post,
-          :data => {:confirm => l(:text_are_you_sure)},
+          :data => {:turbo => true, :turbo_method => :post, :turbo_confirm => l(:text_are_you_sure)},
           :class => 'icon icon-del'
          ) if @message.destroyable_by?(User.current) %>
 </div>
@@ -58,8 +57,7 @@
       <%= link_to(
             sprite_icon('del', l(:button_delete), icon_only: true),
             {:action => 'destroy', :id => message},
-            :method => :post,
-            :data => {:confirm => l(:text_are_you_sure)},
+            :data => {:turbo => true, :turbo_method => :post, :turbo_confirm => l(:text_are_you_sure)},
             :title => l(:button_delete),
             :class => 'icon icon-del'
           ) if message.destroyable_by?(User.current) %>

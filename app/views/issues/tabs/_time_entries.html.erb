@@ -6,10 +6,9 @@
         <span class="journal-actions">
         <%= link_to sprite_icon('edit', l(:button_edit)), edit_time_entry_path(time_entry),
                     :title => l(:button_edit),
-                    :class => 'icon-only icon-edit ' %>
+                    :class => 'icon-only icon-edit' %>
         <%= link_to sprite_icon('del', l(:button_delete)), time_entry_path(time_entry),
-                    :data => {:confirm => l(:text_are_you_sure)},
-                    :method => :delete,
+                    :data => {:turbo => true, :turbo_method => :delete, :turbo_confirm => l(:text_are_you_sure)},
                     :title => l(:button_delete),
                     :class => 'icon-only icon-del ' %>
         </span>

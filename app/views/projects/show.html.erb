@@ -7,9 +7,9 @@
   <% end %>
   <% if User.current.allowed_to?(:close_project, @project) %>
     <% if @project.active? %>
-      <%= link_to sprite_icon('lock', l(:button_close)), close_project_path(@project), :data => { :confirm => l(:text_project_close_confirmation, @project.to_s)}, :method => :post, :class => 'icon icon-lock' %>
+      <%= link_to sprite_icon('lock', l(:button_close)), close_project_path(@project), :data => {:turbo => true, :turbo_method => :post, :turbo_confirm => l(:text_project_close_confirmation, @project.to_s)}, :class => 'icon icon-lock' %>
     <% else %>
-      <%= link_to sprite_icon('unlock', l(:button_reopen)), reopen_project_path(@project), :data => { :confirm => l(:text_project_reopen_confirmation, @project.to_s)}, :method => :post, :class => 'icon icon-unlock' %>
+      <%= link_to sprite_icon('unlock', l(:button_reopen)), reopen_project_path(@project), :data => {:turbo => true, :turbo_method => :post, :turbo_confirm => l(:text_project_reopen_confirmation, @project.to_s)}, :class => 'icon icon-unlock' %>
     <% end %>
   <% end %>
   <% if @project.deletable? %>
