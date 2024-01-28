@@ -10,7 +10,7 @@
 <%= actions_dropdown do %>
   <%= copy_object_url_link(issue_url(@issue, only_path: false)) %>
   <%= link_to sprite_icon('del', l(:button_delete_object, object_name: l(:label_issue)).capitalize), issue_path(@issue),
-              :data => {:confirm => issues_destroy_confirmation_message(@issue)},
-              :method => :delete, :class => 'icon icon-del ' if @issue.deletable? %>
+              :data => {:turbo => true, :turbo_method => :delete, :turbo_confirm => issues_destroy_confirmation_message(@issue)},
+              :class => 'icon icon-del' if @issue.deletable? %>
 <% end %>
 </div>
