@@ -51,7 +51,7 @@
         <span class="journal-meta">
           <%= reaction_button comment %>
           <%= link_to_if_authorized sprite_icon('del', l(:button_delete)), { :controller => 'comments', :action => 'destroy', :id => @news, :comment_id => comment},
-                                    :data => {:confirm => l(:text_are_you_sure)}, :method => :delete,
+                                    :data => { :turbo => true, :turbo_method => :delete, :turbo_confirm => l(:text_are_you_sure) },
                                     :title => l(:button_delete),
                                     :class => 'icon-only icon-del' %>
         </span>
