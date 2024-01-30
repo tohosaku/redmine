@@ -201,7 +201,7 @@ class VersionsControllerTest < Redmine::ControllerTest
     with_settings :default_language => 'en' do
       get :show, :params => {:id => 2, :status_by => 'category'}
       assert_response :success
-      assert_select 'div#status_by' do
+      assert_select 'turbo-frame#status_by' do
         assert_select 'select[name=status_by]' do
           assert_select 'option[value=category][selected=selected]'
         end
