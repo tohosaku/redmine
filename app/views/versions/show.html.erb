@@ -40,9 +40,9 @@
 </fieldset>
 <% end %>
 
-<div id="status_by">
+<%= turbo_frame_tag 'status_by' do %>
 <%= render_issue_status_by(@version, params[:status_by]) if @version.fixed_issues.exists? %>
-</div>
+<% end %>
 </div>
 
 <% if @issues.present? %>
