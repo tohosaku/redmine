@@ -166,10 +166,7 @@ class VersionsController < ApplicationController
   end
 
   def status_by
-    respond_to do |format|
-      format.html {render :action => 'show'}
-      format.turbo_stream
-    end
+    render action: 'show' unless turbo_frame_request?
   end
 
   private
