@@ -1,6 +1,6 @@
 <h2><%= l(:label_search) %></h2>
 
-<%= form_tag({}, :method => :get, :id => 'search-form', :data => { :controller => 'search--form', :action => 'search--form#setVisibilityOfOptions' }) do %>
+<%= form_tag({}, :method => :get, :id => 'search-form', :data => { :controller => 'search--form', :action => 'search--form#setVisibilityOfOptions', :search__form_show_ptions_value => params['options'] == '1' }) do %>
 <div class="box">
 <%= label_tag "search-input", l(:description_search), :class => "hidden-for-sighted" %>
 <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input',
@@ -72,9 +72,3 @@
 <% end %>
 
 <% html_title(l(:label_search)) -%>
-
-<%= javascript_tag do %>
-  <% if params[:options] == '1' %>
-    toggleFieldset($("#options-content"));
-  <% end %>
-<% end %>
