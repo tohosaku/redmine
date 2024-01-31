@@ -3,7 +3,15 @@ import { toggleExpandCollapseIcon } from 'helper'
 
 // Connects to data-controller="search--form"
 export default class extends Controller {
+  static values = { showOptions: Boolean }
   static targets = ['types', 'input', 'options', 'hidden']
+
+  connect() {
+    // showOptionsValue と hiddenTarget.value は同じことか??
+    if (this.showOptionsValue) {
+      toggleFieldset(this.optionsTarget);
+    }
+  }
 
   submitForm(e) {
     e.preventDefault();
@@ -24,9 +32,17 @@ export default class extends Controller {
 }
 
 function toggleFieldset(el) {
-  var fieldset = $(el).parents('fieldset').first();
-  fieldset.toggleClass('collapsed');
-  fieldset.children('legend').toggleClass('icon-expanded icon-collapsed');
-  toggleExpandCollapseIcon(fieldset.children('legend')[0])
-  fieldset.children('div').toggle();
+  const fieldset = el.closest('fieldset');
+  fieldset.classList.toggle('collapsed');
+  fieldset.querySelectorAll('legend').forEach(element => {
+    toggleClass(element, 'icon-expanded', 'icon-collapsed');
+  })
+  toggleExpandCollapseIcon(fieldset.querySelector('legend'))
+  fieldset.querySelectorAll('div').forEach(element => {
+    if (element.style.display === '') {
+      element.style.display = 'none';
+    } else {
+      element.style.display = '';
+    }
+  });
 }
