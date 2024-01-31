@@ -31,18 +31,24 @@
 <%= form_tag(bulk_update_time_entries_path, id: 'bulk_edit_form', data: { controller: :form, form_value_url: url_for(action: 'bulk_edit')}) do %>
 <%= @time_entries.collect {|i| hidden_field_tag('ids[]', i.id, :id => nil)}.join.html_safe %>
 <div class="box tabular">
-  <div>
+  <% data = @project || @target_project ? {
+       controller: "timelog--bulk-edit-issue",
+       timelog__bulk_edit_issue_url_value: auto_complete_issues_path,
+       timelog__bulk_edit_issue_project_value: @project,
+       action: 'change->timelog--bulk-edit#clear'
+     } : nil %>
+   <%= tag.div data: data do %>
     <p>
       <label><%= l(:field_project) %></label>
       <%= select_tag('time_entry[project_id]', project_tree_options_for_select(@target_projects,
         :include_blank => l(:label_no_change_option), :selected => @target_project),
-        data: { action: 'form#post'}) %>
+        data: { action: 'form#post', :timelog__bulk_edit_issue_target => 'projectId'  }) %>
     </p>
     <p>
       <label for="time_entry_issue_id"><%= l(:field_issue) %></label>
-      <%= text_field :time_entry, :issue_id, :size => 6 %>
+      <%= text_field :time_entry, :issue_id, :size => 6, :data => { :timelog__bulk_edit_issue_target => 'field' } %>
       <label class="inline"><%= check_box_tag 'time_entry[issue_id]', 'none', (@time_entry_params[:issue_id] == 'none'), :id => nil, :data => {:disables => '#time_entry_issue_id'} %><%= l(:button_clear) %></label>
-      <span id="time_entry_issue"></span>
+      <%= tag.span id: "time_entry_issue", data: { timelog__bulk_edit_issue_target: 'select'} %>
     </p>
 
     <p>
@@ -76,52 +82,8 @@
     <% end %>
 
     <%= call_hook(:view_time_entries_bulk_edit_details_bottom, { :time_entries => @time_entries }) %>
-  </div>
+  <% end %>
 </div>
 
 <p><%= submit_tag l(:button_submit) %></p>
-<% end %>
-
-<%= javascript_tag do %>
-  $(document).ready(function(){
-    $('#time_entry_project_id').change(function(){
-      <!-- $('#time_entry_issue_id').val(''); -->
-      $('#time_entry_issue').text('');
-    });
-  });
-
-  <% if @project || @target_project %>
-    observeAutocompleteField('time_entry_issue_id',
-      function(request, callback) {
-        var url = '<%= j auto_complete_issues_path %>';
-        var data = {
-          term: request.term
-        };
-        var project_id;
-        <% if @project %>
-          project_id = '<%= @project.id %>';
-        <% end %>
-
-        current_project_id = $('#time_entry_project_id').val();
-        if(current_project_id === ''){
-          data['project_id'] = project_id;
-        } else {
-          data['project_id'] = current_project_id;
-        }
-
-        $.get(url, data, null, 'json')
-          .done(function(data){
-            callback(data);
-          })
-          .fail(function(jqXHR, status, error){
-            callback([]);
-          });
-      },
-      {
-        select: function(event, ui, data) {
-          $('#time_entry_issue').text(ui.item.label);
-        }
-      }
-    );
-  <% end %>
 <% end %>

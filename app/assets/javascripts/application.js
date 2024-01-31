@@ -734,6 +734,9 @@ function multipleAutocompleteField(fieldId, url, options) {
   });
 }
 
+/**
+ * @deprecated use stimulus controller search_field
+ */
 function observeSearchfield(fieldId, targetId, url) {
   $('#'+fieldId).each(function() {
     var $this = $(this);
