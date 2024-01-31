@@ -13,14 +13,15 @@
                                 data: { action: 'clear#clear form#update' } %>
     </p>
   <% end %>
-
-  <p>
+  <%= tag.p data: { conroller: "timelog--form-issue",
+                    timelog__form_issue_url_value: auto_complete_issues_path,
+                    timelog__form_issue_project_value: @time_entry.new_record? && @project ? @project.id : nil } do %>
     <%= f.text_field :issue_id, size: 6, required: Setting.timelog_required_fields.include?('issue_id'),
-                                            data: { action: 'change->form#update', clear_target: :clear } %>
-    <span id="time_entry_issue">
+                                            data: { action: 'change->form#update', clear_target: :clear, timelog__form_issue_target: 'field' } %>
+    <span id="time_entry_issue" data-timelog--form-issue-target='select'>
       <%=  link_to_issue(@time_entry.issue) if @time_entry.issue.try(:visible?) %>
     </span>
-  </p>
+  <% end %>
 
   <% if User.current.allowed_to?(:log_time_for_other_users, @project) %>
     <p><%= f.select :user_id, user_collection_for_select_options(@time_entry), :required => true %></p>
@@ -41,39 +42,3 @@
   <% end %>
   <%= call_hook(:view_timelog_edit_form_bottom, { :time_entry => @time_entry, :form => f }) %>
 </div>
-
-<%= javascript_tag do %>
-  observeAutocompleteField('time_entry_issue_id',
-    function(request, callback) {
-      var url = '<%= j auto_complete_issues_path %>';
-      var data = {
-        term: request.term
-      };
-      var project_id;
-      <% if @time_entry.new_record? && @project %>
-      project_id = '<%= @project.id %>';
-      <% else %>
-      project_id = $('#time_entry_project_id').val();
-      <% end %>
-      if(project_id){
-        data['project_id'] = project_id;
-      } else {
-        data['scope'] = 'all';
-      }
-
-      $.get(url, data, null, 'json')
-        .done(function(data){
-          callback(data);
-        })
-        .fail(function(jqXHR, status, error){
-          callback([]);
-        });
-    },
-    {
-      select: function(event, ui) {
-        $('#time_entry_issue').text('');
-        $('#time_entry_issue_id').val(ui.item.value).change();
-      }
-    }
-  );
-<% end %>
