@@ -53,6 +53,14 @@ export function updateSVGIcon(element, icon) {
   iconElement.setAttribute('href', iconPath.replace(/#.*$/g, "#icon--" + icon))
 }
 
+//replaces current URL with the "href" attribute of the current link
+//(only triggered if supported by browser)
+export function replaceInHistory(url) {
+  if ("replaceState" in window.history && url !== undefined) {
+    window.history.replaceState(null, document.title, url);
+  }
+}
+
 export function isMobile() {
   const element = document.querySelector('.js-flyout-menu-toggle-button')
   return isVisible(element);
