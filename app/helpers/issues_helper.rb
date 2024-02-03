@@ -703,25 +703,14 @@ module IssuesHelper
         {
           :name => 'history',
           :label => :label_history,
-          :onclick => 'showIssueHistory("history", this.href)',
           :partial => 'issues/tabs/history',
           :locals => {:issue => @issue, :journals => @journals}
         }
       if has_notes
-        tabs <<
-          {
-            :name => 'notes',
-            :label => :label_issue_history_notes,
-            :onclick => 'showIssueHistory("notes", this.href)'
-          }
+        tabs << { :name => 'notes', :label => :label_issue_history_notes }
       end
       if has_details
-        tabs <<
-          {
-            :name => 'properties',
-            :label => :label_issue_history_properties,
-            :onclick => 'showIssueHistory("properties", this.href)'
-          }
+        tabs << { :name => 'properties', :label => :label_issue_history_properties }
       end
     end
     if User.current.allowed_to?(:view_time_entries, @project) && @issue.spent_hours > 0
@@ -730,10 +719,10 @@ module IssuesHelper
           :name => 'time_entries',
           :label => :label_time_entry_plural,
           :remote => true,
-          :onclick =>
-            "getRemoteTab('time_entries', " \
-            "'#{tab_issue_path(@issue, :name => 'time_entries')}', " \
-            "'#{issue_path(@issue, :tab => 'time_entries')}')"
+          :data => {:action => 'issues--show#getRemoteTab',
+                    :issues__show_name_param => 'time_entries',
+                    :issues__show_remote_url_param => tab_issue_path(@issue, :name => 'time_entries'),
+                    :issues__show_url_param => issue_path(@issue, :tab => 'time_entries') }
         }
     end
     if @has_changesets
@@ -742,10 +731,10 @@ module IssuesHelper
           :name => 'changesets',
           :label => :label_associated_revisions,
           :remote => true,
-          :onclick =>
-            "getRemoteTab('changesets', " \
-            "'#{tab_issue_path(@issue, :name => 'changesets')}', " \
-            "'#{issue_path(@issue, :tab => 'changesets')}')"
+          :data => {:action => 'issues--show#getRemoteTab',
+                    :issues__show_name_param => 'changesets',
+                    :issues__show_remote_url_param => tab_issue_path(@issue, :name => 'changesets'),
+                    :issues__show_url_param => issue_path(@issue, :tab => 'changesets') }
         }
     end
     tabs
