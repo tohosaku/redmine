@@ -412,7 +412,7 @@ function showTab(name, url) {
 }
 
 function showIssueHistory(journal, url) {
-  tab_content = $('#tab-content-history');
+  const tab_content = $('#tab-content-history');
   tab_content.parent().find('.tab-content').hide();
   tab_content.show();
   tab_content.parent().children('div.tabs').find('a').removeClass('selected');
