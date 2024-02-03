@@ -379,6 +379,9 @@ function toggleMultiSelect(el) {
   }
 }
 
+/**
+ * @deprecated use stimulus tab_controller
+ */
 function showTab(name, url) {
   $('#tab-content-' + name).parent().find('.tab-content').hide();
   $('#tab-content-' + name).show();
@@ -390,8 +393,11 @@ function showTab(name, url) {
   return false;
 }
 
+/**
+ * @deprecated use stimulus issues--show_controller
+ */
 function showIssueHistory(journal, url) {
-  tab_content = $('#tab-content-history');
+  const tab_content = $('#tab-content-history');
   tab_content.parent().find('.tab-content').hide();
   tab_content.show();
   tab_content.parent().children('div.tabs').find('a').removeClass('selected');
@@ -430,6 +436,9 @@ function showIssueHistory(journal, url) {
   return false;
 }
 
+/**
+ * @deprecated use stimulus tab_controller
+ */
 function getRemoteTab(name, remote_url, url, load_always) {
   load_always = load_always || false;
   var tab_content = $('#tab-content-' + name);

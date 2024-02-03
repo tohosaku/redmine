@@ -29,6 +29,7 @@ module ApplicationHelper
   include Redmine::Hook::Helper
   include Redmine::Helpers::URL
   include IconsHelper
+  include Redmine::Helpers::TabHelper
 
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter, :wiki_help_url
@@ -498,13 +499,13 @@ module ApplicationHelper
   end
 
   # Renders tabs and their content
-  def render_tabs(tabs, selected=params[:tab])
+  def render_tabs(tabs, selected=params[:tab], stimulus_controller: 'tab')
     if tabs.any?
       unless tabs.detect {|tab| tab[:name] == selected}
         selected = nil
       end
       selected ||= tabs.first[:name]
-      render :partial => 'common/tabs', :locals => {:tabs => tabs, :selected_tab => selected}
+      render :partial => 'common/tabs', :locals => {:tabs => tabs, :selected_tab => selected, :stimulus_controller => stimulus_controller}
     else
       content_tag 'p', l(:label_no_data), :class => "nodata"
     end
