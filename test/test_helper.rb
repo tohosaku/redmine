@@ -367,14 +367,14 @@ module Redmine
 
     # Verifies that the query filters match the expected filters
     def assert_query_filters(expected_filters)
-      response.body =~ /initFilters\(\);\s*((addFilter\(.+\);\s*)*)/
-      filter_init = $1.to_s
+      filter_json = Nokogiri::HTML5(response.body).css('#filter-json').text
 
       expected_filters.each do |field, operator, values|
-        s = "addFilter(#{field.to_json}, #{operator.to_json}, #{Array(values).to_json});"
-        assert_include s, filter_init
+        s = "[#{field.to_json},#{operator.to_json},#{Array(values).to_json}]"
+        assert_include s, filter_json
       end
-      assert_equal expected_filters.size, filter_init.scan("addFilter").size, "filters counts don't match"
+      filter = JSON.parse(filter_json)
+      assert_equal expected_filters.size, filter.size, "filters counts don't match"
     end
 
     # Saves the generated PDF in tmp/test/pdf

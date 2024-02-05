@@ -814,7 +814,8 @@ class QueriesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get(:new, :params => {:subject => 'foo/bar'})
     assert_response :success
-    assert_include 'addFilter("subject", "=", ["foo\/bar"]);', response.body
+    doc = Nokogiri::HTML5(response.body)
+    assert_include '"subject","=",["foo\/bar"]', doc.css('#filter-json').text
   end
 
   def test_filter_with_project_id_should_return_filter_values
