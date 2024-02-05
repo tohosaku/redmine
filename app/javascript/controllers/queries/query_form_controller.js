@@ -4,12 +4,20 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
 
   apply(e) {
-    const form = document.getElementById('query_form');
-    form.requestSubmit();
+    e.preventDefault();
+
+    this.form.requestSubmit();
   }
 
   saveObject(e) {
-    $('#query_type').prop('disabled',false);
-    $('#query_form').attr('action', e.params.path).submit()
+    const query_type = this.form.querySelector('#query_type')
+    query_type.disabled = false
+
+    this.form.setAttribute('action', e.params.path)
+    this.form.requestSubmit();
+  }
+
+  get form() {
+    return this.element.closest('form#query_form');
   }
 }
