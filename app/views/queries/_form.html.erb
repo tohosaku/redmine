@@ -73,7 +73,7 @@
 <% end %>
 </div>
 
-<fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
+<fieldset id="filters" data-controller="queries--filters"><legend><%= l(:label_filter_plural) %></legend>
 <%= render :partial => 'queries/filters', :locals => {:query => query}%>
 </fieldset>
 

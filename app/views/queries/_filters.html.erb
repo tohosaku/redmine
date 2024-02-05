@@ -1,18 +1,21 @@
-<%= javascript_tag do %>
-var operatorLabels = <%= raw_json Query.operators_labels %>;
-var operatorByType = <%= raw_json Query.operators_by_filter_type %>;
-var availableFilters = <%= raw_json query.available_filters_as_json %>;
-var labelDayPlural = <%= raw_json l(:label_day_plural) %>;
-
-var filtersUrl = <%= raw_json queries_filter_path(:project_id => @query.project.try(:id), :type => @query.type) %>;
-
-$(document).ready(function(){
-  initFilters();
-  <% query.filters.each do |field, options| %>
-  addFilter("<%= field %>", <%= raw_json query.operator_for(field) %>, <%= raw_json query.values_for(field) %>);
-  <% end %>
-});
-<% end %>
+<script id="filter-json" type="text/json">
+<%= raw_json query.filters.map{|field, options| [field, query.operator_for(field), query.values_for(field)]} %>
+</script>
+<script id="operator-labels" type="text/json">
+<%= raw_json Query.operators_labels %>
+</script>
+<script id="operator-by-type" type="text/json">
+<%= raw_json Query.operators_by_filter_type %>
+</script>
+<script id="available-filters" type="text/json">
+<%= raw_json query.available_filters_as_json %>
+</script>
+<script id="label-day-plural" type="text/json">
+<%= raw_json l(:label_day_plural) %>
+</script>
+<script id="filters-url" type="text/json">
+<%= raw_json queries_filter_path(:project_id => @query.project.try(:id), :type => @query.type) %>
+</script>
 
 <div id="filters-table">
 </div>

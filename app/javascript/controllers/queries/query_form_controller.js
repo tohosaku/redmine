@@ -4,6 +4,8 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
 
   apply(e) {
+    e.preventDefault();
+
     const form = document.getElementById('query_form');
     form.requestSubmit();
   }

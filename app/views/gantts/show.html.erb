@@ -21,7 +21,7 @@
       <%= sprite_icon(@query.new_record? ? "angle-down" : "angle-right") %>
       <%= l(:label_filter_plural) %>
     <% end %>
-    <div data-fieldset-target="display">
+    <div data-fieldset-target="display" data-controller="queries--filters">
       <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     </div>
   </fieldset>
