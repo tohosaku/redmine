@@ -1,6 +1,6 @@
 <%= error_messages_for 'query' %>
 
-<div class="box">
+<div class="box" data-controller="queries--form-display-type" data-action="change->queries--form-display-type#changeDisplayType">
 <div class="tabular">
 <%= hidden_field_tag 'gantt', '1' if params[:gantt] %>
 <%= hidden_field_tag 'calendar', '1' if params[:calendar] %>
@@ -42,12 +42,12 @@
       <%= hidden_field_tag 'query[display_type]', @query.available_display_types.first %>
     <% end %>
 
-    <p id ="default_columns"><label for="query_default_columns"><%=l(:label_default_columns)%></label>
+    <p id ="default_columns" data-queries--form-display-type-target="element"><label for="query_default_columns"><%=l(:label_default_columns)%></label>
     <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
           :data => {:disables => "#columns, .block_columns input"} %></p>
 
     <% unless params[:gantt] %>
-      <p id="group_by"><label for="query_group_by"><%= l(:field_group_by) %></label>
+      <p id="group_by" data-queries--form-display-type-target="element"><label for="query_group_by"><%= l(:field_group_by) %></label>
       <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
 
       <% unless @query.available_block_columns.empty? %>
@@ -78,7 +78,7 @@
 </fieldset>
 
 <% if params[:calendar].nil? && params[:gantt].nil? %>
-  <fieldset id="sort"><legend><%= l(:label_sort) %></legend>
+  <fieldset id="sort" data-queries--form-display-type-target="element"><legend><%= l(:label_sort) %></legend>
     <% 3.times do |i| %>
     <%= content_tag(:span, "#{i+1}:", :class => 'query_sort_criteria_count')%>
     <%= label_tag "query_sort_criteria_attribute_" + i.to_s,
@@ -97,7 +97,7 @@
 <% end %>
 
 <% unless params[:calendar] %>
-  <%= content_tag 'fieldset', :id => 'columns' do %>
+  <%= content_tag 'fieldset', :id => 'columns', :data => { :queries__form_display_type_target => "element" } do %>
   <legend><%= l(:field_column_names) %></legend>
   <div id="list-definition">
     <div>
@@ -108,16 +108,3 @@
 <% end %>
 
 </div>
-
-<%= javascript_tag do %>
-$(function ($) {
-  $('input[name=display_type]').change(function () {
-    var option = $('input[name=display_type]:checked').val();
-    if (option == 'board') {
-      $('fieldset#columns, fieldset#sort, p#default_columns, p#group_by').hide();
-    } else {
-      $('fieldset#columns, fieldset#sort, p#default_columns, p#group_by').show();
-    }
-  }).change();
-});
-<% end %>
