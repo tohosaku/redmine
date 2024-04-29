@@ -366,6 +366,16 @@ function expandScmEntry(id) {
   $('#'+id).addClass('open');
 }
 
+function switchScmFolderIcon(el, from, to) {
+  var iconEl = el.find('svg use')
+  var iconHref = iconEl.attr('href')
+
+  iconEl.attr('href', iconHref.replace(from, to))
+}
+
+/**
+ * @deprecated use stimulus repositories--entry controller
+ */
 function scmEntryClick(id, url) {
     var el = $('#'+id);
     if (el.hasClass('open')) {

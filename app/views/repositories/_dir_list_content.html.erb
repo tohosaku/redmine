@@ -3,18 +3,18 @@
    depth = params[:depth].to_i %>
 <%  ent_path = Redmine::CodesetUtil.replace_invalid_utf8(entry.path)   %>
 <%  ent_name = Redmine::CodesetUtil.replace_invalid_utf8(entry.name)   %>
-<tr id="<%= tr_id %>" class="<%= params[:parent_id] %> entry <%= entry.kind %>">
+<%= tag.tr id: tr_id, class: [ params[:parent_id], 'entry', entry.kind ], data: { controller: 'repositories--entry'} do %>
 <td style="padding-left: <%=18 * depth%>px;" class="<%=
            @repository.report_last_commit ? "filename" : "filename_no_report" %>">
 <% if entry.is_dir? %>
-<span class="expander icon icon-collapsed" onclick="scmEntryClick('<%= tr_id %>', '<%= escape_javascript(url_for(
-                       :action => 'show',
-                       :id     => @project,
-                       :repository_id => @repository.identifier_param,
-                       :path   => to_path_param(ent_path),
-                       :rev    => @rev,
-                       :depth  => (depth + 1),
-                       :parent_id => tr_id)) %>');"><%= sprite_icon('angle-right') %></span>
+<% url =  url_for(:action => 'show',
+                  :id     => @project,
+                  :repository_id => @repository.identifier_param,
+                  :path   => to_path_param(ent_path),
+                  :rev    => @rev,
+                  :depth  => (depth + 1),
+                  :parent_id => tr_id) %>
+<%= tag.span sprite_icon('angle-right'), class: 'expander icon icon-collapsed', data: { action: 'click->repositories--entry#toggle', repositories__entry_url_param: url } %>
 <% end %>
 <%=  link_to icon_for_file(entry, ent_name),
           {:action => (entry.is_dir? ? 'show' : 'entry'), :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(ent_path), :rev => @rev},
@@ -27,5 +27,5 @@
 <td class="author"><%= entry.author %></td>
 <td class="comments"><%= entry.changeset.comments.truncate(50) if entry.changeset %></td>
 <% end %>
-</tr>
+<% end %>
 <% end %>
