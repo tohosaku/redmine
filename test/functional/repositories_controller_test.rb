@@ -162,7 +162,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     assert_difference 'Repository.count', -1 do
       delete(:destroy, :params => {:id => 11})
     end
-    assert_response :found
+    assert_response :see_other
     assert_nil Repository.find_by_id(11)
   end
 

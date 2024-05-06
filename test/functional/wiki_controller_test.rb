@@ -1004,7 +1004,7 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_no_difference('WikiPage.count') do
       delete :destroy, :params => {:project_id => 1, :id => 'Another_page'}
     end
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_select 'form' do
       assert_select 'input[name=todo][value=nullify]'
       assert_select 'input[name=todo][value=destroy]'

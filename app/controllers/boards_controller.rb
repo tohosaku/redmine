@@ -107,13 +107,17 @@ class BoardsController < ApplicationController
     if @board.destroy
       flash[:notice] = l(:notice_successful_delete)
     end
-    redirect_to_settings_in_projects
+    redirect_to settings_in_projects, status: :see_other
   end
 
   private
 
   def redirect_to_settings_in_projects
     redirect_to settings_project_path(@project, :tab => 'boards')
+  end
+
+  def settings_in_projects
+    settings_project_path(@project, :tab => 'boards')
   end
 
   def find_board_if_available

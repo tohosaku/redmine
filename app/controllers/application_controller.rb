@@ -495,6 +495,15 @@ class ApplicationController < ActionController::Base
     false
   end
 
+  def back_or_default(default, options={})
+    if back_url = validate_back_url(params[:back_url].to_s)
+      return back_url
+    elsif options[:referer]
+      return referer_or(default)
+    end
+    return default
+  end
+
   # Returns a validated URL string if back_url is a valid url for redirection,
   # otherwise false
   def validate_back_url(back_url)
@@ -556,6 +565,18 @@ class ApplicationController < ActionController::Base
         yield
       else
         raise "#redirect_to_referer_or takes arguments or a block"
+      end
+    end
+  end
+
+  def referer_or(args=nil)
+    if referer = request.headers["Referer"]
+      referer
+    else
+      if args
+        args
+      else
+        nil
       end
     end
   end

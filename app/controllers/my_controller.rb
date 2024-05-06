@@ -76,7 +76,7 @@ class MyController < ApplicationController
   def destroy
     @user = User.current
     unless @user.own_account_deletable?
-      redirect_to my_account_path
+      redirect_to my_account_path, status: :see_other
       return
     end
 
@@ -86,8 +86,10 @@ class MyController < ApplicationController
         logout_user
         flash[:notice] = l(:notice_account_deleted)
       end
-      redirect_to home_path
+      redirect_to home_path, status: :see_other
+      return
     end
+    render :destroy, status: :unprocessable_entity
   end
 
   # Manage user's password

@@ -221,7 +221,7 @@ class UsersController < ApplicationController
         flash[:notice] = l(:notice_successful_delete)
       end
       respond_to do |format|
-        format.html {redirect_back_or_default(users_path)}
+        format.html {redirect_to back_or_default(users_path), status: :see_other}
         format.api  {render_api_ok}
       end
     end

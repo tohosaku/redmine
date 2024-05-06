@@ -8326,7 +8326,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         )
       end
     end
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_select 'form' do
       assert_select 'input[name=_method][value=delete]'
       assert_select 'input[name=todo][value=destroy]'
@@ -8347,7 +8347,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           }
         )
       end
-      assert_response :success
+      assert_response :unprocessable_entity
       assert_select 'form' do
         assert_select 'input[name=_method][value=delete]'
         assert_select 'input[name=todo][value=destroy]'
@@ -8372,7 +8372,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_select 'p', :text => /3:00 hours were reported/
   end
 
@@ -8459,7 +8459,7 @@ class IssuesControllerTest < Redmine::ControllerTest
             :reassign_to_id => target.id
           }
         )
-        assert_response :found
+        assert_response :see_other 
         assert_equal 'Successful deletion.', flash[:notice]
       end
     end
@@ -8482,7 +8482,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         )
       end
     end
-    assert_response :success
+    assert_response :unprocessable_entity
   end
 
   def test_destroy_issues_and_reassign_time_entries_to_an_issue_to_delete_should_fail
@@ -8500,7 +8500,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         )
       end
     end
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_select '#flash_error', :text => I18n.t(:error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted)
   end
 
@@ -8520,7 +8520,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         end
       end
     end
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_select '#flash_error', :text => 'Issue cannot be blank'
   end
 
@@ -8550,7 +8550,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_difference 'Issue.count', -1 do
       delete :destroy, :params => {:id => child.id}
     end
-    assert_response :found
+    assert_response :see_other
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
 
     parent.reload
@@ -8582,7 +8582,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    assert_response :found
+    assert_response :see_other
     assert_equal 'Successful deletion.', flash[:notice]
   end
 
@@ -8603,7 +8603,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_difference 'Issue.count', -1 do
       delete(:destroy, :params => {:id => issue.id})
     end
-    assert_response :found
+    assert_response :see_other
     assert_equal 'Successful deletion.', flash[:notice]
   end
 

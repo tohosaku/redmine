@@ -183,7 +183,9 @@ class AttachmentsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html {redirect_to_referer_or project_path(@project)}
+      format.html do
+        redirect_to referer_or(project_path(@project)), status: :see_other
+      end
       format.turbo_stream
       format.api {render_api_ok}
     end

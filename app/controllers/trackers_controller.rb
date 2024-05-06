@@ -93,7 +93,7 @@ class TrackersController < ApplicationController
     else
       @tracker.destroy
     end
-    redirect_to trackers_path
+    redirect_to trackers_path, status: :see_other
   end
 
   def fields

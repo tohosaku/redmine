@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 # Redmine - project management software
 # Copyright (C) 2006-  Jean-Philippe Lang
@@ -303,9 +302,7 @@ class ProjectsController < ApplicationController
       flash[:notice] = l(:notice_successful_delete)
       respond_to do |format|
         format.html do
-          redirect_to(
-            User.current.admin? ? admin_projects_path : projects_path
-          )
+          redirect_to (User.current.admin? ? admin_projects_path : projects_path), status: :see_other
         end
         format.api  {render_api_ok}
       end

@@ -144,7 +144,7 @@ class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
           :id => @foo.id
         }
       )
-      assert_response :success
+      assert_response :unprocessable_entity
 
       assert_select 'select[name=?]', 'reassign_to_id'
     end

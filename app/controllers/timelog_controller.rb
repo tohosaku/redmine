@@ -245,7 +245,7 @@ class TimelogController < ApplicationController
         else
           flash[:error] = l(:notice_unable_delete_time_entry)
         end
-        redirect_back_or_default project_time_entries_path(@projects.first), :referer => true
+        redirect_to back_or_default(project_time_entries_path(@projects.first), referer: true), status: :see_other
       end
       format.api do
         if destroyed

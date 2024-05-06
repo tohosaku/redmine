@@ -73,7 +73,7 @@ class AuthSourcesController < ApplicationController
     else
       flash[:error] = l(:error_can_not_delete_auth_source)
     end
-    redirect_to auth_sources_path
+    redirect_to auth_sources_path, status: :see_other
   end
 
   def autocomplete_for_new_user

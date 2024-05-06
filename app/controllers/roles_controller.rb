@@ -101,7 +101,7 @@ class RolesController < ApplicationController
     rescue
       flash[:error] =  l(:error_can_not_remove_role)
     end
-    redirect_to roles_path
+    redirect_to roles_path, status: :see_other
   end
 
   def permissions
