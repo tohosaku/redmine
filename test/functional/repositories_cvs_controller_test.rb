@@ -303,7 +303,7 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       assert_difference 'Repository.count', -1 do
         delete(:destroy, :params => {:id => @repository.id})
       end
-      assert_response :found
+      assert_response :see_other
       @project.reload
       assert_nil @project.repository
     end
@@ -325,7 +325,7 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       assert_difference 'Repository.count', -1 do
         delete(:destroy, :params => {:id => @repository.id})
       end
-      assert_response :found
+      assert_response :see_other
       @project.reload
       assert_nil @project.repository
     end

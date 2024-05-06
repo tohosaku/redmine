@@ -109,7 +109,7 @@ class RolesController < ApplicationController
       flash.now[:error] += l(:error_can_not_remove_role_reason_members_html, projects: links)
     end
     @roles = Role.sorted.to_a
-    render :index
+    render :index, status: :see_other
   end
 
   def permissions

@@ -1927,6 +1927,9 @@ module ApplicationHelper
     return render(partial: "common/#{name}", collection: collection, as: locals.delete(:as) || name.to_sym, locals: locals) if collection
 
     render(partial: "common/#{name}", locals: locals)
+    return render(partial: "common/#{name}", collection: collection, as: locals.delete(:as) || name.to_sym, locals: locals) if collection
+
+    render(partial: "common/#{name}", locals: locals)
   end
 
   def positioned_items

@@ -289,7 +289,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response :found
+      assert_response :see_other
       @project.reload
       assert_nil @project.repository
     end
@@ -315,7 +315,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response :found
+      assert_response :see_other
       @project.reload
       assert_nil @project.repository
     end

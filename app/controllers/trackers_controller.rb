@@ -90,7 +90,7 @@ class TrackersController < ApplicationController
     @tracker = Tracker.find(params[:id])
     if @tracker.issues.empty?
       @tracker.destroy
-      redirect_to trackers_path
+      redirect_to trackers_path, status: :see_other
     else
       projects = Project.joins(:issues).where(issues: {tracker_id: @tracker.id}).sorted.distinct
       links = projects.map do |p|

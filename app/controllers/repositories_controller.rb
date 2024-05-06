@@ -84,7 +84,7 @@ class RepositoriesController < ApplicationController
 
   def destroy
     @repository.destroy if request.delete?
-    redirect_to settings_project_path(@project, :tab => 'repositories')
+    redirect_to settings_project_path(@project, tab: 'repositories'), status: :see_other
   end
 
   def show

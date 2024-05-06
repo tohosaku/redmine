@@ -173,7 +173,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response :found
+      assert_response :see_other
       @project.reload
       assert_nil @project.repository
     end
@@ -195,7 +195,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response :found
+      assert_response :see_other
       @project.reload
       assert_nil @project.repository
     end

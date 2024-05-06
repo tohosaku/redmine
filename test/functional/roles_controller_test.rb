@@ -244,7 +244,7 @@ class RolesControllerTest < Redmine::ControllerTest
 
     delete :destroy, params: { id: role.id }
 
-    assert_response :success
+    assert_response :see_other
     assert Role.find_by(id: role.id)
 
     assert flash[:error].present?
@@ -262,7 +262,7 @@ class RolesControllerTest < Redmine::ControllerTest
 
     delete :destroy, params: { id: role.id }
 
-    assert_response :success
+    assert_response :see_other
     assert Role.find_by(id: role.id)
     assert flash[:error].present?
     assert_equal flash[:error], I18n.t(:error_can_not_remove_role)
