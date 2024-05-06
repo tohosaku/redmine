@@ -105,7 +105,9 @@ class GroupsController < ApplicationController
     @group.destroy
 
     respond_to do |format|
-      format.html {redirect_to_referer_or(groups_path)}
+      format.html do
+        redirect_to referer_or(groups_path), status: :see_other
+      end
       format.api  {render_api_ok}
     end
   end

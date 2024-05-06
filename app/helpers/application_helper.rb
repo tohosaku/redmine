@@ -1984,7 +1984,7 @@ module ApplicationHelper
 
     preview_url = data.delete(:wiki_preview_url) || preview_text_path
     data[:texteditor_target] = 'editor'
-    data[:action] = 'click->texteditor#shortcut'
+    append_attribute data, :action, 'click->texteditor#shortcut'
 
     render layout: 'common/texteditor', locals: {preview_url: preview_url}, formats: [:html], &
   end
@@ -2010,14 +2010,30 @@ module ApplicationHelper
   end
 
   def text_area_tag(name, content, options={})
-    data = options[:data] || {}
+    options[:data] ||= {}
+    data = options[:data]
+
     wiki_toolbar = data.delete(:wiki_toolbar)
     if wiki_toolbar
       add_wiki_toolbar(data) do
         text_area_tag(name, content, options)
       end
     else
+      add_textarea_controller data
       super
+    end
+  end
+
+  def add_textarea_controller(data)
+    append_attribute data, :action, 'keydown.ctrl+enter->textarea#submit keydown.meta+enter->textarea#submit change->textarea#markAsChanged'
+    append_attribute data, :controller, 'textarea'
+  end
+
+  def append_attribute(data, key, arg)
+    if data[key]
+      data[key] += ' ' + arg
+    else
+      data[key] = arg
     end
   end
 

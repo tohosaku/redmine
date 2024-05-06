@@ -53,7 +53,7 @@ class CustomFieldEnumerationsController < ApplicationController
     reassign_to = @custom_field.enumerations.find_by_id(params[:reassign_to_id])
     if reassign_to.nil? && @value.in_use?
       @enumerations = @custom_field.enumerations - [@value]
-      render :action => 'destroy'
+      render action: 'destroy', status: :unprocessable_entity
       return
     end
     @value.destroy(reassign_to)

@@ -88,7 +88,7 @@ class IssueRelationsController < ApplicationController
     @relation.destroy
 
     respond_to do |format|
-      format.html {redirect_to issue_path(@relation.issue_from)}
+      format.html {redirect_to issue_path(@relation.issue_from), status: :see_other}
       format.turbo_stream do
         find_issue
         @relations = select_relations(@issue)

@@ -102,6 +102,24 @@ module ActionView
       super
     end
   end)
+  module Helpers
+    FormHelper.prepend(Module.new do
+      def text_area(object_name, method, options = {})
+        options[:data] ||= {}
+        data = options[:data]
+
+        wiki_toolbar = data.delete(:wiki_toolbar)
+        if wiki_toolbar
+          add_wiki_toolbar(data) do
+            text_area(object_name, method, options)
+          end
+        else
+          add_textarea_controller data
+          super
+        end
+      end
+    end)
+  end
 end
 
 module ActionController

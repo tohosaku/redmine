@@ -86,7 +86,7 @@ class QueriesController < ApplicationController
 
   def destroy
     @query.destroy
-    redirect_to_items(:set_filter => 1)
+    redirect_to_items(set_filter: 1, status: :see_other)
   end
 
   # Returns the values for a query filter
@@ -147,41 +147,43 @@ class QueriesController < ApplicationController
 
   def redirect_to_items(options)
     method = "redirect_to_#{@query.class.name.underscore}"
-    send method, options
+    status = options.delete(:status) || :found
+    send method, options, status
   end
 
-  def redirect_to_issue_query(options)
-    if params[:gantt]
-      if @project
-        redirect_to project_gantt_path(@project, options)
-      else
-        redirect_to issues_gantt_path(options)
-      end
-    elsif params[:calendar]
-      if @project
-        redirect_to project_calendar_path(@project, options)
-      else
-        redirect_to issues_calendar_path(options)
-      end
-    else
-      redirect_to _project_issues_path(@project, options)
-    end
+  def redirect_to_issue_query(options, status)
+    url = if params[:gantt]
+            if @project
+              project_gantt_path(@project, options)
+            else
+              issues_gantt_path(options)
+            end
+          elsif params[:calendar]
+            if @project
+              project_calendar_path(@project, options)
+            else
+              issues_calendar_path(options)
+            end
+          else
+            _project_issues_path(@project, options)
+          end
+    redirect_to url, status: status
   end
 
-  def redirect_to_time_entry_query(options)
-    redirect_to _time_entries_path(@project, nil, options)
+  def redirect_to_time_entry_query(options, status)
+    redirect_to _time_entries_path(@project, nil, options), status: status
   end
 
-  def redirect_to_project_query(options)
-    redirect_to projects_path(options)
+  def redirect_to_project_query(options, status)
+    redirect_to projects_path(options), status: status
   end
 
-  def redirect_to_project_admin_query(options)
-    redirect_to admin_projects_path(options)
+  def redirect_to_project_admin_query(options, status)
+    redirect_to admin_projects_path(options), status: status
   end
 
-  def redirect_to_user_query(options)
-    redirect_to users_path(options)
+  def redirect_to_user_query(options, status)
+    redirect_to users_path(options), status: status
   end
 
   def query_layout

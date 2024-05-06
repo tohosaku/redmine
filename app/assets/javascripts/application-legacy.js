@@ -675,23 +675,6 @@ function setupFilePreviewNavigation() {
   }
 }
 
-$(document).on('keydown', 'form textarea', function(e) {
-  // Submit the form with Ctrl + Enter or Command + Return
-  var targetForm = $(e.target).closest('form');
-  if(e.keyCode == 13 && ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey) && targetForm.length)) {
-    // For ajax, use click() instead of submit() to prevent "Invalid form authenticity token" error
-    if (targetForm.attr('data-remote') == 'true') {
-      if (targetForm.find('input[type=submit]').length === 0) { return false; }
-      targetForm.find('textarea').blur().removeData('changed');
-      targetForm.find('input[type=submit]').first().click();
-    } else {
-      targetForm.find('textarea').blur().removeData('changed');
-      targetForm.submit();
-    }
-  }
-});
-
-
 function hideOnLoad() {
   $('.hol').hide();
 }
@@ -753,41 +736,6 @@ function toggleNewObjectDropdown() {
   }
 }
 
-$(document).ready(function(){
-  $('#content').on('change', 'input[data-disables], input[data-enables], input[data-shows]', toggleDisabledOnChange);
-  toggleDisabledInit();
-
-  $('#content').on('click', '.toggle-multiselect', function() {
-    toggleMultiSelect($(this).siblings('select'));
-    $(this).toggleClass('icon-toggle-plus icon-toggle-minus');
-    updateSVGIcon($(this).find('svg')[0], $(this).hasClass('icon-toggle-plus') ? 'toggle-plus' : 'toggle-minus');
-  });
-  toggleMultiSelectIconInit();
-});
-
-$(document).ready(function(){
-  $('#content').on('click', 'div.jstTabs a.tab-preview', function(event){
-    var tab = $(event.target);
-
-    var url = tab.data('url');
-    var form = tab.parents('form');
-    var jstBlock = tab.parents('.jstBlock');
-
-    var element = encodeURIComponent(jstBlock.find('.wiki-edit').val());
-    var attachments = form.find('.attachments_fields input').serialize();
-
-    $.ajax({
-      url: url,
-      type: 'post',
-      data: "text=" + element + '&' + attachments,
-      success: function(data){
-        jstBlock.find('.wiki-preview').html(data);
-        setupWikiTableSortableHeader();
-      }
-    });
-  });
-});
-
 function keepAnchorOnSignIn(form){
   var hash = decodeURIComponent(self.document.location.hash);
   if (hash) {
@@ -798,12 +746,6 @@ function keepAnchorOnSignIn(form){
   }
   return true;
 }
-
-$(function ($) {
-  $('#auth_source_ldap_mode').change(function () {
-    $('.ldaps_warning').toggle($(this).val() != 'ldaps_verify_peer');
-  }).change();
-});
 
 function setFilecontentContainerHeight() {
   var $filecontainer = $('.filecontent-container');
@@ -836,13 +778,3 @@ function setupWikiTableSortableHeader() {
     }
   });
 }
-
-$(document).ready(setupAjaxIndicator);
-$(document).ready(hideOnLoad);
-$(document).ready(addFormObserversForDoubleSubmit);
-$(document).ready(defaultFocus);
-$(document).ready(setupAttachmentDetail);
-$(document).ready(setupTabs);
-$(document).ready(setupFilePreviewNavigation);
-$(document).ready(setupWikiTableSortableHeader);
-document.addEventListener("DOMContentLoaded", () => { setupCopyButtonsToPreElements(); });

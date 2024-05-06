@@ -104,7 +104,7 @@ class IssueCategoriesController < ApplicationController
       end
       @category.destroy(reassign_to)
       respond_to do |format|
-        format.html {redirect_to_settings_in_projects}
+        format.html {redirect_to settings_in_projects, status: :see_other}
         format.api {render_api_ok}
       end
       return
@@ -116,6 +116,10 @@ class IssueCategoriesController < ApplicationController
 
   def redirect_to_settings_in_projects
     redirect_to settings_project_path(@project, :tab => 'categories')
+  end
+
+  def settings_in_projects
+    settings_project_path(@project, :tab => 'categories')
   end
 
   # Wrap ApplicationController's find_model_object method to set

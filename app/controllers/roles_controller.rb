@@ -109,7 +109,7 @@ class RolesController < ApplicationController
         flash[:error] += l(:error_can_not_remove_role_reason_members_html, projects: links)
       end
     end
-    redirect_to roles_path
+    redirect_to roles_path, status: :see_other
   end
 
   def permissions

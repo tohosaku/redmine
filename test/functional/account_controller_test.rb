@@ -166,7 +166,7 @@ class AccountControllerTest < Redmine::ControllerTest
         :password => 'bad'
       }
     )
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_select 'div.flash.error', :text => /Invalid user or password/
     assert_select 'input[name=username][value=admin]'
     assert_select 'input[name=password]'

@@ -88,7 +88,7 @@ class CustomFieldsController < ApplicationController
     rescue
       flash[:error] = l(:error_can_not_delete_custom_field)
     end
-    redirect_to custom_fields_path(:tab => @custom_field.class.name)
+    redirect_to custom_fields_path(tab: @custom_field.class.name), status: :see_other
   end
 
   private

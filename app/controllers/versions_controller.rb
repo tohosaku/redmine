@@ -151,14 +151,14 @@ class VersionsController < ApplicationController
     if @version.deletable?
       @version.destroy
       respond_to do |format|
-        format.html {redirect_back_or_default settings_project_path(@project, :tab => 'versions')}
+        format.html {redirect_to back_or_default(settings_project_path(@project, tab: 'versions')), status: :see_other}
         format.api  {render_api_ok}
       end
     else
       respond_to do |format|
         format.html do
           flash[:error] = l(:notice_unable_delete_version)
-          redirect_to settings_project_path(@project, :tab => 'versions')
+          redirect_to settings_project_path(@project, :tab => 'versions'), status: :see_other
         end
         format.api  {head :unprocessable_content}
       end

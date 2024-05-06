@@ -67,13 +67,16 @@ class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def text_area(method, options={})
-    data = options[:data] || {}
+    options[:data] ||= {}
+    data = options[:data]
+
     wiki_toolbar = data.delete(:wiki_toolbar)
     if wiki_toolbar
       @template.add_wiki_toolbar(data) do
         text_area(method, options)
       end
     else
+      @template.add_textarea_controller(data)
       super
     end
   end

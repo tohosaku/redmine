@@ -39,7 +39,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @news.comments.find(params[:comment_id]).destroy
-    redirect_to news_path(@news)
+    redirect_to news_path(@news), status: :see_other
   end
 
   private
