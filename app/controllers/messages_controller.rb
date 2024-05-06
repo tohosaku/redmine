@@ -110,9 +110,9 @@ class MessagesController < ApplicationController
     @message.destroy
     flash[:notice] = l(:notice_successful_delete)
     if @message.parent
-      redirect_to board_message_path(@board, @message.parent, :r => r)
+      redirect_to board_message_path(@board, @message.parent, :r => r), status: :see_other
     else
-      redirect_to project_board_path(@project, @board)
+      redirect_to project_board_path(@project, @board), status: :see_other
     end
   end
 

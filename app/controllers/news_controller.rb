@@ -126,7 +126,7 @@ class NewsController < ApplicationController
     respond_to do |format|
       format.html do
         flash[:notice] = l(:notice_successful_delete)
-        redirect_to project_news_index_path(@project)
+        redirect_to project_news_index_path(@project), status: :see_other
       end
       format.api  {render_api_ok}
     end

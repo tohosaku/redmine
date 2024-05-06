@@ -705,7 +705,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :id => 3
         }
       )
-      assert_response :found
+      assert_response :see_other
     end
   end
 
@@ -719,7 +719,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :id => 8
         }
       )
-      assert_response :found
+      assert_response :see_other
     end
   end
 
@@ -733,7 +733,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :id => 9
         }
       )
-      assert_response :found
+      assert_response :see_other
     end
   end
 
@@ -748,7 +748,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :id => 9
         }
       )
-      assert_response :found
+      assert_response :see_other
     end
   end
 

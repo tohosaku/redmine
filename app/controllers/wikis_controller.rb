@@ -27,7 +27,9 @@ class WikisController < ApplicationController
       if @project.wiki.destroy
         Wiki.create_default(@project) unless @wiki
       end
-      redirect_to project_path(@project)
+      redirect_to project_path(@project), status: :see_other
+    else
+      render :destroy, status: :unprocessable_entity
     end
   end
 end

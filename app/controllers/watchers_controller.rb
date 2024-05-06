@@ -88,9 +88,12 @@ class WatchersController < ApplicationController
     end
     respond_to do |format|
       format.html do
-        redirect_to_referer_or do
+        url = referer_or
+        unless url
           render(:html => 'Watcher removed.', :status => :ok, :layout => true)
+          return
         end
+        redirect_to url, status: :see_other
       end
       format.turbo_stream
       format.api {render_api_ok}

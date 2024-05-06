@@ -4,7 +4,7 @@ import "@hotwired/turbo-rails"
 import Tribute from '@redmine-ui/tribute'
 import { get, post, put, patch, destroy } from '@rails/request.js'
 
-Turbo.session.drive = false;
+// Turbo.session.drive = false;
 
 export function ajaxGet(element, func) {
   const loading = 'ajax-loading';
@@ -41,3 +41,125 @@ export function observeAutocomplete(element, source, options) {
 
   element.classList.add('autocomplete');
 }
+
+document.addEventListener("turbo:load", () => {
+
+  $(".drdn .autocomplete").val('');
+
+  // This variable is used to focus selected project
+  var selected;
+  $(document).on('click', '.drdn-trigger', function(e){
+    var drdn = $(this).closest(".drdn");
+    if (drdn.hasClass("expanded")) {
+      drdn.removeClass("expanded");
+    } else {
+      $(".drdn").removeClass("expanded");
+      drdn.addClass("expanded");
+      selected = $('.drdn-items a.selected'); // Store selected project
+      selected.focus(); // Calling focus to scroll to selected project
+      if (!isMobile()) {
+        drdn.find(".autocomplete").focus();
+      }
+      e.stopPropagation();
+    }
+  });
+  $(document).click(function(e){
+    if ($(e.target).closest(".drdn").length < 1) {
+      $(".drdn.expanded").removeClass("expanded");
+    }
+  });
+
+  // observeSearchfield('projects-quick-search', null, $('#projects-quick-search').data('automcomplete-url'));
+
+  $(".drdn-content").keydown(function(event){
+    var items = $(this).find(".drdn-items");
+
+    // If a project is selected set focused to selected only once
+    if (selected && selected.length > 0) {
+      var focused = selected;
+      selected = undefined;
+    }
+    else {
+      var focused = items.find("a:focus");
+    }
+    switch (event.which) {
+      case 40: //down
+        if (focused.length > 0) {
+          focused.nextAll("a").first().focus();;
+        } else {
+          items.find("a").first().focus();;
+        }
+        event.preventDefault();
+        break;
+      case 38: //up
+        if (focused.length > 0) {
+          var prev = focused.prevAll("a");
+          if (prev.length > 0) {
+            prev.first().focus();
+          } else {
+            $(this).find(".autocomplete").focus();
+          }
+          event.preventDefault();
+        }
+        break;
+      case 35: //end
+        if (focused.length > 0) {
+          focused.nextAll("a").last().focus();
+          event.preventDefault();
+        }
+        break;
+      case 36: //home
+        if (focused.length > 0) {
+          focused.prevAll("a").last().focus();
+          event.preventDefault();
+        }
+        break;
+    }
+  });
+
+  $('#content').on('change', 'input[data-disables], input[data-enables], input[data-shows]', toggleDisabledOnChange);
+  toggleDisabledInit();
+
+  $('#content').on('click', '.toggle-multiselect', function() {
+    toggleMultiSelect($(this).siblings('select'));
+    $(this).toggleClass('icon-toggle-plus icon-toggle-minus');
+  });
+  toggleMultiSelectIconInit();
+
+  $('#history .tabs').on('click', 'a', function(e){
+    var tab = $(e.target).attr('id').replace('tab-','');
+    document.cookie = 'history_last_tab=' + tab + '; SameSite=Lax'
+  });
+
+  $('#auth_source_ldap_mode').change(function () {
+    $('.ldaps_warning').toggle($(this).val() != 'ldaps_verify_peer');
+  }).change();
+
+  setupAjaxIndicator();
+  hideOnLoad();
+  addFormObserversForDoubleSubmit();
+  defaultFocus();
+  setupAttachmentDetail();
+  setupTabs();
+  setupFilePreviewNavigation();
+  setupWikiTableSortableHeader();
+
+});
+
+document.addEventListener('keydown', (e) => {
+  if (event.target.matches && event.target.matches('form textarea')) {
+    // Submit the form with Ctrl + Enter or Command + Return
+    const targetForm = $(e.target).closest('form');
+    if(e.keyCode == 13 && ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey) && targetForm.length)) {
+      // For ajax, use click() instead of submit() to prevent "Invalid form authenticity token" error
+      if (targetForm.attr('data-remote') == 'true') {
+        if (targetForm.find('input[type=submit]').length === 0) { return false; }
+        targetForm.find('textarea').blur().removeData('changed');
+        targetForm.find('input[type=submit]').first().click();
+      } else {
+        targetForm.find('textarea').blur().removeData('changed');
+        targetForm.submit();
+      }
+    }
+  }
+});

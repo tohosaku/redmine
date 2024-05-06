@@ -562,7 +562,7 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_get_destroy_should_display_the_destroy_confirmation
     get :destroy
-    assert_response :success
+    assert_response :unprocessable_entity
     assert_select 'form[action="/my/account/destroy"]' do
       assert_select 'input[name=confirm]'
     end
@@ -572,7 +572,7 @@ class MyControllerTest < Redmine::ControllerTest
     assert_no_difference 'User.count' do
       post :destroy
     end
-    assert_response :success
+    assert_response :unprocessable_entity
   end
 
   def test_post_destroy_without_confirmation_should_destroy_account

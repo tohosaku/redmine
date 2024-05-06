@@ -84,7 +84,7 @@ class DocumentsController < ApplicationController
   def destroy
     @document.destroy if request.delete?
     flash[:notice] = l(:notice_successful_delete)
-    redirect_to project_documents_path(@project)
+    redirect_to project_documents_path(@project), status: :see_other
   end
 
   def add_attachment

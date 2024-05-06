@@ -565,81 +565,6 @@ function observeSearchfield(fieldId, targetId, url) {
   });
 }
 
-$(document).ready(function(){
-  $(".drdn .autocomplete").val('');
-
-  // This variable is used to focus selected project
-  var selected;
-  $(document).on('click', '.drdn-trigger', function(e){
-    var drdn = $(this).closest(".drdn");
-    if (drdn.hasClass("expanded")) {
-      drdn.removeClass("expanded");
-    } else {
-      $(".drdn").removeClass("expanded");
-      drdn.addClass("expanded");
-      selected = $('.drdn-items a.selected'); // Store selected project
-      selected.focus(); // Calling focus to scroll to selected project
-      if (!isMobile()) {
-        drdn.find(".autocomplete").focus();
-      }
-      e.stopPropagation();
-    }
-  });
-  $(document).click(function(e){
-    if ($(e.target).closest(".drdn").length < 1) {
-      $(".drdn.expanded").removeClass("expanded");
-    }
-  });
-
-  // observeSearchfield('projects-quick-search', null, $('#projects-quick-search').data('automcomplete-url'));
-
-  $(".drdn-content").keydown(function(event){
-    var items = $(this).find(".drdn-items");
-
-    // If a project is selected set focused to selected only once
-    if (selected && selected.length > 0) {
-      var focused = selected;
-      selected = undefined;
-    }
-    else {
-      var focused = items.find("a:focus");
-    }
-    switch (event.which) {
-    case 40: //down
-      if (focused.length > 0) {
-        focused.nextAll("a").first().focus();;
-      } else {
-        items.find("a").first().focus();;
-      }
-      event.preventDefault();
-      break;
-    case 38: //up
-      if (focused.length > 0) {
-        var prev = focused.prevAll("a");
-        if (prev.length > 0) {
-          prev.first().focus();
-        } else {
-          $(this).find(".autocomplete").focus();
-        }
-        event.preventDefault();
-      }
-      break;
-    case 35: //end
-      if (focused.length > 0) {
-        focused.nextAll("a").last().focus();
-        event.preventDefault();
-      }
-      break;
-    case 36: //home
-      if (focused.length > 0) {
-        focused.prevAll("a").last().focus();
-        event.preventDefault();
-      }
-      break;
-    }
-  });
-});
-
 function beforeShowDatePicker(input, inst) {
   var default_date = null;
   switch ($(input).attr("id")) {
@@ -729,23 +654,6 @@ function setupFilePreviewNavigation() {
   }
 }
 
-$(document).on('keydown', 'form textarea', function(e) {
-  // Submit the form with Ctrl + Enter or Command + Return
-  var targetForm = $(e.target).closest('form');
-  if(e.keyCode == 13 && ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey) && targetForm.length)) {
-    // For ajax, use click() instead of submit() to prevent "Invalid form authenticity token" error
-    if (targetForm.attr('data-remote') == 'true') {
-      if (targetForm.find('input[type=submit]').length === 0) { return false; }
-      targetForm.find('textarea').blur().removeData('changed');
-      targetForm.find('input[type=submit]').first().click();
-    } else {
-      targetForm.find('textarea').blur().removeData('changed');
-      targetForm.submit();
-    }
-  }
-});
-
-
 function hideOnLoad() {
   $('.hol').hide();
 }
@@ -803,45 +711,6 @@ function toggleNewObjectDropdown() {
   }
 }
 
-$(document).ready(function(){
-  $('#content').on('change', 'input[data-disables], input[data-enables], input[data-shows]', toggleDisabledOnChange);
-  toggleDisabledInit();
-
-  $('#content').on('click', '.toggle-multiselect', function() {
-    toggleMultiSelect($(this).siblings('select'));
-    $(this).toggleClass('icon-toggle-plus icon-toggle-minus');
-  });
-  toggleMultiSelectIconInit();
-
-  $('#history .tabs').on('click', 'a', function(e){
-    var tab = $(e.target).attr('id').replace('tab-','');
-    document.cookie = 'history_last_tab=' + tab + '; SameSite=Lax'
-  });
-});
-
-$(document).ready(function(){
-  $('#content').on('click', 'div.jstTabs a.tab-preview', function(event){
-    var tab = $(event.target);
-
-    var url = tab.data('url');
-    var form = tab.parents('form');
-    var jstBlock = tab.parents('.jstBlock');
-
-    var element = encodeURIComponent(jstBlock.find('.wiki-edit').val());
-    var attachments = form.find('.attachments_fields input').serialize();
-
-    $.ajax({
-      url: url,
-      type: 'post',
-      data: "text=" + element + '&' + attachments,
-      success: function(data){
-        jstBlock.find('.wiki-preview').html(data);
-        setupWikiTableSortableHeader();
-      }
-    });
-  });
-});
-
 function keepAnchorOnSignIn(form){
   var hash = decodeURIComponent(self.document.location.hash);
   if (hash) {
@@ -852,12 +721,6 @@ function keepAnchorOnSignIn(form){
   }
   return true;
 }
-
-$(function ($) {
-  $('#auth_source_ldap_mode').change(function () {
-    $('.ldaps_warning').toggle($(this).val() != 'ldaps_verify_peer');
-  }).change();
-});
 
 function setFilecontentContainerHeight() {
   var $filecontainer = $('.filecontent-container');
@@ -960,12 +823,3 @@ function setupWikiTableSortableHeader() {
     $(document).ready(setupToggleButton);
   };
 }(jQuery));
-
-$(document).ready(setupAjaxIndicator);
-$(document).ready(hideOnLoad);
-$(document).ready(addFormObserversForDoubleSubmit);
-$(document).ready(defaultFocus);
-$(document).ready(setupAttachmentDetail);
-$(document).ready(setupTabs);
-$(document).ready(setupFilePreviewNavigation);
-$(document).ready(setupWikiTableSortableHeader);

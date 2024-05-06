@@ -31,7 +31,7 @@ class WikisControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     assert_no_difference 'Wiki.count' do
       get :destroy, :params => {:id => 1}
-      assert_response :success
+      assert_response :unprocessable_entity
     end
   end
 

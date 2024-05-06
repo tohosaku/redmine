@@ -439,6 +439,7 @@ class IssuesController < ApplicationController
       when 'nullify'
         if Setting.timelog_required_fields.include?('issue_id')
           flash.now[:error] = l(:field_issue) + " " + ::I18n.t('activerecord.errors.messages.blank')
+          render :destroy, status: :unprocessable_entity
           return
         else
           time_entries.update_all(:issue_id => nil)
@@ -447,16 +448,21 @@ class IssuesController < ApplicationController
         reassign_to = @project && @project.issues.find_by_id(params[:reassign_to_id])
         if reassign_to.nil?
           flash.now[:error] = l(:error_issue_not_found_in_project)
+          render :destroy, status: :unprocessable_entity
           return
         elsif issues_and_descendants_ids.include?(reassign_to.id)
           flash.now[:error] = l(:error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted)
+          render :destroy, status: :unprocessable_entity
           return
         else
           time_entries.update_all(:issue_id => reassign_to.id, :project_id => reassign_to.project_id)
         end
       else
         # display the destroy form if it's a user request
-        return unless api_request?
+        unless api_request?
+          render :destroy, status: :unprocessable_entity
+          return
+        end
       end
     end
     @issues.each do |issue|
@@ -469,7 +475,7 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.html do
         flash[:notice] = l(:notice_successful_delete)
-        redirect_back_or_default _project_issues_path(@project)
+        redirect_to back_or_default(_project_issues_path(@project)), status: :see_other
       end
       format.api  {render_api_ok}
     end

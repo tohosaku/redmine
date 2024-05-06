@@ -276,22 +276,27 @@ class WikiController < ApplicationController
       when 'reassign'
         # Reassign children to another parent page
         reassign_to = @wiki.pages.find_by_id(params[:reassign_to_id].to_i)
-        return unless reassign_to
-
+        unless reassign_to
+          render :destroy, status: :unprocessable_entity
+          return
+        end
         @page.children.each do |child|
           child.update_attribute(:parent, reassign_to)
         end
       else
         @reassignable_to = @wiki.pages - @page.self_and_descendants
         # display the destroy form if it's a user request
-        return unless api_request?
+        unless api_request?
+          render :destroy, status: :unprocessable_entity
+          return
+        end
       end
     end
     @page.destroy
     respond_to do |format|
       format.html do
         flash[:notice] = l(:notice_successful_delete)
-        redirect_to project_wiki_index_path(@project)
+        redirect_to project_wiki_index_path(@project), status: :see_other
       end
       format.api {render_api_ok}
     end
