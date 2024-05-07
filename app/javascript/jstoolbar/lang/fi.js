@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Lihavoitu',
+  'Italic': 'Kursivoitu',
+  'Underline': 'Alleviivattu',
+  'Deleted': 'Yliviivattu',
+  'Code': 'Koodi näkymä',
+  'Heading 1': 'Otsikko 1',
+  'Heading 2': 'Otsikko 2',
+  'Heading 3': 'Otsikko 3',
+  'Highlighted code': 'Highlighted code',
+  'Unordered list': 'Järjestämätön lista',
+  'Ordered list': 'Järjestetty lista',
+  'Quote': 'Quote',
+  'Unquote': 'Remove Quote',
+  'Table': 'Table',
+  'Preformatted text': 'Ennaltamuotoiltu teksti',
+  'Wiki link': 'Linkki Wiki sivulle',
+  'Image': 'Kuva',
+  'Edit': 'Muokkaa',
+  'Preview': 'Esikatselu'
+}

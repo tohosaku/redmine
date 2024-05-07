@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Negrita',
+  'Italic': 'Itálica',
+  'Underline': 'Subrayado',
+  'Deleted': 'Tachado',
+  'Code': 'Código fuente',
+  'Heading 1': 'Encabezado 1',
+  'Heading 2': 'Encabezado 2',
+  'Heading 3': 'Encabezado 3',
+  'Highlighted code': 'Código resaltado',
+  'Unordered list': 'Lista sin ordenar',
+  'Ordered list': 'Lista ordenada',
+  'Quote': 'Citar',
+  'Unquote': 'Quitar cita',
+  'Table': 'Table',
+  'Preformatted text': 'Texto con formato',
+  'Wiki link': 'Enlace a página Wiki',
+  'Image': 'Imagen',
+  'Edit': 'Modificar',
+  'Preview': 'Previsualizar'
+}

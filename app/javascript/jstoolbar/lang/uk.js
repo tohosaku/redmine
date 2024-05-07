@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Жирний',
+  'Italic': 'Курсив',
+  'Underline': 'Підкреслений',
+  'Deleted': 'Закреслений',
+  'Code': 'Інлайн код',
+  'Heading 1': 'Заголовок 1',
+  'Heading 2': 'Заголовок 2',
+  'Heading 3': 'Заголовок 3',
+  'Highlighted code': 'Виділений код',
+  'Unordered list': 'Ненумерованний список',
+  'Ordered list': 'Нумерований список',
+  'Quote': 'Цитування',
+  'Unquote': 'Видалити цитування',
+  'Table': 'Table',
+  'Preformatted text': 'Попередньо відформатований текст',
+  'Wiki link': 'Посилання на сторінку Wiki',
+  'Image': 'Зображення',
+  'Edit': 'Редагувати',
+  'Preview': 'Попередній перегляд'
+}

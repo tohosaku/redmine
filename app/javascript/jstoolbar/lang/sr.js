@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Подебљано',
+  'Italic': 'Курзив',
+  'Underline': 'Подвучено',
+  'Deleted': 'Обрисано',
+  'Code': 'Уграђени кôд',
+  'Heading 1': 'Наслов 1',
+  'Heading 2': 'Наслов 2',
+  'Heading 3': 'Наслов 3',
+  'Highlighted code': 'Highlighted code',
+  'Unordered list': 'Листа набрајања',
+  'Ordered list': 'Уређена листа',
+  'Quote': 'Под наводницима',
+  'Unquote': 'Уклони наводнике',
+  'Table': 'Table',
+  'Preformatted text': 'Претходно форматиран текст',
+  'Wiki link': 'Веза према Wiki страни',
+  'Image': 'Слика',
+  'Edit': 'Измени',
+  'Preview': 'Преглед'
+}

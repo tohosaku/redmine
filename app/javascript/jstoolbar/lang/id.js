@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Tebal',
+  'Italic': 'Miring',
+  'Underline': 'Garis bawah',
+  'Deleted': 'Dihapus',
+  'Code': 'Inline Code',
+  'Heading 1': 'Judul 1',
+  'Heading 2': 'Judul 2',
+  'Heading 3': 'Judul 3',
+  'Highlighted code': 'Highlighted code',
+  'Unordered list': 'Daftar tak terurut',
+  'Ordered list': 'Daftar terurut',
+  'Quote': 'Kutipan',
+  'Unquote': 'Hapus kutipan',
+  'Table': 'Table',
+  'Preformatted text': 'Teks terformat',
+  'Wiki link': 'Tautkan ke halaman wiki',
+  'Image': 'Gambar',
+  'Edit': 'Sunting',
+  'Preview': 'Tinjauan'
+}

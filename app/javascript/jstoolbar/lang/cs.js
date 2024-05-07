@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Tučné',
+  'Italic': 'Kurzíva',
+  'Underline': 'Podtržené',
+  'Deleted': 'Přeškrtnuté ',
+  'Code': 'Vnořený kód',
+  'Heading 1': 'Nadpis 1',
+  'Heading 2': 'Nadpis 2',
+  'Heading 3': 'Nadpis 3',
+  'Highlighted code': 'Zvýrazněný kód',
+  'Unordered list': 'Seznam',
+  'Ordered list': 'Uspořádaný seznam',
+  'Quote': 'Citace',
+  'Unquote': 'Odstranit citaci',
+  'Table': 'Tabulka',
+  'Preformatted text': 'Předformátovaný text',
+  'Wiki link': 'Vložit odkaz na Wiki stránku',
+  'Image': 'Vložit obrázek',
+  'Edit': 'Upravit',
+  'Preview': 'Náhled'
+}

@@ -21,17 +21,6 @@ module Redmine
   module WikiFormatting
     module Markdown
       module Helper
-        def wikitoolbar_for(field_id, preview_url = preview_text_path)
-          heads_for_wiki_formatter
-
-          javascript_tag(
-            "var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}')); " \
-              "wikiToolbar.setHelpLink('#{escape_javascript help_wiki_syntax_path}'); " \
-              "wikiToolbar.setPreviewUrl('#{escape_javascript preview_url}'); " \
-              "wikiToolbar.draw();"
-          )
-        end
-
         def initial_page_content(page)
           "# #{page.pretty_title}"
         end
@@ -46,9 +35,6 @@ module Redmine
                 toolbar_language_options.split(',')
               end
             content_for :header_tags do
-              javascript_include_tag('jstoolbar/jstoolbar') +
-              javascript_include_tag('jstoolbar/markdown') +
-              javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
               javascript_tag(
                 "var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};" \
                   "var userHlLanguages = #{lang.to_json};"

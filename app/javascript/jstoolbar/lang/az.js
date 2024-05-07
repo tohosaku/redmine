@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Strong',
+  'Italic': 'Italic',
+  'Underline': 'Underline',
+  'Deleted': 'Deleted',
+  'Code': 'Inline Code',
+  'Heading 1': 'Heading 1',
+  'Heading 2': 'Heading 2',
+  'Heading 3': 'Heading 3',
+  'Highlighted code': 'Highlighted code',
+  'Unordered list': 'Unordered list',
+  'Ordered list': 'Ordered list',
+  'Quote': 'Quote',
+  'Unquote': 'Remove Quote',
+  'Table': 'Table',
+  'Preformatted text': 'Preformatted text',
+  'Wiki link': 'Link to a Wiki page',
+  'Image': 'Image',
+  'Edit': 'Redaktə etmək',
+  'Preview': 'İlkin baxış'
+}

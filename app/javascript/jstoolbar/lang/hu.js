@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Félkövér',
+  'Italic': 'Dőlt',
+  'Underline': 'Aláhúzott',
+  'Deleted': 'Törölt',
+  'Code': 'Kód sorok',
+  'Heading 1': 'Fejléc 1',
+  'Heading 2': 'Fejléc 2',
+  'Heading 3': 'Fejléc 3',
+  'Highlighted code': 'Highlighted code',
+  'Unordered list': 'Felsorolás',
+  'Ordered list': 'Számozott lista',
+  'Quote': 'Quote',
+  'Unquote': 'Idézet eltávolítása',
+  'Table': 'Table',
+  'Preformatted text': 'Előreformázott szöveg',
+  'Wiki link': 'Link egy Wiki oldalra',
+  'Image': 'Kép',
+  'Edit': 'Szerkeszt',
+  'Preview': 'Előnézet'
+}

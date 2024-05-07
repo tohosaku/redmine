@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Получер',
+  'Italic': 'Курсив',
+  'Underline': 'Подчертан',
+  'Deleted': 'Изтрит',
+  'Code': 'Вграден код',
+  'Heading 1': 'Заглавие 1',
+  'Heading 2': 'Заглавие 2',
+  'Heading 3': 'Заглавие 3',
+  'Highlighted code': 'Вграден код',
+  'Unordered list': 'Неподреден списък',
+  'Ordered list': 'Подреден списък',
+  'Quote': 'Цитат',
+  'Unquote': 'Премахване на цитат',
+  'Table': 'Table',
+  'Preformatted text': 'Форматиран текст',
+  'Wiki link': 'Връзка до Wiki страница',
+  'Image': 'Изображение',
+  'Edit': 'Редакция',
+  'Preview': 'Преглед'
+}

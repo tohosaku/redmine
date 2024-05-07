@@ -5,6 +5,8 @@ pin "redmine", preload: true
 
 pin "flatpickr", to: "flatpickr-4.6.13.min.js", preload: true
 pin_all_from "vendor/assets/javascripts/flatpickr", under: "flatpickr", to: "flatpickr", preload: false
+pin "jstoolbar", preload: true
+pin_all_from "app/javascript/jstoolbar", under: "jstoolbar", to: "jstoolbar", preload: false
 pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
 pin_all_from "app/javascript/controllers", under: "controllers"
