@@ -1282,14 +1282,14 @@ span.pagination>span {white-space:nowrap;}
 #search-form fieldset p {margin-block: 0.2em; margin-inline: 0;}
 
 /***** Tabular forms ******/
-.tabular p{
+.tabular p, .tabular div.paragraph{
   margin: 0;
   padding-block: 3px;
   padding-inline: 180px 0; /* width of left column containing the label elements */
   min-block-size: 2em;
   clear: inline-start;
 }
-html>body .tabular p {overflow:hidden;}
+html>body .tabular p, html>body .tabular div.paragraph {overflow:hidden;}
 
 .tabular input, .tabular select {max-inline-size: 95%}
 .tabular textarea {inline-size: 95%; resize: vertical;}
@@ -1367,7 +1367,7 @@ input#months { inline-size: 46px; }
   overflow: initial;
 }
 
-.tabular.settings p { padding-inline-start: 300px; font-size: 93%; }
+.tabular.settings p, .tabular.settings div.paragraph { padding-inline-start: 300px; font-size: 93%; }
 .tabular.settings label{ margin-inline-start: -300px; inline-size: 295px; }
 .tabular.settings textarea, .tabular.settings .wiki-preview, .tabular.settings .jstTabs { inline-size: 99%; }
 

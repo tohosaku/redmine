@@ -1471,6 +1471,26 @@ nl:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Vetgedrukt"
+    em: "Cursief"
+    ins: "Onderstreept"
+    del: "Verwijderd"
+    code: "Computercode"
+    h1: "Hoofding 1"
+    h2: "Hoofding 2"
+    h3: "Hoofding 3"
+    precode: "Gemarkeerde code"
+    ul: "Ongeordende lijst"
+    ol: "Geordende lijst"
+    bq: "Citaat"
+    unbq: "Citaat verwijderen"
+    table: "Table"
+    pre: "Vooropgemaakte tekst"
+    link: "Link naar een Wikipagina"
+    img: "Afbeelding"
+    edit: "Bewerken"
+    preview: "Voorbeeldweergave"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

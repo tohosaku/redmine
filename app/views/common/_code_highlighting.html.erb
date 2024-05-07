@@ -1,0 +1,12 @@
+<template id="code-highlighting-template">
+  <ul class="jst_menu"
+      style="position: absolute;width: 150px"
+      data-controller="precode"
+      data-action="pointerover->precode#select pointerout->precode#unselect pointerdown->precode#addMenu pointerdown->precode#remove click@window->precode#removeWhenOutside">
+    <% codehighlight_langs.each do |lang| %>
+      <li class="jst_menuitem">
+        <div class="jst_menuitem-wrapper"><%= lang %></div>
+      </li>
+     <% end %>
+  <ul>
+</template>

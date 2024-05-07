@@ -1490,6 +1490,27 @@ lv:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  # translated by Dzintars Bergs (dzintars.bergs@gmail.com)
+  jstoolbar:
+    strong: "Treknraksts"
+    em: "Slīpraksts"
+    ins: "Pasvītrojums"
+    del: "Dzēsts"
+    code: "Iekļauts kods"
+    h1: "Virsraksts 1"
+    h2: "Virsraksts 2"
+    h3: "Virsraksts 3"
+    precode: "Highlighted code"
+    ul: "Nesakārtots saraksts"
+    ol: "Sakārtots saraksts"
+    bq: "Citēt"
+    unbq: "Noņemt citātu"
+    table: "Table"
+    pre: "Iepriekš formatēts teksts"
+    link: "Saite uz Wiki lapu"
+    img: "Attēls"
+    edit: "Labot"
+    preview: "Priekšskatījums"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

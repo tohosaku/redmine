@@ -23,13 +23,12 @@
 
 <p>
 <%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
-<%= f.textarea :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
-                :accesskey => accesskey(:edit),
-                :data => {
-                  :auto_complete => true
-                }.merge(wiki_textarea_stimulus_attributes)
-%></p>
-<%= wikitoolbar_for 'message_content', preview_board_message_path(:board_id => @board, :id => @message) %>
+<%= component 'wikieditor', preview_url: preview_board_message_path(:board_id => @board, :id => @message) do |d| %>
+  <%= f.textarea :content, cols: 80, rows: 15, class: 'wiki-edit', id: 'message_content',
+                 accesskey: accesskey(:edit),
+                 data:  d.merge({ auto_complete: true }) %>
+<% end %>
+</p>
 <!--[eoform:message]-->
 
 <p><%= l(:label_attachment_plural) %><br />

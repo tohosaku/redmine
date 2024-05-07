@@ -1498,6 +1498,26 @@ sr-YU:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Podebljano"
+    em: "Kurziv"
+    ins: "Podvučeno"
+    del: "Obrisano"
+    code: "Ugrađeni kôd"
+    h1: "Naslov 1"
+    h2: "Naslov 2"
+    h3: "Naslov 3"
+    precode: "Highlighted code"
+    ul: "Lista nabrajanja"
+    ol: "Uređena lista"
+    bq: "Pod navodnicima"
+    unbq: "Ukloni navodnike"
+    table: "Table"
+    pre: "Prethodno formatiran tekst"
+    link: "Veza prema Wiki strani"
+    img: "Slika"
+    edit: "Izmeni"
+    preview: "Pregled"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

@@ -1496,6 +1496,26 @@ mn:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Бүдүүн"
+    em: "Налуу"
+    ins: "Доогуур зураас"
+    del: "Устгагдсан"
+    code: "Програмын код"
+    h1: "Гарчиг 1"
+    h2: "Гарчиг 2"
+    h3: "Гарчиг 3"
+    precode: "Highlighted code"
+    ul: "Эрэмбэгүй жагсаалт"
+    ol: "Эрэмбэтэй жагсаалт"
+    bq: "Ишлэл"
+    unbq: "Ишлэлийг устгах"
+    table: "Table"
+    pre: "Өмнө нь хэлбэржсэн текст"
+    link: "Вики хуудас руу холбох"
+    img: "Зураг"
+    edit: "Засварлах"
+    preview: "Ямар харагдахыг шалгах"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

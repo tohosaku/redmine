@@ -1457,8 +1457,30 @@ it:
   field_name_or_email_or_login: Nome, email o login
   setting_wiki_tablesort_enabled: Ordinamento tabelle con JavaScript nei contenuti wiki
   reaction_text_x_other_users:
-    one: "1 altro"
-    other: "%{count} altri"
+  one: "1 altro"
+  other: "%{count} altri"
+  # Italian translation
+  # by Diego Pierotto (ita.translations@tiscali.it)
+  jstoolbar:
+    strong: "Grassetto"
+    em: "Corsivo"
+    ins: "Sottolineato"
+    del: "Barrato"
+    code: "Codice sorgente"
+    h1: "Titolo 1"
+    h2: "Titolo 2"
+    h3: "Titolo 3"
+    precode: "Highlighted code"
+    ul: "Elenco puntato"
+    ol: "Elenco numerato"
+    bq: "Aumenta rientro"
+    unbq: "Riduci rientro"
+    table: "Table"
+    pre: "Testo preformattato"
+    link: "Collegamento a pagina Wiki"
+    img: "Immagine"
+    edit: "Modifica"
+    preview: "Anteprima"
   permission_use_webhooks: Use webhooks
   label_webhook_plural: Webhooks
   label_webhook_new: New webhook

@@ -2271,6 +2271,20 @@ class ApplicationHelperTest < Redmine::HelperTest
     assert_equal '', result
   end
 
+  def test_textarea_with_text_formatting
+    with_settings :text_formatting => 'textile' do
+      element = component('wikieditor'){ textarea_tag 'sample', '' }
+      assert_match 'texteditor', element
+    end
+  end
+
+  def test_textarea_without_text_formatting
+    with_settings :text_formatting => '' do
+      element = component('wikieditor'){ textarea_tag 'sample', '' }
+      assert_no_match 'texteditor', element
+    end
+  end
+
   private
 
   def wiki_links_with_special_characters

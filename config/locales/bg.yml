@@ -1500,6 +1500,26 @@ bg:
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
   field_name_or_email_or_login: Име, e-mail или login име
   setting_wiki_tablesort_enabled: Сортиране на таблици чрез JavaScript във wiki страници
+  jstoolbar:
+    strong: "Получер"
+    em: "Курсив"
+    ins: "Подчертан"
+    del: "Изтрит"
+    code: "Вграден код"
+    h1: "Заглавие 1"
+    h2: "Заглавие 2"
+    h3: "Заглавие 3"
+    precode: "Вграден код"
+    ul: "Неподреден списък"
+    ol: "Подреден списък"
+    bq: "Цитат"
+    unbq: "Премахване на цитат"
+    table: "Table"
+    pre: "Форматиран текст"
+    link: "Връзка до Wiki страница"
+    img: "Изображение"
+    edit: "Редакция"
+    preview: "Преглед"
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"

@@ -57,8 +57,11 @@ class LayoutTest < Redmine::IntegrationTest
     Role.anonymous.add_permission! :add_issues
 
     get '/projects/ecookbook/issues/new'
-    assert_select "head script:match('src',?)", %r{/assets/jstoolbar/jstoolbar-\w+.js}
-    assert_include "var userHlLanguages = #{UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS.to_json};", response.body
+
+    text = Nokogiri::HTML5.fragment(response.body).css('script[type=importmap]').text
+    importmap = JSON.parse(text)
+    assert_match /jstoolbar-\w+/, importmap['imports']['jstoolbar']
+    assert_select 'template#code-highlighting-template'
   end
 
   def test_calendar_header_tags

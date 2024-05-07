@@ -1513,6 +1513,26 @@ da:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Fed"
+    em: "Kursiv"
+    ins: "Understreget"
+    del: "Slettet"
+    code: "Inline-kode"
+    h1: "Overskrift 1"
+    h2: "Overskrift 2"
+    h3: "Overskrift 3"
+    precode: "Highlighted code"
+    ul: "Unummereret liste"
+    ol: "Nummereret liste"
+    bq: "Citér"
+    unbq: "Fjern citér"
+    table: "Table"
+    pre: "Præformateret tekst"
+    link: "Link til en wiki-side"
+    img: "Billede"
+    edit: "Ret"
+    preview: "Forhåndsvisning"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

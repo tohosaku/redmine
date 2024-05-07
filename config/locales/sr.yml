@@ -1497,6 +1497,26 @@ sr:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Подебљано"
+    em: "Курзив"
+    ins: "Подвучено"
+    del: "Обрисано"
+    code: "Уграђени кôд"
+    h1: "Наслов 1"
+    h2: "Наслов 2"
+    h3: "Наслов 3"
+    precode: "Highlighted code"
+    ul: "Листа набрајања"
+    ol: "Уређена листа"
+    bq: "Под наводницима"
+    unbq: "Уклони наводнике"
+    table: "Table"
+    pre: "Претходно форматиран текст"
+    link: "Веза према Wiki страни"
+    img: "Слика"
+    edit: "Измени"
+    preview: "Преглед"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

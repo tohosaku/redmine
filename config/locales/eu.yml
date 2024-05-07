@@ -1497,6 +1497,30 @@ eu:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  # jsToolBar EU language
+  # Author: Ales Zabala Alava (Shagi), <shagi@gisa-elkartea.org>
+  # 2010-01-25
+  # Distributed under the same terms as the jsToolBar itself.
+  jstoolbar:
+    strong: "Lodia"
+    em: "Etzana"
+    ins: "Azpimarra"
+    del: "Ezabatuta"
+    code: "Inline Code"
+    h1: "1 Goiburua"
+    h2: "2 Goiburua"
+    h3: "3 Goiburua"
+    precode: "Highlighted code"
+    ul: "Ordenatu gabeko zerrenda"
+    ol: "Ordenatutako zerrenda"
+    bq: "Aipamena"
+    unbq: "Aipamena kendu"
+    table: "Table"
+    pre: "Aurrez formateatutako testua"
+    link: "Wiki orri baterako esteka"
+    img: "Irudia"
+    edit: "Editatu"
+    preview: "Aurreikusi"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

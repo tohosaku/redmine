@@ -1495,6 +1495,24 @@ tr:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Kalın"
+    em: "İtalik"
+    ins: "Altı çizgili"
+    del: "Silinmiş"
+    code: "Satır içi kod"
+    h1: "Başlık 1"
+    h2: "Başlık 2"
+    h3: "Başlık 3"
+    precode: "Highlighted code"
+    ul: "Sırasız liste"
+    ol: "Sıralı liste"
+    table: "Table"
+    pre: "Preformatted text"
+    link: "Wiki sayfasına bağlantı"
+    img: "Resim"
+    edit: "Düzenle"
+    preview: "Önizleme"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

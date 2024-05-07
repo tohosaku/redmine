@@ -1475,6 +1475,26 @@ fr:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Gras"
+    em: "Italique"
+    ins: "Souligné"
+    del: "Rayé"
+    code: "Code en ligne"
+    h1: "Titre niveau 1"
+    h2: "Titre niveau 2"
+    h3: "Titre niveau 3"
+    precode: "Code colorisé"
+    ul: "Liste à puces"
+    ol: "Liste numérotée"
+    bq: "Indenté"
+    unbq: "Supprimer indentation"
+    table: "Table"
+    pre: "Texte préformaté"
+    link: "Lien vers une page Wiki"
+    img: "Image"
+    edit: "Modifier"
+    preview: "Prévisualiser"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

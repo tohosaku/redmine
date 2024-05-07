@@ -1489,6 +1489,27 @@ pt:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  # Translated by: Pedro Araújo <phcrva19@hotmail.com>
+  jstoolbar:
+    strong: "Negrito"
+    em: "Itálico"
+    ins: "Sublinhado"
+    del: "Apagado"
+    code: "Código Inline"
+    h1: "Cabeçalho 1"
+    h2: "Cabeçalho 2"
+    h3: "Cabeçalho 3"
+    precode: "Highlighted code"
+    ul: "Lista não ordenada"
+    ol: "Lista ordenada"
+    bq: "Citação"
+    unbq: "Remover citação"
+    table: "Table"
+    pre: "Texto pré-formatado"
+    link: "Link para uma página da Wiki"
+    img: "Imagem"
+    edit: "Editar"
+    preview: "Pré-visualizar"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

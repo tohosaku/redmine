@@ -1496,6 +1496,26 @@ ar:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "قوي"
+    em: "مائل"
+    ins: "تسطير"
+    del: "محذوف"
+    code: "رمز ضمني"
+    h1: "عنوان 1"
+    h2: "عنوان 2"
+    h3: "عنوان 3"
+    precode: "Highlighted code"
+    ul: "قائمة غير مرتبة"
+    ol: "قائمة مرتبة"
+    bq: "اقتباس"
+    unbq: "إزالة الاقتباس"
+    table: "Table"
+    pre: "نص مسبق التنسيق"
+    link: "رابط الى صفحة ويكي"
+    img: "صورة"
+    edit: "تعديل"
+    preview: "معاينة"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

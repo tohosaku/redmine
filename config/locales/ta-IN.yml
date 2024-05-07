@@ -1451,6 +1451,26 @@ ta-IN:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "வலுவான"
+    em: "சாய்வு"
+    ins: "அடிக்கோடிட்டு"
+    del: "நீக்கப்பட்டது"
+    code: "இன்லைன் குறியீடு"
+    h1: "தலைப்பு 1"
+    h2: "தலைப்பு 2"
+    h3: "தலைப்பு 3"
+    precode: "சிறப்பம்சமாக குறியீடு"
+    ul: "வரிசைப்படுத்தப்படாத பட்டியல்"
+    ol: "வரிசைப்படுத்தப்பட்ட பட்டியல்"
+    bq: "மேற்கோள்"
+    unbq: "மேற்கோளை அகற்று"
+    table: "அட்டவணை"
+    pre: "முன்பே வடிவமைக்கப்பட்ட உரை"
+    link: "விக்கி பக்கத்துடன் இணைக்கவும்"
+    img: "படம்"
+    edit: "திருத்து"
+    preview: "முன்னோட்டம்"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

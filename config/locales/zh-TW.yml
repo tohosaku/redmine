@@ -1510,6 +1510,26 @@
   reaction_text_x_other_users:
     one: 1 位其他用戶
     other: "%{count} 位其他用戶"
+  jstoolbar:
+    strong: "粗體"
+    em: "斜體"
+    ins: "底線"
+    del: "刪除線"
+    code: "程式碼"
+    h1: "標題 1"
+    h2: "標題 2"
+    h3: "標題 3"
+    precode: "反白程式碼"
+    ul: "項目清單"
+    ol: "編號清單"
+    bq: "引文"
+    unbq: "取消引文"
+    table: "表格"
+    pre: "已格式文字"
+    link: "連結至 Wiki 頁面"
+    img: "圖片"
+    edit: "編輯"
+    preview: "預覽"
   text_setting_gravatar_default_initials_html: 用戶姓名的首字母縮寫將被送往 <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     用以產生其大頭貼.
   permission_view_project: 檢視專案

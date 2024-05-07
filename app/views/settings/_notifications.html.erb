@@ -19,13 +19,16 @@
 </fieldset>
 
 <fieldset class="box"><legend><%= l(:setting_emails_header) %></legend>
-<%= setting_textarea :emails_header, :label => false, :class => 'wiki-edit', :rows => 5, :data => wiki_textarea_stimulus_attributes %>
-<%= wikitoolbar_for 'settings_emails_header' %>
+
+<%= component 'wikieditor' do %>
+  <%= setting_textarea :emails_header, label: false, class: 'wiki-edit', rows: 5 %>
+<% end %>
 </fieldset>
 
 <fieldset class="box"><legend><%= l(:setting_emails_footer) %></legend>
-<%= setting_textarea :emails_footer, :label => false, :class => 'wiki-edit', :rows => 5, :data => wiki_textarea_stimulus_attributes %>
-<%= wikitoolbar_for 'settings_emails_footer' %>
+<%= component 'wikieditor' do %>
+  <%= setting_textarea :emails_footer, label: false, class: 'wiki-edit', rows: 5 %>
+<% end %>
 </fieldset>
 
 <div style="float:right;">

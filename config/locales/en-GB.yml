@@ -1497,6 +1497,26 @@ en-GB:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Strong"
+    em: "Italic"
+    ins: "Underline"
+    del: "Deleted"
+    code: "Inline Code"
+    h1: "Heading 1"
+    h2: "Heading 2"
+    h3: "Heading 3"
+    precode: "Highlighted code"
+    ul: "Unordered list"
+    ol: "Ordered list"
+    bq: "Quote"
+    unbq: "Remove Quote"
+    table: "Table"
+    pre: "Preformatted text"
+    link: "Link to a Wiki page"
+    img: "Image"
+    edit: "Edit"
+    preview: "Preview"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

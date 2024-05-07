@@ -1,0 +1,10 @@
+<% unless @heads_for_wiki_formatter_included %>
+  <% content_for :header_tags do %>
+    <script id="mime_type" type="application/json"><%= raw Redmine::MimeType.by_type('image').to_json %></script>
+    <script id="jstoolbar-locale" type="application/json"><%= raw l(:jstoolbar).to_json %></script>
+    <%= stylesheet_link_tag 'jstoolbar' %>
+    <%= render 'common/table_generator' %>
+    <%= render 'common/code_highlighting' %>
+  <% end %>
+  <% @heads_for_wiki_formatter_included = true %>
+<% end %>

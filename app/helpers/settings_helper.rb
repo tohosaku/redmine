@@ -100,8 +100,16 @@ module SettingsHelper
   end
 
   def setting_textarea(setting, options={})
+    wikieditor = options.delete :wikieditor
     setting_label(setting, options).html_safe +
-      textarea_tag("settings[#{setting}]", setting_value(setting), options).html_safe
+      if wikieditor
+        component 'wikieditor' do |data|
+          options[:data] = data
+          textarea_tag("settings[#{setting}]", setting_value(setting), options)
+        end
+      else
+        textarea_tag("settings[#{setting}]", setting_value(setting), options).html_safe
+      end
   end
 
   def setting_check_box(setting, options={})

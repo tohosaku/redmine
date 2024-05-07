@@ -1500,6 +1500,26 @@ vi:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Đậm"
+    em: "Nghiêng"
+    ins: "Gạch chân"
+    del: "Xóa"
+    code: "Mã chung dòng"
+    h1: "Tiêu đề 1"
+    h2: "Tiêu đề 2"
+    h3: "Tiêu đề 3"
+    precode: "Highlighted code"
+    ul: "Danh sách không thứ tự"
+    ol: "Danh sách có thứ tự"
+    bq: "Trích dẫn"
+    unbq: "Bỏ trích dẫn"
+    table: "Table"
+    pre: "Mã nguồn"
+    link: "Liên kết đến trang wiki"
+    img: "Ảnh"
+    edit: "Sửa"
+    preview: "Xem trước"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

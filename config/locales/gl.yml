@@ -1502,6 +1502,26 @@ gl:
   reaction_text_x_other_users:
     one: 1 outro
     other: "%{count} outros"
+  jstoolbar:
+    strong: "Negriña"
+    em: "Itálica"
+    ins: "Subliñado"
+    del: "Tachado"
+    code: "Código fonte"
+    h1: "Encabezado 1"
+    h2: "Encabezado 2"
+    h3: "Encabezado 3"
+    precode: "Código resaltado"
+    ul: "Lista sen ordenar"
+    ol: "Lista ordenada"
+    bq: "Citar"
+    unbq: "Quitar cita"
+    table: "Táboa"
+    pre: "Texto con formato"
+    link: "Ligazón a páxina Wiki"
+    img: "Imaxe"
+    edit: "Modificar"
+    preview: "Vista previa"
   text_setting_gravatar_default_initials_html: As iniciais dos usuarios son enviadas a <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     para xerar os seus avatares.
   permission_view_project: Ver proxectos

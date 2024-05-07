@@ -1501,6 +1501,26 @@ et:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Rõhutatult"
+    em: "Kaldkirjas"
+    ins: "Allakriipsutatult"
+    del: "Läbikriipsutatult"
+    code: "Koodiblokk"
+    h1: "1. taseme pealkiri"
+    h2: "2. taseme pealkiri"
+    h3: "3. taseme pealkiri"
+    precode: "Highlighted code"
+    ul: "Täpitud nimekiri"
+    ol: "Nummerdatud nimekiri"
+    bq: "Tsitaat: aste juurde"
+    unbq: "Tsitaat: aste madalamaks"
+    table: "Table"
+    pre: "Eelvormindatud tekst"
+    link: "Vikilehe link"
+    img: "Pilt"
+    edit: "Muuda"
+    preview: "Eelvaade"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

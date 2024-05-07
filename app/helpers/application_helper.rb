@@ -31,9 +31,6 @@ module ApplicationHelper
   include IconsHelper
   include StimulusHelper
 
-  extend Forwardable
-  def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
-
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
     User.current.allowed_to?({:controller => controller, :action => action}, @project)
@@ -1430,18 +1427,6 @@ module ApplicationHelper
     end
   end
 
-  def wiki_textarea_stimulus_attributes
-    return {} if Setting.text_formatting.blank?
-
-    {
-      controller: 'list-autofill selection-indent table-paste',
-      action: 'beforeinput->list-autofill#handleBeforeInput keydown.tab->selection-indent#run keydown.shift+tab->selection-indent#run paste->table-paste#handlePaste',
-      list_autofill_text_formatting_param: Setting.text_formatting,
-      selection_indent_text_formatting_param: Setting.text_formatting,
-      table_paste_text_formatting_param: Setting.text_formatting
-    }
-  end
-
   unless const_defined?(:MACROS_RE)
     MACROS_RE = /(
                   (!)?                        # escaping
@@ -1934,6 +1919,24 @@ module ApplicationHelper
             '#',
             class: 'icon icon-copy-link',
             data: {clipboard_text: url, controller: 'clipboard', action: 'clipboard#copyText'}
+  end
+
+  def codehighlight_langs
+    toolbar_language_options = User.current && User.current.pref.toolbar_language_options
+    if toolbar_language_options.nil?
+      UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS
+    else
+      toolbar_language_options.split(',')
+    end
+  end
+
+  def component(name, locals = {}, &)
+    return render(layout: "common/#{name}", locals: locals, &) if block_given?
+
+    collection = locals.delete(:collection)
+    return render(partial: "common/#{name}", collection: collection, as: locals.delete(:as) || name.to_sym, locals: locals) if collection
+
+    render(partial: "common/#{name}", locals: locals)
   end
 
   private
