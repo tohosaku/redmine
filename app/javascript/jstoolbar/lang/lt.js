@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Pastorinti',
+  'Italic': 'Kursyvu',
+  'Underline': 'Pabraukti',
+  'Deleted': 'Užbraukti',
+  'Code': 'Kodas',
+  'Heading 1': 'Antraštė 1',
+  'Heading 2': 'Antraštė 2',
+  'Heading 3': 'Antraštė 3',
+  'Highlighted code': 'Paryškintas kodas',
+  'Unordered list': 'Nenumeruotas sąrašas',
+  'Ordered list': 'Numeruotas sąrašas',
+  'Quote': 'Cituoti',
+  'Unquote': 'Pašalinti citavimą',
+  'Table': 'Lentelė',
+  'Preformatted text': 'Preformatuotas tekstas',
+  'Wiki link': 'Nuoroda į Wiki puslapį',
+  'Image': 'Paveikslėlis',
+  'Edit': 'Redaguoti',
+  'Preview': 'Peržiūra'
+}

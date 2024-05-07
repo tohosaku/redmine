@@ -210,9 +210,9 @@
 <% custom_fields_full_width.each do |custom_field| %>
   <p>
     <label><%= custom_field.name %></label>
-    <%= custom_field_tag_for_bulk_edit('issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
+    <%= custom_field_tag_for_bulk_edit 'issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s],
+          data: { wiki_toolbar: custom_field.full_text_formatting?, wiki_preview_url: preview_issue_path(project_id: @project, issue_id: nil) } %>
   </p>
-  <%= wikitoolbar_for "issue_custom_field_values_#{custom_field.id}", preview_issue_path(:project_id => @project, :issue_id => nil) if custom_field.full_text_formatting? %>
 <% end %>
 
 </fieldset>
@@ -221,10 +221,10 @@
 <legend><%= l(:field_notes) %></legend>
 <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
                   :data => {
-                      :auto_complete => true
+                      :auto_complete => true,
+                      :wiki_toolbar => true
                   }
 %>
-<%= wikitoolbar_for 'notes' %>
 
 <% if User.current.allowed_to?(:add_issue_watchers, nil, global: true)%>
   <%= update_data_sources_for_auto_complete({users: watchers_autocomplete_for_mention_path(q: '', object_type: 'issue', object_id: @issues.map(&:id) )}) %>

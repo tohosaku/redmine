@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Podebljano',
+  'Italic': 'Kurziv',
+  'Underline': 'Podcrtano',
+  'Deleted': 'Obrisano',
+  'Code': 'Inline Code',
+  'Heading 1': 'Naslov 1',
+  'Heading 2': 'Naslov 2',
+  'Heading 3': 'Naslov 3',
+  'Highlighted code': 'Highlighted code',
+  'Unordered list': 'Graficke oznake',
+  'Ordered list': 'Numeriranje',
+  'Quote': 'Citat',
+  'Unquote': 'Ukloni citat',
+  'Table': 'Table',
+  'Preformatted text': 'Izveden tekst',
+  'Wiki link': 'Link na Wiki stranicu',
+  'Image': 'Slika',
+  'Edit': 'Uredi',
+  'Preview': 'Brzi pregled'
+}

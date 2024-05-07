@@ -164,3 +164,42 @@
 .jstb_help {
     background-image: url(/jstoolbar/help.svg);
 }
+
+.jst_menu {
+  border: 1px solid #c5c5c5;
+  border-radius: 2px;
+  background: #fff;
+  color: #333;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 1em;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: block;
+  outline: 0;
+}
+
+.jst_menuitem-wrapper {
+  position: relative;
+  padding: 3px 1em 3px .4em;
+}
+
+.jst_menuitem {
+  padding: 4px 8px;
+  max-width: 500px;
+  cursor: pointer;
+  list-style-image: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+  color: #333;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 1em;
+  list-style: none;
+  list-style-image: none;
+}
+
+.jst_menuitem-active {
+  border: 1px solid #759fcf; background: #759fcf; font-weight: normal; color: #fff;
+}
+.jst_menuitem-active a { color: #fff; text-decoration: none;  }
+.jst_menuitem-active a:link { color: #fff; text-decoration: none;  }
+.jst_menuitem-active a:visited { color: #fff; text-decoration: none;  }
+

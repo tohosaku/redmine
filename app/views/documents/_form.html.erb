@@ -5,7 +5,8 @@
   <p><%= f.text_field :title, :required => true, :size => 60 %></p>
   <p><%= f.text_area :description, :cols => 60, :rows => 15, :class => 'wiki-edit',
                     :data => {
-                        :auto_complete => true
+                        :auto_complete => true,
+                        :wiki_toolbar => true
                     } %></p>
 
   <% @document.custom_field_values.each do |value| %>
@@ -16,5 +17,3 @@
     <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form', :locals => {:container => @document} %></p>
   <% end %>
 </div>
-
-<%= wikitoolbar_for 'document_description' %>

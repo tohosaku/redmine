@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Bold',
+  'Italic': 'Italic',
+  'Underline': 'Subliniat',
+  'Deleted': 'Șters',
+  'Code': 'Fragment de cod',
+  'Heading 1': 'Heading 1',
+  'Heading 2': 'Heading 2',
+  'Heading 3': 'Heading 3',
+  'Highlighted code': 'Highlighted code',
+  'Unordered list': 'Listă pe puncte',
+  'Ordered list': 'Listă ordonată',
+  'Quote': 'Citează',
+  'Unquote': 'Fără citat',
+  'Table': 'Table',
+  'Preformatted text': 'Text preformatat',
+  'Wiki link': 'Trimitere către o pagină wiki',
+  'Image': 'Imagine',
+  'Edit': 'Editează',
+  'Preview': 'Previzualizare'
+}

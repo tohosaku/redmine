@@ -1948,6 +1948,46 @@ module ApplicationHelper
     {sortable_target: 'item', presorted_index: index + 1, sorted_index: index + 1}
   end
 
+  def add_wiki_toolbar(data)
+    heads_for_wiki_formatter
+
+    preview_url = data.delete(:wiki_preview_url) || preview_text_path
+    data[:texteditor_target] = 'editor'
+    data[:action] = 'click->texteditor#shortcut'
+
+    tag.div(class: 'jstBlock', data: { controller: 'texteditor', formatting: Setting.text_formatting, help: help_wiki_syntax_path, texteditor_preview_url_value: preview_url }) do
+      tag.div(class: 'jstTabs tabs', data: { texteditor_target: 'tabs' }) do
+        tag.ul do
+          tag.li do
+            link_to(nil, '#', class: 'tab-edit selected', data: { texteditor_target: 'edittab', action: 'texteditor#hidePreview' })
+          end +
+          tag.li do
+            link_to(nil, '#', class: 'tab-preview', data: { texteditor_target: 'previewtab', action: 'texteditor#preview texteditor#showPreview' })
+          end +
+          tag.li(class: 'tab-elements') do
+            tag.div nil, class: 'jstElements',  data: { texteditor_target: 'elements' }
+          end
+        end
+      end +
+      tag.div(class: 'jstEditor', data: { texteditor_target: 'main'}) do
+        yield +
+        tag.div(nil, class: 'wiki wiki-preview hidden',  data: { texteditor_target: 'preview' })
+      end
+    end
+  end
+
+  def text_area_tag(name, content, options={})
+    data = options[:data] || {}
+    wiki_toolbar = data.delete(:wiki_toolbar)
+    if wiki_toolbar
+      add_wiki_toolbar(data) do
+        text_area_tag(name, content, options)
+      end
+    else
+      super
+    end
+  end
+
   private
 
   def wiki_helper

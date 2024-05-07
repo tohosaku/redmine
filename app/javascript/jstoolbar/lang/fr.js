@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Gras',
+  'Italic': 'Italique',
+  'Underline': 'Souligné',
+  'Deleted': 'Rayé',
+  'Code': 'Code en ligne',
+  'Heading 1': 'Titre niveau 1',
+  'Heading 2': 'Titre niveau 2',
+  'Heading 3': 'Titre niveau 3',
+  'Highlighted code': 'Code colorisé',
+  'Unordered list': 'Liste à puces',
+  'Ordered list': 'Liste numérotée',
+  'Quote': 'Indenté',
+  'Unquote': 'Supprimer indentation',
+  'Table': 'Table',
+  'Preformatted text': 'Texte préformaté',
+  'Wiki link': 'Lien vers une page Wiki',
+  'Image': 'Image',
+  'Edit': 'Modifier',
+  'Preview': 'Prévisualiser'
+}

@@ -1,0 +1,21 @@
+export default {
+  'Strong': 'Pogrubienie',
+  'Italic': 'Kursywa',
+  'Underline': 'Podkreślenie',
+  'Deleted': 'Usunięte',
+  'Code': 'Kod',
+  'Heading 1': 'Nagłowek 1',
+  'Heading 2': 'Nagłówek 2',
+  'Heading 3': 'Nagłówek 3',
+  'Highlighted code': 'Kod z podświetlaniem składni',
+  'Unordered list': 'Nieposortowana lista',
+  'Ordered list': 'Posortowana lista',
+  'Quote': 'Cytat',
+  'Unquote': 'Usuń cytat',
+  'Table': 'Tabela',
+  'Preformatted text': 'Sformatowany tekst',
+  'Wiki link': 'Odnośnik do strony Wiki',
+  'Image': 'Obraz',
+  'Edit': 'Edytuj',
+  'Preview': 'Podgląd'
+}
