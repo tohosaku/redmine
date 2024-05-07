@@ -1456,6 +1456,27 @@ pl:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  # Keep this line in order to avoid problems with Windows Notepad UTF-8 EF-BB-BF idea...
+  jstoolbar:
+    strong: "Pogrubienie"
+    em: "Kursywa"
+    ins: "Podkreślenie"
+    del: "Usunięte"
+    code: "Kod"
+    h1: "Nagłowek 1"
+    h2: "Nagłówek 2"
+    h3: "Nagłówek 3"
+    precode: "Kod z podświetlaniem składni"
+    ul: "Nieposortowana lista"
+    ol: "Posortowana lista"
+    bq: "Cytat"
+    unbq: "Usuń cytat"
+    table: "Tabela"
+    pre: "Sformatowany tekst"
+    link: "Odnośnik do strony Wiki"
+    img: "Obraz"
+    edit: "Edytuj"
+    preview: "Podgląd"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

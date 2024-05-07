@@ -1512,6 +1512,26 @@ sl:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Krepko"
+    em: "Poševno"
+    ins: "Podčrtano"
+    del: "Izbrisano"
+    code: "Koda med vrsticami"
+    h1: "Naslov 1"
+    h2: "Naslov 2"
+    h3: "Naslov 3"
+    precode: "Highlighted code"
+    ul: "Neurejen seznam"
+    ol: "Urejen seznam"
+    bq: "Citat"
+    unbq: "Odstrani citat"
+    table: "Table"
+    pre: "Predoblikovano besedilo"
+    link: "Povezava na Wiki stran"
+    img: "Slika"
+    edit: "Uredi"
+    preview: "Predogled"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

@@ -1476,6 +1476,26 @@ sv:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Fet"
+    em: "Kursiv"
+    ins: "Understruken"
+    del: "Genomstruken"
+    code: "Kod"
+    h1: "Rubrik 1"
+    h2: "Rubrik 2"
+    h3: "Rubrik 3"
+    precode: "Highlighted code"
+    ul: "Osorterad lista"
+    ol: "Sorterad lista"
+    bq: "Citat"
+    unbq: "Ta bort citat"
+    table: "Table"
+    pre: "Förformaterad text"
+    link: "Länk till en wikisida"
+    img: "Bild"
+    edit: "Ändra"
+    preview: "Förhandsgranska"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

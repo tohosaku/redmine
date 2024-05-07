@@ -31,7 +31,7 @@ module ApplicationHelper
   include IconsHelper
 
   extend Forwardable
-  def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
+  def_delegators :wiki_helper, :wiki_help_url
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
@@ -1970,6 +1970,48 @@ module ApplicationHelper
 
   def positioned_items_target(index)
     {sortable_target: 'item', presorted_index: index + 1, sorted_index: index + 1}
+  end
+
+  def add_wiki_toolbar(data, &)
+    heads_for_wiki_formatter
+
+    preview_url = data.delete(:wiki_preview_url) || preview_text_path
+    data[:texteditor_target] = 'editor'
+    data[:action] = 'click->texteditor#shortcut'
+
+    render layout: 'common/texteditor', locals: {preview_url: preview_url}, formats: [:html], &
+  end
+
+  def heads_for_wiki_formatter
+    unless @heads_for_wiki_formatter_included
+      toolbar_language_options = User.current && User.current.pref.toolbar_language_options
+      langs = if toolbar_language_options.nil?
+                UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS
+              else
+                toolbar_language_options.split(',')
+              end
+      content_for :header_tags do
+        javascript_tag(
+          "var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};") +
+        tag.script(raw(l(:jstoolbar).to_json), type: 'application/json', id: 'jstoolbar-locale') +
+        stylesheet_link_tag('jstoolbar') +
+        render(partial: 'common/table_generator') +
+        render(partial: 'common/code_highlighting', locals: {langs: langs})
+      end
+      @heads_for_wiki_formatter_included = true
+    end
+  end
+
+  def text_area_tag(name, content, options={})
+    data = options[:data] || {}
+    wiki_toolbar = data.delete(:wiki_toolbar)
+    if wiki_toolbar
+      add_wiki_toolbar(data) do
+        text_area_tag(name, content, options)
+      end
+    else
+      super
+    end
   end
 
   def remote_dialog(width: nil, modal: true, title: nil, partial: nil, locals: {}, &block)

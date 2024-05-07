@@ -1530,6 +1530,26 @@ fi:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Lihavoitu"
+    em: "Kursivoitu"
+    ins: "Alleviivattu"
+    del: "Yliviivattu"
+    code: "Koodi näkymä"
+    h1: "Otsikko 1"
+    h2: "Otsikko 2"
+    h3: "Otsikko 3"
+    precode: "Highlighted code"
+    ul: "Järjestämätön lista"
+    ol: "Järjestetty lista"
+    bq: "Quote"
+    unbq: "Remove Quote"
+    table: "Table"
+    pre: "Ennaltamuotoiltu teksti"
+    link: "Linkki Wiki sivulle"
+    img: "Kuva"
+    edit: "Muokkaa"
+    preview: "Esikatselu"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

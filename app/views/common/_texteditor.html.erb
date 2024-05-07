@@ -1,0 +1,17 @@
+<%= tag.div(class: 'jstBlock', data: { controller: 'texteditor',
+                                       formatting: Setting.text_formatting,
+                                       help: help_wiki_syntax_path,
+                                       texteditor_preview_url_value: preview_url,
+                                       action: 'keydown->texteditor#keyboardShortcuts keydown@window->texteditor#togglePreview' }) do %>
+  <div class="jstTabs tabs" data-texteditor-target="tabs">
+    <ul>
+      <li><%= link_to(nil, '#', class: 'tab-edit selected', data: { texteditor_target: 'edittab', action: 'texteditor#hidePreview' }) %></li>
+      <li><%= link_to(nil, '#', class: 'tab-preview', data: { texteditor_target: 'previewtab', action: 'texteditor#preview texteditor#showPreview' })%></li>
+      <li class="tab-elements"><div class="jstElements" data-texteditor-target="elements" data-action="click->texteditor#execute"></div><li>
+    </ul>
+  </div>
+  <div class="jstEditor" data-texteditor-target="main">
+    <%= yield %>
+    <div class="wiki wiki-preview hidden" data-texteditor-target="preview"></div>
+  </div>
+<% end %>

@@ -1,0 +1,9 @@
+<template id="code-highlighting-template">
+  <ul class="jst_menu" style="position: absolute;width: 150px" data-controller="precode">
+    <% langs.each do |lang| %>
+      <li class="jst_menuitem">
+        <div class="jst_menuitem-wrapper"><%= lang %></div>
+      </li>
+     <% end %>
+  <ul>
+</template>

@@ -1508,6 +1508,26 @@ th:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "หนา"
+    em: "เอียง"
+    ins: "ขีดเส้นใต้"
+    del: "ขีดฆ่า"
+    code: "โค๊ดโปรแกรม"
+    h1: "หัวข้อ 1"
+    h2: "หัวข้อ 2"
+    h3: "หัวข้อ 3"
+    precode: "Highlighted code"
+    ul: "รายการ"
+    ol: "ลำดับเลข"
+    bq: "Quote"
+    unbq: "Remove Quote"
+    table: "Table"
+    pre: "รูปแบบข้อความคงที่"
+    link: "เชื่อมโยงไปหน้า Wiki อื่น"
+    img: "รูปภาพ"
+    edit: "แก้ไข"
+    preview: "ตัวอย่างก่อนจัดเก็บ"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

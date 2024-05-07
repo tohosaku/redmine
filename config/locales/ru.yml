@@ -1581,6 +1581,26 @@ ru:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Жирный"
+    em: "Курсив"
+    ins: "Подчеркнутый"
+    del: "Зачеркнутый"
+    code: "Вставка кода"
+    h1: "Заголовок 1"
+    h2: "Заголовок 2"
+    h3: "Заголовок 3"
+    precode: "Подсветка кода"
+    ul: "Маркированный список"
+    ol: "Нумерованный список"
+    bq: "Цитата"
+    unbq: "Удалить цитату"
+    table: "Таблица"
+    pre: "Заранее форматированный текст"
+    link: "Ссылка на страницу в Wiki"
+    img: "Вставка изображения"
+    edit: "Редактирование"
+    preview: "Предпросмотр"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

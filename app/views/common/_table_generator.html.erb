@@ -1,0 +1,13 @@
+<template id="table-generator-template">
+  <table class="table-generator" data-controller="table-generator"
+                                 data-action="pointerover->table-generator#selectCell pointerdown->table-generator#addMenu pointerdown->table-generator#remove"
+                                 data-alphabets="ABCDEFGHIJ">
+    <% (1..5).each do |r| %>
+      <%= tag.tr do %>
+        <% (1..10).each do |c| %>
+          <%= tag.td data: {row: r, col: c, title: "#{c}&times;#{r}"} %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </table>
+</template>

@@ -1501,6 +1501,26 @@
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Félkövér"
+    em: "Dőlt"
+    ins: "Aláhúzott"
+    del: "Törölt"
+    code: "Kód sorok"
+    h1: "Fejléc 1"
+    h2: "Fejléc 2"
+    h3: "Fejléc 3"
+    precode: "Highlighted code"
+    ul: "Felsorolás"
+    ol: "Számozott lista"
+    bq: "Quote"
+    unbq: "Idézet eltávolítása"
+    table: "Table"
+    pre: "Előreformázott szöveg"
+    link: "Link egy Wiki oldalra"
+    img: "Kép"
+    edit: "Szerkeszt"
+    preview: "Előnézet"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

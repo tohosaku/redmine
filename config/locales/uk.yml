@@ -1500,6 +1500,26 @@ uk:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Жирний"
+    em: "Курсив"
+    ins: "Підкреслений"
+    del: "Закреслений"
+    code: "Інлайн код"
+    h1: "Заголовок 1"
+    h2: "Заголовок 2"
+    h3: "Заголовок 3"
+    precode: "Виділений код"
+    ul: "Ненумерованний список"
+    ol: "Нумерований список"
+    bq: "Цитування"
+    unbq: "Видалити цитування"
+    table: "Table"
+    pre: "Попередньо відформатований текст"
+    link: "Посилання на сторінку Wiki"
+    img: "Зображення"
+    edit: "Редагувати"
+    preview: "Попередній перегляд"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

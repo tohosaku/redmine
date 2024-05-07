@@ -1529,6 +1529,26 @@ ko:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "굵게"
+    em: "기울임"
+    ins: "밑줄"
+    del: "취소선"
+    code: "코드"
+    h1: "제목 1"
+    h2: "제목 2"
+    h3: "제목 3"
+    precode: "색상화한 코드"
+    ul: "글머리 기호"
+    ol: "번호 매기기"
+    bq: "인용"
+    unbq: "인용 취소"
+    table: "Table"
+    pre: "있는 그대로 표현 (Preformatted text)"
+    link: "Wiki 페이지에 연결"
+    img: "그림"
+    edit: "편집"
+    preview: "미리보기"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

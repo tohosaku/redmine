@@ -1514,6 +1514,26 @@ id:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Tebal"
+    em: "Miring"
+    ins: "Garis bawah"
+    del: "Dihapus"
+    code: "Inline Code"
+    h1: "Judul 1"
+    h2: "Judul 2"
+    h3: "Judul 3"
+    precode: "Highlighted code"
+    ul: "Daftar tak terurut"
+    ol: "Daftar terurut"
+    bq: "Kutipan"
+    unbq: "Hapus kutipan"
+    table: "Table"
+    pre: "Teks terformat"
+    link: "Tautkan ke halaman wiki"
+    img: "Gambar"
+    edit: "Sunting"
+    preview: "Tinjauan"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

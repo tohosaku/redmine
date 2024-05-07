@@ -65,4 +65,16 @@ class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
                           :class => (@object && @object.errors[field].present? ? "error" : nil),
                           :for => (@object_name.to_s + "_" + field.to_s))
   end
+
+  def text_area(method, options={})
+    data = options[:data] || {}
+    wiki_toolbar = data.delete(:wiki_toolbar)
+    if wiki_toolbar
+      @template.add_wiki_toolbar(data) do
+        text_area(method, options)
+      end
+    else
+      super
+    end
+  end
 end

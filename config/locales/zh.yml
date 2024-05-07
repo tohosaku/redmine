@@ -1448,6 +1448,26 @@ zh:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "粗体"
+    em: "斜体"
+    ins: "下划线"
+    del: "删除线"
+    code: "程序代码"
+    h1: "标题 1"
+    h2: "标题 2"
+    h3: "标题 3"
+    precode: "Highlighted code"
+    ul: "无序列表"
+    ol: "排序列表"
+    bq: "引用"
+    unbq: "删除引用"
+    table: "表格"
+    pre: "格式化文本"
+    link: "连接到 Wiki 页面"
+    img: "图片"
+    edit: "编辑"
+    preview: "预览"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

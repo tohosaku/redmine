@@ -89,7 +89,7 @@ module Redmine
       def to_html(format, text, options = {})
         text =
           if Setting.cache_formatted_text? && text.size > 2.kilobytes && cache_store &&
-              cache_key = cache_key_for(format, text, options[:object], options[:attribute])
+            cache_key = cache_key_for(format, text, options[:object], options[:attribute])
             # Text retrieved from the cache store may be frozen
             # We need to dup it so we can do in-place substitutions with gsub!
             cache_store.fetch cache_key do
@@ -141,10 +141,7 @@ module Redmine
       end
 
       module Helper
-        def wikitoolbar_for(field_id, preview_url = preview_text_path)
-        end
-
-        def heads_for_wiki_formatter
+        def wiki_help_url
         end
 
         def initial_page_content(page)

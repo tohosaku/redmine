@@ -1476,6 +1476,26 @@ bg:
   text_oauth_info_scopes: Select the scopes this application may request. The application
     will not be allowed to do more than what is selected here. It will also always be
     limited by the roles and project memberships of the user who authorized it.
+  jstoolbar:
+    strong: "Получер"
+    em: "Курсив"
+    ins: "Подчертан"
+    del: "Изтрит"
+    code: "Вграден код"
+    h1: "Заглавие 1"
+    h2: "Заглавие 2"
+    h3: "Заглавие 3"
+    precode: "Вграден код"
+    ul: "Неподреден списък"
+    ol: "Подреден списък"
+    bq: "Цитат"
+    unbq: "Премахване на цитат"
+    table: "Table"
+    pre: "Форматиран текст"
+    link: "Връзка до Wiki страница"
+    img: "Изображение"
+    edit: "Редакция"
+    preview: "Преглед"
   label_position: Position
   label_message: Message
   twofa_already_setup: Two-factor authentication already set up

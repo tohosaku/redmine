@@ -21,42 +21,18 @@ module Redmine
   module WikiFormatting
     module CommonMark
       module Helper
-        def wikitoolbar_for(field_id, preview_url = preview_text_path)
-          heads_for_wiki_formatter
-
-          javascript_tag(
-            "var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}')); " \
-            "wikiToolbar.setHelpLink('#{escape_javascript help_wiki_syntax_path}'); " \
-            "wikiToolbar.setPreviewUrl('#{escape_javascript preview_url}'); " \
-            "wikiToolbar.draw();"
-          )
-        end
-
         def initial_page_content(page)
           "# #{page.pretty_title}"
         end
 
-        def heads_for_wiki_formatter
-          unless @heads_for_wiki_formatter_included
-            toolbar_language_options = User.current && User.current.pref.toolbar_language_options
-            lang =
-              if toolbar_language_options.nil?
-                UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS
-              else
-                toolbar_language_options.split(',')
-              end
-            content_for :header_tags do
-              javascript_include_tag('jstoolbar/jstoolbar') +
-              javascript_include_tag('jstoolbar/common_mark') +
-              javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
-              javascript_tag(
-                "var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};" \
-                  "var userHlLanguages = #{lang.to_json};"
-              ) +
-              stylesheet_link_tag('jstoolbar')
-            end
-            @heads_for_wiki_formatter_included = true
+        def wiki_help_url
+          help_file = "/help/#{current_language.to_s.downcase}/wiki_syntax_common_mark.html"
+          # fall back to the english help page if there is none for the current
+          # language
+          unless File.readable? Rails.public_path.join(help_file)
+            help_file = "/help/en/wiki_syntax_common_mark.html"
           end
+          "#{Redmine::Utils.relative_url_root}#{help_file}"
         end
       end
     end

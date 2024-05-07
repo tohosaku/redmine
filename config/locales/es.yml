@@ -1579,6 +1579,26 @@ es:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Negrita"
+    em: "Itálica"
+    ins: "Subrayado"
+    del: "Tachado"
+    code: "Código fuente"
+    h1: "Encabezado 1"
+    h2: "Encabezado 2"
+    h3: "Encabezado 3"
+    precode: "Código resaltado"
+    ul: "Lista sin ordenar"
+    ol: "Lista ordenada"
+    bq: "Citar"
+    unbq: "Quitar cita"
+    table: "Table"
+    pre: "Texto con formato"
+    link: "Enlace a página Wiki"
+    img: "Imagen"
+    edit: "Modificar"
+    preview: "Previsualizar"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

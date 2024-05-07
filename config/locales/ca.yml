@@ -1499,6 +1499,26 @@ ca:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Negreta"
+    em: "Cursiva"
+    ins: "Subratllat"
+    del: "Barrat"
+    code: "Codi en línia"
+    h1: "Encapçalament 1"
+    h2: "Encapçalament 2"
+    h3: "Encapçalament 3"
+    precode: "Highlighted code"
+    ul: "Llista sense ordre"
+    ol: "Llista ordenada"
+    bq: "Cometes"
+    unbq: "Sense cometes"
+    table: "Table"
+    pre: "Text formatat"
+    link: "Enllaça a una pàgina Wiki"
+    img: "Imatge"
+    edit: "Editar"
+    preview: "Previsualitzar"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

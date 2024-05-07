@@ -1473,6 +1473,26 @@ lt:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Pastorinti"
+    em: "Kursyvu"
+    ins: "Pabraukti"
+    del: "Užbraukti"
+    code: "Kodas"
+    h1: "Antraštė 1"
+    h2: "Antraštė 2"
+    h3: "Antraštė 3"
+    precode: "Paryškintas kodas"
+    ul: "Nenumeruotas sąrašas"
+    ol: "Numeruotas sąrašas"
+    bq: "Cituoti"
+    unbq: "Pašalinti citavimą"
+    table: "Lentelė"
+    pre: "Preformatuotas tekstas"
+    link: "Nuoroda į Wiki puslapį"
+    img: "Paveikslėlis"
+    edit: "Redaguoti"
+    preview: "Peržiūra"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects

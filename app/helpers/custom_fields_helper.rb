@@ -77,17 +77,14 @@ module CustomFieldsHelper
   end
 
   # Return custom field html tag corresponding to its format
-  def custom_field_tag(prefix, custom_value)
+  def custom_field_tag(prefix, custom_value, data = {})
     cf = custom_value.custom_field
     css = cf.css_classes
     placeholder = cf.description
     placeholder&.tr!("\n", ' ') if cf.field_format != 'text'
-    data = nil
     if cf.full_text_formatting?
       css += ' wiki-edit'
-      data = {
-        :controller => 'inline-autocomplete'
-      }
+      data[:controller] = 'inline-autocomplete'
     end
     cf.format.edit_tag(
       self,
@@ -120,7 +117,8 @@ module CustomFieldsHelper
 
   # Return custom field tag with its label tag
   def custom_field_tag_with_label(name, custom_value, options={})
-    tag = custom_field_tag(name, custom_value)
+    data = options.delete(:data) || {}
+    tag = custom_field_tag(name, custom_value, data)
     tag_id = nil
     ids = tag.scan(/ id="(.+?)"/)
     if ids.size == 1
@@ -130,14 +128,12 @@ module CustomFieldsHelper
   end
 
   # Returns the custom field tag for when bulk editing objects
-  def custom_field_tag_for_bulk_edit(prefix, custom_field, objects=nil, value='')
+  def custom_field_tag_for_bulk_edit(prefix, custom_field, objects=nil, value='', options={})
     css =  custom_field.css_classes
-    data = nil
+    data = options.delete(:data) || {}
     if custom_field.full_text_formatting?
       css += ' wiki-edit'
-      data = {
-        :controller => 'inline-autocomplete'
-      }
+      data[:controller] = 'inline-autocomplete'
     end
     custom_field.format.bulk_edit_tag(
       self,

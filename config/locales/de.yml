@@ -1479,6 +1479,26 @@ de:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "Fett"
+    em: "Kursiv"
+    ins: "Unterstrichen"
+    del: "Durchgestrichen"
+    code: "Quelltext"
+    h1: "Überschrift 1. Ordnung"
+    h2: "Überschrift 2. Ordnung"
+    h3: "Überschrift 3. Ordnung"
+    precode: "Highlighted code"
+    ul: "Aufzählungsliste"
+    ol: "Nummerierte Liste"
+    bq: "Zitat"
+    unbq: "Zitat entfernen"
+    table: "Table"
+    pre: "Präformatierter Text"
+    link: "Verweis (Link) zu einer Wiki-Seite"
+    img: "Grafik"
+    edit: "Bearbeiten"
+    preview: "Vorschau"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   label_oauth_permission_admin: Administrator-Zugriff

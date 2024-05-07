@@ -1484,4 +1484,24 @@ ja:
   text_oauth_info_scopes: Select the scopes this application may request. The application
     will not be allowed to do more than what is selected here. It will also always be
     limited by the roles and project memberships of the user who authorized it.
+  jstoolbar:
+    strong: "強調"
+    em: "斜体"
+    ins: "下線"
+    del: "取り消し線"
+    code: "コード"
+    h1: "見出し 1"
+    h2: "見出し 2"
+    h3: "見出し 3"
+    precode: "コードハイライト"
+    ul: "順不同リスト"
+    ol: "番号つきリスト"
+    bq: "引用"
+    unbq: "引用解除"
+    table: "テーブル"
+    pre: "整形済みテキスト"
+    link: "Wikiページへのリンク"
+    img: "画像"
+    edit: "編集"
+    preview: "プレビュー"
   twofa_already_setup: Two-factor authentication already set up

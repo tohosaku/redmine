@@ -1440,6 +1440,26 @@ fa:
   reaction_text_x_other_users:
     one: 1 other
     other: "%{count} others"
+  jstoolbar:
+    strong: "پررنگ"
+    em: "کج"
+    ins: "زیرخط"
+    del: "برداشته شده"
+    code: "کد درون خطی"
+    h1: "سربرگ ۱"
+    h2: "سربرگ ۲"
+    h3: "سربرگ ۳"
+    precode: "Highlighted code"
+    ul: "فهرست بدون شماره"
+    ol: "فهرست با شماره"
+    bq: "تو بردن"
+    unbq: "بیرون آوردن"
+    table: "Table"
+    pre: "نوشته قالب بندی شده"
+    link: "پیوند به برگ ویکی"
+    img: "عکس"
+    edit: "ویرایش"
+    preview: "پیش‌نمایش"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
   permission_view_project: View projects
