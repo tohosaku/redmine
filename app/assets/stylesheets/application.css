@@ -2580,3 +2580,8 @@ table.list:not(.odd-even) tbody tr.is-dragging { background-color:#E0FFFF; }
   user-select: none;
   z-index: 100;
 }
+
+turbo-frame {
+  border: 3px red solid;
+  display: block;
+}
