@@ -2115,3 +2115,8 @@ th[role=columnheader]:not(.no-sort):hover:after {
 }
 
 table.list:not(.odd-even) tbody tr.is-dragging { background-color:#E0FFFF; }
+
+turbo-frame {
+  border: 3px red solid;
+  display: block;
+}
