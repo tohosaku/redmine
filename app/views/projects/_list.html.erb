@@ -65,7 +65,7 @@
 </table>
 </div>
 <% end -%>
-<span class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></span>
+<span class="pagination"><%= turbo_pagination_links_full @entry_pages, @entry_count %></span>
 
 <div id="csv-export-options" style="display:none;" data-controller="modal">
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>

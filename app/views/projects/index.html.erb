@@ -12,11 +12,13 @@
 <% end %>
 
 <% if @query.valid? %>
+<%= turbo_frame_tag @query, target: '_top', data: {turbo_action: 'advance'} do %>
   <% if @entries.empty? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
   <% else %>
-    <%= render :partial => @query.display_type, :locals => { :entries => @entries }%>
+    <%= render @query.display_type, { :entries => @entries }%>
   <% end %>
+<% end %>
 <% end %>
 
 <% if User.current.logged? %>

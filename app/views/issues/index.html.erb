@@ -21,17 +21,19 @@
 <% html_title(@query.new_record? ? l(:label_issue_plural) : @query.name) %>
 <%= @query.persisted? && @query.description.present? ? content_tag('p', @query.description, class: 'subtitle') : '' %>
 
-<%= form_tag(_project_issues_path(@project), :method => :get, :id => 'query_form') do %>
+<%= form_tag(_project_issues_path(@project), :method => :get, :id => 'query_form', data: {turbo_frame: 'issues-list'}) do %>
   <%= render :partial => 'queries/query_form' %>
 <% end %>
 
 <% if @query.valid? %>
+<%= turbo_frame_tag @query, target: '_top', data: {turbo_action: 'advance'} do %>
 <% if @issues.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
+  <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
-<%= render_query_totals(@query) %>
-<%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
-<span class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></span>
+  <%= render_query_totals(@query) %>
+  <%= render 'issues/list', {issues: @issues, query: @query} %>
+  <span class="pagination"><%= turbo_pagination_links_full @issue_pages, @issue_count %></span>
+<% end %>
 <% end %>
 
 <% other_formats_links do |f| %>
@@ -71,7 +73,6 @@
   </p>
   <% end %>
 <% end %>
-
 <% end %>
 <%= call_hook(:view_issues_index_bottom, { :issues => @issues, :project => @project, :query => @query }) %>
 
