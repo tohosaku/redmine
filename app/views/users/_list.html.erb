@@ -36,7 +36,7 @@
     <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", user.id, false, id: nil) %></td>
     <% @query.inline_columns.each do |column| %>
       <% if column.name == :login %>
-        <%= content_tag('td', link_to(user.login, edit_user_path(user)), class: column.css_classes) %>
+        <%= content_tag('td', link_to(user.login, edit_user_path(user), data: {turbo_frame: '_top'}), class: column.css_classes) %>
       <% else %>
         <%= content_tag('td', column_content(column, user), class: column.css_classes) %>
       <% end %>
