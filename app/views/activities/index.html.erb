@@ -1,5 +1,6 @@
 <h2><%= @author.nil? ? l(:label_activity) : l(:label_user_activity, link_to_user(@author)).html_safe %></h2>
 
+<%= turbo_frame_tag 'activities-list', target: '_top', data: {turbo_action: 'advance'} do %>
 <p class="subtitle"><%= l(:label_date_from_to, :start => format_date(@date_to - @days), :end => format_date(@date_to-1)) %></p>
 
 <%= render :partial => 'activities/activities', :locals => {:events_by_day => @events_by_day} %>
@@ -11,14 +12,15 @@
 <%= link_to("\xc2\xab " + l(:label_previous),
                    {:params => request.query_parameters.merge(:from => @date_to - @days - 1)},
                    :title => l(:label_date_from_to, :start => format_date(@date_to - 2*@days), :end => format_date(@date_to - @days - 1)),
-                   :accesskey => accesskey(:previous)) %>
+                   :accesskey => accesskey(:previous), :data => {:turbo_frame => '_self'}) %>
     </li><% unless @date_to > User.current.today %><li class="next page">
 <%= link_to(l(:label_next) + " \xc2\xbb",
                    {:params => request.query_parameters.merge(:from => @date_to + @days - 1)},
                    :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1)),
-                   :accesskey => accesskey(:next)) %></li><% end %>
+                   :accesskey => accesskey(:next), :data => {:turbo_frame => '_self'}) %></li><% end %>
   </ul>
 </span>
+<% end %>
 &nbsp;
 <% other_formats_links do |f| %>
   <%= f.link_to_with_query_parameters 'Atom', 'from' => nil, :key => User.current.atom_key %>

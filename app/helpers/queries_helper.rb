@@ -218,7 +218,8 @@ module QueriesHelper
       sort_param = {$1 => {$2 => sort_param.values.first}} while sort_param.keys.first.to_s =~ /^(.+)\[(.+)\]$/
       link_options = {
         :title => l(:label_sort_by, "\"#{column.caption}\""),
-        :class => css
+        :class => css,
+        :data => { :turbo_frame => '_self'}
       }
       if options[:sort_link_options]
         link_options.merge! options[:sort_link_options]

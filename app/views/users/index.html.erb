@@ -10,17 +10,19 @@
 <h2><%= @query.new_record? ? l(:label_user_plural) : @query.name %></h2>
 <%= @query.persisted? && @query.description.present? ? content_tag('p', @query.description, class: 'subtitle') : '' %>
 
-<%= form_tag(users_path, method: :get, id: 'query_form') do %>
+<%= form_tag(users_path, method: :get, id: 'query_form', target: '_top', data: {turbo_frame: 'user-list'}) do %>
   <%= render partial: 'queries/query_form' %>
 <% end %>
 
 <% if @query.valid? %>
+  <%= turbo_frame_tag @query, data: {turbo_action: 'advance'} do %>
   <% if @users.empty? %>
     <p class="nodata"><%= l(:label_no_data) %></p>
   <% else %>
     <%= render_query_totals(@query) %>
-    <%= render partial: 'list', :locals => { :users => @users }%>
-    <span class="pagination"><%= pagination_links_full @user_pages, @user_count %></span>
+    <%= render 'list', { users: @users } %>
+    <span class="pagination"><%= turbo_pagination_links_full @user_pages, @user_count %></span>
+  <% end %>
   <% end %>
   <% other_formats_links do |f| %>
     <%= f.link_to_with_query_parameters 'CSV', {}, :data => modal_dispatcher('csv-export-options', '350px') %>

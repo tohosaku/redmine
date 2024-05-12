@@ -150,6 +150,19 @@ module Redmine
         end
       end
 
+      def turbo_pagination_links_full(*args)
+        pagination_links_each(*args) do |text, parameters, options|
+          page_options = options || {}
+          page_options.merge!({ data: { turbo_frame: '_self'}})
+
+          if block_given?
+            yield text, parameters, page_options
+          else
+            link_to text, {:params => request.query_parameters.merge(parameters)}, page_options
+          end
+        end
+      end
+
       # Yields the given block with the text and parameters
       # for each pagination link and returns a string that represents the links
       def pagination_links_each(paginator, count=nil, options={}, &)
