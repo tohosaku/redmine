@@ -39,7 +39,13 @@ class ApplicationController < ActionController::Base
   class_attribute :accept_atom_auth_actions
   class_attribute :model_object
 
-  layout 'base'
+  layout :select_layout
+
+  def select_layout
+    return "turbo_rails/frame" if turbo_frame_request?
+
+    "base"
+  end
 
   def verify_authenticity_token
     unless api_request?

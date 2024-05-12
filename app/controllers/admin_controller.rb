@@ -18,7 +18,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AdminController < ApplicationController
-  layout 'admin'
+  layout :select_layout
+
+  def select_layout
+    return "turbo_rails/frame" if turbo_frame_request?
+
+    "admin"
+  end
+
   self.main_menu = false
   menu_item :projects, :only => :projects
   menu_item :plugins, :only => :plugins
