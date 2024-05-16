@@ -1219,6 +1219,7 @@ p.cal.legend span {display:flex;}
 .controller-calendars p.buttons {margin-top: unset;}
 
 /***** Tooltips ******/
+
 .tooltip{position:relative;z-index:24;}
 .tooltip:hover{z-index:25;color:#000;}
 .tooltip span.tip{display: none; text-align:left;}
@@ -1242,6 +1243,31 @@ color:#505050;
 
 table.cal div.tooltip:hover span.tip {
   top: 25px;
+}
+
+
+[title]:not(.no-tooltip) {
+  cursor: pointer;
+  position: relative;
+}
+
+[title]:not(.no-tooltip)::after {
+  background-color: #fff;
+  color: #222;
+  font-size:14px;
+  padding: 8px 12px;
+  height: fit-content;
+  width: fit-content;
+  border-radius: 6px;
+  position: absolute;
+  text-align: center;
+  bottom: 0px;
+  left: 50%;
+  content: attr(data-customTooltip);
+  transform: translate(-50%, 110%) scale(0);
+  transform-origin: top;
+  transition: 0.14s;
+  box-shadow: 0 4px 14px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.05);
 }
 
 img.ui-datepicker-trigger {
