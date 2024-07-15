@@ -124,6 +124,7 @@
         <%= yield %>
         <%= call_hook :view_layouts_base_content %>
         <div style="clear:both;"></div>
+        <%= yield :context_menu -%>
     </div>
 </div>
 <div id="footer">
