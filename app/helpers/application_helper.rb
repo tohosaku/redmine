@@ -1664,13 +1664,15 @@ module ApplicationHelper
   def context_menu
     unless @context_menu_included
       content_for :header_tags do
-        javascript_include_tag('context_menu') +
-          stylesheet_link_tag('context_menu')
+        stylesheet_link_tag('context_menu')
       end
       if l(:direction) == 'rtl'
         content_for :header_tags do
           stylesheet_link_tag('context_menu_rtl')
         end
+      end
+      content_for :context_menu do
+        tag.div id: 'context-menu', style: 'display:none', data: { controller: 'context-menu', action: 'click@document->context-menu#hide contextmenu@document->context-menu#show change@document->context-menu#toggle' }
       end
       @context_menu_included = true
     end
