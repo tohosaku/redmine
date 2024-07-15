@@ -11,6 +11,7 @@ pin "revision_graph"
 pin "jstoolbar", preload: false
 pin "attachment", preload: false
 pin_all_from "app/javascript/jstoolbar/formatting", under: "jstoolbar/formatting", preload: false
+pin "context_menu"
 
 pin "wc-datepicker", to: "wc-datepicker.js"
 pin "@redmine-ui/tribute", to: "tribute.min.js"
