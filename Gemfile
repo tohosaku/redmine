@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '>= 3.1.0', '< 3.4.0'
+ruby '3.3.0'
 
 gem 'rails', '7.2.1'
 gem 'rouge', '~> 4.2'
@@ -20,6 +20,7 @@ gem 'importmap-rails'
 gem 'turbo-rails'
 gem 'stimulus-rails'
 gem 'requestjs-rails'
+gem 'puma'
 
 #  Ruby Standard Gems
 gem 'csv', '~> 3.2.8'
@@ -109,7 +110,6 @@ group :test do
   gem 'simplecov', '~> 0.22.0', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
-  gem 'puma'
   gem "capybara", ">= 3.39"
   gem 'selenium-webdriver', '>= 4.11.0'
   # RuboCop
