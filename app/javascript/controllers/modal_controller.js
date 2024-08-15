@@ -65,6 +65,10 @@ export default class extends Controller {
     this.hideModal()
   }
 
+  hide_only(e) {
+    this.element.close();
+  }
+
   hideTargetConnected(element) {
     this.hideModal()
     element.remove();

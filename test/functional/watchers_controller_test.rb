@@ -214,18 +214,19 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_new_without_view_watchers_permission
     @request.session[:user_id] = 2
     Role.find(1).remove_permission! :view_issue_watchers
-    get :new, :params => {:object_type => 'issue', :object_id => '2'}, :xhr => true
+    get :new, :params => {:object_type => 'issue', :object_id => '2'}, :format => :turbo_stream
     assert_response :success
-    assert_match %r{name=\\"watcher\[user_ids\]\[\]\\" value=\\"2\\"}, response.body
+    fragment = Nokogiri::HTML5.fragment(response.body)
+    assert_equal 1, fragment.css('input[value="2"][name="watcher[user_ids][]"]').size
     # User should not be able to reverse engineer that User 3 is watching the issue already
-    assert_match %r{name=\\"watcher\[user_ids\]\[\]\\" value=\\"3\\"}, response.body
+    assert_equal 1, fragment.css('input[value="3"][name="watcher[user_ids][]"]').size
   end
 
   def test_new_dont_show_self_when_watching_without_view_watchers_permission
     @request.session[:user_id] = 2
     Role.find(1).remove_permission! :view_issue_watchers
     Issue.find(2).add_watcher(User.find(2))
-    get :new, :params => {:object_type => 'issue', :object_id => '2'}, :xhr => true
+    get :new, :params => {:object_type => 'issue', :object_id => '2'}, :format => :turbo_stream
     assert_response :success
     assert_no_match %r{name=\\"watcher\[user_ids\]\[\]\\" value=\\"2\\"}, response.body
   end
