@@ -1788,7 +1788,7 @@ module ApplicationHelper
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
     tags = javascript_include_tag(
-      'jquery-3.7.1-ui-1.13.3',
+      'jquery-3.7.1.min',
       'rails-ujs',
       'tablesort-5.2.1.min.js',
       'tablesort-5.2.1.number.min.js',

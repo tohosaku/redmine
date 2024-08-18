@@ -112,7 +112,7 @@ module RedmineApp
 
     if Rails.env.local?
       config.importmap_mocha_style = 'tdd'
-      config.importmap_mocha_scripts = ['jquery-3.7.1-ui-1.13.3']
+      config.importmap_mocha_scripts = ['jquery-3.7.1.min']
     end
   end
 end
