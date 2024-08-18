@@ -1,3 +1,4 @@
-<p><%= f.date_field(:default_value, :value => @custom_field.default_value, :size => 10) %></p>
-<%= calendar_for('custom_field_default_value') %>
+<p <%= tag.attributes datepicker_wrapper %>>
+  <%= f.date_field(:default_value, :value => @custom_field.default_value, :size => 10, **datepicker_input) %>
+</p>
 <p><%= f.text_field :url_pattern, :size => 50, :label => :label_link_values_to %></p>

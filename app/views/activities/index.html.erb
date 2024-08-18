@@ -31,9 +31,8 @@
 <% content_for :sidebar do %>
 <%= form_tag({}, :method => :get, :id => 'activity_scope_form') do %>
 <h3><%= l(:label_activity) %></h3>
-<p>
-  <%= t(:label_days_to_html, :days => @days, :date => date_field_tag('from', '', :value => (@date_to - 1), :size => 10)) %>
-  <%= calendar_for('from') %>
+<p <%= tag.attributes datepicker_wrapper %>>
+  <%= t(:label_days_to_html, :days => @days, :date => date_field_tag('from', '', :value => (@date_to - 1), :size => 10, **datepicker_input)) %>
 </p>
 <p>
   <%= l(:label_user) %>
@@ -59,3 +58,5 @@
 <% end %>
 
 <% html_title(l(:label_activity), @author) -%>
+
+<% include_calendar_headers_tags %>

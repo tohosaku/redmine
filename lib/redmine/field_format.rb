@@ -124,6 +124,12 @@ module Redmine
         "label_#{name}"
       end
 
+      def wrapper_attribute
+      end
+
+      def field_attribute
+      end
+
       def set_custom_field_value(custom_field, custom_field_value, value)
         if value.is_a?(Array)
           value = value.map(&:to_s).reject{|v| v==''}.uniq
@@ -569,13 +575,11 @@ module Redmine
       end
 
       def edit_tag(view, tag_id, tag_name, custom_value, options={})
-        view.date_field_tag(tag_name, custom_value.value, options.merge(:id => tag_id, :size => 10)) +
-          view.calendar_for(tag_id)
+        view.date_field_tag(tag_name, custom_value.value, options.merge(:id => tag_id, :size => 10))
       end
 
       def bulk_edit_tag(view, tag_id, tag_name, custom_field, objects, value, options={})
         view.date_field_tag(tag_name, value, options.merge(:id => tag_id, :size => 10)) +
-          view.calendar_for(tag_id) +
           bulk_clear_tag(view, tag_id, tag_name, custom_field, value)
       end
 
@@ -585,6 +589,14 @@ module Redmine
 
       def group_statement(custom_field)
         order_statement(custom_field)
+      end
+
+      def wrapper_attribute
+        { data: { controller: 'datepicker' }}
+      end
+
+      def field_attribute
+        { data: { datepicker_target: 'input', action: 'click->datepicker#dispatch' }}
       end
     end
 

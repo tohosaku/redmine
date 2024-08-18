@@ -68,4 +68,12 @@ class CustomFieldValue
       customized.errors.add(custom_field.name, message)
     end
   end
+
+  def wrapper_attribute
+    custom_field.format.wrapper_attribute
+  end
+
+  def field_attribute
+    custom_field.format.field_attribute
+  end
 end

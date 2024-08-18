@@ -62,51 +62,18 @@ class LayoutTest < Redmine::IntegrationTest
   end
 
   def test_calendar_header_tags
-    with_settings :default_language => 'fr' do
-      get '/issues'
-      assert_match %r{/assets/i18n/datepicker-fr-\w+.js}, response.body
-    end
-
-    with_settings :default_language => 'en-GB' do
-      get '/issues'
-      assert_match %r{/assets/i18n/datepicker-en-GB-\w+.js}, response.body
-    end
-
     with_settings :default_language => 'en' do
       get '/issues'
-      assert_not_include "/assets/i18n/datepicker", response.body
+      json = Nokogiri::HTML5.fragment(response.body).css('script#datepicker-labels').text
+      locale = JSON.parse(json)
+      assert_equal 'Clear', locale['labels']['clearButton']
     end
 
-    with_settings :default_language => 'es' do
+    with_settings :default_language => 'ja' do
       get '/issues'
-      assert_match %r{/assets/i18n/datepicker-es-\w+.js}, response.body
-    end
-
-    with_settings :default_language => 'es-PA' do
-      get '/issues'
-      # There is not datepicker-es-PA.js
-      # https://github.com/jquery/jquery-ui/tree/1.11.4/ui/i18n
-      assert_not_include "/javascripts/i18n/datepicker-es.js", response.body
-    end
-
-    with_settings :default_language => 'zh' do
-      get '/issues'
-      assert_match %r{/assets/i18n/datepicker-zh-CN-\w+.js}, response.body
-    end
-
-    with_settings :default_language => 'zh-TW' do
-      get '/issues'
-      assert_match %r{/assets/i18n/datepicker-zh-TW-\w+.js}, response.body
-    end
-
-    with_settings :default_language => 'pt' do
-      get '/issues'
-      assert_match %r{/assets/i18n/datepicker-pt-\w+.js}, response.body
-    end
-
-    with_settings :default_language => 'pt-BR' do
-      get '/issues'
-      assert_match %r{/assets/i18n/datepicker-pt-BR-\w+.js}, response.body
+      json = Nokogiri::HTML5.fragment(response.body).css('script#datepicker-labels').text
+      locale = JSON.parse(json)
+      assert_equal 'クリア', locale['labels']['clearButton']
     end
   end
 
