@@ -31,10 +31,11 @@
 <% content_for :sidebar do %>
 <%= form_tag({}, :method => :get, :id => 'activity_scope_form') do %>
 <h3><%= l(:label_activity) %></h3>
-<p>
-  <%= t(:label_days_to_html, :days => @days, :date => date_field_tag('from', '', :value => (@date_to - 1), :size => 10)) %>
-  <%= calendar_for('from') %>
+<% datepicker do |dataset| %>
+<p <%= tag.attributes data: dataset.wrapper %>>
+  <%= t(:label_days_to_html, days: @days, date: date_field_tag('from', '', value: (@date_to - 1), size: 10, date: dataset.field)) %>
 </p>
+<% end %>
 <p>
   <%= l(:label_user) %>
   <%= select_tag('user_id', activity_authors_options_for_select(@project, params[:user_id]), include_blank: true) %>

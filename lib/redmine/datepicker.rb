@@ -32,8 +32,9 @@ module Redmine
       yield(self) if block_given?
     end
 
-    def wrapper
-      { controller: 'datepicker' }
+    def wrapper(*controllers)
+      str = controllers.size == 0 ? 'datepicker' : 'datepicker ' + controllers.join(' ')
+      { controller: str }
     end
 
     def field

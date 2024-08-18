@@ -9,7 +9,9 @@
     <% end %>
   </p>
   <% @document.custom_field_values.each do |value| %>
-    <p><%= custom_field_tag_with_label :document, value %></p>
+    <p <%= tag.attributes data: value.wrapper %>>
+       <%= custom_field_tag_with_label :document, value %>
+    </p>
   <% end %>
 
   <% if @document.new_record? %>

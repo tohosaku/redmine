@@ -160,27 +160,31 @@
 <% end %>
 
 <% if @safe_attributes.include?('start_date') %>
-<p data-controller="conditional-attribute clear">
+<% datepicker do |dataset| %>
+<p <%= tag.attributes data: dataset.wrapper('conditional-attribute', 'clear') %>>
   <label for='issue_start_date'><%= l(:field_start_date) %></label>
   <%= date_field_tag 'issue[start_date]', '', value: @issue_params[:start_date], size: 10,
-        data: conditional_attribute.element.merge(clear_target: 'element') %><%= calendar_for('issue_start_date') %>
+        data: conditional_attribute.element.merge(clear_target: 'element').merge(dataset.field) %>
   <label class="inline">
     <%= check_box_tag 'issue[start_date]', 'none', (@issue_params[:start_date] == 'none'), id: nil,
           data: stimulus_append_actions(conditional_attribute.toggle_disabled(equal_to: 'none'), 'clear#clearIfChecked') %><%= l(:button_clear) %>
   </label>
 </p>
 <% end %>
+<% end %>
 
 <% if @safe_attributes.include?('due_date') %>
-<p data-controller="conditional-attribute clear">
+<% datepicker do |dataset| %>
+<p <%= tag.attributes data: dataset.wrapper('conditional-attribute', 'clear') %>>
   <label for='issue_due_date'><%= l(:field_due_date) %></label>
   <%= date_field_tag 'issue[due_date]', '', :value => @issue_params[:due_date], :size => 10,
-        data: conditional_attribute.element.merge(clear_target: 'element') %><%= calendar_for('issue_due_date') %>
+        data: conditional_attribute.element.merge(clear_target: 'element').merge(dataset.field) %>
   <label class="inline">
     <%= check_box_tag 'issue[due_date]', 'none', (@issue_params[:due_date] == 'none'), id: nil,
           data: stimulus_append_actions(conditional_attribute.toggle_disabled(equal_to: 'none'), 'clear#clearIfChecked') %><%= l(:button_clear) %>
   </label>
 </p>
+<% end %>
 <% end %>
 
 <% if @safe_attributes.include?('estimated_hours') %>
@@ -214,7 +218,7 @@
    <% i = 0 %>
    <% split_on = (custom_fields.size / 2.0).ceil - 1 %>
    <% custom_fields.each do |custom_field| %>
-     <p>
+     <p <%= tag.attributes data: custom_field.format.wrapper %>>
        <label><%= custom_field.name %></label>
        <%= custom_field_tag_for_bulk_edit('issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
      </p>
@@ -228,7 +232,7 @@
 <% end %>
 
 <% custom_fields_full_width.each do |custom_field| %>
-  <p>
+  <p <%= tag.attributes data: value.wrapper %>>
     <label><%= custom_field.name %></label>
     <%= component 'wikieditor', formatting: custom_field.full_text_formatting?,
                                 preview_url: preview_issue_path(project_id: @project, issue_id: nil) do |d| %>

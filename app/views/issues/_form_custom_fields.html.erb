@@ -21,7 +21,7 @@
 <% end %>
 
 <% custom_field_values_full_width.each do |value| %>
-  <p>
+  <p <%= tag.attributes data: value.wrapper %>>
     <%= component 'wikieditor', formatting: value.custom_field.full_text_formatting?,
                                 preview_url: preview_issue_path(project_id: @issue.project, issue_id: @issue.id) do |d| %>
      <%= custom_field_tag_with_label :issue, value, required: @issue.required_attribute?(value.custom_field_id) %>

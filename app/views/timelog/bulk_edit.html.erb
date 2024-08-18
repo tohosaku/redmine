@@ -55,10 +55,12 @@
       <%= tag.span id: 'time_entry_issue', data: { timelog__bulk_edit_issue_target: 'select' } %>
     </p>
 
-    <p>
+    <% datepicker do |dataset| %>
+    <p <%= tag.attributes data: dataset.wrapper %>>
       <label for="time_entry_spent_on"><%= l(:field_spent_on) %></label>
-      <%= date_field :time_entry, :spent_on, :size => 10, :value => @time_entry_params[:spent_on] %><%= calendar_for('time_entry_spent_on') %>
+      <%= date_field :time_entry, :spent_on, size: 10, value: @time_entry_params[:spent_on], data: dataset.field %>
     </p>
+    <% end %>
 
     <p>
       <label for="time_entry_hours"><%= l(:field_hours) %></label>
@@ -78,7 +80,7 @@
     </p>
 
     <% @custom_fields.each do |custom_field| %>
-      <p>
+      <p <%= tag.attributes data: custom_field.format.wrapper %>>
         <label><%= h(custom_field.name) %></label>
         <%= component 'wikieditor', preview_url: preview_issue_path(project_id: @project),
                                     formatting: custom_field.full_text_formatting? do |d| %>
