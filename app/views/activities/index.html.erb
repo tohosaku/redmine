@@ -32,8 +32,7 @@
 <%= form_tag({}, :method => :get, :id => 'activity_scope_form') do %>
 <h3><%= l(:label_activity) %></h3>
 <p>
-  <%= t(:label_days_to_html, :days => @days, :date => date_field_tag('from', '', :value => (@date_to - 1), :size => 10)) %>
-  <%= calendar_for('from') %>
+  <%= t(:label_days_to_html, :days => @days, :date => date_field_tag('from', '', :value => (@date_to - 1), :size => 10, :data => { :controller => 'datepicker' } )) %>
 </p>
 <p>
   <%= l(:label_user) %>

@@ -47,7 +47,7 @@
 
     <p>
       <label for="time_entry_spent_on"><%= l(:field_spent_on) %></label>
-      <%= date_field :time_entry, :spent_on, :size => 10, :value => @time_entry_params[:spent_on] %><%= calendar_for('time_entry_spent_on') %>
+      <%= date_field :time_entry, :spent_on, :size => 10, :value => @time_entry_params[:spent_on], :data => { :controller => 'datepicker' }  %>
     </p>
 
     <p>
