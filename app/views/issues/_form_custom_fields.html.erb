@@ -8,7 +8,9 @@
 <% i = 0 %>
 <% split_on = (custom_field_values.size / 2.0).ceil - 1 %>
 <% custom_field_values.each do |value| %>
-  <p><%= custom_field_tag_with_label :issue, value, :required => @issue.required_attribute?(value.custom_field_id) %></p>
+  <p <%= tag.attributes data: value.wrapper %> >
+    <%= custom_field_tag_with_label :issue, value, { required: @issue.required_attribute?(value.custom_field_id), data: value.field } %>
+  </p>
 <% if i == split_on -%>
 </div><div class="splitcontentright">
 <% end -%>
