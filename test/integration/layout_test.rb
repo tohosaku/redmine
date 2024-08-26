@@ -75,49 +75,47 @@ class LayoutTest < Redmine::IntegrationTest
   def test_calendar_header_tags
     with_settings :default_language => 'fr' do
       get '/issues'
-      assert_match %r{/assets/i18n/datepicker-fr-\w+.js}, response.body
+      assert_select 'meta[name=language][content=?]', 'fr'
     end
 
     with_settings :default_language => 'en-GB' do
       get '/issues'
-      assert_match %r{/assets/i18n/datepicker-en-GB-\w+.js}, response.body
+      assert_select 'meta[name=language][content=?]', 'en-gb'
     end
 
     with_settings :default_language => 'en' do
       get '/issues'
-      assert_not_include "/assets/i18n/datepicker", response.body
+      assert_select 'meta[name=language][content=?]', 'en'
     end
 
     with_settings :default_language => 'es' do
       get '/issues'
-      assert_match %r{/assets/i18n/datepicker-es-\w+.js}, response.body
+      assert_select 'meta[name=language][content=?]', 'es'
     end
 
     with_settings :default_language => 'es-PA' do
       get '/issues'
-      # There is not datepicker-es-PA.js
-      # https://github.com/jquery/jquery-ui/tree/1.11.4/ui/i18n
-      assert_not_include "/javascripts/i18n/datepicker-es.js", response.body
+      assert_select 'meta[name=language][content=?]', 'es-pa'
     end
 
     with_settings :default_language => 'zh' do
       get '/issues'
-      assert_match %r{/assets/i18n/datepicker-zh-CN-\w+.js}, response.body
+      assert_select 'meta[name=language][content=?]', 'zh'
     end
 
     with_settings :default_language => 'zh-TW' do
       get '/issues'
-      assert_match %r{/assets/i18n/datepicker-zh-TW-\w+.js}, response.body
+      assert_select 'meta[name=language][content=?]', 'zh-tw'
     end
 
     with_settings :default_language => 'pt' do
       get '/issues'
-      assert_match %r{/assets/i18n/datepicker-pt-\w+.js}, response.body
+      assert_select 'meta[name=language][content=?]', 'pt'
     end
 
     with_settings :default_language => 'pt-BR' do
       get '/issues'
-      assert_match %r{/assets/i18n/datepicker-pt-BR-\w+.js}, response.body
+      assert_select 'meta[name=language][content=?]', 'pt-br'
     end
   end
 
