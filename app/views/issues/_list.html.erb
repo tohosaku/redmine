@@ -2,60 +2,59 @@
 <% query_options ||= {} %>
 
 <%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
-<%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
-<%= query_columns_hidden_tags(query) %>
+  <%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
+  <%= query_columns_hidden_tags(query) %>
 
-<%= tag.div class: 'autoscroll', data: { controller: 'fixed-header', action: 'resize@window->fixed-header#syncWidth', fixed_header_section_value: 'query_form' } do %>
-  <table class="list" style="display:none" data-fixed-header-target="sticky">
-  </table>
-<table class="list issues odd-even <%= query.css_classes %>" data-fixed-header-target="main">
-  <thead>
-    <tr>
-      <th class="checkbox hide-when-print">
-        <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
-              :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
-      </th>
-      <% query.inline_columns.each do |column| %>
-        <%= column_header(query, column, query_options) %>
-      <% end %>
-      <th class="buttons"></th>
-    </tr>
-  </thead>
-  <tbody>
-  <% grouped_issue_list(issues, query) do |issue, level, group_name, group_count, group_totals| -%>
-  <% if group_name %>
-    <% reset_cycle %>
-    <tr class="group open" data-controller="row-group" data-action="click->row-group#toggle">
-      <td colspan="<%= query.inline_columns.size + 2 %>">
-        <span class="expander icon icon-expanded"><%= sprite_icon("angle-down") %>&nbsp;</span>
-        <span class="name"><%= group_name %></span> <span class="badge badge-count count"><%= group_count %></span> <span class="totals"><%= group_totals %></span>
-        <%= link_to "#{l(:button_collapse_all)}/#{l(:button_expand_all)}", '#',
-                    class: 'toggle-all',
-                    data: { controller: 'visibility', action: 'row-group#toggleAll' } %>
-      </td>
-    </tr>
+  <%= tag.div class: 'autoscroll', data: { controller: 'fixed-header', action: 'resize@window->fixed-header#syncWidth', fixed_header_section_value: 'query_form' } do %>
+    <table class="list" style="display:none" data-fixed-header-target="sticky">
+    </table>
+    <table class="list issues odd-even <%= query.css_classes %>" data-fixed-header-target="main">
+      <thead>
+        <tr>
+          <th class="checkbox hide-when-print">
+            <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection', :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
+          </th>
+          <% query.inline_columns.each do |column| %>
+            <%= column_header(query, column, query_options) %>
+          <% end %>
+          <th class="buttons"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% grouped_issue_list(issues, query) do |issue, level, group_name, group_count, group_totals| -%>
+          <% if group_name %>
+            <% reset_cycle %>
+            <tr class="group open" data-controller="row-group">
+              <td colspan="<%= query.inline_columns.size + 2 %>">
+                <span class="expander icon icon-expanded" data-action="click->row-group#toggle"><%= sprite_icon("angle-down") %>&nbsp;</span>
+                <span class="name"><%= group_name %></span>
+                <span class="badge badge-count count"><%= group_count %></span>
+                <span class="totals"><%= group_totals %></span>
+                <%= link_to "#{l(:button_collapse_all)}/#{l(:button_expand_all)}", '#', class: 'toggle-all', data: { action: 'row-group#toggleAll' } %>
+              </td>
+            </tr>
+          <% end %>
+          <%= tag.tr id: "issue-#{issue.id}", class: ['hascontextmenu', cycle('odd', 'even'), issue.css_classes, "idnt idnt-#{level}": level > 0] do %>
+            <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
+            <% query.inline_columns.each do |column| %>
+              <%= tag.td column_content(column, issue), class: column.css_classes %>
+            <% end %>
+            <td class="buttons"><%= link_to_context_menu %></td>
+          <% end %>
+          <% query.block_columns.each do |column|
+            if (text = column_content(column, issue)) && text.present? -%>
+            <tr class="<%= current_cycle %>">
+              <td colspan="<%= query.inline_columns.size + 2 %>" class="<%= column.css_classes %> block_column">
+              <% if query.block_columns.count > 1 %>
+                <span><%= column.caption %></span>
+              <% end %>
+              <%= text %>
+              </td>
+            </tr>
+            <% end -%>
+          <% end -%>
+        <% end -%>
+      </tbody>
+    </table>
   <% end %>
-  <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
-    <% query.inline_columns.each do |column| %>
-    <%= content_tag('td', column_content(column, issue), :class => column.css_classes) %>
-    <% end %>
-    <td class="buttons"><%= link_to_context_menu %></td>
-  </tr>
-  <% query.block_columns.each do |column|
-       if (text = column_content(column, issue)) && text.present? -%>
-  <tr class="<%= current_cycle %>">
-    <td colspan="<%= query.inline_columns.size + 2 %>" class="<%= column.css_classes %> block_column">
-      <% if query.block_columns.count > 1 %>
-        <span><%= column.caption %></span>
-      <% end %>
-      <%= text %>
-    </td>
-  </tr>
-  <% end -%>
-  <% end -%>
-  <% end -%>
-  </tbody>
-</table>
-<% end %>
 <% end -%>
