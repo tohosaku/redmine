@@ -242,16 +242,23 @@ ganttEntryClick = function(e){
   var total_height = 0;
   var out_of_hierarchy = false;
   var iconChange = null;
-  if(subject.hasClass('open'))
+  if(subject.hasClass('open')) {
     iconChange = function(element){
-      $(element).find('.expander').switchClass('icon-expanded', 'icon-collapsed');
-      $(element).removeClass('open');
+      const $element = $(element);
+      const expander = $element.find('.expander')
+      expander.removeClass('icon-expanded')
+      expander.addClass('icon-collapsed')
+      $element.removeClass('open');
     };
-  else
+  } else {
     iconChange = function(element){
-      $(element).find('.expander').switchClass('icon-collapsed', 'icon-expanded');
-      $(element).addClass('open');
+      const $element = $(element);
+      const expander = $element.find('.expander')
+      expander.removeClass('icon-collapsed')
+      expander.addClass('icon-expanded')
+      $element.addClass('open');
     };
+  }
   iconChange(subject);
   subject.nextAll('div').each(function(_, element){
     var el = $(element);
