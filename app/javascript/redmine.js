@@ -66,32 +66,42 @@ export function observeAutocomplete(element, source, options) {
   element.classList.add('autocomplete');
 }
 
-document.addEventListener("turbo:load", () => {
+// This variable is used to focus selected project
+let selected;
+document.addEventListener('click', (e) => {
 
-  $(".drdn .autocomplete").val('');
+  const drdn = e.target.closest('.drdn');
+  if (drdn !== null) {
+    Array.from(document.querySelectorAll('.drdn')).forEach(el => el.classList.remove('expanded'))
+  }
 
-  // This variable is used to focus selected project
-  var selected;
-  $(document).on('click', '.drdn-trigger', function(e){
-    var drdn = $(this).closest(".drdn");
-    if (drdn.hasClass("expanded")) {
-      drdn.removeClass("expanded");
+  const trigger = e.target.closest('.drdn-trigger');
+
+  if (trigger !== null) {
+    const drdn = e.target.closest('.drdn');
+    if (drdn.classList.contains('expanded')) {
+      drdn.classList.remove('expanded');
     } else {
-      $(".drdn").removeClass("expanded");
-      drdn.addClass("expanded");
-      selected = $('.drdn-items a.selected'); // Store selected project
-      selected.focus(); // Calling focus to scroll to selected project
+      Array.from(document.querySelectorAll('.drdn')).forEach(el => el.classList.remove('expanded'))
+      drdn.classList.add('expanded');
+      selected = document.querySelector('.drdn-items a.selected'); // Store selected project
+      if (selected !== null) {
+        selected.focus(); // Calling focus to scroll to selected project
+      }
       if (!isMobile()) {
-        drdn.find(".autocomplete").focus();
+        const autocomplete = drdn.querySelector('.autocomplete')
+        if (autocomplete !== null) {
+          autocomplete.focus();
+        }
       }
       e.stopPropagation();
     }
-  });
-  $(document).click(function(e){
-    if ($(e.target).closest(".drdn").length < 1) {
-      $(".drdn.expanded").removeClass("expanded");
-    }
-  });
+  }
+});
+
+document.addEventListener("turbo:load", () => {
+
+  $(".drdn .autocomplete").val('');
 
   // observeSearchfield('projects-quick-search', null, $('#projects-quick-search').data('automcomplete-url'));
 
