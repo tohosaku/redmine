@@ -4,7 +4,7 @@
 <%= droppable_box do %>
 <!--[form:message]-->
 <p><label for="message_subject"><%= l(:field_subject) %></label><br />
-<%= f.text_field :subject, :size => 120, :id => "message_subject" %>
+<%= f.text_field :subject, :size => 120, :id => "message_subject", :data => {:focus_target => 'point'} %>
 
 <% unless replying %>
   <% if @message.safe_attribute? 'sticky' %>
@@ -27,6 +27,7 @@
                 accesskey: accesskey(:edit),
                 data: {
                     controller: 'inline-autocomplete',
+                    focus_target: 'point',
                     wiki_toolbar: true,
                     wiki_preview_url: preview_board_message_path(:board_id => @board, :id => @message)
                 }

@@ -1,10 +1,9 @@
 <%= board_breadcrumb(@board) %>
 
 <div class="contextual">
-<%= link_to sprite_icon('add', l(:label_message_new)),
-            new_board_message_path(@board),
-            :class => 'icon icon-add',
-            :onclick => 'showAndScrollTo("add-message", "message_subject"); return false;' if User.current.allowed_to?(:add_messages, @board.project) %>
+  <%= toggle_link sprite_icon('add', l(:label_message_new)), 'add-message',
+                  class: 'icon icon-add',
+                  url: new_board_message_path(@board), scroll: true if User.current.allowed_to?(:add_messages, @board.project) %>
 <%= watcher_link(@board, User.current) %>
 <%= link_to_if_authorized sprite_icon('settings', l(:label_settings)),
                           {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'},
@@ -12,7 +11,7 @@
 
 </div>
 
-<div id="add-message" style="display:none;" data-controller="visibility">
+<%= tag.div id: "add-message", style: "display:none;", data: {controller: 'visibility scroll focus', action: 'visibility:toggle->scroll#scroll visibility:toggle->focus#focus'} do %>
 <% if User.current.allowed_to?(:add_messages, @board.project) %>
 <h2><%= link_to @board.name, project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
 <%= form_for @message, :url => new_board_message_path(@board), :html => {:multipart => true, :id => 'message-form'} do |f| %>
@@ -21,7 +20,7 @@
   <%= link_to l(:button_cancel), "#", data: { action: 'visibility#hide' } %></p>
 <% end %>
 <% end %>
-</div>
+<% end %>
 
 <h2><%= @board.name %></h2>
 <p class="subtitle"><%= @board.description %></p>

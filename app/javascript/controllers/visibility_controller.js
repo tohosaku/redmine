@@ -1,11 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
+import { toBoolean } from "dom"
 
 // Connects to data-controller="visibility"
 export default class extends Controller {
   static targets = ['field', 'dummy']
 
   dummyTargetConnected(element) {
-    this.toggleElements([this.element]);
+    const force = toBoolean(element.dataset.force);
+    this.toggleElements([this.element], force);
     element.remove();
   }
 
@@ -16,11 +18,7 @@ export default class extends Controller {
       force = e.detail.matched
     }
 
-    if (force === undefined) {
-      this.toggleElements(document.querySelectorAll(e.params.selector))
-    } else {
-      this.forceToggleElements(document.querySelectorAll(e.params.selector), force)
-    }
+    this.toggleElements(document.querySelectorAll(e.params.selector), force)
   }
 
   toggleField(e) {
@@ -54,26 +52,16 @@ export default class extends Controller {
     element.style.display = 'none';
   }
 
-  forceToggleElements(elements, force) {
+  toggleElements(elements, force) {
     elements.forEach(el => {
-      let visible = false
-      if (force) {
+      const visible = typeof force !== 'undefined' ? force
+                                                   : el.style.display == 'none'
+      if (visible) {
         el.style.display = '';
-        visible = true;
       } else {
         el.style.display = 'none';
       }
       this.dispatch('toggle', { target: el, detail: { source: this.element, visible: visible } })
-    })
-  }
-
-  toggleElements(elements) {
-    elements.forEach(el => {
-      if (el.style.display == 'none') {
-        el.style.display = '';
-      } else {
-        el.style.display = 'none';
-      }
     })
   }
 }

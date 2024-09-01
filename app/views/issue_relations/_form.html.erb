@@ -11,7 +11,7 @@
 <% end %>
 <p data-controller="issue-relations--form" data-issue-relations--form-path-value="<%= auto_complete_issues_path(:project_id => @project, :scope => (Setting.cross_project_issue_relations? ? 'all' : nil), :issue_id => @issue.id) %>">
 <%= f.select :relation_type, collection_for_relation_type_select, {}, :data => { :action => 'issue-relations--form#set' } %>
-<%= l(:label_issue) %> #<%= f.text_field :issue_to_id, :value => unsaved_relations_ids, :autocomplete => 'off', :size => 10, :data => { issue_relations__form_target: 'field' } %>
+<%= l(:label_issue) %> #<%= f.text_field :issue_to_id, :value => unsaved_relations_ids, :autocomplete => 'off', :size => 10, :data => { issue_relations__form_target: 'field', focus_target: 'point' } %>
 <span id="predecessor_fields" style="display:none;">
 <%= l(:field_delay) %>: <%= f.text_field :delay, :size => 3 %> <%= l(:label_day_plural) %>
 </span>

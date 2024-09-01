@@ -34,6 +34,8 @@
       <%= f.text_area :notes, cols: 60, rows: 10, class: 'wiki-edit',
             data: {
                 controller: 'inline-autocomplete',
+                journals__new_target: 'text',
+                focus_target: 'point',
                 wiki_toolbar: true,
                 wiki_preview_url: preview_issue_path(project_id: @project, issue_id: @issue)
             },

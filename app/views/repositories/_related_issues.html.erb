@@ -4,7 +4,7 @@
 <div id="related-issues">
 <% if manage_allowed %>
   <div class="contextual">
-    <%= toggle_link l(:button_add), 'new-relation-form', {:focus => 'issue_id'} %>
+    <%= toggle_link l(:button_add), 'new-relation-form' %>
   </div>
 <% end %>
 
@@ -30,13 +30,15 @@
   <%= form_tag({controller: 'repositories', action: 'add_related_issue',
                 id: @project, repository_id: @repository.identifier_param,
                 rev: @changeset.identifier},
-       remote: true,
+                remote: true,
+                data: { controller: 'visibility focus', action: 'visibility:toggle->focus#focus' },
        method: :post,
        id: 'new-relation-form', style: (@issue ? '' : 'display: none;')) do |f| %>
   <%= l(:label_issue) %> #<%= text_field_tag 'issue_id', '', size: 10,
                                      data: {
                                        controller: 'observe-autocomplete',
-                                       observe_autocomplete_path_value: auto_complete_issues_path(:project_id => @project, :scope => 'all')
+                                       observe_autocomplete_path_value: auto_complete_issues_path(:project_id => @project, :scope => 'all'),
+                                       focus_target: 'point'
                                      } %>
   <%= submit_tag l(:button_add) %>
   <%= toggle_link l(:button_cancel), 'new-relation-form'%>

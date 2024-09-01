@@ -39,7 +39,7 @@
 <div id="replies">
 <h3 class="comments icon icon-comments"><%= sprite_icon('comments', l(:label_reply_plural)) %> (<%= @reply_count %>)</h3>
 <% if !@topic.locked? && authorize_for('messages', 'reply') && @replies.size >= 3 %>
-  <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content', :scroll => "message_content" %></p>
+  <p><%= toggle_link l(:button_reply), 'reply', scroll: 'true' %></p>
 <% end %>
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
@@ -79,8 +79,8 @@
 <% end %>
 
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-<p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
-<div id="reply" style="display:none;">
+<p><%= toggle_link l(:button_reply), 'reply', :focus => 'message_content' %></p>
+<%= tag.div id: "reply", style: "display:none;", data: { controller: 'scroll focus', action: 'visibility:toggle->scroll#scroll visibility:toggle->focus#focus' } do %>
 <%= form_for @reply, :as => :reply, :url => {:action => 'reply', :id => @topic}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
   <%= submit_tag l(:button_submit) %>
