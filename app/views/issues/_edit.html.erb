@@ -33,7 +33,12 @@
     <% if @issue.notes_addable? %>
       <fieldset id="add_notes"><legend><%= l(:field_notes) %></legend>
       <%= component 'wikieditor', preview_url: preview_issue_path(project_id: @project, issue_id: @issue) do |d| %>
-        <%= f.textarea :notes, cols: 60, rows: 10, class: 'wiki-edit', no_label: true, data: d.merge({controller: 'inline-autocomplete'}) %>
+        <%= f.textarea :notes, cols: 60, rows: 10, class: 'wiki-edit', no_label: true,
+              data: d.merge({
+                controller: 'inline-autocomplete',
+                journals__new_target: 'text',
+                focus_target: 'point'
+              }) %>
       <% end %>
       <% if @issue.safe_attribute? 'private_notes' %>
       <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>

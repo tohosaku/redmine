@@ -4,7 +4,7 @@
 <div class="box" <%= tag.attributes dragdrop_wrapper %>>
 <!--[form:message]-->
 <p><label for="message_subject"><%= l(:field_subject) %></label><br />
-<%= f.text_field :subject, :size => 120, :id => "message_subject" %>
+<%= f.text_field :subject, :size => 120, :id => "message_subject", :data => {:focus_target => 'point'} %>
 
 <% unless replying %>
   <% if @message.safe_attribute? 'sticky' %>
@@ -26,7 +26,10 @@
 <%= component 'wikieditor', preview_url: preview_board_message_path(:board_id => @board, :id => @message) do |d| %>
   <%= f.textarea :content, cols: 80, rows: 15, class: 'wiki-edit', id: 'message_content',
                  accesskey: accesskey(:edit),
-                 data:  d.merge({controller: 'inline-autocomplete'}) %>
+                 data:  d.merge({
+                   controller: 'inline-autocomplete',
+                   focus_target: 'point'
+                 }) %>
 <% end %>
 </p>
 <!--[eoform:message]-->
