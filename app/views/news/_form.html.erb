@@ -8,7 +8,7 @@
     <%= hidden_field_tag :cross_project, 1, id: nil %>
   </p>
 <% end %>
-<p><%= f.text_field :title, :required => true, :size => 60 %></p>
+<p><%= f.text_field :title, :required => true, :size => 60, :data => {:focus_target => 'point'} %></p>
 <p><%= f.text_area :summary, :cols => 60, :rows => 2 %></p>
 <p><%= f.text_area :description, :required => true, :cols => 60, :rows => 15, :class => 'wiki-edit',
                    :data => {

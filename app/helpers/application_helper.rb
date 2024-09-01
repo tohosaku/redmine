@@ -362,11 +362,10 @@ module ApplicationHelper
   end
 
   def toggle_link(name, id, options={})
-    onclick = "$('##{id}').toggle(); "
-    onclick << (options[:focus] ? "$('##{options[:focus]}:visible').focus(); " : "this.blur(); ")
-    onclick << "$(window).scrollTop($('##{options[:focus]}').position().top); " if options[:scroll]
-    onclick << "return false;"
-    link_to(name, "#", :onclick => onclick)
+    scroll = options.delete(:scroll)
+    url = options.delete(:url)
+    options[:data] = {controller: 'visibility', action: 'visibility#toggle', visibility_selector_param: "##{id}", scroll: scroll}
+    link_to name, (url || '#'), options
   end
 
   def link_to_previous_month(year, month, options={})

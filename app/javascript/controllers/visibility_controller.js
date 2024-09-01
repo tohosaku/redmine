@@ -69,11 +69,14 @@ export default class extends Controller {
 
   toggleElements(elements) {
     elements.forEach(el => {
+      let visible = false
       if (el.style.display == 'none') {
         el.style.display = '';
+        visible = true;
       } else {
         el.style.display = 'none';
       }
+      this.dispatch('toggle', { target: el, detail: { source: this.element, visible: visible } })
     })
   }
 }

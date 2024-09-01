@@ -33,7 +33,7 @@
 <div id="comments" style="margin-bottom:16px;">
 <h3 class="comments"><%= l(:label_comment_plural) %></h3>
 <% if @news.commentable? && @comments.size >= 3 %>
-  <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments", :scroll => "comment_comments" %></p>
+  <p><%= toggle_link l(:label_comment_add), 'add_comment_form', scroll: 'true' %></p>
 <% end %>
 <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
@@ -51,12 +51,14 @@
 </div>
 
 <% if @news.commentable? %>
-<p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
-<%= form_tag({:controller => 'comments', :action => 'create', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
+  <p><%= toggle_link l(:label_comment_add), 'add_comment_form' %></p>
+  <%= form_tag({:controller => 'comments', :action => 'create', :id => @news}, :id => "add_comment_form", :style => "display:none;",
+                :data => { :controller => 'scroll focus', :action => 'visibility:toggle->scroll#scroll visibility:toggle->focus#focus' } ) do %>
 <div class="box">
     <%= text_area_tag 'comment', nil, :cols => 80, :rows => 15, :class => 'wiki-edit',
                   :data => {
                     :controller => 'inline-autocomplete',
+                    :focus_target => 'point',
                     :wiki_toolbar => true,
                     :wiki_preview_url => preview_news_path(:project_id => @project, :id => @news)
                   }
