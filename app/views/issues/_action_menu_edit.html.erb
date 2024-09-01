@@ -3,8 +3,8 @@
 
 <div style="clear: both;"></div>
 <% if @issue.editable? %>
-  <div id="update" style="display:none;" data-controller="visibility">
+  <%= tag.div id: 'update', style: 'display:none;', data: {controller: 'visibility scroll focus', action: 'visibility:toggle->scroll#scroll visibility:toggle->focus#focus'} do %>
     <h3><%= l(:button_edit) %></h3>
     <%= render :partial => 'edit' %>
-  </div>
+  <% end %>
 <% end %>
