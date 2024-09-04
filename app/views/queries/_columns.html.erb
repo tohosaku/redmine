@@ -13,12 +13,10 @@
                          :queries__columns_from_param => available_tag_id,
                          :queries__columns_to_param => selected_tag_id } %>
 </div>
-<div class="buttons">
-      <input type="button" value="&#8594;" class="move-right"
-       onclick="moveOptions(this.form.<%= available_tag_id %>, this.form.<%= selected_tag_id %>);" />
-      <input type="button" value="&#8592;" class="move-left"
-       onclick="moveOptions(this.form.<%= selected_tag_id %>, this.form.<%= available_tag_id %>);" />
-</div>
+<%= tag.div class: 'buttons', data: { controller: 'queries--columns' } do %>
+  <%= tag.input value: raw("&#8594;"), type: 'button', class: "move-right", data: { action: 'queries--columns#moveOptions', queries__columns_from_param: available_tag_id, queries__columns_to_param: selected_tag_id } %>
+  <%= tag.input value: raw("&#8592;"), type: 'button', class: "move-left",  data: { action: 'queries--columns#moveOptions', queries__columns_from_param: selected_tag_id,  queries__columns_to_param: available_tag_id } %>
+<% end %>
 <div class="query-columns">
       <%= label_tag selected_tag_id, l(:description_selected_columns) %>
       <%= select_tag tag_name,
@@ -30,9 +28,9 @@
                          :queries__columns_from_param => selected_tag_id,
                          :queries__columns_to_param => available_tag_id } %>
 </div>
-<div class="buttons">
-      <input type="button" value="&#8648;" onclick="moveOptionTop(this.form.<%= selected_tag_id %>);" />
-      <input type="button" value="&#8593;" onclick="moveOptionUp(this.form.<%= selected_tag_id %>);" />
-      <input type="button" value="&#8595;" onclick="moveOptionDown(this.form.<%= selected_tag_id %>);" />
-      <input type="button" value="&#8650;" onclick="moveOptionBottom(this.form.<%= selected_tag_id %>);" />
-</div>
+<%= tag.div class: 'buttons', data: { controller: 'queries--columns' } do %>
+  <%= tag.input value: raw("&#8648;"), type: 'button', data: { action: 'queries--columns#moveOptionTop', queries__columns_id_param: selected_tag_id } %>
+  <%= tag.input value: raw("&#8593;"), type: 'button', data: { action: 'queries--columns#moveOptionUp', queries__columns_id_param: selected_tag_id } %>
+  <%= tag.input value: raw("&#8595;"), type: 'button', data: { action: 'queries--columns#moveOptionDown', queries__columns_id_param: selected_tag_id } %>
+  <%= tag.input value: raw("&#8650;"), type: 'button', data: { action: 'queries--columns#moveOptionBottom', queries__columns_id_param: selected_tag_id } %>
+<% end %>
