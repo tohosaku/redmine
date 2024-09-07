@@ -16,9 +16,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="group open">
+      <tr class="group open" data-controller="row-group" data-action="click->row-group#toggle">
         <td colspan="<%= @trackers.size + 1 %>">
-          <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);"><%= sprite_icon("angle-down") %></span>
+          <span class="expander icon icon-expanded"><%= sprite_icon("angle-down") %></span>
           <%= l(:field_core_fields) %>
         </td>
       </tr>
@@ -38,9 +38,9 @@
       </tr>
       <% end %>
       <% if @custom_fields.any? %>
-        <tr class="group open">
+        <tr class="group open" data-controller="row-group" data-action="click->row-group#toggle">
           <td colspan="<%= @trackers.size + 1 %>">
-            <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);"><%= sprite_icon("angle-down") %></span>
+            <span class="expander icon icon-expanded"><%= sprite_icon("angle-down") %></span>
             <%= l(:label_custom_field_plural) %>
           </td>
         </tr>
