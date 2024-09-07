@@ -47,9 +47,9 @@
 <% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
 <% perms_by_module.keys.sort.each do |mod| %>
     <% unless mod.blank? %>
-        <tr class="group open">
+        <tr class="group open" data-controller="row-group" data-action="click->row-group#toggle">
           <td>
-            <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);"><%= sprite_icon("angle-down") %></span>
+            <span class="expander icon icon-expanded"><%= sprite_icon("angle-down") %></span>
             <%= l_or_humanize(mod, :prefix => 'project_module_') %>
           </td>
           <% @roles.each do |role| %>
