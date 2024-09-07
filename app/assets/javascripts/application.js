@@ -27,6 +27,9 @@ function showAndScrollTo(id, focus) {
   $('html, body').animate({scrollTop: $('#'+id).offset().top}, 100);
 }
 
+/**
+ * @deprecated use stimulus row_group_controller
+ */
 function toggleRowGroup(el) {
   var tr = $(el).parents('tr').first();
   var n = tr.next();
@@ -58,6 +61,9 @@ function updateSVGIcon(element, icon) {
   iconElement.setAttribute('href', iconPath.replace(/#.*$/g, "#icon--" + icon))
 }
 
+/**
+ * @deprecated use stimulus row_group_controller
+ */
 function collapseAllRowGroups(el) {
   var tbody = $(el).parents('tbody').first();
   tbody.children('tr').each(function(index) {
@@ -70,6 +76,9 @@ function collapseAllRowGroups(el) {
   });
 }
 
+/**
+ * @deprecated use stimulus row_group_controller
+ */
 function expandAllRowGroups(el) {
   var tbody = $(el).parents('tbody').first();
   tbody.children('tr').each(function(index) {
@@ -82,6 +91,9 @@ function expandAllRowGroups(el) {
   });
 }
 
+/**
+ * @deprecated use stimulus row_group_controller
+ */
 function toggleAllRowGroups(el) {
   var tr = $(el).parents('tr').first();
   if (tr.hasClass('open')) {

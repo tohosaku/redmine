@@ -6,6 +6,30 @@ import { get, post, put, patch, destroy } from '@rails/request.js'
 
 Turbo.session.drive = false;
 
+Turbo.StreamActions.hide = function() {
+  this.targetElements.forEach((e) => {
+    e.style.display = 'none';
+  });
+}
+
+Turbo.StreamActions.show = function() {
+  this.targetElements.forEach((e) => {
+    e.style.display = '';
+  });
+}
+
+Turbo.StreamActions.focus = function() {
+  this.targetElements.forEach((e) => {
+    e.focus();
+  });
+}
+
+Turbo.StreamActions.clear = function() {
+  this.targetElements.forEach((e) => {
+    e.value = '';
+  });
+}
+
 export function ajaxGet(element, func) {
   const loading = 'ajax-loading';
   return (text, cb) => {
