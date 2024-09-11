@@ -1,4 +1,5 @@
 <% manage_allowed = User.current.allowed_to?(:manage_related_issues, @repository.project) %>
+<% issue_to_highlight = local_assigns[:issue_to_highlight] || nil %>
 
 <div id="related-issues">
 <% if manage_allowed %>
@@ -10,7 +11,7 @@
 <h3><%= l(:label_related_issues) %></h3>
 <ul>
 <% @changeset.issues.visible.each do |issue| %>
-  <li id="<%= "related-issue-#{issue.id}" %>"><%= link_to_issue issue %>
+  <li id="<%= "related-issue-#{issue.id}" %>" class="<%= issue.id == issue_to_highlight ? 'effect' : '' %>"><%= link_to_issue issue %>
     <%= link_to(icon_with_label('link-break', l(:label_relation_delete)),
                 {:controller => 'repositories', :action => 'remove_related_issue',
                   :id => @project, :repository_id => @repository.identifier_param,

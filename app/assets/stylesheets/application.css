@@ -1071,6 +1071,17 @@ input.autocomplete.ajax-loading {
   background-image: url(/loading.gif);
 }
 
+/* highlight effect */
+.effect {
+  animation: highlight 3s;
+}
+
+@keyframes highlight {
+  0%   { background: #FFC }
+  100% { background: none }
+}
+/********************/
+
 .role-visibility {padding-left:2em;}
 
 .objects-selection {

@@ -1,3 +1,4 @@
+<% members_to_highlight = local_assigns[:members_to_highlight] || [] %>
 <% memberships = principal.memberships.preload(:member_roles, :roles).sorted_by_project.to_a %>
 
 <p><%= link_to icon_with_label('add', l(:label_add_projects)), new_principal_membership_path(principal), :remote => true, :class => "icon icon-add" %></p>
@@ -13,7 +14,7 @@
   <tbody>
   <% memberships.each do |membership| %>
   <% next if membership.new_record? %>
-  <tr id="member-<%= membership.id %>" class="class">
+  <tr id="member-<%= membership.id %>" <%= tag.attributes class: [effect: members_to_highlight.include?(membership.id) ], data: {controller: 'classlist'} %>>
   <td class="project name">
     <%= link_to_project membership.project %>
   </td>
