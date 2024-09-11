@@ -91,6 +91,14 @@ export function nextAll(element, tagName) {
   return sibs;
 }
 
+export function toBoolean(str) {
+  if (typeof str !== 'string') return;
+
+  return str.toLowerCase() === 'true' ? true
+                                      : str.toLowerCase() === 'false' ? false
+                                                                      : undefined
+}
+
 export function withProgress(request, element) {
   const loading = 'ajax-loading';
   element.classList.add(loading)
