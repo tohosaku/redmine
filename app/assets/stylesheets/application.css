@@ -1471,6 +1471,19 @@ input.autocomplete.ajax-loading {
 
 .role-visibility {padding-inline-start: 2em;}
 
+/* highlight effect */
+.effect {
+  animation: highlight 3s;
+}
+
+@keyframes highlight {
+  0%   { background: #FFC }
+  100% { background: none }
+}
+/********************/
+
+.role-visibility {padding-left:2em;}
+
 .objects-selection {
   block-size: 300px;
   overflow: auto;
