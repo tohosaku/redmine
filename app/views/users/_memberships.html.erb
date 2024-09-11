@@ -1,1 +1,2 @@
-<%= render_principal_memberships @user %>
+<% members_to_highlight = local_assigns[:members_to_highlight] || [] %>
+<%= render :partial => 'principal_memberships/index', :locals => {:principal => @user, :members_to_highlight => members_to_highlight} %>

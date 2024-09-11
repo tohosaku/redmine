@@ -1,3 +1,4 @@
+<% members_to_highlight = local_assigns[:members_to_highlight] || [] %>
 <% members = @project.memberships.preload(:project).sorted.to_a %>
 
 <% if User.current.admin? %>
@@ -18,7 +19,7 @@
   <tbody>
   <% members.each do |member| %>
   <% next if member.new_record? %>
-  <tr id="member-<%= member.id %>" class="member">
+  <tr <%= tag.attributes id: "member-#{member.id}", class: ['member', effect: members_to_highlight.include?(member.id)] %>>
   <td class="name icon icon-<%= member.principal.class.name.downcase %>">
     <%= principal_icon(member.principal.class.name.downcase) %>
     <%= link_to_user member.principal %>
