@@ -1759,7 +1759,7 @@ module ApplicationHelper
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
     tags = javascript_include_tag(
-      'jquery-3.7.1-ui-1.13.3',
+      'jquery-3.7.1.min',
       'rails-ujs'
     )
     tags << javascript_include_tag('application-legacy', 'responsive')

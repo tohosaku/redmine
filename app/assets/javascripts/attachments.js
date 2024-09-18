@@ -47,6 +47,9 @@ addFile.nextAttachmentId = 1;
 function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
   let attachmentIcon = $(fileSpan).find('svg.svg-attachment');
 
+  const form = inputEl.form;
+  const progress = document.createElement('progress')
+
   function onLoadstart(e) {
     fileSpan.removeClass('ajax-waiting');
     fileSpan.addClass('ajax-loading');
@@ -57,7 +60,7 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
 
   function onProgress(e) {
     if(e.lengthComputable) {
-      this.progressbar( 'value', e.loaded * 100 / e.total );
+      this.setAttribute('value', e.loaded * 100 / e.total);
     }
   }
 
@@ -66,18 +69,21 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
     ajaxUpload.uploading++;
 
     uploadBlob(file, $(inputEl).data('upload-path'), attachmentId, {
-        loadstartEventHandler: onLoadstart.bind(progressSpan),
-        progressEventHandler: onProgress.bind(progressSpan)
+        loadstartEventHandler: onLoadstart.bind(progress),
+        progressEventHandler: onProgress.bind(progress)
       })
       .done(function(result) {
         addInlineAttachmentMarkup(file);
-        progressSpan.progressbar( 'value', 100 ).remove();
+        progress.setAttribute('value', '100');
+        progress.remove();
         fileSpan.find('input.description, a').css('display', 'inline-flex');
         updateSVGIcon(attachmentIcon[0], 'file');
       })
       .fail(function(result) {
-        $('<span>').insertAfter(progressSpan).text(result.statusText);
-        progressSpan.remove();
+        const error = document.createElement('div')
+        error.textContent = result.statusText;
+        progress.after(error);
+        progress.remove();
         updateSVGIcon(attachmentIcon[0], 'warning');
       }).always(function() {
         ajaxUpload.uploading--;
@@ -91,8 +97,8 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
       });
   }
 
-  var progressSpan = $('<div>').insertAfter(fileSpan.find('input.filename'));
-  progressSpan.progressbar();
+  progress.setAttribute('max', '100');
+  fileSpan.find('input.filename').after(progress);
   fileSpan.addClass('ajax-waiting');
   updateSVGIcon(attachmentIcon[0], 'hourglass');
 
