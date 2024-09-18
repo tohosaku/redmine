@@ -415,6 +415,7 @@ module Redmine
       end
 
       ActionView::Template.register_template_handler :rsb, Views::ApiTemplateHandler
+      Turbo::Streams::TagBuilder.prepend(TurboStreamActionsHelper)
     end
   end
 end

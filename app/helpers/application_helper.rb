@@ -2031,7 +2031,12 @@ module ApplicationHelper
       modal_dispatcher_target: 'show'
     }
     block = -> { render partial: partial, locals: locals } if partial
-    render 'common/modal', { id: nil, title: title, data: data }, &block
+    render layout: 'common/modal', locals: { id: nil, title: title, data: data }, formats: [:html], &block
+  end
+
+  def show_turbo_modal(target: 'ajax-modal', width:, title: nil, partial: nil, locals: {}, &block)
+    html = remote_modal_dialog(width: width, title: title, partial: partial, locals: locals, &block)
+    turbo_stream.update target, html
   end
 
   def modal_dispatcher(element_id, width)
