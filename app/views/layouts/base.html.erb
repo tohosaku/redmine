@@ -96,9 +96,9 @@
     <% if display_main_menu?(@project) %>
     <div id="main-menu" class="tabs">
         <%= render_main_menu(@project) %>
-        <div class="tabs-buttons" style="display:none;">
-            <button class="tab-left" onclick="moveTabLeft(this); return false;"></button>
-            <button class="tab-right" onclick="moveTabRight(this); return false;"></button>
+        <div class="tabs-buttons" style="display:none;" data-controller="tab-buttons">
+            <button class="tab-left" data-action="tab-buttons#left"></button>
+            <button class="tab-right" data-action="tab-buttons#right"></button>
         </div>
     </div>
     <% end %>
