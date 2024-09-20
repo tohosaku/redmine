@@ -17,7 +17,6 @@ document.addEventListener("turbo:load", () => {
   hideOnLoad();
   defaultFocus();
   setupAttachmentDetail();
-  setupTabs();
   setupFilePreviewNavigation();
   setupWikiTableSortableHeader();
   setupCopyButtonsToPreElements();
