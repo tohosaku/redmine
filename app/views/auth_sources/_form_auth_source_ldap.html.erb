@@ -12,8 +12,7 @@
   <p><%= f.password_field :account_password, :label => :field_password,
            :name => 'dummy_password',
            :value => ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('x'*15)),
-           :onfocus => "this.value=''; this.name='auth_source[account_password]';",
-           :onchange => "this.name='auth_source[account_password]';" %></p>
+           :data => {:controller => 'auth_sources--ldap', :action => 'focus->auth_sources--ldap#clear focus->auth_sources--ldap#setName change->auth_sources--ldap#setName', auth_sources__ldap_name_param: 'auth_source[account_password]'} %></p>
   <p><%= f.text_field :base_dn, :required => true, :size => 60 %></p>
   <p><%= f.text_area :filter, :size => 60, :label => :field_auth_source_ldap_filter %></p>
   <p><%= f.text_field :timeout, :size => 4 %></p>
