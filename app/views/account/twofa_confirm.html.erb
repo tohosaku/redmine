@@ -4,9 +4,7 @@
   <p><%=l 'twofa_label_enter_otp' %></p>
 
   <%= form_tag({ action: 'twofa' },
-               { id: 'twofa_form',
-                 onsubmit: 'return keepAnchorOnSignIn(this);' }) do -%>
-
+               { id: 'twofa_form', data: {controller: 'account--form', action: 'account--form#keepAnchor'}}) do -%>
 
     <label for="twofa_code">
       <%=l 'twofa_label_code' -%>

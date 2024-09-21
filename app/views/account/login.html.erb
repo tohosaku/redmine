@@ -1,7 +1,7 @@
 <%= call_hook :view_account_login_top %>
 
 <div id="login-form">
-  <%= form_tag(signin_path, onsubmit: 'return keepAnchorOnSignIn(this);') do %>
+  <%= form_tag(signin_path, data: {controller: 'account--form', action: 'account--form#keepAnchor'}) do %>
   <%= back_url_hidden_field_tag %>
   
   <label for="username"><%=l(:field_login)%></label>
