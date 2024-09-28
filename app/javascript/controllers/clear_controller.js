@@ -5,6 +5,11 @@ export default class extends Controller {
   static targets = ["clear"];
 
   clear(e) {
-    this.clearTarget.value = '';
+    this.clearTargets.forEach(elm => elm.value = '');
+  }
+
+  dummyTargetConnected(element) {
+    this.clear();
+    element.remove();
   }
 }
