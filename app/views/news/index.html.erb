@@ -6,13 +6,13 @@
 <%= watcher_link(@project.enabled_module('news'), User.current) if @project && User.current.logged? %>
 </div>
 
-<div id="add-news" style="display:none;">
+<div id="add-news" style="display:none;" data-controller="visibility">
 <h2><%=l(:label_news_new)%></h2>
 <%= labelled_form_for @news, :url => (@project ? project_news_index_path(@project) : news_index_path),
                                            :html => { :id => 'news-form', :multipart => true } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_create) %>
-<%= link_to l(:button_cancel), "#", :onclick => '$("#add-news").hide()' %>
+<%= link_to l(:button_cancel), "#", data: { action: 'visibility#hide' } %>
 <% end %>
 </div>
 

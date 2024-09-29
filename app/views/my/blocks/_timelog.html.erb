@@ -1,5 +1,6 @@
 <div class="contextual">
-  <%= link_to_function sprite_icon('settings', l(:label_options)), "$('#timelog-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
+  <%= link_to sprite_icon('settings', l(:label_options)), '#', class: 'icon-only icon-settings', title: l(:label_options),
+              data: { controller: 'visibility', action: 'visibility#toggle', visibility_selector_param: "#timelog-settings" } %>
 </div>
 
 <h3>
@@ -22,7 +23,7 @@
     </div>
     <p>
       <%= submit_tag l(:button_save) %>
-      <%= link_to_function l(:button_cancel), "$('#timelog-settings').toggle();" %>
+      <%= link_to l(:button_cancel), data: { controller: 'visibility', action: 'visibility#toggle', visibility_selector_param: "#timelog-settings" } %>
     </p>
   <% end %>
 </div>
