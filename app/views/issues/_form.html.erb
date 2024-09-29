@@ -32,9 +32,9 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'description' %>
-<p>
+<p data-controller="visibility">
   <%= f.label_for_field :description, :required => @issue.required_attribute?('description') %>
-  <%= tag.span id: 'issue_description_and_toolbar', style: (@issue.new_record? ? nil : 'display:none'), data: {controller: 'template'} do %>
+  <%= tag.span id: 'issue_description_and_toolbar', style: (@issue.new_record? ? nil : 'display:none'), data: {controller: 'template', visibility_target: 'field'} do %>
     <template data-template-target="element">
     <%= component 'wikieditor', preview_url: preview_issue_path(project_id: @issue.project, issue_id: @issue.id) do |d| %>
       <%= f.textarea :description, class: 'wiki-edit', no_label: true,
@@ -45,7 +45,7 @@
     <% end %>
     </template>
   <% end %>
-  <%= link_to_function content_tag(:span, sprite_icon('edit', l(:button_edit))), '$(this).hide(); $("#issue_description_and_toolbar").show()', :class => 'icon icon-edit' unless @issue.new_record? %>
+  <%= link_to content_tag(:span, sprite_icon('edit', l(:button_edit)), :class => 'icon icon-edit'), '#', :data => { :action => 'visibility#showField visibility#hide', :visibility_hide_scope_param => 'currentTarget' } unless @issue.new_record? %>
 </p>
 <% end %>
 

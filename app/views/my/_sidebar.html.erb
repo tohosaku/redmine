@@ -39,8 +39,7 @@
       <%= sprite_icon('copy') %>
     </a>
   </div>
-  <pre id='api-access-key' class='autoscroll' data-api-key-copy-target="apiKey"></pre>
-  <%= javascript_tag("$('#api-access-key').hide();") %>
+  <pre id='api-access-key' class='autoscroll' data-api-key-copy-target="apiKey" style="display:none"></pre>
   <p>
   <% if @user.api_token %>
     <%= l(:label_api_access_key_created_on, distance_of_time_in_words(Time.now, @user.api_token.created_on)) %><br />

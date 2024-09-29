@@ -196,4 +196,21 @@ export function sanitizeHTML(string) {
   return temp.innerHTML;
 }
 
+export const matched = ({ event, value }) => {
+  const condition = event.target.dataset.condition;
 
+  if (typeof condition !== 'undefined') {
+    event.params.matched = (value === (event.target.value === condition))
+  }
+  return true
+}
+
+export const guardUnmatch = ({ event, value }) => {
+  const condition = event.target.dataset.condition;
+
+  if (typeof condition !== 'undefined') {
+    event.params.matched = (value === (event.target.value === condition))
+    return event.params.matched;
+  }
+  return true
+}
