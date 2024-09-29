@@ -37,7 +37,7 @@
 <fieldset>
 <legend><%=l(:label_attachment_plural)%></legend>
 <% if @page.attachments.any? && @page.safe_attribute?('deleted_attachment_ids') %>
-<div class="contextual"><%= link_to l(:label_edit_attachments), '#', :onclick => "$('#existing-attachments').toggle(); return false;" %></div>
+  <div class="contextual"><%= link_to l(:label_edit_attachments), '#', data: {controller: 'visibility', action: 'visibility#toggle', visibility_selector_param: '#existing-attachments'} %></div>
 <div id="existing-attachments" style="<%= @page.deleted_attachment_ids.blank? ? 'display:none;' : '' %>">
   <% @page.attachments.each do |attachment| %>
   <span class="existing-attachment">

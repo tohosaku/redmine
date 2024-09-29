@@ -16,10 +16,16 @@
 <% end %>
 
 <%= form_for @relation, {
-                 :as => :relation, :remote => true,
-                 :url => issue_relations_path(@issue),
-                 :method => :post,
-                 :html => {:id => 'new-relation-form', :style => 'display: none;'}
+                 as: :relation, remote: true,
+                 url: issue_relations_path(@issue),
+                 method: :post,
+                 html: {
+                   id: 'new-relation-form',
+                   style: 'display: none;',
+                   data: {
+                     controller: 'visibility'
+                   }
+                 }
                } do |f| %>
 <%= render :partial => 'issue_relations/form', :locals => {:f => f}%>
 <% end %>

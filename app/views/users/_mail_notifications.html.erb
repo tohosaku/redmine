@@ -2,9 +2,8 @@
 <%= label_tag "user_mail_notification", l(:description_user_mail_notification), :class => "hidden-for-sighted" %>
 <%= select_tag(
       'user[mail_notification]',
-      options_for_select(
-         user_mail_notification_options(@user), @user.mail_notification),
-      :onchange => 'if (this.value == "selected") {$("#notified-projects").show();} else {$("#notified-projects").hide();}'
+      options_for_select(user_mail_notification_options(@user), @user.mail_notification),
+      data: {controller: 'visibility select', action: 'change->select#check select:selected->visibility#toggle', visibility_selector_param: '#notified-projects', condition: 'selected'}
      ) %>
 </p>
 <%= content_tag 'fieldset', :id => 'notified-projects', :style => (@user.mail_notification == 'selected' ? '' : 'display:none;'), :data => { :controller => 'checkbox'}  do %>

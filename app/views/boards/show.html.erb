@@ -12,13 +12,13 @@
 
 </div>
 
-<div id="add-message" style="display:none;">
+<div id="add-message" style="display:none;" data-controller="visibility">
 <% if User.current.allowed_to?(:add_messages, @board.project) %>
 <h2><%= link_to @board.name, project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
 <%= form_for @message, :url => new_board_message_path(@board), :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'messages/form', :locals => {:f => f} %>
   <p><%= submit_tag l(:button_create) %>
-  <%= link_to l(:button_cancel), "#", :onclick => '$("#add-message").hide(); return false;' %></p>
+  <%= link_to l(:button_cancel), "#", data: { action: 'visibility#hide' } %></p>
 <% end %>
 <% end %>
 </div>
