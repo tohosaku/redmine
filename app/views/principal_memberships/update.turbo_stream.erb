@@ -5,8 +5,8 @@
   <%= turbo_stream.update "member-#{ @membership.id }-roles" do %>
     <%= @membership.roles.sort.collect(&:to_s).join(', ') %>
   <% end %>
-  <%= turbo_stream.show "member-#{ @membership.id }-roles" %>
   <%= turbo_stream.append "member-#{ @membership.id }-roles" do %>
+    <%= tag.template data: { visibility_target: 'dummy', force: 'true'} %>
     <%= tag.template data: { classlist_target: 'dummy', css: 'effect', force: 'true'} %>
   <% end %>
 <% else %>

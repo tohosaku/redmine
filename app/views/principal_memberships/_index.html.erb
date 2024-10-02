@@ -19,7 +19,7 @@
     <%= link_to_project membership.project %>
   </td>
   <td class="roles">
-    <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
+    <span id="member-<%= membership.id %>-roles" data-controller="visibility"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
     <div id="member-<%= membership.id %>-form"></div>
   </td>
   <td class="buttons">
