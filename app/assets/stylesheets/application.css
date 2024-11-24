@@ -1696,10 +1696,12 @@ p.cal.legend span {display:flex;}
   margin: 0;
 }
 
-div.tooltip:hover span.tip{
+div.tooltip span.tip{
+position:fixed;
+text-align:left;
 display:block;
-position:absolute;
-inset-block-start: 12px; inline-size: 270px;
+visibility:hidden;
+inline-size: 270px;
 border:1px solid var(--oc-gray-7);
 border-radius: 3px;
 background-color:var(--oc-white);
@@ -1707,10 +1709,25 @@ padding: 4px;
 font-size: 0.75rem;
 color:var(--oc-gray-7);
 box-shadow: 0 1px 2px rgba(var(--oc-gray-9-rgb), 0.05);
+z-index:26;
 }
 
-table.cal div.tooltip:hover span.tip {
-  inset-block-start: 25px;
+.action-tooltip {
+  position: fixed;
+  display: inline-block!important;
+  font-weight: normal;
+  background: #000;
+  color: #fff;
+  border-radius: 3px;
+  padding: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s ease-in;
+  font-size: 0.8rem;
+  border: 0;
+  box-shadow: none;
+  white-space: pre-wrap;
+  pointer-events: none;
 }
 
 img.ui-datepicker-trigger {
@@ -2158,17 +2175,6 @@ div.wiki .task-list input.task-list-item-checkbox {
 }
 .badge-issues-count {
   background: var(--oc-gray-2);
-}
-
-/***** Tooltips *****/
-.ui-tooltip {
-  background: var(--oc-black);
-  color: var(--oc-white);
-  border-radius: 3px;
-  border: 0;
-  box-shadow: none;
-  white-space: pre-wrap;
-  pointer-events: none;
 }
 
 /***** SVG Icons *****/
