@@ -208,7 +208,7 @@
   </td>
 <% end %>
 <td>
-<div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;" id="gantt_area">
+<div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;" id="gantt_area" data-controller="issue-tooltip" data-action="mouseover->issue-tooltip#show">
 <%
   style  = ""
   style += "width: #{g_width - 1}px;"

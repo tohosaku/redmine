@@ -1436,7 +1436,6 @@ p.cal.legend span {display:flex;}
 /***** Tooltips ******/
 .tooltip{position:relative;z-index:24;}
 .tooltip:hover{z-index:25;color:#000;}
-.tooltip span.tip{display: none; text-align:left;}
 .tooltip span.tip a { color: #169 !important; }
 
 .tooltip span.tip .avatar {
@@ -1444,10 +1443,12 @@ p.cal.legend span {display:flex;}
   margin: 0;
 }
 
-div.tooltip:hover span.tip{
+div.tooltip span.tip{
+position:fixed;
+text-align:left;
 display:block;
-position:absolute;
-top:12px; width:270px;
+visibility:hidden;
+width:270px;
 border:1px solid #555;
 border-radius: 3px;
 background-color:#fff;
@@ -1455,10 +1456,25 @@ padding: 4px;
 font-size: 0.75rem;
 color:#505050;
 box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+z-index:26;
 }
 
-table.cal div.tooltip:hover span.tip {
-  top: 25px;
+.action-tooltip {
+  position: fixed;
+  display: inline-block!important;
+  font-weight: normal;
+  background: #000;
+  color: #fff;
+  border-radius: 3px;
+  padding: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s ease-in;
+  font-size: 0.8rem;
+  border: 0;
+  box-shadow: none;
+  white-space: pre-wrap;
+  pointer-events: none;
 }
 
 img.ui-datepicker-trigger {
@@ -1964,17 +1980,6 @@ td.gantt_watcher_users_column div.issue_watcher_users ul li:not(:last-child)::af
 }
 .badge-issues-count {
   background: #EEEEEE;
-}
-
-/***** Tooltips *****/
-.ui-tooltip {
-  background: #000;
-  color: #fff;
-  border-radius: 3px;
-  border: 0;
-  box-shadow: none;
-  white-space: pre-wrap;
-  pointer-events: none;
 }
 
 /***** SVG Icons *****/

@@ -1224,22 +1224,6 @@ function setupWikiTableSortableHeader() {
   });
 }
 
-function setupHoverTooltips(container) {
-  $(container || 'body').find("[title]:not(.no-tooltip)").tooltip({
-    show: {
-      delay: 400
-    },
-    position: {
-      my: "center bottom-5",
-      at: "center top"
-    }
-  });
-}
-function removeHoverTooltips(container) {
-  $(container || 'body').find("[title]:not(.no-tooltip)").tooltip('destroy')
-}
-$(function() { setupHoverTooltips(); });
-
 function inlineAutoComplete(element) {
     'use strict';
 
