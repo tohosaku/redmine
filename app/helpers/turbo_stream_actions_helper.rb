@@ -18,9 +18,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module TurboStreamActionsHelper
-  def show_modal(target = nil, width: nil, height: nil, title: nil, partial: nil, locals: {}, &block)
+  def show_modal(target = nil, width: nil, title: nil, partial: nil, locals: {}, &)
     dialog = target || 'ajax-modal'
-    html = @view_context.remote_dialog(width: width, title: title, partial: partial, locals: locals, &block)
+    html = @view_context.remote_dialog(width: width, title: title, partial: partial, locals: locals, &)
+    update dialog, html
+  end
+
+  def show_dialog(target = nil, width: nil, title: nil, partial: nil, locals: {}, &)
+    dialog = target || 'ajax-modal'
+    html = @view_context.remote_dialog(modal: false, width: width, title: title, partial: partial, locals: locals, &)
     update dialog, html
   end
 

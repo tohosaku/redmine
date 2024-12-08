@@ -203,7 +203,7 @@ export default [
     type: 'button',
     title: 'Help',
     fn: {
-      wiki: function() { window.open(this.help_link, '', 'resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes') }
+      wiki: function() { this.showHelp() }
     }
   }
 ]

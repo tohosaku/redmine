@@ -5,6 +5,7 @@
  *
  * Modified by JP LANG for multiple text formatting
  */
+import { get } from '@rails/request.js'
 
 let lastJstPreviewed = null;
 const isMac = Boolean(navigator.platform.toLowerCase().match(/mac/));
@@ -71,6 +72,10 @@ export default class jsToolBar {
 
   setHelpLink(link) {
     this.help_link = link;
+  }
+
+  showHelp() {
+    get(this.help_link, { responseKind: 'turbo-stream' });
   }
 
   setPreviewUrl(url) {
