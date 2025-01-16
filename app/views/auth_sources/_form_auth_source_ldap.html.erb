@@ -3,10 +3,12 @@
 <div class="box tabular">
   <p><%= f.text_field :name, :required => true %></p>
   <p><%= f.text_field :host, :required => true %></p>
-  <p>
+  <p data-controller="visibility" data-action="change->visibility#toggleField:!matched">
     <%= f.text_field :port, :required => true, :size => 6 %>
-    <%= f.select :ldap_mode, AuthSourceLdap::LDAP_MODES.map { |m| [l("label_#{m}"), m] }, :no_label => true %>
-    <em class="info ldaps_warning"><%= l("label_ldaps_warning") %></em>
+    <%= f.select :ldap_mode, AuthSourceLdap::LDAP_MODES.map { |m| [l("label_#{m}"), m] },
+                 {:no_label => true},
+                 :data => {:controller => 'trigger', :condition => 'ldaps_verify_peer'} %>
+    <em class="info ldaps_warning" data-visibility-target="field"><%= l("label_ldaps_warning") %></em>
   </p>
   <p><%= f.text_field :account %></p>
   <p><%= f.password_field :account_password, :label => :field_password,
