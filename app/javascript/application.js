@@ -9,10 +9,6 @@ document.addEventListener("turbo:load", () => {
   $('#content').on('change', 'input[data-disables], input[data-enables], input[data-shows]', toggleDisabledOnChange);
   toggleDisabledInit();
 
-  $('#auth_source_ldap_mode').change(function () {
-    $('.ldaps_warning').toggle($(this).val() != 'ldaps_verify_peer');
-  }).change();
-
   setupAjaxIndicator();
   hideOnLoad();
   defaultFocus();
