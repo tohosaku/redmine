@@ -8,7 +8,8 @@
 <%= form_tag({:controller => 'gantts', :action => 'show',
              :project_id => @project, :month => params[:month],
              :year => params[:year], :months => params[:months]},
-             :method => :get, :id => 'query_form') do %>
+             :method => :get, :id => 'query_form', :data => { :controller => 'gantts--show',
+                                                              :gantts__show_gantts__table_outlet => '.gantt-table' }) do %>
 <%= hidden_field_tag 'set_filter', '1' %>
 <%= hidden_field_tag 'gantt', '1' %>
 
@@ -38,7 +39,7 @@
               <div id="list-definition">
                 <div>
               <label for="draw_selected_columns">
-                <%= check_box 'query', 'draw_selected_columns', :id => 'draw_selected_columns', 'data-enables' => '#list-definition .query-columns select, #list-definition .query-columns input' %>
+                <%= check_box 'query', 'draw_selected_columns', :id => 'draw_selected_columns', :data => { :action => 'change->gantts--show#draw', :enables => '#list-definition .query-columns select, #list-definition .query-columns input'} %>
                   <%= l(:label_display) %>
               </label>
                 </div>
@@ -50,7 +51,7 @@
             <fieldset>
               <legend><%= l(:label_related_issues) %></legend>
               <label for="draw_relations">
-                <%= check_box 'query', 'draw_relations', :id => 'draw_relations' %>
+                <%= check_box 'query', 'draw_relations', :id => 'draw_relations', :data => { :action => 'change->gantts--show#draw' } %>
                 <% rels = [IssueRelation::TYPE_BLOCKS, IssueRelation::TYPE_PRECEDES] %>
                 <% rels.each do |rel| %>
                   <% color = Redmine::Helpers::Gantt::DRAW_TYPES[rel][:color] %>
@@ -63,7 +64,7 @@
             <fieldset>
               <legend><%= l(:label_gantt_progress_line) %></legend>
               <label for="draw_progress_line">
-                <%= check_box 'query', 'draw_progress_line', :id => 'draw_progress_line' %>
+                <%= check_box 'query', 'draw_progress_line', :id => 'draw_progress_line', :data => { :action => 'change->gantts--show#draw' } %>
                 <%= l(:label_display) %>
               </label>
             </fieldset>
@@ -89,14 +90,14 @@
   <%= select_year(@gantt.year_from, :prefix => "year", :discard_type => true) %>
   <%= hidden_field_tag 'zoom', @gantt.zoom %>
 
-  <%= link_to_function sprite_icon('checked', l(:button_apply)), '$("#query_form").submit()',
-                       :class => 'icon icon-checked' %>
+  <%= link_to sprite_icon('checked', l(:button_apply)), '#', :class => 'icon icon-checked',
+              :data => { :action => 'gantts--show#apply' } %>
   <%= link_to sprite_icon('reload', l(:button_clear)), { :project_id => @project, :set_filter => 1 },
               :class => 'icon icon-reload' %>
   <% if @query.new_record? && User.current.allowed_to?(:save_queries, @project, :global => true) %>
-    <%= link_to_function sprite_icon('save', l(:button_save_object, object_name: l(:label_query)).capitalize),
-                         "$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }').submit();",
-                         :class => 'icon icon-save' %>
+    <%= link_to sprite_icon('save', l(:button_save_object, object_name: l(:label_query).capitalize)), '#',
+              :class => 'icon icon-save',
+              :data => { :action => 'gantts--show#saveObject', :gantts__show_path_param => @project ? new_project_query_path(@project) : new_query_path } %>
   <% end %>
 <% if !@query.new_record? && @query.editable_by?(User.current) %>
   <%= link_to sprite_icon('edit', l(:button_edit_object, object_name: l(:label_query)).capitalize), edit_query_path(@query, :gantt => 1), :class => 'icon icon-edit' %>
@@ -147,9 +148,12 @@
   <p class="warning"><%= l(:notice_gantt_chart_truncated, :max => @gantt.max_rows) %></p>
 <% end %>
 
-<table class='gantt-table'>
+<%= tag.table class: 'gantt-table', data: { controller: 'gantts--table',
+                                            action: 'resize@window->gantts--show#redraw',
+                                            gantts__table_columns_value: Redmine::Helpers::Gantt::UNAVAILABLE_COLUMNS.map(&:to_s).join(',') } do %>
 <tr>
-<td style="width:<%= @query.draw_selected_columns ? subject_width + 1 : subject_width + 2 %>px;" class="gantt_subjects_column">
+  <%= tag.td style: "width: #{@query.draw_selected_columns ? subject_width + 1 : subject_width + 2}px;", class: "gantt_subjects_column",
+    data: resizable_attrs(min_width: 100, also_resize: ".gantt_subjects_container, .gantt_subjects_container>.gantt_hdr, .project-name, .issue-subject, .version-name") do %>
   <%
     style  = ""
     style += "position:relative;"
@@ -179,13 +183,14 @@
       <% end %>
     <% end %>
   <% end %>
-</td>
+<% end %>
 <%
   @query.columns.each do |column|
     next if Redmine::Helpers::Gantt::UNAVAILABLE_COLUMNS.include?(column.name)
     column_name = column.name.to_s.tr('.', '_')
 %>
-  <td class="gantt_<%= column_name %>_column gantt_selected_column <%= 'last_gantt_selected_column' if @query.columns.last == column %>" id="<%= column_name %>">
+  <%= tag.td class: ["gantt_#{column_name}_column", "gantt_selected_column", 'last_gantt_selected_column': @query.columns.last == column], id: column_name,
+    data: resizable_attrs(min_width: 20, also_resize: ".gantt_#{column_name}_container, .gantt_#{column_name}_container > .gantt_hdr") do %>
     <%
       style = "position: relative;"
       style += "height: #{t_height + 24}px;"
@@ -205,10 +210,10 @@
         <%= @gantt.selected_column_content({:column => column, :top => headers_height + 8, :zoom => zoom, :g_width => g_width}).html_safe %>
       <% end %>
     <% end %>
-  </td>
+  <% end %>
 <% end %>
 <td>
-<div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;" id="gantt_area" data-controller="issue-tooltip" data-action="mouseover->issue-tooltip#show">
+<div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;" id="gantt_area" data-controller="issue-tooltip" data-action="mouseover->issue-tooltip#show" data-gantts--table-target="area">
 <%
   style  = ""
   style += "width: #{g_width - 1}px;"
@@ -368,7 +373,7 @@
     style += "width:10px;"
     style += "border-left: 1px dashed red;"
   %>
-  <%= content_tag(:div, '&nbsp;'.html_safe, :style => style, :id => 'today_line') %>
+  <%= content_tag(:div, '&nbsp;'.html_safe, :style => style, :id => 'today_line', :data => { :gantts__table_target => 'today' }) %>
 <% end %>
 <%
   style  = ""
@@ -378,11 +383,11 @@
   style += "left: 0px;"
   style += "width: #{g_width - 1}px;"
 %>
-<%= content_tag(:div, '', :style => style, :id => "gantt_draw_area") %>
+<%= content_tag(:div, '', :style => style, :id => "gantt_draw_area", :data => { :gantts__table_target => 'folder' }) %>
 </div>
 </td>
 </tr>
-</table>
+<% end %>
 
 <span class="pagination">
   <ul class="pages">
@@ -410,24 +415,8 @@
 
 <% html_title(l(:label_gantt)) -%>
 
-<% content_for :header_tags do %>
-  <%= javascript_include_tag 'raphael' %>
-  <%= javascript_include_tag 'gantt' %>
-<% end %>
+<script id="issue_relation_type" type="text/json">
+  <%= raw Redmine::Helpers::Gantt::DRAW_TYPES.to_json %>
+</script>
 
-<%= javascript_tag do %>
-  var issue_relation_type = <%= raw Redmine::Helpers::Gantt::DRAW_TYPES.to_json %>;
-  $(function() {
-    disable_unavailable_columns('<%= Redmine::Helpers::Gantt::UNAVAILABLE_COLUMNS.map(&:to_s).join(',') %>'.split(','));
-    drawGanttHandler();
-    resizableSubjectColumn();
-    drawSelectedColumns();
-    $("#draw_relations, #draw_progress_line, #draw_selected_columns").change(drawGanttHandler);
-    $('div.gantt_subjects .expander').on('click', ganttEntryClick);
-  });
-  $(window).resize(function() {
-    drawGanttHandler();
-    resizableSubjectColumn();
-  });
-<% end %>
 <%= context_menu %>

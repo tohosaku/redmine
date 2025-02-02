@@ -3,22 +3,24 @@
  * Copyright (C) 2006-  Jean-Philippe Lang
  * This code is released under the GNU General Public License.
  */
+import {createSVGDrawer} from 'svg_drawer';
 
 var revisionGraph = null;
 
-function drawRevisionGraph(holder, commits_hash, graph_space) {
+export function drawRevisionGraph(holder, commits_hash, graph_space) {
     var XSTEP = 20,
         CIRCLE_INROW_OFFSET = 10;
-    var commits_by_scmid = commits_hash,
-        commits = $.map(commits_by_scmid, function(val,i){return val;});
+    const commits_by_scmid = commits_hash;
+    const commits = $.map(commits_by_scmid, function(val,i){return val;});
     var max_rdmid = commits.length - 1;
     var commit_table_rows = $('table.changesets tr.changeset');
 
     // create graph
-    if(revisionGraph != null)
+    if(revisionGraph != null) {
         revisionGraph.clear();
-    else
-        revisionGraph = Raphael(holder);
+    } else {
+        revisionGraph = createSVGDrawer(holder);
+    }
 
     var top = revisionGraph.set();
     // init dimensions
@@ -43,9 +45,9 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
 
     // init colors
     var colors = [];
-    Raphael.getColor.reset();
+    const svgcolor = revisionGraph.color();
     for (var k = 0; k <= graph_space; k++) {
-        colors.push(Raphael.getColor());
+        colors.push(svgcolor.getColor());
     }
 
     var parent_commit;
@@ -102,9 +104,8 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
             });
 
         if(commit.refs != null && commit.refs.length > 0) {
-            title = document.createElementNS(revisionGraph.canvas.namespaceURI, 'title');
-            title.appendChild(document.createTextNode(commit.refs));
-            revision_dot_overlay.node.appendChild(title);
+            title = revisionGraph.draw('title', revision_dot_overlay.node)
+            title.node.appendChild(document.createTextNode(commit.refs));
         }
         top.push(revision_dot_overlay);
     });

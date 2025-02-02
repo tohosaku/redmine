@@ -2554,3 +2554,13 @@ th[role=columnheader]:not(.no-sort):hover:after {
 }
 
 table.list:not(.odd-even) tbody tr.is-dragging { background-color:#E0FFFF; }
+
+.resizable-handle {
+  cursor: ew-resize;
+  top: 0;
+  right: 0;
+  width: 5px;
+  position: absolute;
+  user-select: none;
+  z-index: 100;
+}

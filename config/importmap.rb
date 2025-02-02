@@ -5,6 +5,10 @@
 pin "application"
 pin "tooltip"
 pin "helper"
+pin "svg_drawer"
+pin "gantt", preload: false
+pin "revision_graph"
+
 pin "wc-datepicker", to: "wc-datepicker.js"
 pin "@redmine-ui/tribute", to: "tribute.min.js"
 pin "@hotwired/stimulus", to: "stimulus.min.js"

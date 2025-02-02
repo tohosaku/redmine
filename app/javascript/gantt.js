@@ -3,18 +3,20 @@
  * Copyright (C) 2006-  Jean-Philippe Lang
  * This code is released under the GNU General Public License.
  */
+import {createSVGDrawer} from 'svg_drawer';
+import {switchClass, isMobile, updateSVGIcon, nextAll} from 'helper';
 
-var draw_gantt = null;
-var draw_top;
-var draw_right;
-var draw_left;
+let draw_gantt = null;
+let draw_top;
+let draw_right;
+let draw_left;
 
-var rels_stroke_width = 2;
+let rels_stroke_width = 2;
 
-function setDrawArea() {
-  draw_top   = $("#gantt_draw_area").position().top;
-  draw_right = $("#gantt_draw_area").width();
-  draw_left  = $("#gantt_area").scrollLeft();
+function setDrawArea(folder, area) {
+  draw_top   = $(folder).position().top;
+  draw_right = $(folder).width();
+  draw_left  = $(area).scrollLeft();
 }
 
 function getRelationsArray() {
@@ -25,7 +27,7 @@ function getRelationsArray() {
     if (element_id != null) {
       var issue_id = element_id.replace("task-todo-issue-", "");
       var data_rels = $(element).data("rels");
-      for (rel_type_key in data_rels) {
+      for (let rel_type_key in data_rels) {
         $.each(data_rels[rel_type_key], function(index_issue, element_issue) {
           arr.push({issue_from: issue_id, issue_to: element_issue,
                     rel_type: rel_type_key});
@@ -49,8 +51,8 @@ function drawRelations() {
     var issue_from_right = issue_from.position().left + issue_from.width();
     var issue_to_top   = issue_to.position().top  + (issue_height / 2) - draw_top;
     var issue_to_left  = issue_to.position().left;
-    var color = issue_relation_type[element_issue["rel_type"]]["color"];
-    var landscape_margin = issue_relation_type[element_issue["rel_type"]]["landscape_margin"];
+    var color = window.issue_relation_type[element_issue["rel_type"]]["color"];
+    var landscape_margin = window.issue_relation_type[element_issue["rel_type"]]["landscape_margin"];
     var issue_from_right_rel = issue_from_right + landscape_margin;
     var issue_to_left_rel    = issue_to_left    - landscape_margin;
     draw_gantt.path(["M", issue_from_right + draw_left,     issue_from_top,
@@ -105,9 +107,9 @@ function drawRelations() {
   });
 }
 
-function getProgressLinesArray() {
+function getProgressLinesArray(todayLine) {
   var arr = new Array();
-  var today_left = $('#today_line').position().left;
+  var today_left = $(todayLine).position().left;
   arr.push({left: today_left, top: 0});
   $.each($('div.issue-subject, div.version-name'), function(index, element) {
     if(!$(element).is(':visible')) return true;
@@ -147,9 +149,9 @@ function getProgressLinesArray() {
   return arr;
 }
 
-function drawGanttProgressLines() {
-  var arr = getProgressLinesArray();
-  var color = $("#today_line")
+function drawGanttProgressLines(todayLine) {
+  var arr = getProgressLinesArray(todayLine);
+  var color = $(todayLine)
                     .css("border-left-color");
   var i;
   for(i = 1 ; i < arr.length ; i++) {
@@ -166,7 +168,7 @@ function drawGanttProgressLines() {
   }
 }
 
-function drawSelectedColumns(){
+export function drawSelectedColumns(){
   if ($("#draw_selected_columns").prop('checked')) {
     if(isMobile()) {
       $('td.gantt_selected_column').each(function(i) {
@@ -176,18 +178,8 @@ function drawSelectedColumns(){
       $('.gantt_subjects_container').addClass('draw_selected_columns');
       $('td.gantt_selected_column').each(function() {
         $(this).show();
-        var column_name = $(this).attr('id');
-        $(this).resizable({
-          zIndex: 30,
-          alsoResize: '.gantt_' + column_name + '_container, .gantt_' + column_name + '_container > .gantt_hdr',
-          minWidth: 20,
-          handles: "e",
-          create: function() {
-            $(".ui-resizable-e").css("cursor","ew-resize");
-          }
-        }).on('resize', function (e) {
-            e.stopPropagation();
-        });
+        const column_name = $(this).attr('id');
+        setResizableHandle(this)
       });
     }
   }else{
@@ -198,80 +190,66 @@ function drawSelectedColumns(){
   }
 }
 
-function drawGanttHandler() {
-  var folder = document.getElementById('gantt_draw_area');
-  if(draw_gantt != null)
+export function drawGanttHandler(folder, area, todayLine) {
+  if(draw_gantt != null) {
     draw_gantt.clear();
-  else
-    draw_gantt = Raphael(folder);
-  setDrawArea();
+  } else {
+    draw_gantt = createSVGDrawer(folder);
+  }
+  setDrawArea(folder, area);
   drawSelectedColumns();
-  if ($("#draw_progress_line").prop('checked'))
-    try{drawGanttProgressLines();}catch(e){}
-  if ($("#draw_relations").prop('checked'))
+  if ($("#draw_progress_line").prop('checked')) {
+    try{
+      drawGanttProgressLines(todayLine);
+    }catch(e){
+    }
+  }
+  if ($("#draw_relations").prop('checked')) {
     drawRelations();
+  }
   $('#content').addClass('gantt_content');
 }
 
-function resizableSubjectColumn(){
+export function resizableSubjectColumn(){
   $('.issue-subject, .project-name, .version-name').each(function(){
     $(this).width($(".gantt_subjects_column").width()-$(this).position().left);
   });
-  $('td.gantt_subjects_column').resizable({
-    alsoResize: '.gantt_subjects_container, .gantt_subjects_container>.gantt_hdr, .project-name, .issue-subject, .version-name',
-    minWidth: 100,
-    handles: 'e',
-    zIndex: 30,
-    create: function( event, ui ) {
-      $('.ui-resizable-e').css('cursor','ew-resize');
-    }
-  }).on('resize', function (e) {
-      e.stopPropagation();
-  });
-  if(isMobile()) {
-    $('td.gantt_subjects_column').resizable('disable');
-  }else{
-    $('td.gantt_subjects_column').resizable('enable');
-  };
+
+  if (!isMobile()) {
+    const element = document.querySelector('td.gantt_subjects_column');
+    setResizableHandle(element)
+  }
 }
 
-ganttEntryClick = function(e){
-  var icon_expander = e.currentTarget;
+export function ganttEntryClick(e) {
+  var icon_expander = e.target.closest('.expander');
   var subject = $(icon_expander.parentElement);
   var subject_left = parseInt(subject.css('left')) + parseInt(icon_expander.offsetWidth);
   var target_shown = null;
   var target_top = 0;
   var total_height = 0;
   var out_of_hierarchy = false;
-  var iconChange = null;
-  if(subject.hasClass('open'))
-    iconChange = function(element){
-      var expander = $(element).find('.expander')
-      expander.switchClass('icon-expanded', 'icon-collapsed');
-      $(element).removeClass('open');
-      if (expander.find('svg').length === 1) {
-        updateSVGIcon(expander[0], 'angle-right')
-      }
-    };
-  else
-    iconChange = function(element){
-      var expander = $(element).find('.expander')
-      expander.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
-      $(element).addClass('open');
-      if (expander.find('svg').length === 1) {
-        updateSVGIcon(expander[0], 'angle-down')
-      }
-    };
-  iconChange(subject);
-  subject.nextAll('div').each(function(_, element){
+
+  const isOpen = subject.hasClass('open');
+  const iconChange = function(element) {
+    const icon = isOpen ? 'angle-right' : 'angle-down';
+    const expander = element.querySelectorAll('.expander');
+    expander.forEach((ex) => switchClass(ex, 'icon-expanded', 'icon-collapsed', !isOpen))
+    element.classList.toggle('open', !isOpen);
+    if (expander.length > 0 && expander[0].querySelector('svg') !== null) {
+      updateSVGIcon(expander[0], icon)
+    }
+  };
+  iconChange(subject.get(0));
+  nextAll(subject.get(0), 'div').forEach((element) => {
     var el = $(element);
     var json = el.data('collapse-expand');
     var number_of_rows = el.data('number-of-rows');
-    var el_task_bars = '#gantt_area form > div[data-collapse-expand="' + json.obj_id + '"][data-number-of-rows="' + number_of_rows + '"]';
-    var el_selected_columns = 'td.gantt_selected_column div[data-collapse-expand="' + json.obj_id + '"][data-number-of-rows="' + number_of_rows + '"]';
-    if(out_of_hierarchy || parseInt(el.css('left')) <= subject_left){
+    const selector = `div[data-collapse-expand="${json.obj_id}"][data-number-of-rows="${number_of_rows}"]`;
+    var el_task_bars = `#gantt_area form > ${selector}`;
+    var el_selected_columns = `td.gantt_selected_column ${selector}`;
+    if (out_of_hierarchy || parseInt(el.css('left')) <= subject_left) {
       out_of_hierarchy = true;
-      if(target_shown == null) return false;
 
       var new_top_val = parseInt(el.css('top')) + total_height * (target_shown ? -1 : 1);
       el.css('top', new_top_val);
@@ -282,18 +260,20 @@ ganttEntryClick = function(e){
     }
 
     var is_shown = el.is(':visible');
-    if(target_shown == null){
+    if (target_shown == null) {
       target_shown = is_shown;
       target_top = parseInt(el.css('top'));
       total_height = 0;
     }
-    if(is_shown == target_shown){
+    if (is_shown == target_shown) {
       $(el_task_bars).each(function(_, task) {
         var el_task = $(task);
-        if(!is_shown)
+        if (!is_shown) {
           el_task.css('top', target_top + total_height);
-        if(!el_task.hasClass('tooltip'))
+        }
+        if (!el_task.hasClass('tooltip')) {
           el_task.toggle(!is_shown);
+        }
       });
       $(el_selected_columns).each(function (_, attr) {
         var el_attr = $(attr);
@@ -301,18 +281,32 @@ ganttEntryClick = function(e){
           el_attr.css('top', target_top + total_height);
           el_attr.toggle(!is_shown);
       });
-      if(!is_shown)
+      if (!is_shown) {
         el.css('top', target_top + total_height);
-      iconChange(el);
+      }
+      iconChange(element);
       el.toggle(!is_shown);
       total_height += parseInt(json.top_increment);
     }
   });
-  drawGanttHandler();
 };
 
-function disable_unavailable_columns(unavailable_columns) {
+export function disableUnavailableColumns(unavailable_columns) {
   $.each(unavailable_columns, function (index, value) {
     $('#available_c, #selected_c').children("[value='" + value + "']").prop('disabled', true);
   });
+}
+
+function setResizableHandle(element) {
+  const createHandle = (elm) => {
+    const height = elm.offsetHeight;
+    const handle = document.createElement('div');
+    handle.classList.add('resizable-handle')
+    handle.style.height = height + 'px';
+
+    return handle;
+  }
+
+  const handle = createHandle(element.closest('table'));
+  element.appendChild(handle)
 }

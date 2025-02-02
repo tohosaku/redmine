@@ -41,4 +41,15 @@ module GanttHelper
       end
     end
   end
+
+  def resizable_attrs(also_resize:, min_width:)
+    {
+      controller: "resizable",
+      action: "pointerdown->resizable#start pointermove->resizable#resize:stop pointerup->resizable#end pointerover->resizable#enter pointerout->resizable#leave",
+      resizable_handle_class: 'resizable_handle',
+      also_resize: also_resize,
+      resizable_min_width_value: min_width,
+      resuzable_zindex_value: 30
+    }
+  end
 end
