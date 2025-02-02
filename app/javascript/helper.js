@@ -23,10 +23,53 @@ export function metaContent (name) {
   return element && element.content
 }
 
+export function updateSVGIcon(element, icon) {
+  const iconElement = element.getElementsByTagName('use').item(0)
+
+  if (iconElement === null) return false;
+
+  const iconPath = iconElement.getAttribute('href');
+  iconElement.setAttribute('href', iconPath.replace(/#.*$/g, "#icon--" + icon))
+}
+
 export function isMobile() {
   const element = document.querySelector('.js-flyout-menu-toggle-button')
   const style = window.getComputedStyle(element);
   return (style.display !== 'none')
+}
+
+export function switchClass(element, fromClass, toClass, reverse = false) {
+  if (element == null) return;
+
+  element.classList.toggle(fromClass, reverse)
+  element.classList.toggle(toClass, !reverse)
+}
+
+export function prevAll(element, selector) {
+  const sibs = [];
+  let current = element;
+  while (current = current.previousSibling) {
+    if (current.matches(selector)) {
+      sibs.push(current);
+    }
+  }
+  return sibs;
+}
+
+export function nextAll(element, tagName) {
+  const sibs = [];
+  let nextElem = element.parentNode.firstChild;
+  let current = element;
+  do {
+    if (nextElem === current) continue; // ignore elem of target
+    if (nextElem === current.nextElementSibling) {
+      if (current.tagName === tagName.toUpperCase()) {
+        sibs.push(nextElem);
+        current = nextElem;
+      }
+    }
+  } while(nextElem = nextElem.nextSibling)
+  return sibs;
 }
 
 export function withProgress(request, element) {

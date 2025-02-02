@@ -4,7 +4,7 @@
  * This code is released under the GNU General Public License.
  */
 
-var revisionGraph = null;
+let revisionGraph = null;
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
 
@@ -88,7 +88,7 @@ function colorBySpace(index) {
     return 'hsl(' + hue + ', ' + saturation + '%, ' + lightness + '%)';
 }
 
-function drawRevisionGraph(holder, commits_hash, graph_space) {
+export function drawRevisionGraph(holder, commits_hash, graph_space) {
     var XSTEP = 20,
         CIRCLE_INROW_OFFSET = 10;
     var commits_by_scmid = commits_hash,
