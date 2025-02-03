@@ -39,13 +39,23 @@ export default class extends Controller {
     }
   }
 
+  showField(e) {
+    e.preventDefault();
+    this.fieldTargets.forEach(element => this.showElement(element));
+  }
+
   showElement(element) {
     element.style.display = '';
   }
 
   hide(e) {
     e.preventDefault();
-    this.hideElement(this.element);
+    if (e.params.hideScope) {
+      const scope = e.params.hideScope;
+      this.hideElement(e[scope]);
+    } else {
+      this.hideElement(this.element);
+    }
   }
 
   hideElement(element) {
