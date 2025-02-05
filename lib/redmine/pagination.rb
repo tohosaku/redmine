@@ -166,7 +166,7 @@ module Redmine
       # Yields the given block with the text and parameters
       # for each pagination link and returns a string that represents the links
       def pagination_links_each(paginator, count=nil, options={}, &)
-        options.assert_valid_keys :per_page_links
+        options.assert_valid_keys :per_page_links, :previous, :next
 
         per_page_links = options.delete(:per_page_links)
         per_page_links = false if count.nil?
@@ -180,7 +180,7 @@ module Redmine
           if paginator.previous_page
             html << content_tag('li',
                                 yield(text, {page_param => paginator.previous_page},
-                                      :accesskey => accesskey(:previous)),
+                                      :accesskey => accesskey(:previous), :data => options[:previous]),
                                 :class => 'previous page')
           else
             html << content_tag('li', content_tag('span', text), :class => 'previous')
@@ -208,7 +208,7 @@ module Redmine
           if paginator.next_page
             html << content_tag('li',
                                 yield(text, {page_param => paginator.next_page},
-                                      :accesskey => accesskey(:next)),
+                                      :accesskey => accesskey(:next), :data => options[:next]),
                                 :class => 'next page')
           else
             html << content_tag('li', content_tag('span', text), :class => 'next')

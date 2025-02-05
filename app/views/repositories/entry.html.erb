@@ -32,7 +32,7 @@
                 :class => 'icon icon-download') : nil } %>
 <% end %>
 
-<span class="pagination filepreview">
+<span class="pagination filepreview" data-controller="filepreview" data-action="keydown.left@document->filepreview#previous keydown.left@document->filepreview#next">
   <%= render_pagination %>
 </span>
 

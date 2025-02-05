@@ -59,9 +59,13 @@ module AttachmentsHelper
   end
 
   def render_pagination
-    pagination_links_each @paginator do |text, parameters, options|
+    preview = {
+      previous: { controller: 'link', action: 'keydown.left@document->link#visit' },
+      next: { controller: 'link', action: 'keydown.right@document->link#visit' }
+    }
+    pagination_links_each @paginator, nil, preview do |text, parameters, options|
       if att = @attachments[parameters[:page] - 1]
-        link_to text, named_attachment_path(att, att.filename)
+        link_to text, named_attachment_path(att, att.filename), options
       end
     end if @paginator
   end
