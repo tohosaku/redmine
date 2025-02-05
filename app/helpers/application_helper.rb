@@ -598,7 +598,7 @@ module ApplicationHelper
     end
     text ||= l(:label_jump_to_a_project)
     url = autocomplete_projects_path(jump: current_menu_item)
-    trigger = content_tag('span', text, class: 'drdn-trigger')
+    trigger = content_tag('span', text, class: 'drdn-trigger', data: {action: 'click->dropdown#select'})
     q = text_field_tag('q', '', id: 'projects-quick-search',
                        class: 'autocomplete',
                        data: { controller: 'search-field', search_field_url_value: url, action: 'keyup->search-field#check click->search-field#check mousemove->search-field#check' },
@@ -611,8 +611,8 @@ module ApplicationHelper
                     content_tag('div', render_projects_for_jump_box(projects, selected: @project),
                                 class: 'drdn-items projects selection') +
                     content_tag('div', all, class: 'drdn-items all-projects selection'),
-                  class: 'drdn-content')
-    content_tag('div', trigger + content, id: "project-jump", class: "drdn")
+                  class: 'drdn-content', data: {action: 'keydown->dropdown#focus'})
+    content_tag('div', trigger + content, id: "project-jump", class: "drdn", data: {controller: 'dropdown'})
   end
 
   def project_tree_options_for_select(projects, options = {})
@@ -853,10 +853,10 @@ module ApplicationHelper
       trigger =
         content_tag('span', sprite_icon('3-bullets', l(:button_actions)), :class => 'icon-only icon-actions',
                     :title => l(:button_actions))
-      trigger = content_tag('span', trigger, :class => 'drdn-trigger')
+      trigger = content_tag('span', trigger, :class => 'drdn-trigger', :data => {:action => 'click->dropdown#select'})
       content = content_tag('div', content, :class => 'drdn-items')
-      content = content_tag('div', content, :class => 'drdn-content')
-      content_tag('span', trigger + content, :class => 'drdn')
+      content = content_tag('div', content, :class => 'drdn-content', :data => {:action => 'keydown->dropdown#focus'})
+      content_tag('span', trigger + content, :class => 'drdn', :data => {:controller => 'dropdown'})
     end
   end
 
