@@ -13,7 +13,6 @@ document.addEventListener("turbo:load", () => {
   hideOnLoad();
   defaultFocus();
   setupAttachmentDetail();
-  setupFilePreviewNavigation();
 });
 
 document.addEventListener('turbo:submit-start', (e) => {
