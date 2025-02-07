@@ -45,7 +45,7 @@
         onchange: "updateBulkEditFrom('#{escape_javascript url_for(action: 'bulk_edit', format: 'js')}')",
         data: { action: 'clear#clear form#update', timelog__bulk_edit_issue_target: 'projectId', clear_target: 'clear' }) %>
     </p>
-    <p <%= tag.attributes data: stimulus_controllers(conditional_attribute) %>>
+    <p data-controller="conditional-attribute">
       <label for="time_entry_issue_id"><%= l(:field_issue) %></label>
       <%= text_field :time_entry, :issue_id, :size => 6, :data => conditional_attribute.element(name: 'disabled', equal_to: 'none').merge(:timelog__bulk_edit_issue_target => 'field', :action => 'tribute-replaced->timelog--bulk-edit-issue#replace') %>
       <label class="inline">
@@ -53,6 +53,7 @@
                             :data => stimulus_actions(conditional_attribute) %><%= l(:button_clear) %>
       </label>
       <%= tag.span id: 'time_entry_issue', data: { timelog__bulk_edit_issue_target: 'select', clear_target: 'child' } %>
+       <%= tag.span id: "time_entry_issue", data: { timelog__bulk_edit_issue_target: 'select', clear_target: 'child' } %>
     </p>
 
     <% datepicker do |dataset| %>

@@ -5,11 +5,19 @@ export default class extends Controller {
   static targets = ['field'];
 
   enableIfChecked(e) {
-    this.fieldTarget.disabled = !e.currentTarget.checked
+    this.fieldTargets.forEach(element => {
+      if (typeof e.params.key == 'undefined' || e.params.key === element.dataset.availabilityKey) {
+        element.disabled = !e.currentTarget.checked
+      }
+    })
   }
 
   disableIfChecked(e) {
-    this.fieldTarget.disabled = e.currentTarget.checked
+    this.fieldTargets.forEach(element => {
+      if (typeof e.params.key == 'undefined' || e.params.key === element.dataset.availabilityKey) {
+        element.disabled = e.currentTarget.checked
+      }
+    })
   }
 
   toggle(e) {

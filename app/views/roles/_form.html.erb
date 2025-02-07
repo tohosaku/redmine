@@ -61,7 +61,7 @@
         <label class="floating">
         <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name),
               :id => "role_permissions_#{permission.name}",
-              :data => {:shows => ".#{permission.name}_shown"} %>
+              :data => {:controller => 'trigger', :action => 'change->visibility#toggle', :visibility_selector_param => ".#{permission.name}_shown"} %>
         <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
         </label>
     <% end %>

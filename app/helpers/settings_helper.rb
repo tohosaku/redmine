@@ -132,16 +132,16 @@ module SettingsHelper
   def notification_field(notifiable)
     tag_data =
       if notifiable.parent.present?
-        {:parent_notifiable => notifiable.parent}
+        {parent_notifiable: notifiable.parent, availability_target: 'field', availability_key: notifiable.parent}
       else
-        {:disables => "input[data-parent-notifiable=#{notifiable.name}]"}
+        {controller: 'trigger', action: 'change->availability#disableIfChecked', availability_key_param: notifiable.name}
       end
     tag = check_box_tag('settings[notified_events][]',
                         notifiable.name,
                         setting_value('notified_events').include?(notifiable.name),
-                        :id => nil,
-                        :data => tag_data)
-    text = l_or_humanize(notifiable.name, :prefix => 'label_')
+                        id: nil,
+                        data: tag_data)
+    text = l_or_humanize(notifiable.name, prefix: 'label_')
     options = {}
     if notifiable.parent.present?
       options[:class] = "parent"

@@ -5,10 +5,6 @@ import {createTooltip} from 'tooltip';
 // Turbo.session.drive = false;
 
 document.addEventListener("turbo:load", () => {
-
-  $('#content').on('change', 'input[data-disables], input[data-enables], input[data-shows]', toggleDisabledOnChange);
-  toggleDisabledInit();
-
   setupAjaxIndicator();
   hideOnLoad();
   defaultFocus();

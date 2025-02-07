@@ -21,11 +21,10 @@
 
 <p><%= setting_check_box :gravatar_enabled, :data => conditional_attribute.toggle_disabled(group: 'gravatar_default', not_equal_to: '1') %>
 <em class="info"><%= t(:text_avatar_server_config_html, :url => Redmine::Configuration['avatar_server_url']) %></em></p>
-
 <p>
   <%= setting_select :gravatar_default, gravatar_default_setting_options, :blank => :label_none,
                                                                           :data => conditional_attribute.element(:group => 'gravatar_default') %>
-  <em class="<%= Setting.gravatar_default == "initials" ? "info" : "hidden" %>">
+   <em class="<%= Setting.gravatar_default == "initials" ? "info" : "hidden" %>">
     <%= t(:text_setting_gravatar_default_initials_html) %>
   </em>
 </p>
@@ -40,19 +39,4 @@
 </div>
 
 <%= submit_tag l(:button_save) %>
-<% end %>
-
-<%= javascript_tag do %>
-  $('#settings_gravatar_default').on('change', function(e){
-  const gravatar_default = e.target.value;
-  const em = e.target.parentElement.getElementsByTagName('em')[0];
-
-  if (gravatar_default === 'initials') {
-    em.classList.remove('hidden');
-    em.classList.add('info');
-  } else {
-    em.classList.add('hidden');
-    em.classList.remove('info');
-  }
-  });
 <% end %>

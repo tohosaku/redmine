@@ -140,13 +140,16 @@ module QueriesHelper
 
   def render_query_columns_selection(query, options={})
     tag_name = (options[:name] || 'c') + '[]'
-    render :partial => 'queries/columns', :locals => {:query => query, :tag_name => tag_name}
+    data = options[:data] || {}
+    render :partial => 'queries/columns', :locals => {:query => query, :tag_name => tag_name, :data => data}
   end
 
-  def available_display_types_tags(query)
+  def available_display_types_tags(query, data={})
     tags = ''.html_safe
     query.available_display_types.each do |t|
-      tags << radio_button_tag('display_type', t, @query.display_type == t, :id => "display_type_#{t}", :data => conditional_attribute.toggle_hidden(equal_to: 'board', group: 'display_type')) +
+      options = {:id => "display_type_#{t}"}
+      options[:data] = data.merge(conditional_attribute.toggle_hidden(equal_to: 'board', group: 'display_type'))
+      tags << radio_button_tag('display_type', t, @query.display_type == t, options) +
         content_tag('label', l(:"label_display_type_#{t}"), :for => "display_type_#{t}", :class => "inline")
     end
     tags

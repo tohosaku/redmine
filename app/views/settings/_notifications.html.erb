@@ -9,7 +9,8 @@
 <p><%= setting_check_box :show_status_changes_in_mail_subject %></p>
 </div>
 
-<fieldset class="box" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
+<fieldset class="box" id="notified_events" data-controller="availability">
+<legend><%=l(:text_select_mail_notifications)%></legend>
 <%= hidden_field_tag 'settings[notified_events][]', '' %>
 <% @notifiables.each do |notifiable| %>
 <%= notification_field notifiable %>
