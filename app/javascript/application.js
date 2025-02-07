@@ -6,7 +6,6 @@ import {createTooltip} from 'tooltip';
 
 document.addEventListener("turbo:load", () => {
   setupAjaxIndicator();
-  hideOnLoad();
   defaultFocus();
 });
 
