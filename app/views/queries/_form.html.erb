@@ -1,6 +1,6 @@
 <%= error_messages_for 'query' %>
 
-<div class="box" data-controller="queries--form-display-type" data-action="change->queries--form-display-type#changeDisplayType" data-queries--form-display-type-default-value="board">
+<div class="box" data-controller="availability queries--form-display-type" data-action="change->queries--form-display-type#changeDisplayType" data-queries--form-display-type-default-value="board">
 <div class="tabular">
 <%= hidden_field_tag 'gantt', '1' if params[:gantt] %>
 <%= hidden_field_tag 'calendar', '1' if params[:calendar] %>
@@ -40,7 +40,7 @@
   <fieldset id="options"><legend><%= l(:label_options) %></legend>
     <% if @query.available_display_types.size > 1 %>
       <p><label for='display_type'><%= l(:label_display_type) %></label>
-        <%= available_display_types_tags(@query) %>
+        <%= available_display_types_tags(@query, {:availability_target => 'field', :availability_key => 'default-columns'}) %>
       </p>
     <% elsif @query.available_display_types.size == 1 %>
       <%= hidden_field_tag 'query[display_type]', @query.available_display_types.first %>
@@ -48,7 +48,7 @@
 
     <p id ="default_columns" data-queries--form-display-type-target="element"><label for="query_default_columns"><%=l(:label_default_columns)%></label>
     <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
-          :data => {:disables => "#columns, .block_columns input"} %></p>
+          :data => {:controller => 'trigger', :action => 'change->availability#disableIfChecked', :availability_key_param => 'default-columns'} %></p>
 
     <% unless params[:gantt] %>
       <p id="group_by" data-queries--form-display-type-target="element"><label for="query_group_by"><%= l(:field_group_by) %></label>
@@ -70,7 +70,8 @@
       <%= hidden_field_tag 'query[draw_selected_columns]', '0' %>
       <label class="inline"><%= check_box_tag "query[draw_relations]", "1", @query.draw_relations %> <%= l(:label_related_issues) %></label>
       <label class="inline"><%= check_box_tag "query[draw_progress_line]", "1", @query.draw_progress_line %> <%= l(:label_gantt_progress_line) %></label>
-      <label class="inline"><%= check_box_tag "query[draw_selected_columns]", "1", @query.draw_selected_columns, :data => { :enables => 'span.query-columns select, span.query-columns input'} %> <%= l(:description_selected_columns) %></label>
+      <label class="inline"><%= check_box_tag "query[draw_selected_columns]", "1", @query.draw_selected_columns,
+                                  :data => { :controller => 'trigger', :action => 'change->availability#enableIfChecked', :availability_key_param => 'query-columns' } %> <%= l(:description_selected_columns) %></label>
       </p>
     <% end %>
   </fieldset>
@@ -101,11 +102,11 @@
 <% end %>
 
 <% unless params[:calendar] %>
-  <%= content_tag 'fieldset', :id => 'columns', :data => { :queries__form_display_type_target => "element" } do %>
+  <%= content_tag 'fieldset', :id => 'columns', :data => { :queries__form_display_type_target => "element", :availability_target => 'field', :availability_key => 'default-columns' } do %>
   <legend><%= l(:field_column_names) %></legend>
   <div id="list-definition">
     <div>
-      <%= render_query_columns_selection(query) %>
+      <%= render_query_columns_selection(query, :data => {:availability_target => 'field', :availability_key => 'query-columns'}) %>
     </div>
   </div>
   <% end %>

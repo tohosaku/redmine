@@ -1,13 +1,13 @@
-<p>
+<p data-controller="availability">
   <label><%= l(:field_status) %></label>
   <label class="block">
     <%= radio_button_tag 'status', 1, custom_field.version_status.blank?, :id => 'custom_field_version_status_all',
-          :data => {:disables => '.custom_field_version_status input'} %>
+          :data => {:controller => 'trigger', :action => 'change->availability#disableIfChecked'} %>
     <%= l(:label_all) %>
   </label>
   <label class="block">
     <%= radio_button_tag 'status', 0, custom_field.version_status.present?, :id => 'custom_field_version_status_only',
-          :data => {:enables => '.custom_field_version_status input'} %>
+          :data => {:controller => 'trigger', :action => 'change->availability#enableIfChecked'} %>
     <%= l(:label_only) %>:
   </label>
   <% Version::VERSION_STATUSES.each do |status| %>
@@ -15,7 +15,8 @@
       <%= check_box_tag 'custom_field[version_status][]',
             status,
             custom_field.version_status.is_a?(Array) && custom_field.version_status.include?(status),
-            :id => nil %>
+            :id => nil,
+            :data => {:availability_target => 'field'} %>
       <%= l("version_status_#{status}") %>
     </label>
   <% end %>

@@ -11,7 +11,7 @@
               :data => { :controller => 'queries--columns',
                          :action => 'dblclick->queries--columns#moveOptions',
                          :queries__columns_from_param => available_tag_id,
-                         :queries__columns_to_param => selected_tag_id } %>
+                         :queries__columns_to_param => selected_tag_id }.merge!(data) %>
 </div>
 <%= tag.div class: 'buttons', data: { controller: 'queries--columns' } do %>
   <%= tag.input value: raw("&#8594;"), type: 'button', class: "move-right", data: { action: 'queries--columns#moveOptions', queries__columns_from_param: available_tag_id, queries__columns_to_param: selected_tag_id } %>
@@ -26,7 +26,7 @@
               :data => { :controller => 'queries--columns-submit queries--columns',
                          :action => 'dblclick->queries--columns#moveOptions',
                          :queries__columns_from_param => selected_tag_id,
-                         :queries__columns_to_param => available_tag_id } %>
+                         :queries__columns_to_param => available_tag_id }.merge!(data) %>
 </div>
 <%= tag.div class: 'buttons', data: { controller: 'queries--columns' } do %>
   <%= tag.input value: raw("&#8648;"), type: 'button', data: { action: 'queries--columns#moveOptionTop', queries__columns_id_param: selected_tag_id } %>

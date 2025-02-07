@@ -44,10 +44,13 @@
         include_blank: l(:label_no_change_option), selected: @target_project),
         data: { action: 'clear#clear form#update', timelog__bulk_edit_issue_target: 'projectId', clear_target: 'clear' }) %>
     </p>
-    <p>
+    <p data-controller="availabililty">
       <label for="time_entry_issue_id"><%= l(:field_issue) %></label>
-      <%= text_field :time_entry, :issue_id, :size => 6, :data => { :timelog__bulk_edit_issue_target => 'field', :action => 'tribute-replaced->timelog--bulk-edit-issue#replace'  } %>
-      <label class="inline"><%= check_box_tag 'time_entry[issue_id]', 'none', (@time_entry_params[:issue_id] == 'none'), :id => nil, :data => {:disables => '#time_entry_issue_id'} %><%= l(:button_clear) %></label>
+      <%= text_field :time_entry, :issue_id, :size => 6, :data => { :timelog__bulk_edit_issue_target => 'field', :availability_target => 'field', :action => 'tribute-replaced->timelog--bulk-edit-issue#replace'  } %>
+      <label class="inline">
+        <%= check_box_tag 'time_entry[issue_id]', 'none', (@time_entry_params[:issue_id] == 'none'), :id => nil,
+                          :data => {:controller => 'trigger', :action => 'change->availability#disableIfChecked'} %><%= l(:button_clear) %>
+      </label>
       <%= tag.span id: "time_entry_issue", data: { timelog__bulk_edit_issue_target: 'select', clear_target: 'child'} %>
     </p>
 

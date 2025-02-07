@@ -36,15 +36,15 @@
               <legend>
                 <%= l(:field_column_names) %>
               </legend>
-              <div id="list-definition">
+              <div id="list-definition" data-controller="availability">
                 <div>
               <label for="draw_selected_columns">
-                <%= check_box 'query', 'draw_selected_columns', :id => 'draw_selected_columns', :data => { :action => 'change->gantts--show#draw', gamtts__show_target: 'options', :enables => '#list-definition .query-columns select, #list-definition .query-columns input'} %>
+                <%= check_box 'query', 'draw_selected_columns', :id => 'draw_selected_columns', :data => { :action => 'change->gantts--show#draw change->availability#enableIfChecked', gamtts__show_target: 'options', :availability_key_param => 'query-columns' } %>
                 <%= l(:label_display) %>
               </label>
                 </div>
                 <div>
-              <%= render_query_columns_selection(@query) %>
+                  <%= render_query_columns_selection(@query, :data => {:availability_target => 'field', :availability_key => 'query-columns'}) %>
                 </div>
               </div>
             </fieldset>

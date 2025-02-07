@@ -1,13 +1,13 @@
-<p>
+<p data-controller="availability">
   <label><%= l(:label_role) %></label>
   <label class="block">
     <%= radio_button_tag 'status', 1, custom_field.user_role.blank?, :id => 'custom_field_user_role_all',
-          :data => {:disables => '.custom_field_user_role input'} %>
+          :data => {:controller => 'trigger', :action => 'change->availability#disableIfChecked'} %>
     <%= l(:label_all) %>
   </label>
   <label class="block">
     <%= radio_button_tag 'status', 0, custom_field.user_role.present?, :id => 'custom_field_user_role_only',
-          :data => {:enables => '.custom_field_user_role input'} %>
+          :data => {:controller => 'trigger', :action => 'change->availability#enableIfChecked'} %>
     <%= l(:label_only) %>:
   </label>
   <% Role.givable.sorted.each do |role| %>
@@ -15,7 +15,8 @@
       <%= check_box_tag 'custom_field[user_role][]',
             role.id, 
             custom_field.user_role.is_a?(Array) && custom_field.user_role.include?(role.id.to_s),
-            :id => nil %>
+            :id => nil,
+            :data => {:availability_target => 'field'} %>
       <%= role.name %>
     </label>
   <% end %>

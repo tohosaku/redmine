@@ -1,10 +1,11 @@
-<fieldset class="box" data-controller="checkbox"><legend><%= toggle_checkboxes_link("#custom_field_project_ids input[type=checkbox]:enabled") %><%= l(:label_project_plural) %></legend>
-  <p><%= f.check_box :is_for_all, :data => {:disables => '#custom_field_project_ids input'} %></p>
+<fieldset class="box" data-controller="checkbox availability">
+  <legend><%= toggle_checkboxes_link("#custom_field_project_ids input[type=checkbox]:enabled") %><%= l(:label_project_plural) %></legend>
+  <p><%= f.check_box :is_for_all, :data => {:controller => 'trigger', :action => 'change->availability#disableIfChecked'} %></p>
 
   <div id="custom_field_project_ids">
     <% project_ids = @custom_field.project_ids.to_a %>
     <%= render_project_nested_lists(Project.all) do |p|
-      content_tag('label', check_box_tag('custom_field[project_ids][]', p.id, project_ids.include?(p.id), :id => nil) + ' ' + p.to_s)
+      content_tag('label', check_box_tag('custom_field[project_ids][]', p.id, project_ids.include?(p.id), :id => nil, :data => {:availability_target => 'field'}) + ' ' + p.to_s)
     end %>
     <%= hidden_field_tag('custom_field[project_ids][]', '', :id => nil) %>
   </div>
