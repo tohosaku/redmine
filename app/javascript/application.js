@@ -12,7 +12,6 @@ document.addEventListener("turbo:load", () => {
   setupAjaxIndicator();
   hideOnLoad();
   defaultFocus();
-  setupAttachmentDetail();
   setupWikiTableSortableHeader();
   setupCopyButtonsToPreElements();
 });

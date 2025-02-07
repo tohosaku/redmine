@@ -10,7 +10,7 @@
 <p><%= "#{@attachment.description} - " unless @attachment.description.blank? %>
    <span class="author"><%= link_to_user(@attachment.author) %>, <%= format_time(@attachment.created_on) %></span></p>
 </div>
-<div class="filecontent-container">
+<div class="filecontent-container" data-controller="filecontent" data-action="resize@window->filecontent#setHeight">
   <%= yield %>
 </div>
 
