@@ -1762,7 +1762,7 @@ module ApplicationHelper
       'jquery-3.7.1.min',
       'rails-ujs'
     )
-    tags << javascript_include_tag('application-legacy', 'responsive')
+    tags << javascript_include_tag('application-legacy')
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       warn_text = escape_javascript(l(:text_warn_on_leaving_unsaved))
       tags <<

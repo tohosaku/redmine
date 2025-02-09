@@ -21,9 +21,9 @@
 </head>
 <body class="<%= body_css_classes %>" data-text-formatting="<%= Setting.text_formatting %>">
 <%= call_hook :view_layouts_base_body_top %>
-<div id="wrapper">
+<div id="wrapper" data-controller="relay">
 
-<div class="flyout-menu js-flyout-menu">
+<div class="flyout-menu js-flyout-menu" data-controller="responsive" data-action="button:click->responsive#toggle" data-relay-events="button:click">
 
     <% if User.current.logged? || !Setting.login_required? %>
         <div class="flyout-menu__search">
@@ -89,7 +89,7 @@
 
 <div id="header">
 
-    <a href="#" class="mobile-toggle-button js-flyout-menu-toggle-button"></a>
+    <a href="#" class="mobile-toggle-button js-flyout-menu-toggle-button" data-controller="button" data-action="button#click button:click->relay#forward"></a>
 
     <% if User.current.logged? || !Setting.login_required? %>
     <div id="quick-search">
