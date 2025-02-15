@@ -22,12 +22,21 @@ document.addEventListener("turbo:load", () => {
 
   setupAjaxIndicator();
   hideOnLoad();
-  addFormObserversForDoubleSubmit();
   defaultFocus();
   setupAttachmentDetail();
   setupTabs();
   setupFilePreviewNavigation();
 });
+
+document.addEventListener('turbo:submit-start', (e) => {
+  if (e.target.matches('form[method=post]:not(.multiple-submit)')) {
+    if (e.target.dataset.submitted) {
+      e.preventDefault();
+    } else {
+      e.target.dataset.submitted = 'true'
+    }
+  }
+})
 
 document.addEventListener('mouseover', (e) => {
   const tooltip = createTooltip()
