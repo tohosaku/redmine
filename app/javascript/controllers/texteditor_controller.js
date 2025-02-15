@@ -38,7 +38,6 @@ export default class extends Controller {
       }
     }).then(html => {
       this.previewTarget.innerHTML = html;
-      setupWikiTableSortableHeader();
     });
   }
 

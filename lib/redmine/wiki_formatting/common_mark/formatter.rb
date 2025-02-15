@@ -57,6 +57,7 @@ module Redmine
         MarkdownFilter,
         SanitizationFilter,
         SyntaxHighlightFilter,
+        Redmine::WikiFormatting::TablesortFilter,
         FixupAutoLinksFilter,
         ExternalLinksFilter,
         AlertsIconsFilter

@@ -21,3 +21,5 @@ pin "turndown" # @7.2.0
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin "Chart", preload: false # @4.5.0
+pin "tablesort", to: "tablesort.min.js"
+pin "tablesort.number", to: "tablesort.number.min.js"

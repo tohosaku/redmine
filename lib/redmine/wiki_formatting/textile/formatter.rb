@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'html/pipeline'
+
 module Redmine
   module WikiFormatting
     module Textile
@@ -41,7 +43,29 @@ module Redmine
 
         def to_html(*rules)
           @toc = []
-          super(*RULES).to_s
+          html = super(*RULES).to_s
+          doc = Nokogiri::HTML5.fragment(html)
+          if Setting.wiki_tablesort_enabled?
+            doc = tablesort(doc)
+          end
+          doc.to_html
+        end
+
+        def tablesort(doc)
+          doc.search("table").each do |node|
+            rows = node.search('tr')
+            next if rows.size < 3
+
+            tr = rows.first
+            if tr.search('th').present?
+              node['data-controller'] = 'tablesort'
+              tr['data-sort-method']  = 'none'
+              tr.search('td').each do |td|
+                td['data-sort-method'] = 'none'
+              end
+            end
+          end
+          doc
         end
 
         def extract_sections(index)

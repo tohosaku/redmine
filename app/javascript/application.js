@@ -7,7 +7,6 @@ import {createTooltip} from 'tooltip';
 document.addEventListener("turbo:load", () => {
   setupAjaxIndicator();
   defaultFocus();
-  setupWikiTableSortableHeader();
   setupCopyButtonsToPreElements();
 });
 

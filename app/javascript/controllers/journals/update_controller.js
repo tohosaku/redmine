@@ -14,7 +14,6 @@ export default class extends Controller {
     } else {
       this.headerTarget.append(update_info);
     }
-    setupWikiTableSortableHeader();
     element.remove();
   }
 }
