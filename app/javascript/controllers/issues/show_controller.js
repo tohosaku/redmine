@@ -6,6 +6,11 @@ export default class extends TabController {
   show(e) {
     e.preventDefault();
     this.showHistory(e.params.name, e.currentTarget.href)
+    this.setCookie(e.params.name)
+  }
+
+  setCookie(name) {
+    document.cookie = 'history_last_tab=' + name + '; SameSite=Lax'
   }
 
   showHistory(name, url) {

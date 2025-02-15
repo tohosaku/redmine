@@ -1142,11 +1142,6 @@ $(document).ready(function(){
     updateSVGIcon($(this).find('svg')[0], $(this).hasClass('icon-toggle-plus') ? 'toggle-plus' : 'toggle-minus');
   });
   toggleMultiSelectIconInit();
-
-  $('#history .tabs').on('click', 'a', function(e){
-    var tab = $(e.target).attr('id').replace('tab-','');
-    document.cookie = 'history_last_tab=' + tab + '; SameSite=Lax'
-  });
 });
 
 $(document).ready(function(){
