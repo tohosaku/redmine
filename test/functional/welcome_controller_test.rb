@@ -84,7 +84,7 @@ class WelcomeControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     get :index
-    assert_select 'script', :text => %r{warnLeavingUnsaved}
+    assert_select 'meta[name=warn_on_leaving_unsaved]'
   end
 
   def test_warn_on_leaving_unsaved_turn_off

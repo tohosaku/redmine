@@ -1784,14 +1784,6 @@ module ApplicationHelper
       'rails-ujs'
     )
     tags << javascript_include_tag('application-legacy')
-    unless User.current.pref.warn_on_leaving_unsaved == '0'
-      warn_text = escape_javascript(l(:text_warn_on_leaving_unsaved))
-      tags <<
-        "\n".html_safe +
-          javascript_tag(
-            "$(window).on('load', function(){ warnLeavingUnsaved('#{warn_text}'); });"
-          )
-    end
     tags
   end
 

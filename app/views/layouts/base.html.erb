@@ -16,6 +16,7 @@
 <%= stylesheet_link_tag "wiki_syntax.css" %>
 <%= javascript_importmap_tags %>
 <%= javascript_heads %>
+<%= tag.meta(name: 'warn_on_leaving_unsaved', content: l(:text_warn_on_leaving_unsaved)) unless User.current.pref.warn_on_leaving_unsaved == '0' %>
 <%= heads_for_theme %>
 <%= heads_for_i18n %>
 <%= heads_for_auto_complete(@project) %>
