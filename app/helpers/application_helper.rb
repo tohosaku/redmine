@@ -1778,13 +1778,8 @@ module ApplicationHelper
   end
 
   # Returns the javascript tags that are included in the html layout head
+  # Do not delete as it may be used by plugins.
   def javascript_heads
-    tags = javascript_include_tag(
-      'jquery-3.7.1.min',
-      'rails-ujs'
-    )
-    tags << javascript_include_tag('application-legacy')
-    tags
   end
 
   def favicon
