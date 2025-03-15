@@ -6,8 +6,6 @@ import {metaContent,isVisible} from 'helper';
 // Turbo.session.drive = false;
 
 document.addEventListener("turbo:load", () => {
-  setupAjaxIndicator();
-  defaultFocus();
   // set default focus
   const element = document.querySelector('#content :focus')
   if ((element !== null) && (window.location.hash == '')) {
