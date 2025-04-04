@@ -225,6 +225,7 @@ Style/FrozenStringLiteralComment:
     - 'Rakefile'
     - 'config.ru'
     - 'config/additional_environment.rb'
+    - 'config/importmap.rb'
 
 Style/GlobalStdStream:
   Enabled: false
