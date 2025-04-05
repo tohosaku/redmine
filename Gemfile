@@ -96,6 +96,7 @@ end
 
 group :development, :test do
   gem 'debug'
+  gem 'importmap_mocha-rails'
 end
 
 group :development do
