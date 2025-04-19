@@ -1,13 +1,18 @@
 import "controllers"
 import "@hotwired/turbo-rails"
 import {createTooltip} from 'tooltip';
-import {metaContent} from 'helper';
+import {metaContent,isVisible} from 'helper';
 
 // Turbo.session.drive = false;
 
 document.addEventListener("turbo:load", () => {
   setupAjaxIndicator();
-  defaultFocus();
+  // set default focus
+  const element = document.querySelector('#content :focus')
+  if ((element !== null) && (window.location.hash == '')) {
+    const targets = document.querySelectorAll('#content input[type=text], #content textarea')
+    Array.from(targets).find(e => isVisible(e)).focus()
+  }
 });
 
 document.addEventListener('turbo:submit-start', (e) => {
