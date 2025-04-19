@@ -48,6 +48,12 @@ export function toggleExpandCollapseIcon(el) {
   }
 }
 
+export function createSVGIcon(icon) {
+  const clonedIcon = document.querySelector('#icon-copy-source svg').cloneNode(true);
+  updateSVGIcon(clonedIcon, icon);
+  return clonedIcon
+}
+
 export function updateSVGIcon(element, icon) {
   const iconElement = element.getElementsByTagName('use').item(0)
 
