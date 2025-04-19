@@ -410,65 +410,6 @@ function randomKey(size) {
   return key;
 }
 
-function copyToClipboard(text) {
-  if (navigator.clipboard) {
-    return navigator.clipboard.writeText(text).catch(() => {
-      return fallbackClipboardCopy(text);
-    });
-  } else {
-    return fallbackClipboardCopy(text);
-  }
-}
-
-function fallbackClipboardCopy(text) {
-  const temp = document.createElement('textarea');
-  temp.value = text;
-  temp.style.position = 'fixed';
-  temp.style.left = '-9999px';
-  document.body.appendChild(temp);
-  temp.select();
-  document.execCommand('copy');
-  document.body.removeChild(temp);
-  return Promise.resolve();
-}
-
-function copyDataClipboardTextToClipboard(target) {
-  copyToClipboard(target.getAttribute('data-clipboard-text'));
-
-  if ($(target).closest('.drdn.expanded').length) {
-    $(target).closest('.drdn.expanded').removeClass("expanded");
-  }
-  return false;
-}
-
-function setupCopyButtonsToPreElements() {
-  document.querySelectorAll('.wiki pre:not(.pre-wrapper pre)').forEach((pre) => {
-    // Wrap the <pre> element with a container and add a copy button
-    const wrapper = document.createElement("div");
-    wrapper.classList.add("pre-wrapper");
-
-    const copyButton = document.createElement("a");
-    copyButton.title = rm.I18n.buttonCopy;
-    copyButton.classList.add("copy-pre-content-link", "icon-only");
-    copyButton.append(createSVGIcon("copy-pre-content"));
-
-    wrapper.appendChild(copyButton);
-    wrapper.append(pre.cloneNode(true));
-    pre.replaceWith(wrapper);
-
-    // Copy the contents of the pre tag when copyButton is clicked
-    copyButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      let textToCopy = (pre.querySelector("code") || pre).textContent.replace(/\n$/, '');
-      if (pre.querySelector("code.syntaxhl")) { textToCopy = textToCopy.replace(/ $/, ''); } // Workaround for half-width space issue in Textile's highlighted code
-      copyToClipboard(textToCopy).then(() => {
-        updateSVGIcon(copyButton, "checked");
-        setTimeout(() => updateSVGIcon(copyButton, "copy-pre-content"), 2000);
-      });
-    });
-  });
-}
-
 function updateIssueFrom(url, el) {
   $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
     $(this).data('valuebeforeupdate', $(this).val());

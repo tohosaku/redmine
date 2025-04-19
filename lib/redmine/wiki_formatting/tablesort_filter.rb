@@ -7,6 +7,13 @@
 module Redmine
   module WikiFormatting
     class TablesortFilter < HTML::Pipeline::Filter
+      include ERB::Util
+      include ActionView::Helpers::TagHelper
+      include ActionView::Helpers::UrlHelper
+      include ActionView::Helpers::AssetTagHelper
+      include IconsHelper
+      include Propshaft::Helper
+
       def call
         return doc unless Setting.wiki_tablesort_enabled?
 
@@ -22,6 +29,14 @@ module Redmine
               td['data-sort-method'] = 'none'
             end
           end
+        end
+        doc.search('pre').each do |node|
+          node['data-clipboard-target'] = 'pre'
+          # Wrap the <pre> element with a container and add a copy button
+          node.wrap('<div class="pre-wrapper" data-controller="clipboard"></div>')
+
+          # Copy the contents of the pre tag when copyButton is clicked
+          node.prepend_child('<a class="copy-pre-content-link icon-only" data-action="clipboard#copyPre">' + sprite_icon('copy-pre-content', size: 18) + '</a>')
         end
         doc
       end

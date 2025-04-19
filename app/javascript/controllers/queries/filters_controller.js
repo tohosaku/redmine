@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { get } from '@rails/request.js'
-import { jsonContent, updateSVGIcon } from 'helper'
+import { jsonContent, updateSVGIcon, createSVGIcon } from 'helper'
 
 // Connects to data-controller="queries--filters"
 export default class extends Controller {
@@ -133,15 +133,14 @@ function buildFilterRow(field, operator, values) {
   case "list_status":
   case "list_subprojects":
     const iconType = values.length > 1 ? 'toggle-minus' : 'toggle-plus';
-    const clonedIcon = document.querySelector('#icon-copy-source svg').cloneNode(true);
-    updateSVGIcon(clonedIcon, iconType);
+    const iconSVG = createSVGIcon(iconType)
 
     const span = `<span style="display:none;"><select class="value" id="values_${fieldId}_1" name="v[${field}][]"></select>
         <span class="toggle-multiselect icon-only icon-${iconType}"></span></span>`
 
     tr.querySelector('.values').insertAdjacentHTML('beforeend', span);
     const iconholder = tr.querySelector(`span.icon-${iconType}`);
-    iconholder.append(clonedIcon);
+    iconholder.append(iconSVG);
     select = tr.querySelector('.values select');
 
     if (values.length > 1) {
@@ -306,3 +305,4 @@ function toggleOperator(field) {
       break;
   }
 }
+
