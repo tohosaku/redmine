@@ -2581,6 +2581,49 @@ table.list:not(.odd-even) tbody tr.is-dragging { background-color:#E0FFFF; }
   z-index: 100;
 }
 
+/* Wiki "collapse" macro */
+details.collapsed-text summary {
+  display: block;
+}
+
+details.collapsed-text summary::-webkit-details-marker {
+  display: none;
+}
+
+details.collapsed-text .expanded {
+  display: block;
+}
+
+details.collapsed-text .collapsed {
+  display: none;
+}
+
+details[open].collapsed-text .expanded {
+  display: none;
+}
+
+details[open].collapsed-text .collapsed {
+  display: block;
+}
+
+/* see: https://codepen.io/ddryo-the-encoder/pen/bGMZzMR */
+details.collapsed-text.is-opened > :not(summary) {
+  position: relative;
+  overflow: hidden;
+  height: auto;
+  opacity: 1;
+  visibility: visible;
+  transition: padding .25s, height .25s, opacity .25s;
+}
+
+details:not(.is-opened).collapsed-text > :not(summary) {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
 turbo-frame {
   border: 3px red solid;
   display: block;

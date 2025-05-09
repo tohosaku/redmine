@@ -246,24 +246,14 @@ module Redmine
         html_id = "collapse-#{Redmine::Utils.random_hex(4)}"
         show_label = args[0] || l(:button_show)
         hide_label = args[1] || args[0] || l(:button_hide)
-        js = "$('##{html_id}-show, ##{html_id}-hide').toggle(); $('##{html_id}').fadeToggle(150);"
         out = ''.html_safe
-        out << link_to_function(sprite_icon('angle-right', show_label, rtl: true), js, :id => "#{html_id}-show", :class => 'icon icon-collapsed collapsible')
+        closed = tag.span(sprite_icon('angle-right', show_label, rtl: true), class: 'expanded')
+        opened = tag.span(sprite_icon('angle-down', hide_label, rtl: true), class: 'collapsed')
         out <<
-          link_to_function(
-            sprite_icon('angle-down', hide_label), js,
-            :id => "#{html_id}-hide",
-            :class => 'icon icon-expanded collapsible',
-            :style => 'display:none;'
-          )
-        out <<
-          content_tag(
-            'div',
-            textilizable(text, :object => obj, :headings => false,
-                         :inline_attachments => @@inline_attachments),
-            :id => html_id, :class => 'collapsed-text',
-            :style => 'display:none;'
-          )
+          tag.details(tag.summary(closed + opened, :data => { :action => 'click->collapse#fade' }) +
+                      textilizable(text, :object => obj, :headings => false, :inline_attachments => @@inline_attachments),
+                      :id => html_id, :class => 'collapsed-text', :data => { :controller => 'collapse', :action => 'toggle->collapse#ensure' }
+                     )
         out
       end
 

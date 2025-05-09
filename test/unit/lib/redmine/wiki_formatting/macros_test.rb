@@ -238,10 +238,10 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       with_settings :text_formatting => 'textile' do
         result = textilizable(text)
 
-        assert_select_in result, 'div.collapsed-text'
+        assert_select_in result, 'details.collapsed-text'
         assert_select_in result, 'strong', :text => 'Collapsed'
-        assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Show'
-        assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Hide'
+        assert_select_in result, 'span.expanded', :text => 'Show'
+        assert_select_in result, 'span.collapsed', :text => 'Hide'
       end
     end
   end
@@ -251,10 +251,10 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
     with_settings :text_formatting => 'textile' do
       result = textilizable(text)
 
-      assert_select_in result, 'div.collapsed-text'
+      assert_select_in result, 'details.collapsed-text'
       assert_select_in result, 'strong', :text => 'Collapsed'
-      assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Example'
-      assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Example'
+      assert_select_in result, 'span.expanded', :text => 'Example'
+      assert_select_in result, 'span.collapsed', :text => 'Example'
     end
   end
 
@@ -263,18 +263,18 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
     with_settings :text_formatting => 'textile' do
       result = textilizable(text)
 
-      assert_select_in result, 'div.collapsed-text'
+      assert_select_in result, 'details.collapsed-text'
       assert_select_in result, 'strong', :text => 'Collapsed'
-      assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Show example'
-      assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Hide example'
+      assert_select_in result, 'span.expanded', :text => 'Show example'
+      assert_select_in result, 'span.collapsed', :text => 'Hide example'
     end
   end
 
   def test_macro_collapse_with_arg_contains_comma
     text = %|{{collapse("Click here, to see the example", Hide example)\n*Collapsed* block of text\n}}|
     result = textilizable(text)
-    assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Click here, to see the example'
-    assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Hide example'
+    assert_select_in result, 'span.expanded', :text => 'Click here, to see the example'
+    assert_select_in result, 'span.collapsed', :text => 'Hide example'
   end
 
   def test_macro_collapse_should_not_break_toc
