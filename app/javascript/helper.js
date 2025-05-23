@@ -34,6 +34,29 @@ export function isMobile() {
   return (style.display !== 'none')
 }
 
+export function isVisible(element) {
+  if (!(element instanceof HTMLElement)) {
+    throw new Error('The argument must be a valid DOM element.');
+  }
+
+  const style = getComputedStyle(element);
+  return (
+    style.display !== 'none' &&
+    style.visibility !== 'hidden' &&
+    style.opacity !== '0' &&
+    element.offsetWidth > 0 &&
+    element.offsetHeight > 0
+  );
+}
+
+export function setDisplay(element, visible) {
+  if (visible) {
+    element.style.display = '';
+  } else {
+    element.style.display = 'none';
+  }
+}
+
 export function switchClass(element, fromClass, toClass, reverse = false) {
   if (element == null) return;
 

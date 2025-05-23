@@ -39,8 +39,8 @@
               <div id="list-definition">
                 <div>
               <label for="draw_selected_columns">
-                <%= check_box 'query', 'draw_selected_columns', :id => 'draw_selected_columns', :data => { :action => 'change->gantts--show#draw', :enables => '#list-definition .query-columns select, #list-definition .query-columns input'} %>
-                  <%= l(:label_display) %>
+                <%= check_box 'query', 'draw_selected_columns', :id => 'draw_selected_columns', :data => { :action => 'change->gantts--show#draw', gamtts__show_target: 'options', :enables => '#list-definition .query-columns select, #list-definition .query-columns input'} %>
+                <%= l(:label_display) %>
               </label>
                 </div>
                 <div>
@@ -51,7 +51,7 @@
             <fieldset>
               <legend><%= l(:label_related_issues) %></legend>
               <label for="draw_relations">
-                <%= check_box 'query', 'draw_relations', :id => 'draw_relations', :data => { :action => 'change->gantts--show#draw' } %>
+                <%= check_box 'query', 'draw_relations', :id => 'draw_relations', :data => { :action => 'change->gantts--show#draw', gamtts__show_target: 'options'  } %>
                 <% rels = [IssueRelation::TYPE_BLOCKS, IssueRelation::TYPE_PRECEDES] %>
                 <% rels.each do |rel| %>
                   <% color = Redmine::Helpers::Gantt::DRAW_TYPES[rel][:color] %>
@@ -64,7 +64,7 @@
             <fieldset>
               <legend><%= l(:label_gantt_progress_line) %></legend>
               <label for="draw_progress_line">
-                <%= check_box 'query', 'draw_progress_line', :id => 'draw_progress_line', :data => { :action => 'change->gantts--show#draw' } %>
+                <%= check_box 'query', 'draw_progress_line', :id => 'draw_progress_line', :data => { :action => 'change->gantts--show#draw', gamtts__show_target: 'options' } %>
                 <%= l(:label_display) %>
               </label>
             </fieldset>

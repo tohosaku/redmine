@@ -4,7 +4,7 @@
  * This code is released under the GNU General Public License.
  */
 import {createSVGDrawer} from 'svg_drawer';
-import {switchClass, isMobile, updateSVGIcon, nextAll} from 'helper';
+import {switchClass, isVisible, setDisplay, isMobile, updateSVGIcon, nextAll} from 'helper';
 
 let draw_gantt = null;
 let draw_top;
@@ -13,24 +13,55 @@ let draw_left;
 
 let rels_stroke_width = 2;
 
+function position(el) {
+  const {top, left} = el.getBoundingClientRect();
+  const {marginTop, marginLeft} = getComputedStyle(el);
+  return {
+    top: top - parseInt(marginTop, 10),
+    left: left - parseInt(marginLeft, 10)
+  };
+}
+
+function width(el) {
+  return el.getBoundingClientRect().width
+}
+
+function scrollLeft(el, value) {
+  var win;
+  if (el.window === el) {
+    win = el;
+  } else if (el.nodeType === 9) {
+    win = el.defaultView;
+  }
+
+  if (value === undefined) {
+    return win ? win.pageXOffset : el.scrollLeft;
+  }
+
+  if (win) {
+    win.scrollTo(value, win.pageYOffset);
+  } else {
+    el.scrollLeft = value;
+  }
+}
+
 function setDrawArea(folder, area) {
-  draw_top   = $(folder).position().top;
-  draw_right = $(folder).width();
-  draw_left  = $(area).scrollLeft();
+  draw_top   = position(folder).top;
+  draw_right = width(folder);
+  draw_left  = scrollLeft(area);
 }
 
 function getRelationsArray() {
-  var arr = new Array();
-  $.each($('div.task_todo[data-rels]'), function(index_div, element) {
-    if(!$(element).is(':visible')) return true;
-    var element_id = $(element).attr("id");
+  const arr = new Array();
+  document.querySelectorAll('div.task_todo[data-rels]').forEach((element) => {
+    if(!isVisible(element)) return true;
+    const element_id = element.getAttribute('id');
     if (element_id != null) {
-      var issue_id = element_id.replace("task-todo-issue-", "");
-      var data_rels = $(element).data("rels");
+      const issue_id = element_id.replace("task-todo-issue-", "");
+      const data_rels = element.dataset.rels;
       for (let rel_type_key in data_rels) {
-        $.each(data_rels[rel_type_key], function(index_issue, element_issue) {
-          arr.push({issue_from: issue_id, issue_to: element_issue,
-                    rel_type: rel_type_key});
+        data_rels[rel_type_key].forEach(element_issue => {
+          arr.push({issue_from: issue_id, issue_to: element_issue, rel_type: rel_type_key});
         });
       }
     }
@@ -39,62 +70,46 @@ function getRelationsArray() {
 }
 
 function drawRelations() {
-  var arr = getRelationsArray();
-  $.each(arr, function(index_issue, element_issue) {
-    var issue_from = $("#task-todo-issue-" + element_issue["issue_from"]);
-    var issue_to   = $("#task-todo-issue-" + element_issue["issue_to"]);
-    if (issue_from.length == 0 || issue_to.length == 0) {
-      return;
-    }
-    var issue_height = issue_from.height();
-    var issue_from_top   = issue_from.position().top  + (issue_height / 2) - draw_top;
-    var issue_from_right = issue_from.position().left + issue_from.width();
-    var issue_to_top   = issue_to.position().top  + (issue_height / 2) - draw_top;
-    var issue_to_left  = issue_to.position().left;
-    var color = window.issue_relation_type[element_issue["rel_type"]]["color"];
-    var landscape_margin = window.issue_relation_type[element_issue["rel_type"]]["landscape_margin"];
-    var issue_from_right_rel = issue_from_right + landscape_margin;
-    var issue_to_left_rel    = issue_to_left    - landscape_margin;
+  const arr = getRelationsArray();
+  arr.forEach((element_issue) => {
+    const issue_from = document.getElementById(`task-todo-issue-${element_issue["issue_from"]}`);
+    const issue_to   = document.getElementById(`task-todo-issue-${element_issue["issue_to"]}`);
+    if (issue_from === null || issue_to === null) return;
+
+    const fromRect             = issue_from.getBoundingClientRect();
+    const toRect               = issue_to.getBoundingClientRect();
+    const issue_height         = fromRect.height;
+    const issue_from_top       = fromRect.top  + (issue_height / 2) - draw_top;
+    const issue_from_right     = fromRect.left + fromRect.width;
+    const issue_to_top         = toRect.top  + (issue_height / 2) - draw_top;
+    const issue_to_left        = toRect.left;
+    const color                = window.issue_relation_type[element_issue["rel_type"]]["color"];
+    const landscape_margin     = window.issue_relation_type[element_issue["rel_type"]]["landscape_margin"];
+    const issue_from_right_rel = issue_from_right + landscape_margin;
+    const issue_to_left_rel    = issue_to_left    - landscape_margin;
+
+    const group = draw_gantt.group().attr({stroke: color,
+                                       "stroke-width": rels_stroke_width
+                                      });
     draw_gantt.path(["M", issue_from_right + draw_left,     issue_from_top,
-                     "L", issue_from_right_rel + draw_left, issue_from_top])
-                   .attr({stroke: color,
-                          "stroke-width": rels_stroke_width
-                          });
+                     "L", issue_from_right_rel + draw_left, issue_from_top], group)
     if (issue_from_right_rel < issue_to_left_rel) {
       draw_gantt.path(["M", issue_from_right_rel + draw_left, issue_from_top,
-                       "L", issue_from_right_rel + draw_left, issue_to_top])
-                     .attr({stroke: color,
-                          "stroke-width": rels_stroke_width
-                          });
+                       "L", issue_from_right_rel + draw_left, issue_to_top], group)
       draw_gantt.path(["M", issue_from_right_rel + draw_left, issue_to_top,
-                       "L", issue_to_left + draw_left,        issue_to_top])
-                     .attr({stroke: color,
-                          "stroke-width": rels_stroke_width
-                          });
+                       "L", issue_to_left + draw_left,        issue_to_top], group)
     } else {
-      var issue_middle_top = issue_to_top +
+      const issue_middle_top = issue_to_top +
                                 (issue_height *
                                    ((issue_from_top > issue_to_top) ? 1 : -1));
       draw_gantt.path(["M", issue_from_right_rel + draw_left, issue_from_top,
-                       "L", issue_from_right_rel + draw_left, issue_middle_top])
-                     .attr({stroke: color,
-                          "stroke-width": rels_stroke_width
-                          });
+                       "L", issue_from_right_rel + draw_left, issue_middle_top], group)
       draw_gantt.path(["M", issue_from_right_rel + draw_left, issue_middle_top,
-                       "L", issue_to_left_rel + draw_left,    issue_middle_top])
-                     .attr({stroke: color,
-                          "stroke-width": rels_stroke_width
-                          });
+                       "L", issue_to_left_rel + draw_left,    issue_middle_top], group)
       draw_gantt.path(["M", issue_to_left_rel + draw_left, issue_middle_top,
-                       "L", issue_to_left_rel + draw_left, issue_to_top])
-                     .attr({stroke: color,
-                          "stroke-width": rels_stroke_width
-                          });
+                       "L", issue_to_left_rel + draw_left, issue_to_top], group)
       draw_gantt.path(["M", issue_to_left_rel + draw_left, issue_to_top,
-                       "L", issue_to_left + draw_left,     issue_to_top])
-                     .attr({stroke: color,
-                          "stroke-width": rels_stroke_width
-                          });
+                       "L", issue_to_left + draw_left,     issue_to_top], group)
     }
     draw_gantt.path(["M", issue_to_left + draw_left, issue_to_top,
                      "l", -4 * rels_stroke_width, -2 * rels_stroke_width,
@@ -103,44 +118,54 @@ function drawRelations() {
                           fill: color,
                           "stroke-linecap": "butt",
                           "stroke-linejoin": "miter"
-                          });
+                          }, group);
   });
 }
 
 function getProgressLinesArray(todayLine) {
-  var arr = new Array();
-  var today_left = $(todayLine).position().left;
+  const arr = new Array();
+  const todayRect = todayLine.getBoundingClientRect();
+  const today_left = todayRect.left
   arr.push({left: today_left, top: 0});
-  $.each($('div.issue-subject, div.version-name'), function(index, element) {
-    if(!$(element).is(':visible')) return true;
-    var t = $(element).position().top - draw_top ;
-    var h = ($(element).height() / 9);
-    var element_top_upper  = t - h;
-    var element_top_center = t + (h * 3);
-    var element_top_lower  = t + (h * 8);
-    var issue_closed   = $(element).children('span').hasClass('issue-closed');
-    var version_closed = $(element).children('span').hasClass('version-closed');
+
+  document.querySelectorAll('div.issue-subject, div.version-name').forEach((element) => {
+    if(!isVisible(element)) return;
+
+    const rect = element.getBoundingClientRect();
+    const t    = rect.top - draw_top ;
+    const h    = rect.height / 9;
+    const element_top_upper  = t - h;
+    const element_top_center = t + (h * 3);
+    const element_top_lower  = t + (h * 8);
+    const children           = element.querySelectorAll(':scope span');
+    const issue_closed       = children.some(element => element.claslist.conains('issue-closed'));
+    const version_closed     = children.some(element => element.claslist.conains('version-closed'));
+
     if (issue_closed || version_closed) {
       arr.push({left: today_left, top: element_top_center});
     } else {
-      var issue_done = $("#task-done-" + $(element).attr("id"));
-      var is_behind_start = $(element).children('span').hasClass('behind-start-date');
-      var is_over_end     = $(element).children('span').hasClass('over-end-date');
+      const element_id      = element.getAttribute('id');
+      const issue_done      = document.getElementById(`task-done-${element_id}`);
+      const is_behind_start = children.some(element => element.claslist.conains('behind-start-date'));
+      const is_over_end     = children.some(element => element.claslist.conains('over-end-date'));
+
       if (is_over_end) {
         arr.push({left: draw_right, top: element_top_upper, is_right_edge: true});
         arr.push({left: draw_right, top: element_top_lower, is_right_edge: true, none_stroke: true});
-      } else if (issue_done.length > 0) {
-        var done_left = issue_done.first().position().left +
-                           issue_done.first().width();
+      } else if (issue_done !== null) {
+        const rect = issue_done.getBoundingClientRect();
+        const done_left = rect.left + rect.width;
         arr.push({left: done_left, top: element_top_center});
       } else if (is_behind_start) {
         arr.push({left: 0 , top: element_top_upper, is_left_edge: true});
         arr.push({left: 0 , top: element_top_lower, is_left_edge: true, none_stroke: true});
       } else {
-        var todo_left = today_left;
-        var issue_todo = $("#task-todo-" + $(element).attr("id"));
-        if (issue_todo.length > 0){
-          todo_left = issue_todo.first().position().left;
+        const todo_left = today_left;
+        const issue_todo = document.getElementById(`task-todo-${element_id}`);
+
+        if (issue_todo !== null) {
+          const rect = issue_todo.getBoundingClientRect();
+          todo_left = rect.left;
         }
         arr.push({left: Math.min(today_left, todo_left), top: element_top_center});
       }
@@ -150,17 +175,16 @@ function getProgressLinesArray(todayLine) {
 }
 
 function drawGanttProgressLines(todayLine) {
-  var arr = getProgressLinesArray(todayLine);
-  var color = $(todayLine)
-                    .css("border-left-color");
-  var i;
+  const arr = getProgressLinesArray(todayLine);
+  const color = getComputedStyle(todayLine)["border-left-color"];
+  let i;
   for(i = 1 ; i < arr.length ; i++) {
     if (!("none_stroke" in arr[i]) &&
         (!("is_right_edge" in arr[i - 1] && "is_right_edge" in arr[i]) &&
          !("is_left_edge"  in arr[i - 1] && "is_left_edge"  in arr[i]))
         ) {
-      var x1 = (arr[i - 1].left == 0) ? 0 : arr[i - 1].left + draw_left;
-      var x2 = (arr[i].left == 0)     ? 0 : arr[i].left     + draw_left;
+      const x1 = (arr[i - 1].left == 0) ? 0 : arr[i - 1].left + draw_left;
+      const x2 = (arr[i].left == 0)     ? 0 : arr[i].left     + draw_left;
       draw_gantt.path(["M", x1, arr[i - 1].top,
                        "L", x2, arr[i].top])
                    .attr({stroke: color, "stroke-width": 2});
@@ -168,51 +192,56 @@ function drawGanttProgressLines(todayLine) {
   }
 }
 
-export function drawSelectedColumns(){
-  if ($("#draw_selected_columns").prop('checked')) {
+export function drawSelectedColumns(options) {
+  const elements = document.querySelectorAll('td.gantt_selected_column');
+  const containers = document.querySelectorAll('.gantt_subjects_container');
+  if (options['draw_selected_columns']) {
     if(isMobile()) {
-      $('td.gantt_selected_column').each(function(i) {
-        $(this).hide();
+      elements.forEach(element => {
+        element.style.display = 'none'
       });
-    }else{
-      $('.gantt_subjects_container').addClass('draw_selected_columns');
-      $('td.gantt_selected_column').each(function() {
-        $(this).show();
-        const column_name = $(this).attr('id');
-        setResizableHandle(this)
+    } else {
+      containers.forEach(element => element.classList.add('draw_selected_columns'))
+      elements.forEach(element => {
+        element.style.display = ''
+        const column_name = element.getAttribute('id');
+        setResizableHandle(element)
       });
     }
-  }else{
-    $('td.gantt_selected_column').each(function (i) {
-      $(this).hide();
-      $('.gantt_subjects_container').removeClass('draw_selected_columns');
+  } else {
+    elements.forEach(element => {
+      element.style.display = 'none'
+      containers.forEach(element => element.classList.remove('draw_selected_columns'))
     });
   }
 }
 
-export function drawGanttHandler(folder, area, todayLine) {
+export function drawGanttHandler(folder, area, todayLine, options) {
   if(draw_gantt != null) {
     draw_gantt.clear();
   } else {
     draw_gantt = createSVGDrawer(folder);
   }
   setDrawArea(folder, area);
-  drawSelectedColumns();
-  if ($("#draw_progress_line").prop('checked')) {
+  drawSelectedColumns(options);
+  if (options['draw_progress_line']) {
     try{
       drawGanttProgressLines(todayLine);
     }catch(e){
     }
   }
-  if ($("#draw_relations").prop('checked')) {
+  if (options['draw_relations']) {
     drawRelations();
   }
-  $('#content').addClass('gantt_content');
+  document.getElementById('content').classList.add('gantt_content')
 }
 
 export function resizableSubjectColumn(){
-  $('.issue-subject, .project-name, .version-name').each(function(){
-    $(this).width($(".gantt_subjects_column").width()-$(this).position().left);
+  document.querySelectorAll('.issue-subject, .project-name, .version-name').forEach(element => {
+    const rect1 = document.querySelector('.gantt_subjects_column').getBoundingClientRect()
+    const rect2 = element.getBoundingClientRect();
+    const width = rect1.width - rect2.left;
+    element.style.width = `${width}px`;
   });
 
   if (!isMobile()) {
@@ -227,12 +256,6 @@ export function ganttEntryClick(e) {
   const expanderWidth = iconExpanderElem.offsetWidth;
   const recursive = e.ctrlKey;
 
-  function toggleClass(elem, class1, class2) {
-    if (!elem) return;
-    elem.classList.remove(class1);
-    elem.classList.add(class2);
-  }
-
   function getLeft(elem) {
     if (!elem) return 0;
     return elem.offsetLeft || parseInt(elem.style.left);
@@ -243,60 +266,34 @@ export function ganttEntryClick(e) {
     return elem.offsetTop || parseInt(elem.style.top);
   }
 
-  function nextAll(elem, tagName) {
-    const nextAllElems = [];
-    let targetElem = elem.nextElementSibling;
-    while (targetElem) {
-      if (!tagName || targetElem.tagName === tagName) {
-        nextAllElems.push(targetElem);
-      }
-      targetElem = targetElem.nextElementSibling;
-    }
-    return nextAllElems;
-  }
-
   class GanttItem {
     constructor(elem) {
       this.elem = elem;
       this.iconExpander = elem.querySelector(":scope > .icon.expander");
-      this.left =
-        getLeft(this.elem) + (this.iconExpander ? expanderWidth : 0);
+      this.left = getLeft(this.elem) + (this.iconExpander ? expanderWidth : 0);
       this.top = getTop(this.elem);
-      this.isShown =
-        this.elem.offsetWidth > 0 || this.elem.offsetHeight > 0;
+      this.isShown = this.elem.offsetWidth > 0 || this.elem.offsetHeight > 0;
       this.json = JSON.parse(this.elem.dataset.collapseExpand);
       this.numberOfRows = this.elem.dataset.numberOfRows;
-      this.isCollapsed =
-        this.iconExpander?.classList.contains("icon-collapsed");
+      this.isCollapsed = this.iconExpander?.classList.contains("icon-collapsed");
 
-      const selector =
-        `[data-collapse-expand="${this.json.obj_id}"]` +
-        `[data-number-of-rows="${this.numberOfRows}"]`;
-      this.taskBars = document.querySelectorAll(
-        `#gantt_area form > ${selector}`
-      );
-      this.selectedColumns = document.querySelectorAll(
-        `td.gantt_selected_column ${selector}`
-      );
+      const selector = `[data-collapse-expand="${this.json.obj_id}"]` + `[data-number-of-rows="${this.numberOfRows}"]`;
+      this.taskBars = document.querySelectorAll( `#gantt_area form > ${selector}`);
+      this.selectedColumns = document.querySelectorAll( `td.gantt_selected_column ${selector}`);
     }
 
     toggleIcon(force = undefined) {
       if (this.isCollapsed === undefined) return false;
 
-      this.elem.classList.remove("open");
       const svgIcon = this.iconExpander.getElementsByTagName("svg");
+      const open    = (force === true && !(force === false)) || this.isCollapsed
 
-      if ((force === true && !(force === false)) || this.isCollapsed) {
-        toggleClass(this.iconExpander, "icon-collapsed", "icon-expanded");
-        this.elem.classList.add("open");
-        if (svgIcon.length === 1) {
-          updateSVGIcon(this.iconExpander, 'angle-down');
-        }
-      } else {
-        toggleClass(this.iconExpander, "icon-expanded", "icon-collapsed");
-        if (svgIcon.length === 1) {
-          updateSVGIcon(this.iconExpander, 'angle-right');
-        }
+      switchClass(this.iconExpander, "icon-collapsed", "icon-expanded", !open);
+      this.elem.classList.toggle("open", open);
+
+      if (svgIcon.length === 1) {
+        const iconType = open ? 'angle-down' : 'angle-right';
+        updateSVGIcon(this.iconExpander, iconType);
       }
 
       this.isCollapsed = !this.isCollapsed;
@@ -335,74 +332,92 @@ export function ganttEntryClick(e) {
     }
   }
 
-  const subject = new GanttItem(subjectElem);
-  subject.toggleIcon();
-
-  let totalHeight = 0;
-  let outOfHierarchyTop = null;
-  let firstItemTop = null;
-  let collapsedStateHierarchy = new Map();
-  collapsedStateHierarchy.set(subject.left, subject.isCollapsed);
-  let prevItemLeft = subject.left;
-
-  function updateGanttItemPositionAndView (ganttItem) {
-    if (outOfHierarchyTop || ganttItem.left <= subject.left) {
-      if (!outOfHierarchyTop) outOfHierarchyTop = ganttItem.top;
-
-      const newTop =
-        ganttItem.top +
-        (subject.isCollapsed
-          ? -outOfHierarchyTop + subject.top + subject.json.top_increment
-          : totalHeight);
-
-      ganttItem.move(newTop);
-      return;
+  class GanttView {
+    constructor(subject) {
+      this.totalHeight = 0;
+      this.outOfHierarchyTop = null;
+      this.firstItemTop = null;
+      this.collapsedStateHierarchy = new Map();
+      this.prevItemLeft = subject.left;
+      this.collapsedStateHierarchy.set(subject.left, subject.isCollapsed);
+      this.subject = subject
     }
 
-    // Clear the collapsed state for levels deeper than the current hierarchy
-    // level.
-    if (prevItemLeft > ganttItem.left) {
-      for (const left of collapsedStateHierarchy.keys()) {
-        if (left >= ganttItem.left) collapsedStateHierarchy.delete(left);
+    updatePositionOf(item, recursive) {
+      if (this.outOfHierarchyTop || item.left <= this.subject.left) {
+        if (!this.outOfHierarchyTop) {
+          this.outOfHierarchyTop = item.top;
+        }
+        const newTop = item.top + (this.subject.isCollapsed ? -this.outOfHierarchyTop + this.subject.top + this.subject.json.top_increment
+                                                            : this.totalHeight);
+
+        item.move(newTop);
+        return;
       }
-    }
 
-    // Update the stored left value for the next loop
-    prevItemLeft = ganttItem.left;
+      // Clear the collapsed state for levels deeper than the current hierarchy
+      // level.
+      if (this.prevItemLeft > item.left) {
+        for (const left of this.collapsedStateHierarchy.keys()) {
+          if (left >= item.left) {
+            this.collapsedStateHierarchy.delete(left);
+          }
+        }
+      }
 
-    if (!firstItemTop) {
-      firstItemTop = subject.top + subject.json.top_increment;
-    }
+      // Update the stored left value for the next loop
+      this.prevItemLeft = item.left;
 
-    if (
-      (recursive && subject.isCollapsed) ||
-      (!recursive && collapsedStateHierarchy.values().some((i) => i))
-    ) {
-      if (ganttItem.isShown) ganttItem.hide();
-    } else {
-      if (!ganttItem.isShown) ganttItem.show();
-      ganttItem.move(firstItemTop + totalHeight);
-      totalHeight += ganttItem.json.top_increment;
-    }
+      if (!this.firstItemTop) {
+        this.firstItemTop = this.subject.top + this.subject.json.top_increment;
+      }
 
-    if (ganttItem.iconExpander) {
-      collapsedStateHierarchy.set(ganttItem.left, ganttItem.isCollapsed);
-      if (recursive && ganttItem.isCollapsed !== subject.isCollapsed) {
-        ganttItem.toggleIcon();
+      if (
+        (recursive && this.subject.isCollapsed) ||
+        (!recursive && this.collapsedStateHierarchy.values().some((i) => i))
+      ) {
+        if (item.isShown) {
+          item.hide();
+        }
+      } else {
+        if (!item.isShown) {
+          item.show();
+        }
+        item.move(this.firstItemTop + this.totalHeight);
+        this.totalHeight += item.json.top_increment;
+      }
+
+      if (item.iconExpander) {
+        this.collapsedStateHierarchy.set(item.left, item.isCollapsed);
+        if (recursive && item.isCollapsed !== this.subject.isCollapsed) {
+          item.toggleIcon();
+        }
       }
     }
   }
 
+  const subject = new GanttItem(subjectElem);
+  subject.toggleIcon();
+
+  const view = new GanttView(subject);
+
   // Get all subsequent DIV elements, convert to GanttItem,
   // and update their positions and view states.
   nextAll(subjectElem, "DIV")
-    .map((elem) => new GanttItem(elem))
-    .forEach(updateGanttItemPositionAndView);
+    .forEach(elem => {
+      const item = new GanttItem(elem);
+      view.updatePositionOf(item, recursive);
+    });
 }
 
 export function disableUnavailableColumns(unavailable_columns) {
-  $.each(unavailable_columns, function (index, value) {
-    $('#available_c, #selected_c').children("[value='" + value + "']").prop('disabled', true);
+  const elements = document.querySelectorAll('#available_c, #selected_c')
+  unavailable_columns.forEach((value) => {
+    elements.forEach(element => {
+      element.querySelectorAll(`:scope [value='${value}']`).forEach(child => {
+        child.disabled = true
+      })
+    });
   });
 }
 

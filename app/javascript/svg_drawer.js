@@ -176,9 +176,14 @@ export function createSVGDrawer(parent) {
       return new SVGSet();
     }
 
-    path(d) {
-      const path = this.draw('path', {d: d.join(' ')});
+    path(d, parent = null) {
+      const path = this.draw('path', {d: d.join(' ')}, parent);
       return path;
+    }
+
+    group() {
+      const group = this.draw('g');
+      return group;
     }
 
     circle(x, y, r) {
