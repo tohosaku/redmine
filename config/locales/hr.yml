@@ -758,6 +758,7 @@ hr:
   button_configure: Konfiguracija
   button_quote: Navod
   button_show: Show
+  button_close_dialog: Close
 
   status_active: aktivan
   status_registered: Registriran

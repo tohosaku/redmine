@@ -1958,4 +1958,13 @@ module ApplicationHelper
       wiki_pages: auto_complete_wiki_pages_path(project_id: project, q: ''),
     }
   end
+
+  def dialog_dispatcher(element_id, width)
+    {
+      controller: 'dialog-dispatcher',
+      action: 'dialog-dispatcher#show',
+      dialog_dispatcher_dialog_outlet: "##{element_id}",
+      dialog_dispatcher_width_param: width
+    }
+  end
 end

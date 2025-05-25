@@ -796,6 +796,7 @@ he:
   button_configure: אפשרויות
   button_quote: צטט
   button_show: הצג
+  button_close_dialog: Close
 
   status_active: פעיל
   status_registered: רשום

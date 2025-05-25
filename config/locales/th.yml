@@ -621,6 +621,7 @@ th:
   button_annotate: หมายเหตุประกอบ
   button_update: ปรับปรุง
   button_configure: ปรับแต่ง
+  button_close_dialog: Close
 
   status_active: เปิดใช้งานแล้ว
   status_registered: รอการอนุมัติ

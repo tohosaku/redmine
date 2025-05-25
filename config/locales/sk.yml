@@ -620,6 +620,7 @@ sk:
   button_annotate: Komentovať
   button_update: Aktualizovať
   button_configure: Konfigurovať
+  button_close_dialog: Close
 
   status_active: aktívny
   status_registered: zaregistrovaný

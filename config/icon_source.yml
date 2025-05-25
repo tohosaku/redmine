@@ -250,8 +250,6 @@
   svg: movie
 - name: file-music
   svg: file-music
-- name: file-type-docx
-  svg: file-type-docx
 - name: file-type-xls
   svg: file-type-xls
 - name: file-type-ppt
@@ -260,3 +258,5 @@
   svg: maximize
 - name: link-add
   svg: link-plus
+- name: close-dialog
+  svg: x

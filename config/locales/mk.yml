@@ -786,6 +786,7 @@ mk:
   button_configure: Конфигурирај
   button_quote: Цитирај
   button_show: Show
+  button_close_dialog: Close
 
   status_active: активни
   status_registered: регистрирани

@@ -955,6 +955,7 @@ sv:
   button_delete_my_account: Ta bort mitt konto
   button_close: Stäng
   button_reopen: Återöppna
+  button_close_dialog: Close
 
   status_active: aktiv
   status_registered: registrerad

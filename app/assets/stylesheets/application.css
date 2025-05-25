@@ -41,6 +41,7 @@
 :root {
   --fonts-main: "Noto Sans", sans-serif;
   --color-current-marker: var(--oc-indigo-5);
+  --dialog-z-index: 100;
 }
 
 html, body { min-block-size: 100vh; }
@@ -376,10 +377,15 @@ body.has-main-menu #header {
 #login-form a.lost_password {float:inline-end; font-weight:normal;}
 #login-form h3 {text-align: center;}
 
-div.modal { border-radius:5px; background:var(--oc-white); z-index:50; padding:4px;}
-div.modal h3.title {display:none;}
-div.modal p.buttons {margin-block-end: 0;}
-div.modal .box p {margin-block: 0.3em; margin-inline: 0;}
+div.dialog { position:absolute; border-radius:5px; background:var(--oc-white); padding:7px 14px; border: 1px solid var(--oc-gray-4); color:var(--oc-gray-8); font-family: Arial,Helvetica,sans-serif; font-size: 1em; outline: 0; z-index:var(--dialog-z-index)}
+div.dialog p.buttons {margin-block-end: 0;}
+div.dialog .box p {margin-block: 0.3em; margin-inline: 0;}
+div.dialog .handle {display:flex; align-items: center;height:1.5em; cursor: move; padding: .5em; border-radius: 3px; border: 1px solid var(--oc-gray-3); background: var(--oc-gray-2); color: var(--oc-gray-8); font-weight: bold; touch-action: none}
+div.dialog .handle .title {margin: .1em 0; white-space: nowrap; width: 90%; overflow: hidden; text-overflow: ellipsis}
+div.dialog .handle button {margin: 0 0 0 auto;padding:0;width: 20px; height: 20px;fill: var(--oc-gray-7); text-decoration: none; border: 1px solid var(--oc-gray-4); background: var(--oc-gray-1); font-weight: normal;box-sizing: border-box; white-space: nowrap; line-height: normal; cursor: pointer; text-align: center; user-select: none; overflow: visible;}
+div.dialog .handle button svg { stroke-width: 4; stroke: var(--oc-gray-5) }
+div.dialog .handle button .icon {position: absolute; top: 50%; left: 50%; margin-top:-8px; margin-left: -8px; width: 16px; height: 16px; display: inline-block; vertical-align: middle; overflow: hidden; background-repeat: no-repeat}
+.modal-backdrop-open { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: calc(var(--dialog-z-index) - 1)}
 
 .clear:after{ content: "."; display: block; block-size: 0; clear: both; visibility: hidden; }
 
@@ -957,7 +963,6 @@ div#sticky-issue-header .subject {
 #issue_tree .issue > td.assigned_to, #relations .issue > td.assigned_to {
   white-space: nowrap;
 }
-#trackers_description, #issue_statuses_description {display:none;}
 #trackers_description dt, #issue_statuses_description dt {font-weight: bold; text-decoration: underline;}
 #trackers_description dd, #issue_statuses_description dd {margin: 0; padding-block: 0 1em; padding-inline: 0;}
 

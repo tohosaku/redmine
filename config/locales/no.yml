@@ -618,6 +618,7 @@
   button_annotate: Notér
   button_update: Oppdater
   button_configure: Konfigurer
+  button_close_dialog: Close
 
   status_active: aktiv
   status_registered: registrert

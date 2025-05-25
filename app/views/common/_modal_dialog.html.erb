@@ -1,0 +1,6 @@
+<%# locals: (modal: false, id: nil, title: '', data: nil) %>
+<% content_for(:modal) do %>
+  <%= render 'common/dialog', { id: id, title: title, data: data } do %>
+    <%= yield %>
+  <% end %>
+<% end %>

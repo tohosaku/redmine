@@ -1,15 +1,14 @@
 <% if issue_statuses.any? {|s| s.description.present? } %>
-  <div class="modal" id="issue_statuses_description">
-    <h3 class="title"><%= l(:label_issue_statuses_description) %></h3>
-      <dl>
+  <% component 'modal_dialog', id: 'issue_statuses_description', title: l(:label_issue_statuses_description) do %>
+    <dl>
       <% issue_statuses.each do |issue_status| %>
         <% if issue_status.description.present? %>
-          <dt><%= content_tag 'a', issue_status.name, :onclick => "selectIssueStatus('#{issue_status.id}'); return false;", :href => '#', :title => l(:text_select_apply_issue_status) %></dt>
+          <dt><%= link_to issue_status.name, '#', onclick: "selectIssueStatus('#{issue_status.id}'); return false;", title: l(:text_select_apply_issue_status) %></dt>
           <dd><%= issue_status.description %></dd>
         <% end %>
       <% end %>
-      </dl>
-  </div>
+    </dl>
+  <% end %>
 <% end %>
 <%= javascript_tag do %>
   function selectIssueStatus(id) {
@@ -17,6 +16,6 @@
     target.attr("selected", false);
     target.find('option[value="' + id + '"]').prop('selected', true);
     target.trigger('change');
-    hideModal('#issue_statuses_description h3');
+    $('#issue_statuses_description').get(0).dialog_controller.hide();
   }
 <% end %>

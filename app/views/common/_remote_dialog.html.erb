@@ -1,0 +1,9 @@
+<%# locals: (modal: true, id: nil, title: '', width: nil, partial: nil, locals: {}, data: nil) %>
+<% data ||= { controller: 'dialog', width: width, dialog_modal_value: modal, dialog_dispatcher_target: 'show' } %>
+<%= render layout: 'common/dialog', locals: { id: nil, title: title, data: data }, formats: [:html] do %>
+  <% if partial %>
+    <%= render partial: partial, locals: locals %>
+  <% else %>
+    <%= yield %>
+  <% end %>
+<% end %>

@@ -1218,6 +1218,7 @@ fa:
   button_delete_object: حذف %{object_name}
   button_create_and_follow: ساخت و برگشت
   button_apply_issues_filter: اعمال غربال مسئله‌ها
+  button_close_dialog: Close
 
   status_active: فعال
   status_registered: ثبت‌نام‌شده

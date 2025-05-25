@@ -1265,6 +1265,7 @@ bg:
   button_delete_object: Изтриване %{object_name}
   button_create_and_follow: Създаване и продължаване
   button_apply_issues_filter: Прилагане на филтъра
+  button_close_dialog: Close
 
   status_active: активен
   status_registered: регистриран

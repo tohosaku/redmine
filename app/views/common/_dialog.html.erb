@@ -1,0 +1,13 @@
+<%# locals: (id: nil, title: '', data: nil) %>
+<%= tag.div style: 'display:none', class: 'dialog', id: id, data: (data || { controller: 'dialog' })  do %>
+  <div class="handle" data-action="pointerdown->dialog#start pointerup->dialog#end pointercancel->dialog#end pointermove->dialog#move touchstart->dialog#noop dragstart->dialog#noop keydown.esc@window->dialog#cancel" data-dialog-target="handler">
+    <span class="title"><%= title %></span>
+    <%= tag.button type: "button", title: l(:button_close_dialog), data: {action: "dialog#cancel", dialog_target: 'cancel'} do %>
+      <%= sprite_icon 'close-dialog'%>
+    <% end %>
+  </div>
+
+  <div class="dialog-content">
+    <%= yield %>
+  </div>
+<% end %>

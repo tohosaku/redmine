@@ -700,6 +700,7 @@ ro:
   button_update: Actualizează
   button_configure: Configurează
   button_quote: Citează
+  button_close_dialog: Close
 
   status_active: activ
   status_registered: înregistrat

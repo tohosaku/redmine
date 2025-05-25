@@ -784,6 +784,7 @@ sr:
   button_configure: Подеси
   button_quote: Под наводницима
   button_show: Прикажи
+  button_close_dialog: Close
 
   status_active: активни
   status_registered: регистровани

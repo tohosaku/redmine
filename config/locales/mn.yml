@@ -771,6 +771,7 @@ mn:
   button_configure: Тохируулах
   button_quote: Ишлэл
   button_show: Үзэх
+  button_close_dialog: Close
 
   status_active: идэвхтэй
   status_registered: бүртгүүлсэн

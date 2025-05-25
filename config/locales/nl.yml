@@ -151,6 +151,7 @@ nl:
   button_change_password: Wachtwoord wijzigen
   button_check_all: Alles selecteren
   button_clear: Leegmaken
+  button_close_dialog: Close
   button_configure: Configureren
   button_copy: Kopiëren
   button_create: Aanmaken

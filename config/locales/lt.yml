@@ -1020,6 +1020,7 @@ lt:
   button_close: Uždaryti
   button_reopen: Atidaryti iš naujo
   button_import: Importuoti
+  button_close_dialog: Close
 
   status_active: aktyvus
   status_registered: užregistruotas
