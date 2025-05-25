@@ -11,7 +11,7 @@ import { assert } from 'chai'
 const html = `
   <div data-controller="dialog" id="dialog">
     <div data-action="pointerdown->dialog#start pointerup->dialog#end pointercancel->dialog#end  pointermove->dialog#move touchstart->dialog#noop dragstart->dialog#noop" data-dialog-target="handler" id="handler">Drag Here</div>
-    <div id="hide">Close</div>
+    <div id="hide" data-dialog-target="cancel">Close</div>
   </div>
   <div id="wrapper"></div>
   <div id="modal-backdrop"></div>`
