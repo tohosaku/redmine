@@ -222,74 +222,183 @@ export function resizableSubjectColumn(){
 }
 
 export function ganttEntryClick(e) {
-  var icon_expander = e.target.closest('.expander');
-  var subject = $(icon_expander.parentElement);
-  var subject_left = parseInt(subject.css('left')) + parseInt(icon_expander.offsetWidth);
-  var target_shown = null;
-  var target_top = 0;
-  var total_height = 0;
-  var out_of_hierarchy = false;
+  const iconExpanderElem = e.target.closest('.expander');
+  const subjectElem = iconExpanderElem.parentElement;
+  const expanderWidth = iconExpanderElem.offsetWidth;
+  const recursive = e.ctrlKey;
 
-  const isOpen = subject.hasClass('open');
-  const iconChange = function(element) {
-    const icon = isOpen ? 'angle-right' : 'angle-down';
-    const expander = element.querySelectorAll('.expander');
-    expander.forEach((ex) => switchClass(ex, 'icon-expanded', 'icon-collapsed', !isOpen))
-    element.classList.toggle('open', !isOpen);
-    if (expander.length > 0 && expander[0].querySelector('svg') !== null) {
-      updateSVGIcon(expander[0], icon)
+  function toggleClass(elem, class1, class2) {
+    if (!elem) return;
+    elem.classList.remove(class1);
+    elem.classList.add(class2);
+  }
+
+  function getLeft(elem) {
+    if (!elem) return 0;
+    return elem.offsetLeft || parseInt(elem.style.left);
+  }
+
+  function getTop(elem) {
+    if (!elem) return 0;
+    return elem.offsetTop || parseInt(elem.style.top);
+  }
+
+  function nextAll(elem, tagName) {
+    const nextAllElems = [];
+    let targetElem = elem.nextElementSibling;
+    while (targetElem) {
+      if (!tagName || targetElem.tagName === tagName) {
+        nextAllElems.push(targetElem);
+      }
+      targetElem = targetElem.nextElementSibling;
     }
-  };
-  iconChange(subject.get(0));
-  nextAll(subject.get(0), 'div').forEach((element) => {
-    var el = $(element);
-    var json = el.data('collapse-expand');
-    var number_of_rows = el.data('number-of-rows');
-    const selector = `div[data-collapse-expand="${json.obj_id}"][data-number-of-rows="${number_of_rows}"]`;
-    var el_task_bars = `#gantt_area form > ${selector}`;
-    var el_selected_columns = `td.gantt_selected_column ${selector}`;
-    if (out_of_hierarchy || parseInt(el.css('left')) <= subject_left) {
-      out_of_hierarchy = true;
+    return nextAllElems;
+  }
 
-      var new_top_val = parseInt(el.css('top')) + total_height * (target_shown ? -1 : 1);
-      el.css('top', new_top_val);
-      $([el_task_bars, el_selected_columns].join()).each(function(_, el){
-        $(el).css('top', new_top_val);
-      });
+  class GanttItem {
+    constructor(elem) {
+      this.elem = elem;
+      this.iconExpander = elem.querySelector(":scope > .icon.expander");
+      this.left =
+        getLeft(this.elem) + (this.iconExpander ? expanderWidth : 0);
+      this.top = getTop(this.elem);
+      this.isShown =
+        this.elem.offsetWidth > 0 || this.elem.offsetHeight > 0;
+      this.json = JSON.parse(this.elem.dataset.collapseExpand);
+      this.numberOfRows = this.elem.dataset.numberOfRows;
+      this.isCollapsed =
+        this.iconExpander?.classList.contains("icon-collapsed");
+
+      const selector =
+        `[data-collapse-expand="${this.json.obj_id}"]` +
+        `[data-number-of-rows="${this.numberOfRows}"]`;
+      this.taskBars = document.querySelectorAll(
+        `#gantt_area form > ${selector}`
+      );
+      this.selectedColumns = document.querySelectorAll(
+        `td.gantt_selected_column ${selector}`
+      );
+    }
+
+    toggleIcon(force = undefined) {
+      if (this.isCollapsed === undefined) return false;
+
+      this.elem.classList.remove("open");
+      const svgIcon = this.iconExpander.getElementsByTagName("svg");
+
+      if ((force === true && !(force === false)) || this.isCollapsed) {
+        toggleClass(this.iconExpander, "icon-collapsed", "icon-expanded");
+        this.elem.classList.add("open");
+        if (svgIcon.length === 1) {
+          updateSVGIcon(this.iconExpander, 'angle-down');
+        }
+      } else {
+        toggleClass(this.iconExpander, "icon-expanded", "icon-collapsed");
+        if (svgIcon.length === 1) {
+          updateSVGIcon(this.iconExpander, 'angle-right');
+        }
+      }
+
+      this.isCollapsed = !this.isCollapsed;
       return true;
     }
 
-    var is_shown = el.is(':visible');
-    if (target_shown == null) {
-      target_shown = is_shown;
-      target_top = parseInt(el.css('top'));
-      total_height = 0;
+    #setDisplayStyle(displayStyle) {
+      this.taskBars.forEach((taskBar) => {
+        taskBar.style.display = displayStyle;
+      });
+      this.selectedColumns.forEach((selectedColumn) => {
+        selectedColumn.style.display = displayStyle;
+      });
+      this.elem.style.display = displayStyle;
     }
-    if (is_shown == target_shown) {
-      $(el_task_bars).each(function(_, task) {
-        var el_task = $(task);
-        if (!is_shown) {
-          el_task.css('top', target_top + total_height);
-        }
-        if (!el_task.hasClass('tooltip')) {
-          el_task.toggle(!is_shown);
-        }
+
+    hide() {
+      this.#setDisplayStyle("none");
+      this.isShown = false;
+    }
+
+    show() {
+      this.#setDisplayStyle("");
+      this.isShown = true;
+    }
+
+    move(top) {
+      this.top = top;
+      this.taskBars.forEach((taskBar) => {
+        taskBar.style.top = `${top}px`;
       });
-      $(el_selected_columns).each(function (_, attr) {
-        var el_attr = $(attr);
-        if (!is_shown)
-          el_attr.css('top', target_top + total_height);
-          el_attr.toggle(!is_shown);
+      this.selectedColumns.forEach((selectedColumn) => {
+        selectedColumn.style.top = `${top}px`;
       });
-      if (!is_shown) {
-        el.css('top', target_top + total_height);
+      this.elem.style.top = `${top}px`;
+    }
+  }
+
+  const subject = new GanttItem(subjectElem);
+  subject.toggleIcon();
+
+  let totalHeight = 0;
+  let outOfHierarchyTop = null;
+  let firstItemTop = null;
+  let collapsedStateHierarchy = new Map();
+  collapsedStateHierarchy.set(subject.left, subject.isCollapsed);
+  let prevItemLeft = subject.left;
+
+  function updateGanttItemPositionAndView (ganttItem) {
+    if (outOfHierarchyTop || ganttItem.left <= subject.left) {
+      if (!outOfHierarchyTop) outOfHierarchyTop = ganttItem.top;
+
+      const newTop =
+        ganttItem.top +
+        (subject.isCollapsed
+          ? -outOfHierarchyTop + subject.top + subject.json.top_increment
+          : totalHeight);
+
+      ganttItem.move(newTop);
+      return;
+    }
+
+    // Clear the collapsed state for levels deeper than the current hierarchy
+    // level.
+    if (prevItemLeft > ganttItem.left) {
+      for (const left of collapsedStateHierarchy.keys()) {
+        if (left >= ganttItem.left) collapsedStateHierarchy.delete(left);
       }
-      iconChange(element);
-      el.toggle(!is_shown);
-      total_height += parseInt(json.top_increment);
     }
-  });
-};
+
+    // Update the stored left value for the next loop
+    prevItemLeft = ganttItem.left;
+
+    if (!firstItemTop) {
+      firstItemTop = subject.top + subject.json.top_increment;
+    }
+
+    if (
+      (recursive && subject.isCollapsed) ||
+      (!recursive && collapsedStateHierarchy.values().some((i) => i))
+    ) {
+      if (ganttItem.isShown) ganttItem.hide();
+    } else {
+      if (!ganttItem.isShown) ganttItem.show();
+      ganttItem.move(firstItemTop + totalHeight);
+      totalHeight += ganttItem.json.top_increment;
+    }
+
+    if (ganttItem.iconExpander) {
+      collapsedStateHierarchy.set(ganttItem.left, ganttItem.isCollapsed);
+      if (recursive && ganttItem.isCollapsed !== subject.isCollapsed) {
+        ganttItem.toggleIcon();
+      }
+    }
+  }
+
+  // Get all subsequent DIV elements, convert to GanttItem,
+  // and update their positions and view states.
+  nextAll(subjectElem, "DIV")
+    .map((elem) => new GanttItem(elem))
+    .forEach(updateGanttItemPositionAndView);
+}
 
 export function disableUnavailableColumns(unavailable_columns) {
   $.each(unavailable_columns, function (index, value) {
