@@ -170,7 +170,6 @@ suite('attachment controller', () => {
   });
 
   suite('File uploaded without AJAX', () => {
-    let controller
     setup(async () => {
       app.register('attachment', class extends AttachmentController {
         connect() {
@@ -184,12 +183,13 @@ suite('attachment controller', () => {
     });
 
     test('element #attachments_1 exists', (done) => {
-      setTimeout(() => {
+      const callback = (mutationList) => {
         let attach1 = document.getElementById('attachments_1');
-        // attach1 = container.querySelector('#attachments_1');
         assert.isNotNull(attach1);
         done();
-      })
+      };
+      const observer = new MutationObserver(callback);
+      observer.observe(container, { subtree: true, childList: true })
       inputFile.dispatchEvent(new Event('change'));
     });
   });
