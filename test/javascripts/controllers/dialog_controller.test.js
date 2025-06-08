@@ -7,6 +7,7 @@
 import { Application } from "@hotwired/stimulus"
 import DialogController from 'controllers/dialog_controller'
 import { assert } from 'chai'
+import { createPointerEvent } from RAILS_ASSET_URL('/test_utils.js')
 
 const html = `
   <div data-controller="dialog" id="dialog">
@@ -47,7 +48,7 @@ suite('dialog controller', () => {
     const dialog = document.getElementById('dialog');
     controller = dialog.dialog_controller;
 
-    const event = new PointerEvent('pointerdown', { button: 0, clientX: 100, clientY: 100 });
+    const event = createPointerEvent('pointerdown', { button: 0, clientX: 100, clientY: 100 });
     await handler.dispatchEvent(event);
 
     assert.isNotNull(controller.dragging);
@@ -61,10 +62,10 @@ suite('dialog controller', () => {
     const dialog = document.getElementById('dialog');
     controller = dialog.dialog_controller;
 
-    let event = new PointerEvent('pointerdown', { button: 0, clientX: 100, clientY: 100 });
+    let event = createPointerEvent('pointerdown', { button: 0, clientX: 100, clientY: 100 });
     await handler.dispatchEvent(event);
 
-    event = new PointerEvent("pointermove", { clientX: 150, clientY: 150 });
+    event = createPointerEvent("pointermove", { clientX: 150, clientY: 150 });
     await handler.dispatchEvent(event);
 
     const pos = controller.pos;
@@ -79,10 +80,10 @@ suite('dialog controller', () => {
     const dialog = document.getElementById('dialog');
     controller = dialog.dialog_controller;
 
-    let event = new PointerEvent('pointerdown', { button: 0, clientX: 100, clientY: 100 });
+    let event = createPointerEvent('pointerdown', { button: 0, clientX: 100, clientY: 100 });
     await handler.dispatchEvent(event);
 
-    event = new PointerEvent("pointerup");
+    event = createPointerEvent("pointerup");
     await handler.dispatchEvent(event);
 
     assert.isNull(controller.dragging);
