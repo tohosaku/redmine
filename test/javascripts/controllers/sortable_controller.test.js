@@ -7,6 +7,7 @@
 import { Application } from "@hotwired/stimulus"
 import SortableController from 'controllers/sortable_controller'
 import { assert } from 'chai'
+import { createPointerEvent } from RAILS_ASSET_URL('/test_utils.js')
 
 const html = `
 <div id="sortable" data-controller="sortable" data-action="pointerdown->sortable#start
@@ -48,7 +49,7 @@ suite('sortable controller', () => {
   test('transition to DraggingInside state on mouse drag', async () => {
     const controller = element.controller;
     const item = element.querySelector('[data-sorted-index="1"]');
-    const event = new PointerEvent('pointerdown', {
+    const event = createPointerEvent('pointerdown', {
       bubbles: true,
       cancelable: true,
       clientX: 50,
@@ -64,7 +65,7 @@ suite('sortable controller', () => {
   test('update item positions on drag', async () => {
     const controller = element.controller;
     const item = element.querySelector('[data-sorted-index="1"]');
-    const eventStart = new PointerEvent('pointerdown', {
+    const eventStart = createPointerEvent('pointerdown', {
       bubbles: true,
       cancelable: true,
       clientX: 50,
@@ -73,7 +74,7 @@ suite('sortable controller', () => {
     });
     await item.dispatchEvent(eventStart);
 
-    const eventMove = new PointerEvent('pointermove', {
+    const eventMove = createPointerEvent('pointermove', {
       bubbles: true,
       cancelable: true,
       clientX: 50,
@@ -87,7 +88,7 @@ suite('sortable controller', () => {
   test('trigger a sorted event on drag end', async () => {
     const controller = element.controller;
     const item = element.querySelector('[data-sorted-index="1"]');
-    const eventStart = new PointerEvent('pointerdown', {
+    const eventStart = createPointerEvent('pointerdown', {
       bubbles: true,
       cancelable: true,
       clientX: 50,
@@ -101,7 +102,7 @@ suite('sortable controller', () => {
       sortedEventTriggered = true;
     });
 
-    const eventEnd = new PointerEvent('pointerup', {
+    const eventEnd = createPointerEvent('pointerup', {
       bubbles: true,
       cancelable: true,
     });
@@ -114,7 +115,7 @@ suite('sortable controller', () => {
   test('handle moving out of an area', async () => {
     const controller = element.controller;
     const item = element.querySelector('[data-sorted-index="1"]');
-    const eventStart = new PointerEvent('pointerdown', {
+    const eventStart = createPointerEvent('pointerdown', {
       bubbles: true,
       cancelable: true,
       clientX: 50,
@@ -123,7 +124,7 @@ suite('sortable controller', () => {
     });
     await item.dispatchEvent(eventStart);
 
-    const eventMoveOutside = new PointerEvent('pointermove', {
+    const eventMoveOutside = createPointerEvent('pointermove', {
       bubbles: true,
       cancelable: true,
       clientX: 1000, // Simulating moving out of bounds
