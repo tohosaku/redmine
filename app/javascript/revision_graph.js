@@ -7,56 +7,74 @@ import {createSVGDrawer} from 'svg_drawer';
 
 var revisionGraph = null;
 
+function position(el) {
+  const {top, left} = el.getBoundingClientRect();
+  const {marginTop, marginLeft} = getComputedStyle(el);
+  return {
+    top: top - parseInt(marginTop, 10),
+    left: left - parseInt(marginLeft, 10)
+  };
+}
+
+function height(el) {
+  return el.getBoundingClientRect().height
+}
+
+function last(array) {
+  return array[array.length -1]
+}
+
 export function drawRevisionGraph(holder, commits_hash, graph_space) {
-    var XSTEP = 20,
-        CIRCLE_INROW_OFFSET = 10;
-    const commits_by_scmid = commits_hash;
-    const commits = $.map(commits_by_scmid, function(val,i){return val;});
-    var max_rdmid = commits.length - 1;
-    var commit_table_rows = $('table.changesets tr.changeset');
+    const XSTEP               = 20;
+    const CIRCLE_INROW_OFFSET = 10;
+    const commits_by_scmid    = commits_hash;
+    const commits             = Object.keys(commits_by_scmid).map((k) => commits_by_scmid[k]);
+    const max_rdmid           = commits.length - 1;
+    const commit_table_rows   = document.querySelectorAll('table.changesets tr.changeset');
 
     // create graph
-    if(revisionGraph != null) {
-        revisionGraph.clear();
+    if (revisionGraph != null) {
+      revisionGraph.clear();
     } else {
-        revisionGraph = createSVGDrawer(holder);
+      revisionGraph = createSVGDrawer(holder);
     }
 
-    var top = revisionGraph.set();
+    const top = revisionGraph.set();
     // init dimensions
-    var graph_x_offset = commit_table_rows.first().find('td').first().position().left - $(holder).position().left,
-        graph_y_offset = $(holder).position().top,
-        graph_right_side = graph_x_offset + (graph_space + 1) * XSTEP,
-        graph_bottom = commit_table_rows.last().position().top + commit_table_rows.last().height() - graph_y_offset;
+    const graph_x_offset   = position(commit_table_rows[0].querySelector('td')).left - position(holder).left;
+    const graph_y_offset   = position(holder).top;
+    const graph_right_side = graph_x_offset + (graph_space + 1) * XSTEP;
+    const graph_bottom     = position(last(commit_table_rows)).top + height(last(commit_table_rows)) - graph_y_offset;
 
+    const yForRow = function (index, commit) {
+      const row   = commit_table_rows[index];
+      const first = getComputedStyle(row.querySelector('td'))['vertical-align']
 
-    var yForRow = function (index, commit) {
-      var row = commit_table_rows.eq(index);
-
-      switch (row.find("td:first").css("vertical-align")) {
+      switch (first) {
         case "middle":
-          return row.position().top + (row.height() / 2) - graph_y_offset;
+          return position(row).top + (height(row) / 2) - graph_y_offset;
         default:
-          return row.position().top + - graph_y_offset + CIRCLE_INROW_OFFSET;
+          return position(row).top + - graph_y_offset + CIRCLE_INROW_OFFSET;
       }
     };
 
     revisionGraph.setSize(graph_right_side, graph_bottom);
 
     // init colors
-    var colors = [];
+    const colors = [];
     const svgcolor = revisionGraph.color();
     for (var k = 0; k <= graph_space; k++) {
-        colors.push(svgcolor.getColor());
+      colors.push(svgcolor.getColor());
     }
 
-    var parent_commit;
-    var x, y, parent_x, parent_y;
-    var path, title;
-    var revision_dot_overlay;
-    $.each(commits, function(index, commit) {
-        if (!commit.hasOwnProperty("space"))
+    let parent_commit;
+    let x, y, parent_x, parent_y;
+    let path, title;
+    let revision_dot_overlay;
+    commits.forEach((commit, index) => {
+        if (!commit.hasOwnProperty("space")) {
             commit.space = 0;
+        }
 
         y = yForRow(max_rdmid - commit.rdmid);
         x = graph_x_offset + XSTEP / 2 + XSTEP * commit.space;
@@ -66,7 +84,7 @@ export function drawRevisionGraph(holder, commits_hash, graph_space) {
                 stroke: 'none'
             }).toFront();
         // paths to parents
-        $.each(commit.parent_scmids, function(index, parent_scmid) {
+        commit.parent_scmids.forEach((parent_scmid, index) => {
             parent_commit = commits_by_scmid[parent_scmid];
             if (parent_commit) {
                 if (!parent_commit.hasOwnProperty("space"))
@@ -103,7 +121,7 @@ export function drawRevisionGraph(holder, commits_hash, graph_space) {
                 href: commit.href
             });
 
-        if(commit.refs != null && commit.refs.length > 0) {
+        if (commit.refs != null && commit.refs.length > 0) {
             title = revisionGraph.draw('title', revision_dot_overlay.node)
             title.node.appendChild(document.createTextNode(commit.refs));
         }
