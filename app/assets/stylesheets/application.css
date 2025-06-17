@@ -539,7 +539,7 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
   margin: 0 15px;
   width: auto !important;
 }
-#list-definition > div {
+#list-definition > div > div {
   margin: 6px 0;
   display: flex;
   flex-wrap: wrap;
