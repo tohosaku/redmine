@@ -740,7 +740,8 @@ div.table-list.boards .table-list-cell.name {inline-size: 30%;}
   margin-inline: 15px;
   inline-size: auto !important;
 }
-#list-definition > div {
+
+#list-definition > div > div {
   margin-block: 6px;
   margin-inline: 0;
   display: flex;
