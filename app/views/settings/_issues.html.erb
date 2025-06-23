@@ -100,11 +100,8 @@
     <div>
       <%= render_query_columns_selection(
             IssueQuery.new(:column_names => Setting.related_issues_default_columns),
-            :name => 'settings[related_issues_default_columns]') %>
-      <%= javascript_tag do %>
-        $('#available_settings_related_issues_default_columns option[value="tracker"]').remove();
-        $('#available_settings_related_issues_default_columns option[value="subject"]').remove();
-      <% end %>
+            :name => 'settings[related_issues_default_columns]',
+            :filter => ->(array){array.reject{|o| ['tracker', 'subject'].include?(o[0])}}) %>
     </div>
   </div>
 

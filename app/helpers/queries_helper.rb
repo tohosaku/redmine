@@ -128,9 +128,14 @@ module QueriesHelper
     tags
   end
 
-  def query_available_inline_columns_options(query)
-    (query.available_inline_columns - query.columns).
+  def query_available_inline_columns_options(query, filter)
+    options = (query.available_inline_columns - query.columns).
       reject(&:frozen?).collect {|column| [column.caption, column.name]}
+    if filter
+      filter.call options
+    else
+      options
+    end
   end
 
   def query_selected_inline_columns_options(query)
@@ -141,7 +146,8 @@ module QueriesHelper
   def render_query_columns_selection(query, options={})
     tag_name = (options[:name] || 'c') + '[]'
     data = options[:data] || {}
-    render :partial => 'queries/columns', :locals => {:query => query, :tag_name => tag_name, :data => data}
+    filter = options[:filter]
+    render :partial => 'queries/columns', :locals => {:query => query, :tag_name => tag_name, :data => data, :filter => filter}
   end
 
   def available_display_types_tags(query, data={})
