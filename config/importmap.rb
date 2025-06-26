@@ -20,3 +20,4 @@ pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin "turndown" # @7.2.0
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
+pin "Chart", preload: false # @4.5.0
