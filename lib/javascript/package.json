@@ -1,0 +1,22 @@
+{
+  "name": "build",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.13.12",
+    "@rollup/plugin-babel": "^7.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^1.0.0",
+    "rollup": "^4.59.0",
+    "rollup-plugin-import-css": "^4.0.1"
+  },
+  "dependencies": {
+    "imask": "7.6.1",
+    "wc-datepicker": "0.11.0"
+  }
+}
