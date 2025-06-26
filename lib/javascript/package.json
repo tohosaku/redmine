@@ -16,6 +16,8 @@
     "rollup": "^4.44.1"
   },
   "dependencies": {
-    "wc-datepicker": "0.9.1"
+    "wc-datepicker": "0.9.1",
+    "chart.js": "4.5.0",
+    "@kurkle/color": "0.3.2"
   }
 }
