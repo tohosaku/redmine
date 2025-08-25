@@ -38,6 +38,7 @@
 
 :root {
   --fonts-main: "Noto Sans", sans-serif;
+  --dialog-z-index: 100;
 }
 
 html, body { min-height: 100vh; }
@@ -207,7 +208,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #login-form a.lost_password {float:right; font-weight:normal;}
 #login-form h3 {text-align: center;}
 
-div.modal { position:absolute; border-radius:5px; background:#fff; padding:7px 14px; border: 1px solid #c5c5c5; color: #333; font-family: Arial,Helvetica,sans-serif; font-size: 1em; outline: 0; z-index: 100}
+div.modal { position:absolute; border-radius:5px; background:#fff; padding:7px 14px; border: 1px solid #c5c5c5; color: #333; font-family: Arial,Helvetica,sans-serif; font-size: 1em; outline: 0; z-index: var(--dialog-z-index)}
 div.modal p.buttons {margin-bottom:0;}
 div.modal .box p {margin: 0.3em 0;}
 div.modal .handle {display:flex; align-items: center;height:1.5em; cursor: move; padding: .5em; border-radius: 3px; border: 1px solid #ddd; background: #e9e9e9; color: #333; font-weight: bold; touch-action: none}
@@ -215,7 +216,7 @@ div.modal .handle .title {margin: .1em 0; white-space: nowrap; width: 90%; overf
 div.modal .handle button {margin: 0 0 0 auto;padding:0;width: 20px; height: 20px;fill: #454545; text-decoration: none; border: 1px solid #c5c5c5; background: #f6f6f6; font-weight: normal;box-sizing: border-box; white-space: nowrap; line-height: normal; cursor: pointer; text-align: center; user-select: none; overflow: visible;}
 div.modal .handle button svg { stroke-width: 4; stroke: #999 }
 div.modal .handle button .icon {position: absolute; top: 50%; left: 50%; margin-top:-8px; margin-left: -8px; width: 16px; height: 16px; display: inline-block; vertical-align: middle; overflow: hidden; background-repeat: no-repeat}
-.modal-backdrop-open { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; }
+.modal-backdrop-open { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: calc(var(--dialog-z-index) - 1)}
 
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
