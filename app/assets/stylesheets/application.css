@@ -2623,8 +2623,3 @@ details:not(.is-opened).collapsed-text > :not(summary) {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
-
-turbo-frame {
-  border: 3px red solid;
-  display: block;
-}
