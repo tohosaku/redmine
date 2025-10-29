@@ -32,27 +32,23 @@ export class Menu {
       }).then(data => {
         this.element.innerHTML = data;
         const rect = this.element.getBoundingClientRect();
+        const ws   = window_size();
 
-        const menu_width     = rect.width;
-        const menu_height    = rect.height;
-        const max_width      = mouse_x   + 2 * menu_width;
-        const max_height     = mouse_y_c + menu_height;
-        const ws             = window_size();
+        const isReverseX  = (mouse_x + 2 * rect.width) > ws.width
+        const lengthX     = calcPosition(mouse_x, rect.width, isReverseX);
 
-        const is_reverse_x   = max_width > ws.width;
-        const arg_x          = { render_pos: mouse_x, menu_size: menu_width, position: 'left', class_name: 'reverse_x' }
-        const action_x       = is_reverse_x ? reverseRenderAction(arg_x)
-                                            : normalRenderAction(arg_x);
+        this.applyPosition({ length: lengthX, position: 'left', className: 'reverse_x' });
 
-        const is_reverse_y   = max_height > ws.height;
-        const arg_y          = { render_pos: mouse_y, menu_size: menu_height, position: 'top', class_name: 'reverse_y' }
-        const action_y       = is_reverse_y ? reverseRenderAction(arg_y)
-                                            : normalRenderAction(arg_y);
+        const menu_height  = rect.height;
+        const max_height   = mouse_y_c + menu_height;
+        const is_reverse_y = max_height > ws.height;
+        const arg_y        = { render_pos: mouse_y, menu_size: menu_height, position: 'top', class_name: 'reverse_y' }
+        const action_y     = is_reverse_y ? reverseRenderAction(arg_y)
+                                          : normalRenderAction(arg_y);
 
         const arg_submenu    = { window_height: ws.height, mouse_y_c }
         const action_submenu = is_reverse_y ? reverseFolderAction(arg_submenu)
                                             : normalFolderAction(arg_submenu);
-        action_x(this.element);
         action_y(this.element);
         // adding class for submenu
         action_submenu(this.element);
@@ -64,6 +60,15 @@ export class Menu {
   hide() {
     this.element.style.display = 'none';
   }
+
+  applyPosition({ length, position, className }) {
+    this.element.classList.add(className)
+    this.element.style[position] = `${length}px`;
+  }
+}
+
+function calcPosition(pos, menuSize, isReverse) {
+  return adjustLessThanZero(isReverse ? pos - menuSize : pos);
 }
 
 export function rightClick(menu, event) {
@@ -156,15 +161,15 @@ export function addMultipleSelection(rows, lastSelected, clicked) {
   return selected;
 }
 
-export function reverseRenderAction({ render_pos, menu_size, position, class_name }) {
+export function reverseRenderAction({ length, position, class_name }) {
   return element => {
     element.classList.add(class_name)
-    const n = adjustLessThanZero(render_pos - menu_size);
+    const n = adjustLessThanZero(length);
     element.style[position] = `${n}px`;
   }
 }
 
-export function normalRenderAction({ render_pos, menu_size, position, class_name }) {
+export function normalRenderAction({ length, position, class_name }) {
   return element => {
     element.classList.remove(class_name);
     const n = adjustLessThanZero(render_pos);
