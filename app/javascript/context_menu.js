@@ -45,9 +45,7 @@ export class Menu {
         this.applyPosition({ length: lengthY, position: 'top', className: 'reverse_y' });
 
         const direction   = calcDirection(ws.height, mouse_y_c, isReverseY);
-        if (direction) {
-          this.element.querySelectorAll('.folder').forEach(el => el.classList.add(direction));
-        }
+        this.applySubmenuDirection(direction);
 
         this.element.style.display = '';
       });
@@ -60,6 +58,12 @@ export class Menu {
   applyPosition({ length, position, className }) {
     this.element.classList.add(className)
     this.element.style[position] = `${length}px`;
+  }
+
+  applySubmenuDirection(direction) {
+    if (direction) {
+      this.element.querySelectorAll('.folder').forEach(el => el.classList.add(direction));
+    }
   }
 }
 
