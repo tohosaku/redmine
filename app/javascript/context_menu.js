@@ -39,19 +39,15 @@ export class Menu {
 
         this.applyPosition({ length: lengthX, position: 'left', className: 'reverse_x' });
 
-        const menu_height  = rect.height;
-        const max_height   = mouse_y_c + menu_height;
-        const is_reverse_y = max_height > ws.height;
-        const arg_y        = { render_pos: mouse_y, menu_size: menu_height, position: 'top', class_name: 'reverse_y' }
-        const action_y     = is_reverse_y ? reverseRenderAction(arg_y)
-                                          : normalRenderAction(arg_y);
+        const isReverseY  = (mouse_y_c + rect.height) > ws.height;
+        const lengthY     = calcPosition(mouse_y, rect.height, isReverseY);
 
-        const arg_submenu    = { window_height: ws.height, mouse_y_c }
-        const action_submenu = is_reverse_y ? reverseFolderAction(arg_submenu)
-                                            : normalFolderAction(arg_submenu);
-        action_y(this.element);
-        // adding class for submenu
-        action_submenu(this.element);
+        this.applyPosition({ length: lengthY, position: 'top', className: 'reverse_y' });
+
+        const direction   = calcDirection(ws.height, mouse_y_c, isReverseY);
+        if (direction) {
+          this.element.querySelectorAll('.folder').forEach(el => el.classList.add(direction));
+        }
 
         this.element.style.display = '';
       });
@@ -69,6 +65,13 @@ export class Menu {
 
 function calcPosition(pos, menuSize, isReverse) {
   return adjustLessThanZero(isReverse ? pos - menuSize : pos);
+}
+
+function calcDirection(height, mouse_y_c, isReverseY) {
+  return isReverseY ? mouse_y_c          < 325 ? 'down'
+                                               : undefined
+                    : height - mouse_y_c < 345 ? 'up'
+                                               : undefined;
 }
 
 export function rightClick(menu, event) {
@@ -159,38 +162,6 @@ export function addMultipleSelection(rows, lastSelected, clicked) {
     }
   });
   return selected;
-}
-
-export function reverseRenderAction({ length, position, class_name }) {
-  return element => {
-    element.classList.add(class_name)
-    const n = adjustLessThanZero(length);
-    element.style[position] = `${n}px`;
-  }
-}
-
-export function normalRenderAction({ length, position, class_name }) {
-  return element => {
-    element.classList.remove(class_name);
-    const n = adjustLessThanZero(render_pos);
-    element.style[position] = `${n}px`;
-  }
-}
-
-export function reverseFolderAction({ window_height, mouse_y_c }) {
-  return element => {
-    if (mouse_y_c < 325) {
-      element.querySelectorAll('.folder').forEach(el => el.classList.add('down'));
-    }
-  }
-}
-
-export function normalFolderAction({ window_height, mouse_y_c }) {
-  return element => {
-    if (window_height - mouse_y_c < 345) {
-      element.querySelectorAll('.folder').forEach(el => el.classList.add('up'));
-    }
-  }
 }
 
 function adjustLessThanZero(n) {
