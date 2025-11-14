@@ -120,6 +120,7 @@ group :test do
   gem 'rubocop', '~> 1.88.0', require: false
   gem 'rubocop-performance', '~> 1.26.0', require: false
   gem 'rubocop-rails', '~> 2.34.3', require: false
+  gem 'rubocop-erb', require: false
   gem 'bundle-audit', require: false
   # for testing oauth provider capabilities
   gem 'oauth2'

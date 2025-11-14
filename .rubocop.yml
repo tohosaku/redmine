@@ -20,6 +20,7 @@ AllCops:
 plugins:
   - rubocop-performance
   - rubocop-rails
+  - rubocop-erb
 
 # Rules for Redmine
 
@@ -259,11 +260,13 @@ Style/FormatStringToken:
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
   Exclude:
+    - 'app/views/**/*.erb'
     - 'db/**/*.rb'
     - 'Gemfile'
     - 'Rakefile'
     - 'config.ru'
     - 'config/additional_environment.rb'
+    - 'test/**/*.erb'
 
 Style/GlobalStdStream:
   Enabled: false
