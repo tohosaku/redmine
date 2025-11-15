@@ -48,6 +48,8 @@ module RedmineApp
     # Stop appending "utf8=✓" to form URLs
     config.action_view.default_enforce_utf8 = false
 
+    config.action_view.frozen_string_literal = true
+
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
