@@ -39,9 +39,9 @@
     <div class="autoscroll">
       <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
 
-      <fieldset class="collapsible" style="padding: 0; margin-top: 0.5em;" data-controller="fieldset" data-fieldset-hidden-value="<%= !@workflows['author'].present? %>">
+      <fieldset class="collapsible" style="padding: 0; margin-top: 0.5em;" data-controller="fieldset" data-fieldset-hidden-value="<%= @workflows['author'].blank? %>">
         <%= tag.legend class: "icon icon-#{@workflows['author'].present? ? 'expanded' : 'collapsed'}", data: { action: 'click->fieldset#toggle' } do %>
-          <%= sprite_icon(@workflows['author'].present? ? "angle-down" : "angle-right", rtl: !@workflows['author'].present?) %>
+          <%= sprite_icon(@workflows['author'].present? ? "angle-down" : "angle-right", rtl: @workflows['author'].blank?) %>
           <%= l(:label_additional_workflow_transitions_for_author) %>
         <% end %>
         <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;" data-fieldset-target="display">
@@ -49,9 +49,9 @@
         </div>
       </fieldset>
 
-      <fieldset class="collapsible" style="padding: 0;" data-controller="fieldset" data-fieldset-hidden-value="<%= !@workflows['assignee'].present? %>">
+      <fieldset class="collapsible" style="padding: 0;" data-controller="fieldset" data-fieldset-hidden-value="<%= @workflows['assignee'].blank? %>">
         <%= tag.legend class: "#icon icon-{@workflows['assignee'].present? ? 'expanded' : 'collapsed'}", data: { action: 'click->fieldset#toggle' } do %>
-          <%= sprite_icon(@workflows['assignee'].present? ? "angle-down" : "angle-right", rtl: !@workflows['assignee'].present?) %>
+          <%= sprite_icon(@workflows['assignee'].present? ? "angle-down" : "angle-right", rtl: @workflows['assignee'].blank?) %>
           <%= l(:label_additional_workflow_transitions_for_assignee) %>
         <% end %>
         <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;" data-fieldset-target="display">
