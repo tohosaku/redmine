@@ -86,7 +86,6 @@ export default class extends Controller {
     if (this.showRelationsValue) {
       this.#drawRelations()
     }
-
   }
 
   #setupDrawPaper() {
