@@ -1,5 +1,5 @@
 <% if @import.finished? %>
   window.location.href='<%= import_path(@import) %>';
 <% else %>
-  $('#import-details').html('<%= escape_javascript(render partial: 'progressbar', locals: { current: @current.to_i}) %>');
+  $('#import-details').html('<%= escape_javascript(render 'progressbar', current: @current.to_i, import: @import) %>');
 <% end %>

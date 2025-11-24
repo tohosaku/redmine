@@ -1,5 +1,5 @@
 <h2><%= import_title %></h2>
 
 <div id="import-details">
-  <%= render partial: 'progressbar', locals: { current: 0 } %>
+  <%= render 'progressbar', current: 0, import: @import %>
 </div>
