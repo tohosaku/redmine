@@ -9,7 +9,7 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="dialog"
 export default class extends Controller {
 
-  static targets = [ 'handler', 'cancel' ]
+  static targets = [ 'handle', 'cancel' ]
   static values = {
     modal: { type: Boolean, default: true },
     wrapperId: { type: String, default: 'wrapper' }
@@ -18,8 +18,6 @@ export default class extends Controller {
   connect() {
     this.dragging = null;
     this.backdrop = null;
-    const rect = this.element.getBoundingClientRect();
-    this._pos = {x: rect.left, y: rect.top}
     this.element[`${this.identifier}_controller`] = this;
     this.wrapper = document.getElementById(this.wrapperIdValue)
   }
@@ -28,37 +26,17 @@ export default class extends Controller {
     if (this.cancelTarget.contains(e.target)) return;
     if (e.button !== 0) return; // left button only
 
-    const client = this.eventToCoordinates(e);
-    this.dragging = {dx: this.pos.x - client.x, dy: this.pos.y - client.y};
-    this.handlerTarget.classList.add('dragging');
-    this.handlerTarget.setPointerCapture(e.pointerId);
-    this.handlerTarget.style.userSelect = 'none'; // if there's text
-    this.handlerTarget.style.webkitUserSelect = 'none'; // safari
+    this.handleTarget.style.userSelect = 'none'; // if there's text
+    this.handleTarget.style.webkitUserSelect = 'none'; // safari
+
+    this.dispatch('start', {detail: {clientX: e.clientX, clientY: e.clientY}});
   }
 
   end(e) {
-    this.dragging = null;
-    this.handlerTarget.classList.remove('dragging');
-    this.handlerTarget.style.userSelect = ''; // if there's text
-    this.handlerTarget.style.webkitUserSelect = ''; // safari
-  }
+    this.dispatch('end')
 
-  move(e) {
-    if (!this.dragging) return;
-
-    const client = this.eventToCoordinates(e);
-    this.pos = {x: client.x + this.dragging.dx, y: client.y + this.dragging.dy};
-  }
-
-  eventToCoordinates(e) {
-    return {x: e.clientX, y: e.clientY}
-  }
-
-  get pos() { return this._pos }
-
-  set pos(p) {
-    this._pos = p;
-    this.element.style.transform = `translate(${this._pos.x}px,${this._pos.y}px)`;
+    this.handleTarget.style.userSelect = ''; // if there's text
+    this.handleTarget.style.webkitUserSelect = ''; // safari
   }
 
   show({width = undefined, backdrop = 'modal-backdrop'}) {
