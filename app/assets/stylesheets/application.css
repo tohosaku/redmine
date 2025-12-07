@@ -544,6 +544,10 @@ table.list, .table-list {
   margin-block-end: 4px;
   overflow: hidden;
 }
+table.list.sticky thead {
+  position: fixed;
+  z-index: 1;
+}
 table.list th, .table-list-header { background-color: var(--oc-gray-2); padding: 4px; white-space: nowrap; font-weight: bold; border-block-end: 2px solid var(--oc-gray-4); }
 table.list th.whitespace-normal {white-space: normal;}
 table.list td {text-align: center; vertical-align: middle; padding-block: 3px; padding-inline-end: 10px; border-block-start: 1px solid var(--oc-gray-4);}
@@ -556,7 +560,7 @@ table.list td.attachments span.attachment-filename {display: block; block-size: 
 table.list td.attachments span.attachment-filename a.icon-download {visibility: hidden;}
 table.list td.attachments span.attachment-filename:hover a.icon-download {visibility: visible;}
 table.list td.tick {inline-size: 15%}
-table.list td.checkbox { inline-size: 15px; padding-block: 2px 0; padding-inline: 0;}
+table.list td.checkbox { inline-size: 15px; padding-block: 4px; padding-inline: 0;}
 table.list .checkbox input {padding: 0; block-size: initial;}
 table.list td.buttons, div.buttons { white-space:nowrap; text-align: end; }
 table.list td.buttons a, div.buttons a, table.list td.buttons span.icon-only { margin-inline-end: 0.6em; }
