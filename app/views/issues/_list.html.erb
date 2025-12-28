@@ -1,3 +1,4 @@
+<% sticky = false unless defined?(sticky) %>
 <% query_options = nil unless defined?(query_options) %>
 <% query_options ||= {} %>
 
@@ -6,8 +7,10 @@
 <%= query_columns_hidden_tags(query) %>
 
 <div class="autoscroll" data-controller="sticky-table-header" data-sticky-table-header-sticky-value="false">
-<table class="list sticky" style="display:none" data-sticky-table-header-target="sticky">
-</table>
+<% if sticky %>
+  <table class="list sticky" style="display:none" data-sticky-table-header-target="sticky">
+  </table>
+<% end %>
 <table class="list issues odd-even <%= query.css_classes %>">
   <thead data-sticky-table-header-target="head">
     <tr>
