@@ -41,7 +41,7 @@ module MyHelper
                       class: 'icon-only icon-close', title: l(:button_delete))
       content = content_tag('div', handle + close, class: 'contextual') + content
 
-      content_tag('div', content, :class => "mypage-box", :id => "block-#{block}", :data => {:sortable_target => 'item'})
+      content_tag('div', content, :class => "mypage-box", :id => "block-#{block}", :data => {:controller => 'relay', :sortable_target => 'item'})
     end
   end
 

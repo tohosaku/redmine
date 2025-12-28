@@ -5,14 +5,14 @@
       edit_news_path(@news),
       :class => 'icon icon-edit',
       :accesskey => accesskey(:edit),
-      :data => {:controller => 'visibility', :action => 'visibility#show', :visibility_selector_param => '#edit-news'}) if User.current.allowed_to?(:manage_news, @project) %>
+      :data => {:controller => 'command', :action => 'command#execute command:show->relay#forward', :command_name_param => 'show'}) if User.current.allowed_to?(:manage_news, @project) %>
 <%= delete_link news_path(@news) if User.current.allowed_to?(:manage_news, @project) %>
 </div>
 
 <h2><%= avatar(@news.author) %> <%=h @news.title %></h2>
 
 <% if authorize_for('news', 'edit') %>
-<div id="edit-news" style="display:none;" data-controller="visibility">
+<div id="edit-news" style="display:none;" data-controller="visibility" data-action="command:show->visibility#show" data-relay-events="command:show">
 <%= labelled_form_for :news, @news, :url => news_path(@news),
                                            :html => { :id => 'news-form', :multipart => true, :method => :put } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>

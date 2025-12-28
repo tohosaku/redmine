@@ -1,6 +1,6 @@
 <div class="contextual">
   <%= link_to sprite_icon('settings', l(:label_options)), '#', class: 'icon-only icon-settings', title: l(:label_options),
-              data: { controller: 'visibility', action: 'visibility#toggle', visibility_selector_param: "#timelog-settings" } %>
+              data: { controller: 'command', action: 'command#execute command:toggle->relay#forward', command_name_param: 'toggle' } %>
 </div>
 
 <h3>
@@ -10,7 +10,7 @@
 </h3>
 
 
-<div id="timelog-settings" style="display:none;">
+<div id="timelog-settings" style="display:none" data-controller="visibility" data-action="command:toggle->visibility#toggle" data-relay-events="command:toggle">
   <%= form_tag(my_page_path, :remote => true) do %>
     <div class="box">
       <p>
@@ -23,7 +23,7 @@
     </div>
     <p>
       <%= submit_tag l(:button_save) %>
-      <%= link_to l(:button_cancel), data: { controller: 'visibility', action: 'visibility#toggle', visibility_selector_param: "#timelog-settings" } %>
+      <%= link_to l(:button_cancel), nil, data: { action: 'visibility#toggle' } %>
     </p>
   <% end %>
 </div>

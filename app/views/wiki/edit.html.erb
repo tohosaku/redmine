@@ -32,11 +32,11 @@
 <% end %>
 
 <p><label><%= l(:field_comments) %></label><%= f.text_field :comments, :size => 120, :maxlength => 1024 %></p>
-<fieldset>
+<fieldset data-controller="visibility">
 <legend><%=l(:label_attachment_plural)%></legend>
 <% if @page.attachments.any? && @page.safe_attribute?('deleted_attachment_ids') %>
-  <div class="contextual"><%= link_to l(:label_edit_attachments), '#', data: {controller: 'visibility', action: 'visibility#toggle', visibility_selector_param: '#existing-attachments'} %></div>
-<div id="existing-attachments" style="<%= @page.deleted_attachment_ids.blank? ? 'display:none;' : '' %>">
+  <div class="contextual"><%= link_to l(:label_edit_attachments), '#', data: {action: 'visibility#toggleField'} %></div>
+<div id="existing-attachments" style="<%= @page.deleted_attachment_ids.blank? ? 'display:none;' : '' %>" data-visibility-target="field">
   <% @page.attachments.each do |attachment| %>
   <span class="existing-attachment">
     <%= file_type_icon(attachment.content_type, size: 12) %>

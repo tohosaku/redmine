@@ -10,6 +10,6 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   execute(e) {
     e.preventDefault();
-    this.dispatch(e.params.name);
+    this.dispatch(e.params.name, {detail: e.params});
   }
 }

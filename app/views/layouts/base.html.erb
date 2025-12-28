@@ -140,7 +140,7 @@
         </div>
     </div>
 
-    <div id="content">
+    <div id="content" data-controller="relay">
         <%= render_flash_messages %>
         <% if @project && !@project.active? %>
           <p class="warning"><span class="icon icon-lock"><%= sprite_icon('lock', l(:text_project_closed)) %></span></p>
