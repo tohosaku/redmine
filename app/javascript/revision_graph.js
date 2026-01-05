@@ -3,7 +3,6 @@
  * Copyright (C) 2006-  Jean-Philippe Lang
  * This code is released under the GNU General Public License.
  */
-
 let revisionGraph = null;
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
@@ -136,9 +135,10 @@ export function drawRevisionGraph(holder, commits_hash, graph_space) {
     var x, y, parent_x, parent_y;
     var path, title;
     var revision_dot_overlay;
-    $.each(commits, function(index, commit) {
-        if (!commit.hasOwnProperty("space"))
+    commits.forEach((commit, index) => {
+        if (!commit.hasOwnProperty("space")) {
             commit.space = 0;
+        }
 
         y = yForRow(max_rdmid - commit.rdmid);
         x = graph_x_offset + XSTEP / 2 + XSTEP * commit.space;
@@ -149,15 +149,17 @@ export function drawRevisionGraph(holder, commits_hash, graph_space) {
 
         // check for parents in the same column
         let noVerticalParents = true;
-        $.each(commit.parent_scmids, function (index, parentScmid) {
+        commit.parent_scmids.forEach((parentScmid, index) => {
             parent_commit = commits_by_scmid[parentScmid];
             if (parent_commit) {
-                if (!parent_commit.hasOwnProperty("space"))
+                if (!parent_commit.hasOwnProperty("space")) {
                     parent_commit.space = 0;
+                }
 
                 // has parent in the same column on this page
-                if (parent_commit.space === commit.space)
+                if (parent_commit.space === commit.space) {
                     noVerticalParents = false;
+                }
             } else {
                 // has parent in the same column on the other page
                 noVerticalParents = false;
@@ -165,7 +167,7 @@ export function drawRevisionGraph(holder, commits_hash, graph_space) {
         });
 
         // paths to parents
-        $.each(commit.parent_scmids, function(index, parent_scmid) {
+        commit.parent_scmids.forEach((parent_scmid, index) => {
             parent_commit = commits_by_scmid[parent_scmid];
             if (parent_commit) {
                 parent_y = yForRow(max_rdmid - parent_commit.rdmid);
@@ -222,4 +224,4 @@ export function drawRevisionGraph(holder, commits_hash, graph_space) {
             revision_dot_overlay.appendChild(title);
         }
     });
-};
+}
