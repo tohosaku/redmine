@@ -11,14 +11,15 @@
                  {selected: default_value_mode},
                   data: conditional_attribute.toggle(equal_to: 'fixed_date') %>
   </p>
-  <p class="indent" <%= tag.attributes data: conditional_attribute.element(name: 'hidden', inverse: 'true') %>>
+<% datepicker do |dataset| %>
+  <p class="indent" <%= tag.attributes data: dataset.wrapper.merge(conditional_attribute.elementl(name: 'hidden', inverse: 'true'))%>>
     <%= f.date_field(:default_value,
                      value: fixed_date_default_value,
                      size: 10,
-                     data: conditional_attribute.element(name: 'disabled', inverse: 'true')) %>
-    <%= calendar_for('custom_field_default_value') %>
+                     data: dataset.field.merge(conditional_attribute.element(name: 'disabled', inverse: 'true'))) %>
   </p>
-  <p class="indent" <%= tag.attributes data: conditional_attribute.element(name: 'hidden') %>>
+<% end %>
+   <p class="indent" <%= tag.attributes data: conditional_attribute.element(name: 'hidden') %>>
     <%= f.text_field(:default_value,
                      id: 'custom_field_default_value_offset',
                      value: date_offset_default_value,

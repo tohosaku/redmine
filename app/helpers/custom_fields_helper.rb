@@ -226,4 +226,22 @@ module CustomFieldsHelper
       end
     end.join("\n").html_safe
   end
+
+  def custom_field_enumerations_controller
+    {
+      controller: 'sortable custom_field_enumerations--sortable',
+      action: ['pointerdown->sortable#start',
+               'pointermove->sortable#move',
+               'pointerup->sortable#end',
+               'pointercancel->sortable#end',
+               'touchstart->sortable#noop',
+               'dragstart->sortable#noop',
+               'sortable:sorted->custom_field_enumerations--sortable#update'].join(' '),
+      sortable_target: 'area'
+    }
+  end
+
+  def custom_field_enumerations_target(index)
+    {sortable_target: 'item', sorted_index: index + 1}
+  end
 end

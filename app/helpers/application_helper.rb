@@ -1680,39 +1680,9 @@ module ApplicationHelper
     nil
   end
 
-  def calendar_for(field_id)
-    include_calendar_headers_tags
-    javascript_tag(
-      "$(function() { $('##{field_id}').addClass('date').datepickerFallback(datepickerOptions); });"
-    )
-  end
-
-  def include_calendar_headers_tags
-    unless @calendar_headers_tags_included
-      tags = ''.html_safe
-      @calendar_headers_tags_included = true
-      content_for :header_tags do
-        start_of_week = Setting.start_of_week
-        start_of_week = l(:general_first_day_of_week, :default => '1') if start_of_week.blank?
-        # Redmine uses 1..7 (monday..sunday) in settings and locales
-        # JQuery uses 0..6 (sunday..saturday), 7 needs to be changed to 0
-        start_of_week = start_of_week.to_i % 7
-        tags <<
-          javascript_tag(
-            "var datepickerOptions={dateFormat: 'yy-mm-dd', firstDay: #{start_of_week}, " \
-              "showOn: 'button', buttonImageOnly: true, buttonImage: '" +
-            asset_path('calendar.png') +
-              "', showButtonPanel: true, showWeek: true, showOtherMonths: true, " \
-              "selectOtherMonths: true, changeMonth: true, changeYear: true, " \
-              "beforeShow: beforeShowDatePicker};"
-          )
-        jquery_locale = l('jquery.locale', :default => current_language.to_s)
-        unless jquery_locale == 'en'
-          tags << javascript_include_tag("i18n/datepicker-#{jquery_locale}.js")
-        end
-        tags
-      end
-    end
+  def datepicker(&)
+    @datepicker ||= Redmine::Datepicker.new(self)
+    @datepicker.render(&)
   end
 
   # Overrides Rails' stylesheet_link_tag with themes and plugins support.
@@ -1936,6 +1906,24 @@ module ApplicationHelper
     return render(partial: "common/#{name}", collection: collection, as: locals.delete(:as) || name.to_sym, locals: locals) if collection
 
     render(partial: "common/#{name}", locals: locals)
+  end
+
+  def positioned_items
+    {
+      controller: 'sortable positioned-items',
+      action: ['pointerdown->sortable#start',
+               'pointermove->sortable#move',
+               'pointerup->sortable#end',
+               'pointercancel->sortable#end',
+               'touchstart->sortable#noop',
+               'dragstart->sortable#noop',
+               'sortable:sorted->positioned-items#update'].join(' '),
+      sortable_target: 'area'
+    }
+  end
+
+  def positioned_items_target(index)
+    {sortable_target: 'item', presorted_index: index + 1, sorted_index: index + 1}
   end
 
   private

@@ -2061,6 +2061,7 @@ div.wiki .task-list input.task-list-item-checkbox {
 .dragging .block-receiver {
   border:1px dashed var(--oc-gray-6);
   margin-block-end: 20px;
+  user-select: none;
 }
 .mypage-box {
   border:1px solid var(--oc-gray-4);
@@ -2716,3 +2717,18 @@ th[role=columnheader]:not(.no-sort):hover:after {
 #sidebar .api-key-actions .copy-api-key-link svg {
   opacity: 1;
 }
+
+[data-controller*=sortable] {
+  position: relative;
+}
+
+.draggable__drag {
+  width: 100%;
+  border: 1px solid #f1f1f1;
+  z-index: 10;
+  -webkit-box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.05);
+  opacity: 1;
+}
+
+table.list:not(.odd-even) tbody tr.is-dragging { background-color:#E0FFFF; }
