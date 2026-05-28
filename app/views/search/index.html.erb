@@ -14,7 +14,7 @@
 <label><%= check_box_tag 'titles_only', 1, @titles_only %> <%= l(:label_search_titles_only) %></label>
 </p>
 
-<fieldset class="box">
+<fieldset class="box" data-controller="checkbox">
   <legend><%= toggle_checkboxes_link('p#search-types input') %></legend>
   <p id="search-types">
   <% @object_types.each do |t| %>
