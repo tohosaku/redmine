@@ -1,35 +1,30 @@
 <% default_value_mode = @custom_field.default_value_mode.presence || 'fixed_date' %>
 <% fixed_date_default_value = default_value_mode == 'fixed_date' ? @custom_field[:default_value] : nil %>
 <% date_offset_default_value = default_value_mode == 'date_offset' ? @custom_field[:default_value] : nil %>
-<div data-controller="custom-field-default-value">
+<div data-controller="conditional-attribute">
   <p>
     <%= f.select(:default_value_mode,
                  [
                    [l(:label_absolute), 'fixed_date'],
                    [l(:label_relative), 'date_offset']
                  ],
-                 {:selected => default_value_mode},
-                 :data => {
-                   :custom_field_default_value_target => 'mode',
-                   :action => 'custom-field-default-value#update'
-                 }) %>
+                 {selected: default_value_mode},
+                  data: conditional_attribute.toggle(equal_to: 'fixed_date') %>
   </p>
-  <p class="indent" data-custom-field-default-value-target="fixedDate" <%= 'hidden' if default_value_mode != 'fixed_date' %>>
+  <p class="indent" <%= tag.attributes data: conditional_attribute.element(name: 'hidden', inverse: 'true') %>>
     <%= f.date_field(:default_value,
-                     :value => fixed_date_default_value,
-                     :size => 10,
-                     :disabled => default_value_mode != 'fixed_date',
-                     :data => {:custom_field_default_value_target => 'fixedDateInput'}) %>
+                     value: fixed_date_default_value,
+                     size: 10,
+                     data: conditional_attribute.element(name: 'disabled', inverse: 'true')) %>
     <%= calendar_for('custom_field_default_value') %>
   </p>
-  <p class="indent" data-custom-field-default-value-target="dateOffset" <%= 'hidden' if default_value_mode != 'date_offset' %>>
+  <p class="indent" <%= tag.attributes data: conditional_attribute.element(name: 'hidden') %>>
     <%= f.text_field(:default_value,
-                     :id => 'custom_field_default_value_offset',
-                     :value => date_offset_default_value,
-                     :size => 6,
-                     :disabled => default_value_mode != 'date_offset',
-                     :data => {:custom_field_default_value_target => 'dateOffsetInput'}) %>
+                     id: 'custom_field_default_value_offset',
+                     value: date_offset_default_value,
+                     size: 6,
+                     data: conditional_attribute.element(name: 'disabled')) %>
     <%= l(:label_days_relative_to_today) %>
   </p>
 </div>
-<p><%= f.text_field :url_pattern, :size => 50, :label => :label_link_values_to %></p>
+<p><%= f.text_field :url_pattern, size: 50, label: :label_link_values_to %></p>

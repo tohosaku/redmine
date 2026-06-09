@@ -1,6 +1,6 @@
 <%= error_messages_for 'query' %>
 
-<div class="box">
+<div class="box" data-controller="conditional-attribute">
 <div class="tabular">
 <%= hidden_field_tag 'gantt', '1' if params[:gantt] %>
 <%= hidden_field_tag 'calendar', '1' if params[:calendar] %>
@@ -17,13 +17,17 @@
 
 <% if User.current.admin? ||
       User.current.allowed_to?(:manage_public_queries, @query.project) %>
-<p><label><%=l(:field_visible)%></label>
-  <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PRIVATE %> <%= l(:label_visibility_private) %></label>
-  <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PUBLIC %> <%= l(:label_visibility_public) %></label>
+<p data-controller="conditional-attribute">
+  <label><%=l(:field_visible)%></label>
+  <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PRIVATE, data: conditional_attribute.toggle_disabled(equal_to: '1') %> <%= l(:label_visibility_private) %></label>
+  <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PUBLIC, data: conditional_attribute.toggle_disabled(equal_to: '1') %> <%= l(:label_visibility_public) %></label>
   <% unless @query.is_a?(ProjectQuery) %>
-    <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_ROLES %> <%= l(:label_visibility_roles) %>:</label>
+    <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_ROLES, data: conditional_attribute.toggle_disabled(equal_to: '1') %> <%= l(:label_visibility_roles) %>:</label>
       <% Role.givable.sorted.each do |role| %>
-        <label class="block role-visibility"><%= check_box_tag 'query[role_ids][]', role.id, @query.roles.include?(role), :id => nil %> <%= role.name %></label>
+        <label class="block role-visibility">
+          <%= check_box_tag 'query[role_ids][]', role.id, @query.roles.include?(role), id: nil, data: conditional_attribute.element %>
+          <%= role.name %>
+        </label>
       <% end %>
       <%= hidden_field_tag 'query[role_ids][]', '' %>
   <% end %>
@@ -45,12 +49,14 @@
       <%= hidden_field_tag 'query[display_type]', @query.available_display_types.first %>
     <% end %>
 
-    <p id ="default_columns"><label for="query_default_columns"><%=l(:label_default_columns)%></label>
+    <p id="default_columns" <%= tag.attributes(data: conditional_attribute.element(group: 'display_type')) %>>
+    <label for="query_default_columns"><%=l(:label_default_columns)%></label>
     <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
-          :data => {:disables => "#columns, .block_columns input"} %></p>
+          :data => conditional_attribute.toggle_disabled(group: 'default_columns', equal_to: '1') %>
+    </p>
 
     <% unless params[:gantt] %>
-      <p id="group_by"><label for="query_group_by"><%= l(:field_group_by) %></label>
+      <p id="group_by" <%= tag.attributes data: conditional_attribute.element(group: 'display_type') %>><label for="query_group_by"><%= l(:field_group_by) %></label>
       <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
 
       <% unless @query.available_block_columns.empty? %>
@@ -81,7 +87,8 @@
 </fieldset>
 
 <% if params[:calendar].nil? && params[:gantt].nil? %>
-  <fieldset id="sort"><legend><%= l(:label_sort) %></legend>
+  <fieldset id="sort" <%= tag.attributes data: conditional_attribute.element(group: 'display_type') %>>
+    <legend><%= l(:label_sort) %></legend>
     <% 3.times do |i| %>
     <%= content_tag(:span, "#{i+1}:", :class => 'query_sort_criteria_count')%>
     <%= label_tag "query_sort_criteria_attribute_" + i.to_s,
@@ -100,7 +107,7 @@
 <% end %>
 
 <% unless params[:calendar] %>
-  <%= content_tag 'fieldset', :id => 'columns' do %>
+  <%= content_tag 'fieldset', id: 'columns', data: conditional_attribute.element(group: 'display_type default_columns') do %>
   <legend><%= l(:field_column_names) %></legend>
   <div id="list-definition">
     <div>
@@ -115,22 +122,9 @@
 <%= javascript_tag do %>
 $(document).ready(function(){
   $("input[name='query[visibility]']").change(function(){
-    var roles_checked = $('#query_visibility_1').is(':checked');
     var private_checked = $('#query_visibility_0').is(':checked');
-    $("input[name='query[role_ids][]'][type=checkbox]").attr('disabled', !roles_checked);
     if (!private_checked) $("input.disable-unless-private").attr('checked', false);
     $("input.disable-unless-private").attr('disabled', !private_checked);
   }).trigger('change');
-});
-
-$(function ($) {
-  $('input[name=display_type]').change(function () {
-    var option = $('input[name=display_type]:checked').val();
-    if (option == 'board') {
-      $('fieldset#columns, fieldset#sort, p#default_columns, p#group_by').hide();
-    } else {
-      $('fieldset#columns, fieldset#sort, p#default_columns, p#group_by').show();
-    }
-  }).change();
 });
 <% end %>

@@ -19,8 +19,10 @@
 
 <p><%= setting_select :protocol, [['HTTP', 'http'], ['HTTPS', 'https']] %></p>
 
-<p><%= setting_select :text_formatting, Redmine::WikiFormatting.formats_for_select, :blank => :label_none %>
-  <span id="common_mark_info" class="<%= "hidden" unless Setting.text_formatting == "common_mark" %>">
+<p data-controller="conditional-attribute">
+  <%= setting_select :text_formatting, Redmine::WikiFormatting.formats_for_select, blank: :label_none,
+        data: conditional_attribute.toggle_hidden(not_equal_to: 'common_mark') %>
+  <span id="common_mark_info" <%= tag.attributes data: conditional_attribute.element %>>
     <label class="block">
       <%= check_box_tag(nil, '', Redmine::Configuration['common_mark_enable_hardbreaks'] == true, disabled: true) %>
       Hardbreaks
@@ -43,17 +45,4 @@
 </div>
 
 <%= submit_tag l(:button_save) %>
-<% end %>
-
-<%= javascript_tag do %>
-  $('#settings_text_formatting').on('change', function(e){
-    const formatter = e.target.value;
-    const parent_block = document.getElementById("common_mark_info");
-
-    if (formatter == "common_mark") {
-      parent_block.classList.remove('hidden');
-    } else {
-      parent_block.classList.add('hidden');
-    }
-  });
 <% end %>

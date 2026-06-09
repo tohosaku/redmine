@@ -20,14 +20,14 @@
         <%= sprite_icon("angle-right", rtl: true) %>
         <%= l(:label_options) %>
       </legend>
-        <div class="hidden">
+      <div class="hidden" data-controller="conditional-attribute">
           <% if @query.available_display_types.size > 1 %>
           <div>
             <div class="field"><label for='display_type'><%= l(:label_display_type) %></label></div>
             <%= available_display_types_tags(@query) %>
           </div>
           <% end %>
-          <div id="list-definition" class="<%= 'hidden' if (@query.display_type != 'list') %>">
+          <div id="list-definition" <%= tag.attributes data: conditional_attribute.element(group: 'display_types') %>>
           <% if @query.available_columns.any? %>
             <div>
               <div class="field"><%= l(:field_column_names) %></div>
@@ -52,7 +52,7 @@
               <div><%= available_totalable_columns_tags(@query) %></div>
             </div>
           <% end %>
-        </div>
+          </div>
       </div>
     </fieldset>
   <% end %>
@@ -77,16 +77,3 @@
 </div>
 
 <%= error_messages_for @query %>
-
-<%= javascript_tag do %>
-$(function ($) {
-  $('input[name=display_type]').change(function (e) {
-    if ($("#display_type_list").is(':checked')) {
-      $('#list-definition').show();
-    } else {
-      $('#list-definition').hide();
-    }
-  })
-});
-
-<% end %>

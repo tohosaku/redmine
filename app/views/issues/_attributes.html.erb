@@ -23,11 +23,13 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'assigned_to_id' %>
-<p>
+<p data-controller="conditional-attribute">
   <%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to),
-                  :include_blank => true, :required => @issue.required_attribute?('assigned_to_id') %>
+                 include_blank: true,
+                 required: @issue.required_attribute?('assigned_to_id'),
+                 data: conditional_attribute.toggle_hidden(equal_to: User.current.id) %>
   <% if @issue.assignable_users.include?(User.current) %>
-    <a class="assign-to-me-link<%= ' hidden' if @issue.assigned_to_id == User.current.id %>" href="#" data-id="<%= User.current.id %>"><%= l(:label_assign_to_me) %></a>
+    <%= link_to l(:label_assign_to_me), '#', class: 'assign-to-me-link', data: conditional_attribute.element %>
   <% end %>
 </p>
 <% end %>

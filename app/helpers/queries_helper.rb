@@ -103,7 +103,8 @@ module QueriesHelper
           'label',
           check_box_tag(
             'c[]', column.name.to_s,
-            query.has_column?(column), :id => nil
+            query.has_column?(column), :id => nil,
+            data: conditional_attribute.toggle_hidden(group: 'default_columns')
           ) + " #{column.caption}", :class => 'inline'
         )
     end
@@ -145,7 +146,7 @@ module QueriesHelper
   def available_display_types_tags(query)
     tags = ''.html_safe
     query.available_display_types.each do |t|
-      tags << radio_button_tag('display_type', t, @query.display_type == t, :id => "display_type_#{t}") +
+      tags << radio_button_tag('display_type', t, @query.display_type == t, :id => "display_type_#{t}", :data => conditional_attribute.toggle_hidden(equal_to: 'board', group: 'display_type')) +
         content_tag('label', l(:"label_display_type_#{t}"), :for => "display_type_#{t}", :class => "inline")
     end
     tags

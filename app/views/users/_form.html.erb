@@ -27,23 +27,29 @@
   <%= call_hook(:view_users_form, :user => @user, :form => f) %>
 </fieldset>
 
-<fieldset class="box tabular">
+<fieldset class="box tabular" data-controller="conditional-attribute">
   <legend><%=l(:label_authentication)%></legend>
   <% unless @auth_sources.empty? %>
-  <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {$('#password_fields').show();} else {$('#password_fields').hide();}" %></p>
+    <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {},
+                    data: conditional_attribute.toggle_hidden(not_equal_to: '') %></p>
   <% end %>
-  <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
+  <%= tag.div id: 'password_fields',
+              hidden: @user.auth_source.present? || nil,
+              data: conditional_attribute.element do %>
+
+  <div data-controller="conditional-attribute">
   <p>
-    <%= f.password_field :password, :required => @user.new_record?, :size => 25  %>
-    <em class="info"><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em>
+    <%= f.password_field :password, required: @user.new_record?, size: 25, data: conditional_attribute.element %>
+    <em class="info"><%= l(:text_caracters_minimum, count: Setting.password_min_length) %></em>
     <% if Setting.password_required_char_classes.any? %>
-      <em class="info"><%= l(:text_characters_must_contain, :character_classes => Setting.password_required_char_classes.collect{|c| l("label_password_char_class_#{c}")}.join(", ")) %></em>
+      <em class="info"><%= l(:text_characters_must_contain, character_classes: Setting.password_required_char_classes.collect{|c| l("label_password_char_class_#{c}")}.join(", ")) %></em>
     <% end %>
   </p>
-  <p><%= f.password_field :password_confirmation, :required => @user.new_record?, :size => 25  %></p>
-  <p><%= f.check_box :generate_password %></p>
+  <p><%= f.password_field :password_confirmation, required: @user.new_record?, size: 25, data: conditional_attribute.element %></p>
+  <p><%= f.check_box :generate_password, data: conditional_attribute.toggle_disabled(equal_to: '1') %></p>
   <p><%= f.check_box :must_change_passwd %></p>
   </div>
+  <% end %>
   <% if Setting.twofa? && !@user.new_record? -%>
   <p>
     <label><%=l :setting_twofa -%></label>
@@ -91,16 +97,3 @@
 </div>
 <div style="clear:left;"></div>
 <!--[eoform:user]-->
-
-<%= javascript_tag do %>
-$(document).ready(function(){
-  $('#user_generate_password').change(function(){
-    var passwd = $('#user_password, #user_password_confirmation');
-    if ($(this).is(':checked')){
-      passwd.val('').attr('disabled', true);
-    }else{
-      passwd.removeAttr('disabled');
-    }
-  }).trigger('change');
-});
-<% end %>

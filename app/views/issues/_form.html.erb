@@ -71,19 +71,5 @@ $(document).ready(function(){
     $('#issue_assigned_to_id').val(element.data('id'));
     element.hide();
   });
-  $('#issue_assigned_to_id').change(function(event){
-    var assign_to_me_link = $(".assign-to-me-link");
-
-    if (assign_to_me_link.length > 0) {
-      var user_id = $(event.target).val();
-      var current_user_id = assign_to_me_link.data('id');
-
-      if (user_id == current_user_id) {
-        assign_to_me_link.hide();
-      } else {
-        assign_to_me_link.show();
-      }
-    }
-  });
 });
 <% end %>

@@ -1250,12 +1250,6 @@ function keepAnchorOnSignIn(form){
   return true;
 }
 
-$(function ($) {
-  $('#auth_source_ldap_mode').change(function () {
-    $('.ldaps_warning').toggle($(this).val() != 'ldaps_verify_peer');
-  }).change();
-});
-
 function setFilecontentContainerHeight() {
   var $filecontainer = $('.filecontent-container');
   var fileTypeSelectors = ['.image', 'video'];
