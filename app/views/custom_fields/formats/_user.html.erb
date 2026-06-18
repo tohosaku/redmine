@@ -1,13 +1,13 @@
-<p>
+<p data-controller="conditional-attribute">
   <label><%= l(:label_role) %></label>
   <label class="block">
     <%= radio_button_tag 'status', 1, custom_field.user_role.blank?, :id => 'custom_field_user_role_all',
-          :data => {:disables => '.custom_field_user_role input'} %>
+          :data => conditional_attribute.toggle_disabled(equal_to: '1') %>
     <%= l(:label_all) %>
   </label>
   <label class="block">
     <%= radio_button_tag 'status', 0, custom_field.user_role.present?, :id => 'custom_field_user_role_only',
-          :data => {:enables => '.custom_field_user_role input'} %>
+          :data => conditional_attribute.toggle_disabled(equal_to: '1') %>
     <%= l(:label_only) %>:
   </label>
   <% Role.givable.sorted.each do |role| %>
@@ -15,7 +15,8 @@
       <%= check_box_tag 'custom_field[user_role][]',
             role.id, 
             custom_field.user_role.is_a?(Array) && custom_field.user_role.include?(role.id.to_s),
-            :id => nil %>
+            :id => nil,
+            :data => conditional_attribute.element %>
       <%= role.name %>
     </label>
   <% end %>

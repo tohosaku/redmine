@@ -1,6 +1,6 @@
 <%= form_tag({:action => 'edit', :tab => 'issues'}) do %>
 
-<div class="box tabular settings">
+<div class="box tabular settings" data-controller="conditional-attribute">
 <p><%= setting_check_box :cross_project_issue_relations %></p>
 
 <p><%= setting_select :link_copied_issue, link_copied_issue_options %></p>
@@ -11,9 +11,11 @@
 
 <p><%= setting_check_box :close_duplicate_issues %></p>
 
-<p><%= setting_check_box :issue_group_assignment, :data => {:enables => '#settings_assignee_dropdown_display_format'} %></p>
+<p><%= setting_check_box :issue_group_assignment,
+         data: conditional_attribute.toggle_disabled(group: 'assignee_dropdown_display_format', not_equal_to: '1') %></p>
 
-<p><%= setting_select :assignee_dropdown_display_format, assignee_dropdown_display_format_options %></p>
+<p><%= setting_select :assignee_dropdown_display_format, assignee_dropdown_display_format_options,
+         data: conditional_attribute.element(group: 'assignee_dropdown_display_format') %></p>
 
 <p><%= setting_check_box :default_issue_start_date_to_creation_date %></p>
 
@@ -32,15 +34,16 @@
   <%= hidden_field_tag 'settings[default_issue_due_date_offset_enabled]', 0, :id => nil %>
   <%= check_box_tag 'settings[default_issue_due_date_offset_enabled]', 1,
                     default_due_date_offset_enabled,
-                    :id => 'settings_default_issue_due_date_offset_enabled',
-                    :data => {:enables => '#settings_default_issue_due_date_offset'} %>
+                    id: 'settings_default_issue_due_date_offset_enabled',
+                    data: conditional_attribute.toggle_disabled(group: 'default_issue_due_date_offset', not_equal_to: '1') %>
 </p>
 <p>
   <label>&nbsp;</label>
   <%= setting_text_field :default_issue_due_date_offset,
-                         :label => false,
-                         :size => 6,
-                         :disabled => !default_due_date_offset_enabled %>
+                         label: false,
+                         size: 6,
+                         disabled: !default_due_date_offset_enabled,
+                         data: conditional_attribute.element(group: 'default_issue_due_date_offset') %>
   <%= l(:label_days_relative_to_today) %>
 </p>
 

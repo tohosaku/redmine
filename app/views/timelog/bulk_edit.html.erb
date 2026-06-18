@@ -39,10 +39,13 @@
         :include_blank => l(:label_no_change_option), :selected => @target_project),
         :onchange => "updateBulkEditFrom('#{escape_javascript url_for(:action => 'bulk_edit', :format => 'js')}')" ) %>
     </p>
-    <p>
+    <p <%= tag.attributes data: stimulus_controllers(conditional_attribute) %>>
       <label for="time_entry_issue_id"><%= l(:field_issue) %></label>
-      <%= text_field :time_entry, :issue_id, :size => 6 %>
-      <label class="inline"><%= check_box_tag 'time_entry[issue_id]', 'none', (@time_entry_params[:issue_id] == 'none'), :id => nil, :data => {:disables => '#time_entry_issue_id'} %><%= l(:button_clear) %></label>
+      <%= text_field :time_entry, :issue_id, :size => 6, :data => conditional_attribute.element(name: 'disabled', equal_to: 'none') %>
+      <label class="inline">
+        <%= check_box_tag 'time_entry[issue_id]', 'none', (@time_entry_params[:issue_id] == 'none'), :id => nil,
+                            :data => stimulus_actions(conditional_attribute) %><%= l(:button_clear) %>
+      </label>
       <span id="time_entry_issue"></span>
     </p>
 

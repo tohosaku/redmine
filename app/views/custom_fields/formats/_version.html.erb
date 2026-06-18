@@ -1,13 +1,13 @@
-<p>
+<p data-controller="conditional-attribute">
   <label><%= l(:field_status) %></label>
   <label class="block">
     <%= radio_button_tag 'status', 1, custom_field.version_status.blank?, :id => 'custom_field_version_status_all',
-          :data => {:disables => '.custom_field_version_status input'} %>
+          :data => conditional_attribute.toggle_disabled(equal_to: '1') %>
     <%= l(:label_all) %>
   </label>
   <label class="block">
     <%= radio_button_tag 'status', 0, custom_field.version_status.present?, :id => 'custom_field_version_status_only',
-          :data => {:enables => '.custom_field_version_status input'} %>
+          :data => conditional_attribute.toggle_disabled(equal_to: '1') %>
     <%= l(:label_only) %>:
   </label>
   <% Version::VERSION_STATUSES.each do |status| %>
@@ -15,7 +15,8 @@
       <%= check_box_tag 'custom_field[version_status][]',
             status,
             custom_field.version_status.is_a?(Array) && custom_field.version_status.include?(status),
-            :id => nil %>
+            :id => nil,
+            :data => conditional_attribute.element %>
       <%= l("version_status_#{status}") %>
     </label>
   <% end %>
