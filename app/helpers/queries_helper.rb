@@ -104,7 +104,7 @@ module QueriesHelper
           check_box_tag(
             'c[]', column.name.to_s,
             query.has_column?(column), :id => nil,
-            data: conditional_attribute.toggle_hidden(group: 'default_columns')
+            data: conditional_attribute.toggle_hidden(group: 'default_columns', equal_to: column.name.to_s)
           ) + " #{column.caption}", :class => 'inline'
         )
     end
